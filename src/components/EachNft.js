@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
 import { useInView } from "react-intersection-observer";
 
 import styles from "../resources/css/CollectionRow.module.css";
-
-import i_icon from "../resources/images/i_icon.svg";
 import ok_bear from "../resources/images/ok_bear.png";
+
 import { getNFTData } from "../utils/getAllData";
 
 const EachNft = ({ nft, cluster }) => {
@@ -26,7 +24,7 @@ const EachNft = ({ nft, cluster }) => {
       setLoadedOnce(true);
     }
   }, [inView]);
-  
+
   const getData = async (cluster, address) => {
     const res = await getNFTData(cluster, address);
 
@@ -56,57 +54,6 @@ const EachNft = ({ nft, cluster }) => {
             </div>
           </div>
         </div>
-        {/* <div className={styles.button_section}>
-                  <div className="row">
-                    <div className="col-6">
-                      <div className={styles.i_hover_section}>
-                        <div className={styles.i_indicator}>
-                          <img
-                            src={i_icon}
-                            alt="details"
-                            style={{ width: "20px", height: "20px" }}
-                          />
-                        </div>
-                        <div className={styles.desc_area}>
-                          <div className={styles.desc_heading}>Attributes</div>
-                          {attributes.length > 0 && (
-                            <table>
-                              {attributes.map((attr) => (
-                                <tr>
-                                  <td className={styles.trait_type}>
-                                    {attr.trait_type ?? "--"}
-                                  </td>
-                                  <td className={styles.value}>
-                                    {attr.value ?? "--"}
-                                  </td>
-                                </tr>
-                              ))}
-                            </table>
-                          )}
-                          {attributes.length < 1 && (
-                            <table>
-                              <tr>
-                                <td className={styles.trait_type}>{msg}</td>
-                              </tr>
-                            </table>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className={styles.details_button}>
-                        <a className="no_underline" href={`/address/${nft.mint}?cluster=${cluster}`}>
-                          <div className={styles.btn_sm_outline_outer}>
-                            <div className={styles.btn_sm_outline_inner}>
-                              Details
-                            </div>
-                          </div>
-                        </a>
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
       </motion.div>
     </div>
   );

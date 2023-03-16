@@ -30,7 +30,8 @@ export async function getNFTData(network, address) {
       }
     })
     .catch((err) => {
-      console.warn(err);
+      //console.warn(err);
+      console.warn("The address does not seem to be a single NFT, checking other types");
     });
 
   return data;
@@ -64,7 +65,8 @@ export async function getTokenData(network, address) {
       }
     })
     .catch((err) => {
-      console.warn(err);
+      //console.warn(err);
+      console.warn("The address does not seem to be a token")
     });
 
   return data;
@@ -98,7 +100,8 @@ export async function getCollectionsData(network, address) {
       }
     })
     .catch((err) => {
-      console.warn(err);
+      //console.warn(err);
+      console.warn("Unable to get collections data, are you sure this is the right address?");
     });
 
   return data;
@@ -132,7 +135,8 @@ export async function getWalletData(network, address) {
         }
       })
       .catch((err) => {
-        console.warn(err);
+        //console.warn(err);
+        console.warn("Balance data not found");
         errorOccured = true;
       });
 
@@ -154,7 +158,8 @@ export async function getWalletData(network, address) {
         }
       })
       .catch((err) => {
-        console.warn(err);
+        //console.warn(err);
+        console.warn("Seems like there are no tokens in this account");
         errorOccured = true;
       });
 
@@ -176,7 +181,8 @@ export async function getWalletData(network, address) {
         }
       })
       .catch((err) => {
-        console.warn(err);
+        // console.warn(err);
+        console.warn("Seems like there are no collections in this account");
         errorOccured = true;
       });
     data = {
@@ -224,7 +230,8 @@ export async function getAllTokens(network, address) {
       }
     })
     .catch((err) => {
-      console.warn(err);
+      // console.warn(err);
+      console.warn("Seems like there are no tokens in this account");
     });
 
   return data;

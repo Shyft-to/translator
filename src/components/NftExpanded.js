@@ -6,12 +6,12 @@ import copyBtn from "../resources/images/txnImages/copy_icon.svg";
 import Tooltip from 'react-tooltip-lite';
 import { Link } from "react-router-dom";
 
-const NftExpanded = ({ nft,cluster }) => {
+const NftExpanded = ({ nft, cluster }) => {
   const [copied, setcopied] = useState("copy");
   const copyValue = (value) => {
 
     navigator.clipboard.writeText(value);
-    setcopied("copied");
+    setcopied("Copied✅");
     setTimeout(() => {
       setcopied("copy");
     }, 500);
@@ -74,15 +74,15 @@ const NftExpanded = ({ nft,cluster }) => {
                   <div className="col-8">
                     <div className={styles.table_field_value}>
                       {(nft.mint !== "") && <Tooltip
-                        content={"Copied✅"}
+                        content={copied}
                         className="myTarget"
                         direction="left"
-                        eventOn="onClick"
-                        eventOff="onMouseLeave"
-                        useHover={false}
+                        // eventOn="onClick"
+                        // eventOff="onMouseLeave"
+                        useHover={true}
                         background="#101010"
                         color="#fefefe"
-                        styles={{display:"inline"}}
+                        styles={{ display: "inline" }}
                         arrowSize={5}
                       ><button onClick={() => copyValue(nft.mint)}><img src={copyBtn} /></button></Tooltip>}{nft.mint ?? "--"}
                     </div>
@@ -95,17 +95,17 @@ const NftExpanded = ({ nft,cluster }) => {
                   <div className="col-8">
                     <div className={styles.table_field_value}>
                       {(nft.owner !== "") && <Tooltip
-                        content={"Copied✅"}
+                        content={copied}
                         className="myTarget"
                         direction="left"
-                        eventOn="onClick"
-                        eventOff="onMouseLeave"
-                        useHover={false}
+                        // eventOn="onClick"
+                        // eventOff="onMouseLeave"
+                        useHover={true}
                         background="#101010"
                         color="#fefefe"
-                        styles={{display:"inline"}}
+                        styles={{ display: "inline" }}
                         arrowSize={5}
-                      ><button onClick={() => copyValue(nft.owner)}><img src={copyBtn} /></button></Tooltip>}{(nft.owner !== "")? <Link to={`/address/${nft.owner}?cluster=${cluster}`}>{nft.owner}</Link>:"--"}
+                      ><button onClick={() => copyValue(nft.owner)}><img src={copyBtn} /></button></Tooltip>}{(nft.owner !== "") ? <Link to={`/address/${nft.owner}?cluster=${cluster}`}>{nft.owner}</Link> : "--"}
                     </div>
                   </div>
                 </div>

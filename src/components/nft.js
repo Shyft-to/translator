@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import styles from "../resources/css/Nft.module.css";
 import { useInView } from "react-intersection-observer";
 
-import i_icon from "../resources/images/i_icon.svg";
+// import i_icon from "../resources/images/i_icon.svg";
 import ok_bear from "../resources/images/ok_bear.png";
 import { getNFTData } from "../utils/getAllData";
 

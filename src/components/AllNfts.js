@@ -47,7 +47,7 @@ const AllNfts = ({collections,address,network}) => {
                 >
                     
                     {collections.map(coll => (
-                        <div>
+                        <div key={Math.random()}>
                             <NFTs collection={coll} address={address} network={network} />
                         </div>
                     ))}

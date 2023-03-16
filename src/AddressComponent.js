@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
-import { useSearchParams, useParams, useNavigate } from "react-router-dom";
-import { categorizeAddress } from "./utils/getAllData";
-import { shortenAddress } from "./utils/formatter";
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
+import { useSearchParams, useParams, useNavigate } from "react-router-dom";
+
 import styles from "./resources/css/WalletAddress.module.css";
 
+//component imports
 import AllNfts from "./components/AllNfts";
 // import AllTokens from "./components/AllTokens";
 // import HeaderComponent from "./components/HeaderComponent";
@@ -16,6 +16,10 @@ import copyIcon from "./resources/images/txnImages/copy_icon.svg"
 import SearchComponent from "./components/SearchComponent";
 import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
 import SimpleLoader from "./components/loaders/SimpleLoader";
+
+//function imports
+import { categorizeAddress } from "./utils/getAllData";
+import { shortenAddress } from "./utils/formatter";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
 
 const AddressComponent = () => {
@@ -36,19 +40,19 @@ const AddressComponent = () => {
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
     }, []);
-    
+
     useEffect(() => {
         ReactGA.event({
             category: "SEARCH",
             action: "New Search Result Generated",
-          });
-        
+        });
+
         setLoading(true);
         // setCurrentCuster(cluster);
         // console.log(cluster);
         getClassifiedData();
     }, [addr, cluster]);
-    
+
 
     const getClassifiedData = async () => {
 

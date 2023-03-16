@@ -159,7 +159,7 @@ const Transactions = ({ address, cluster }) => {
          {
             (txns.length>0)?
                 (
-                    txns.map((each_txn) => <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster}/>)
+                    txns.map((each_txn) => <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} key={each_txn.signatures[0]}/>)
                 ):""
             
          }

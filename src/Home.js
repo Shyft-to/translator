@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Typewriter from 'typewriter-effect';
+// import Typewriter from 'typewriter-effect';
 import styles from "./resources/css/Home.module.css";
 import Footer from "./Footer";
 
@@ -94,7 +94,7 @@ const Home = () => {
                       </div>
                     </div>
                     {isFocused && <div className={styles.search_area}>
-                      {searchData.filter(result => result.address.startsWith(wallet)).map((result) => (<button className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
+                      {searchData.filter(result => result.address.startsWith(wallet)).map((result) => (<button key={Math.random()} className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
                         <div className="d-flex">
                           <div className={`flex-grow-1 ${styles.address_area}`}>
                             {result.address}
