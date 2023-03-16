@@ -72,9 +72,19 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                     </div>
                                 </div>
                                 <div className="">
-                                    <div className={styles.txn_subname} style={{ cursor: "pointer" }} aria-label={(data.timestamp != "") ? getFullTime(data.timestamp) : ""} data-balloon-pos="up">
+                                <Tooltip
+                                    content={(data.timestamp != "") ? getFullTime(data.timestamp) : ""}
+                                    className="onlyHover"
+                                    direction="up"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                >
+                                    <div className={styles.txn_subname} style={{ cursor: "pointer" }}>
                                         {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
                                     </div>
+                                </Tooltip>
                                 </div>
                             </div>
                             {
