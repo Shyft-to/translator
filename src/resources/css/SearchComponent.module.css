@@ -1,0 +1,213 @@
+.form_container {
+  padding-top: 4px;
+  margin-bottom: 10px;
+}
+
+.form_container label {
+  font: 500 16px/24px "Montserrat", sans-serif;
+  color: #fff;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.form_field_outer {
+  position: relative;
+  padding: 2px;
+  border-radius: 25px;
+  /* background: linear-gradient(90deg,#E0499B 12%, #FDF41B 70%); */
+  background-color: transparent;
+
+}
+
+.form_field_outer .form_field_inner {
+  background-color: transparent;
+  border-radius: 25px;
+  padding: 8px 24px 12px;
+  border: 1px solid #fff5;
+  transition: all 0.2s ease;
+}
+.form_field_outer .form_field_inner:hover {
+  
+  border: 1px solid #ffff;
+}
+
+.form_field_outer .form_field_inner input {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  color: #fff;
+  font: 500 16px/18px "Montserrat", sans-serif;
+  letter-spacing: 1px;
+}
+
+.form_field_outer .form_field_inner input:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.form_field_outer .form_field_inner select {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #fff;
+  font: 500 16px/18px "Montserrat", sans-serif;
+  letter-spacing: 1px;
+}
+
+.form_field_outer .form_field_inner select:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.form_field_outer .form_field_inner option {
+  background-color: #2a0855;
+}
+
+.search_icon {
+  text-decoration: none;
+  color: #555;
+  transition: all 0.2s ease-in;
+}
+
+.search_icon:hover {
+  color: aqua;
+}
+
+@media screen and (max-width: 767px) {
+  .form_container {
+    padding-top: 8px;
+  }
+
+  .form_field_outer {
+    position: relative;
+    padding: 2px;
+    border-radius: 25px;
+    /* background: linear-gradient(90deg,#E0499B 12%, #FDF41B 70%); */
+    background-color: transparent;
+
+  }
+
+  .form_field_outer .form_field_inner {
+    background-color: transparent;
+    border-radius: 25px;
+    padding: 6px 18px 10px;
+    border: 1px solid #fff5;
+  }
+
+  .form_field_outer .form_field_inner input {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    color: #fff;
+    font: 500 13px/18px "Montserrat", sans-serif;
+    letter-spacing: 1px;
+  }
+
+  .form_field_outer .form_field_inner input:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+  .form_field_outer .form_field_inner select {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: #fff;
+    font: 500 13px/18px "Montserrat", sans-serif;
+    letter-spacing: 1px;
+    padding-top: 1px;
+  }
+  
+  .form_field_outer .form_field_inner select:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+  
+  .form_field_outer .form_field_inner option {
+    background-color: #2a0855;
+  }
+  
+  .search_icon {
+    /* text-decoration: none; */
+    color: #555;
+    transition: all 0.2s ease-in;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .search_icon:hover {
+    color: aqua;
+  }
+}
+.form_container .search_n_suggestions
+{
+  position: relative;
+}
+.search_n_suggestions .suggestions_area_outer
+{
+  position: absolute;
+  top: 54px;
+  padding: 0px 18px;
+  width: 100%;
+  z-index: 10;
+}
+.search_n_suggestions .suggestions_area_outer .each_search
+{
+  display: block;
+  margin-top: 6px;
+  background: #3C1B67aa;
+  border-radius: 6px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  padding: 10px 8px;
+  width: 100%;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+.each_search .network_area
+{
+  color: #fff;
+  font: 300 12px/14px "Poppins",sans-serif;
+  background-color: #2a0855;
+  padding: 5px 10px 2px;
+  width: 80px;
+  text-align: center;
+}
+.each_search .address_area
+{
+  color: #fff;
+  font: 300 14px/14px "Poppins",sans-serif;
+  padding: 5px 8px 2px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header_search_area
+{
+  position: absolute;
+  background-color: transparent;
+  transition: color 0.2s ease;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  padding: 8px 0px;
+  z-index: 10;
+}
+/* .header_search_area:hover
+{
+  background-color: #8254b022;
+} */
+.header_search_area .header_search_area_inner
+{
+  position: relative;
+}

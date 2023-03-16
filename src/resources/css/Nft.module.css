@@ -1,0 +1,197 @@
+.nft_all_section
+{
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
+}
+.nft_all_section .main_heading
+{
+    font: 500 22px/24px "Montserrat",sans-serif;
+    color: #fff;
+    padding-bottom: 12px;
+}
+.nft_all_section .main_heading span
+{
+    font: 300 16px/24px "Montserrat",sans-serif;
+    letter-spacing: 0px;
+    margin-left: 8px;
+}
+.view_all_text
+{
+    text-align: end;
+    font: 700 16px/26px "Montserrat", sans-serif !important;
+    background: -webkit-linear-gradient(280deg, #FF008A 2%, #F3DD59 92%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-left: 10px;
+}
+
+
+@media screen and (max-width: 767px) {
+   .nft_all_section .main_heading
+    {
+        font: 500 16px/22px "Montserrat",sans-serif;
+        color: #fff;
+        padding-bottom: 12px;
+    } 
+    .view_all_text
+    {
+        text-align: end;
+        font: 700 14px/22px "Montserrat", sans-serif !important;
+        background: -webkit-linear-gradient(280deg, #FF008A 2%, #F3DD59 92%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-left: 4px;
+    }
+}
+/* Each NFT */
+
+.nft_container
+{
+    position: relative;
+    background-color: #3C1B67;
+    width: 180px;
+    /* min-height: 180px; */
+    padding: 12px 12px 0px;
+    border-radius: 20px;
+    z-index: 2;
+    transform: rotate(8deg);
+    /* box-shadow: 10px -10px #7640b2; */
+}
+.nft_container_outer
+{
+    position: relative;
+    z-index: 1;
+    width: 180px;
+    border-radius: 20px;
+    background-color: #7640b2;
+    transform: rotate(-8deg) !important;
+    
+}
+@media screen and (max-width: 767px) {
+    .nft_container_outer{
+        margin: 0 auto;
+    } 
+}
+.nft_container .image_container
+{
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+    height: 140px;
+}
+.nft_container .image_container img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.nft_container .name_section
+{
+    padding: 10px 0px;
+    max-width: 180px;
+    
+}
+.nft_container .name_section .name_text
+{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font: 400 14px/22px "Montserrat", sans-serif;
+    color: #fff;    
+}
+.i_hover_section
+{
+    position: relative;
+}
+.i_hover_section .i_indicator + .desc_area
+{
+    display: none;
+}
+.i_hover_section .i_indicator:hover + .desc_area
+{
+    display: block;
+    position: absolute;
+    top: 30px;
+    width: 100px;
+    padding: 8px;
+    color: #fff;
+    /* border: 1px solid white; */
+    border-radius: 6px;
+    background-color: #8254b088;
+    font: 400 12px/16px "Montserrat", sans-serif;
+
+}
+.btn_sm_outline_outer
+{
+    background: linear-gradient(90deg,#FF008A 12%, #f3dd59 70%);
+    padding: 2px;
+    border-radius: 14px;
+    border: none;
+    width: 100%;
+    transition: all 0.2s ease-in;
+}
+.btn_sm_outline_outer .btn_sm_outline_inner
+{
+    background-color: #3d1b61;
+    padding: 12px;
+    border-radius: 14px;
+    font: 400 12px/0 "Montserrat", sans-serif;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+}
+.btn_sm_outline_outer:hover
+{
+    transform: scale(1.05);
+}
+.btn_sm_outline
+{
+    background-color: #3d1b61;
+    padding: 11px 12px;
+    border-radius: 14px;
+    font: 400 12px/0 "Montserrat", sans-serif;
+    border: 2px solid #FDF41B;
+    color: #fff;
+    text-align: center;
+    transition: all 0.1s ease-in;
+}
+.btn_sm_outline:hover
+{
+    transform: scale(1.05);
+}
+
+.nav_class_color_left
+{
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(41.93% 45% at 48.75% 48.75%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1855) 44.44%, rgba(255, 255, 255, 0.35) 100%);
+    position: absolute;
+    left: -20px;
+    top: 38%;
+    border-radius: 20px;
+    font-size: 50px;
+    line-height: 25px;
+    color: #FDF41B;
+    padding: 0px 0px 20px;
+    border: none;
+}
+.nav_class_color_right
+{
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(41.93% 45% at 48.75% 48.75%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1855) 44.44%, rgba(255, 255, 255, 0.35) 100%);
+    position: absolute;
+    right: -20px;
+    top: 38%;
+    border-radius: 20px;
+    font-size: 50px;
+    line-height: 25px;
+    color: #FDF41B;
+    padding: 0px 0px 20px;
+    border: none;
+}

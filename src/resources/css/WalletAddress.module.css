@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
+
+.heading_section
+{
+  padding-top: 40px;
+}
+.background
+{
+  position: relative;
+  background: radial-gradient(#2a0855 8%, #0a0215 75%);
+  z-index: 0;
+  min-height: 100vh;
+  padding: 80px 0px 40px;
+}
+/* .background_super
+{
+  position: relative;
+  min-height: 100vh;
+  background: url("../images/waves-flipped.png"),radial-gradient(#2a0855 8%, #0a0215 75%);
+  background-size: 60%,100%;
+  background-repeat: no-repeat,no-repeat;
+  background-position: 0% 170%,100% 100%;
+  background-attachment: fixed,fixed;
+  padding: 40px 0px;
+
+} */
+.background_super
+{
+  position: relative;
+  min-height: 100vh;
+  background: radial-gradient(#1E0C36 8%, #000 75%);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  background-attachment: fixed;
+  padding: 80px 0px 40px;
+
+}
+.main_heading
+{
+  font: 600 24px/24px "Montserrat", sans-serif;
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.main_heading span
+{
+  font: 500 40px/48px "Odibee Sans", sans-serif;
+  background: -webkit-linear-gradient(280deg, #FF008A 12%, #F3DD59 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+}
+.wallet_balance_indicator
+{
+  font: 400 40px/48px "Odibee Sans", sans-serif;
+  color: #fff;
+}
+.copy_button
+{
+  display: block;
+
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+.copy_button img
+{
+  width: 24px;
+  margin-top: -2px;
+}
+
+@media screen and (max-width:767px) {
+  .background_super
+  {
+    padding: 100px 0px 16px;
+  }
+  .main_heading
+  {
+    font: 300 16px/18px "Montserrat", sans-serif;
+  }
+  .copy_button
+  {
+    display: none;
+  }
+  .wallet_balance_indicator
+  {
+    font: 300 18px/18px "Odibee Sans", sans-serif;
+    color: #fff;
+  }
+  
+}
+
+
+/* Tabbed Section Container */
+.tabbed_section_container
+{
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
+}
+.tab_container
+{
+  position: relative;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  border-bottom: 1px solid #fff2;
+}
+.top_tab
+{
+  position: relative;
+  width: 50%;
+  max-width: 250px;
+  text-align: center;
+  padding: 18px 0px;
+  font: 500 16px/16px "Poppins", sans-serif;
+  color: #fffa;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.top_tab:hover
+{
+  color: #fff;
+  background-color: #8254b022;
+}
+.top_tab_selected
+{
+  /* background-color: #8254b066 !important; */
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+  color: #FDF41B !important;
+}
+.underline
+{
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #FDF41B;
+  transition: all 0.2s ease;
+}

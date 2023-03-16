@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
+
+/* NFT page styles */
+.entire_nft_expanded
+{
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+.nft_image_container
+{
+    width: 95%;
+    padding: 10px 10px 0px;
+    max-height: 500px;
+    border-radius: 16px;
+
+}
+.nft_image_container img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;   
+}
+.nft_image_container_mob
+{display: none;}
+@media screen and (max-width: 991px){
+    .nft_image_container_mob
+    {
+        display: block;
+        width: 70%;
+        padding: 10px 10px 0px;
+        /* max-height: 500px; */
+        aspect-ratio: 1;
+        border-radius: 16px;
+        margin-bottom: 30px;
+        margin: 0 auto;
+    
+    }
+    .nft_image_container_mob img
+    {
+        width: 100%;
+        /* height: 100%; */
+        
+        object-fit: fill;
+        border-radius: 16px;   
+    } 
+    .nft_image_container
+    {
+        display: none;
+
+    }
+    .entire_nft_expanded
+    {
+        
+        padding-top: 30px;
+    }
+}
+@media screen and (max-width: 576px){
+    .nft_image_container_mob
+    {
+        display: block;
+        width: 98%;
+        padding: 10px 10px 0px;
+        /* max-height: 500px; */
+        aspect-ratio: 1;
+        border-radius: 16px;
+        margin-bottom: 30px;
+    
+    }
+    .nft_image_container_mob img
+    {
+        width: 100%;
+        /* height: 100%; */
+        
+        object-fit: fill;
+        border-radius: 16px;   
+    } 
+    .nft_image_container
+    {
+        display: none;
+
+    }
+    .entire_nft_expanded
+    {
+        
+        padding-top: 10px;
+    }
+}
+
+.nft_name
+{
+    font: 600 40px/48px "Odibee Sans", sans-serif;
+    background: -webkit-linear-gradient(278deg, #FF008A 1%, #F3DD59 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    width: auto;
+    display: inline;
+}
+.nft_section
+{
+    padding-top: 10px;
+}
+.nft_section .section_heading
+{
+    font: 500 18px/22px "Montserrat", sans-serif;
+    color: #fff;
+}
+.nft_section .section_desc
+{
+    font: 300 16px/24px "Poppins", sans-serif;
+    color: #fff;
+}
+.nft_section .table_container
+{
+    border-radius: 10px;
+    background-color: #3C1B67;
+    padding: 24px 24px;
+    backdrop-filter: blur(10px);
+}
+.nft_section .table_container .each_row
+{
+    padding-top:28px;
+}
+.nft_section .table_container .each_row button
+{
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.nft_section .table_container .each_row button img
+{
+    width: 18px;
+}
+.nft_section .table_container .each_row:first-of-type
+{
+    padding-top:0px;
+}
+.nft_section .table_container .table_field_name
+{
+    font: 300 16px/20px "Montserrat", sans-serif;
+    color: #fff;
+
+}
+.nft_section .table_container .table_field_value
+{
+    font: 500 16px/19px "Poppins", sans-serif;
+    color: #fff;
+    text-align: end;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+}
+.nft_section .table_container .table_field_value a
+{
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.1s ease;
+}
+.nft_section .table_container .table_field_value a:hover
+{
+    
+    color: #0AEEFF;
+}
+/* .nft_section .attributes_section
+{
+    padding-top: px;
+} */
+.nft_section .attributes_section .each_attribute
+{
+    background-color: #3C1B67;
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 14px;
+}
+.each_attribute .attribute_label
+{
+    font: 300 16px/16px "Montserrat", sans-serif;
+    color: #fff;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.each_attribute .attribute_value
+{
+    font: 500 16px/16px "Montserrat", sans-serif;
+    color: #fff;
+    text-align: end;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@media screen and (max-width:767px) {
+    .nft_name
+    {
+        font: 600 32px/40px "Odibee Sans", sans-serif;
+        
+        width: auto;
+        display: inline;
+    }
+    .nft_section .section_heading
+    {
+        font: 500 16px/20px "Montserrat", sans-serif;
+    }
+    .nft_section .section_desc
+    {
+        font: 300 14px/22px "Poppins", sans-serif;
+        color: #fffc;
+    }
+    .nft_section .table_container
+    {
+        border-radius: 10px;
+        background-color: #3C1B67;
+        padding: 18px 16px;
+    }
+    .nft_section .table_container .each_row
+    {
+        padding-top:17px;
+    }
+    .nft_section .table_container .table_field_name
+    {
+        font: 300 13px/18px "Montserrat", sans-serif;
+        color: #fff;
+
+    }
+    .nft_section .table_container .table_field_value
+    {
+        font: 500 13px/16px "Poppins", sans-serif;
+        color: #fff;
+        text-align: end;
+        
+
+    }
+    .nft_section .attributes_section .each_attribute
+    {
+        padding: 16px;
+        border-radius: 8px;
+    }
+    .each_attribute .attribute_label
+    {
+        font: 300 13px/16px "Montserrat", sans-serif;
+        
+    }
+    .each_attribute .attribute_value
+    {
+        font: 500 13px/16px "Montserrat", sans-serif;
+        color: #fff;
+        text-align: end;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
