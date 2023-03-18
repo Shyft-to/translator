@@ -1,4 +1,6 @@
 import axios from "axios";
+import { getDomainKey, NameRegistryState } from "@bonfida/spl-name-service";
+import {  clusterApiUrl, Connection,PublicKey } from "@solana/web3.js";
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
 
@@ -327,4 +329,23 @@ export async function categorizeAddress(network, address) {
       details: null,
     };
   }
+}
+
+export async function getDomain(value)
+{
+  const domainName = "";
+  const rpcUrl = clusterApiUrl("mainnet-beta");
+  console.log("Rpc: ",rpcUrl);
+  const connection = new Connection(process.env.REACT_APP_RPC_MAINNET,"confirmed");
+  console.log(connection);
+
+  const { pubkey } = await getDomainKey(domainName);
+  const owner = (await NameRegistryState.retrieve(connection, pubkey)).registry.owner.toBase58();
+  // const { registry, nftOwner } = await NameRegistryState.retrieve(
+  //   connection,
+  //   pubkey
+  // );
+  console.log("Searching for: ",domainName);
+  console.log(pubkey.toBase58());
+  console.log(owner);
 }

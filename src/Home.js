@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import styles from "./resources/css/Home.module.css";
 import Footer from "./Footer";
 
+import { getDomain } from "./utils/getAllData";
+
 
 import searchIcon from "./resources/images/uil_search.svg";
 
@@ -124,9 +126,12 @@ const Home = () => {
                     Translate
                   </button>
                 </motion.div>
+                
               </div>
             </form>
+            <button onClick={() => getDomain(wallet)}>getdata</button>
           </div>
+          
         </div>
 
       </div>
