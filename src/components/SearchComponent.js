@@ -6,6 +6,7 @@ import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 import styles from "../resources/css/SearchComponent.module.css";
+import { getAddressfromDomain } from "../utils/getAllData";
 
 const SearchComponent = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const SearchComponent = () => {
 
   useEffect(() => {
     try {
-      const searchHistory = JSON.parse(localStorage.getItem("shshis") || "[]");
+      const searchHistory = JSON.parse(localStorage.getItem("shshis2") || "[]");
 
       if (Array.isArray(searchHistory) && searchHistory.length > 0) {
         setSearchData(searchHistory);
@@ -36,27 +37,56 @@ const SearchComponent = () => {
   }
 
 
-  const addDataNavigate = (wallet, network) => {
+  const addDataNavigate = async (searchParam, network) => {
     // console.log("clicked");
+    document.getElementById("start_search").disabled = true;
     try {
-      if (wallet !== "") {
+      if (searchParam !== "") {
+
+        var wallet = "";
+        var solDomain = "";
+        
+        if(searchParam.length < 40)
+        {
+          var address = await getAddressfromDomain(searchParam);
+          if(address.success === true)
+          {
+            wallet = address.wallet_address;
+            solDomain = searchParam;
+          }
+          else
+          {
+            wallet = searchParam;
+            solDomain = "";
+          }
+        }
+        else
+        {
+          wallet = searchParam;
+          solDomain = "";
+        }
+
         const newAddress = {
+          domain: solDomain,
           address: wallet,
           network: network
         }
+
         var newResults = [];
         if (searchData.length > 4)
           newResults = [...searchData.slice(1), newAddress];
         else
           newResults = [...searchData, newAddress];
 
+          document.getElementById("start_search").disabled = false;
         setSearchData(newResults);
-        localStorage.setItem('shshis', JSON.stringify(newResults));
+        localStorage.setItem('shshis2', JSON.stringify(newResults));
         navigate(`/address/${wallet}?cluster=${network}`);
 
       }
     } catch (error) {
-      navigate(`/address/${wallet}?cluster=${network}`);
+      navigate(`/address/${searchParam}?cluster=${network}`);
+      document.getElementById("start_search").disabled = false;
     }
 
   }
@@ -108,7 +138,7 @@ const SearchComponent = () => {
                               {/* <Link to={`/address/${wallet}?cluster=${network}`} className={styles.search_icon}>
                                 <FaSearch />
                             </Link> */}
-                              <button type="submit" style={{ backgroundColor: "transparent", border: "none", outline: "none" }} className={styles.search_icon}>
+                              <button type="submit" id="start_search" style={{ backgroundColor: "transparent", border: "none", outline: "none" }} className={styles.search_icon}>
                                 <FaSearch />
                               </button>
                             </div>
@@ -131,7 +161,7 @@ const SearchComponent = () => {
                           {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
                         </div>
                         <div className={`flex-grow-1 ${styles.address_area}`}>
-                          {result.address}
+                          {result.domain || result.address}
                         </div>
                       </div>
                     </button>)

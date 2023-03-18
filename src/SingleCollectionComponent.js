@@ -119,7 +119,7 @@ const SingleCollectionComponent = () => {
                                 <div className={styles.main_heading}>
                                     More Collections from this wallet
                                 </div>
-                                <div className="px-2" style={{ marginTop: "6px",color: "#fff"  }}>
+                                {/* <div className="px-2" style={{ marginTop: "6px",color: "#fff"  }}>
                                     <Tooltip
                                     content={"Copied✅"}
                                     className="myTarget"
@@ -136,7 +136,7 @@ const SingleCollectionComponent = () => {
                                         <FaLink />
                                     </button>
                                     </Tooltip>
-                                </div>
+                                </div> */}
                             </div>
                             
                             
@@ -144,7 +144,7 @@ const SingleCollectionComponent = () => {
                             
                         </div>
                         {
-                            (collectionName !== "") ? (data.filter(collection => collection.name !== collectionName)).map(collection => (<div className="container-lg pt-4" id={collection.name} key={Math.random()}>
+                            (collectionName !== "") ? (data.filter(collection => collection.name !== collectionName)).map(collection => (<div className="container-lg pt-4" id={collection.name}>
                                 <CollectionRowSlice collection={collection} cluster={cluster} />
 
                             </div>)) :

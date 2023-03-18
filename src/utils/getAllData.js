@@ -1,7 +1,9 @@
 import axios from "axios";
 import { getDomainKey, NameRegistryState } from "@bonfida/spl-name-service";
+import {  clusterApiUrl, Connection } from "@solana/web3.js";
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
+const rpc = process.env.REACT_APP_RPC_MAINNET ?? "";
 
 export async function getNFTData(network, address) {
   var data = {
@@ -334,11 +336,34 @@ export async function categorizeAddress(network, address) {
     };
   }
 }
-export async function getAddressfromDomain()
+export async function getAddressfromDomain(domainName)
 {
   
-const domainName = "bonfida"; // With or without the .sol at the end
+  try {
+    const { pubkey } = await getDomainKey(domainName);
+    //const rpcUrl = clusterApiUrl(network);
+    const connection = new Connection(rpc,"confirmed");
+    if(!connection)
+    {
+      return {
+        success: false,
+        wallet_address: ""
+      }
+    }
+    else
+    {
+      const owner = (await NameRegistryState.retrieve(connection, pubkey)).registry.owner.toBase58();
+      return {
+        success: true,
+        wallet_address: owner
+      }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      wallet_address: ""
+    }
+  }
+// const domainName = "bonfida";
 
-// Step 1
-const { pubkey } = await getDomainKey(domainName);
 }

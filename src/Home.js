@@ -6,14 +6,16 @@ import { motion } from "framer-motion";
 import Typewriter from 'typewriter-effect';
 import styles from "./resources/css/Home.module.css";
 import Footer from "./Footer";
-
+import { getAddressfromDomain } from "./utils/getAllData";
+import TxnLoader from "./components/loaders/TxnLoader";
 
 import searchIcon from "./resources/images/uil_search.svg";
 
 const Home = () => {
   const navigate = useNavigate();
   const [wallet, setWallet] = useState('');
-  const [network, setNetwork] = useState('mainnet-beta')
+  const [network, setNetwork] = useState('mainnet-beta');
+  const [loadingAddr,setLoadingAddr] = useState(false);
 
   const [isFocused, setFocused] = useState(false);
 
@@ -25,7 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     try {
-      const searchHistory = JSON.parse(localStorage.getItem("shshis") || "[]");
+      const searchHistory = JSON.parse(localStorage.getItem("shshis2") || "[]");
 
       if (Array.isArray(searchHistory) && searchHistory.length > 0) {
         setSearchData(searchHistory);
@@ -33,7 +35,7 @@ const Home = () => {
     } catch (error) {
       setSearchData([]);
     }
-
+    
 
   }, [])
 
@@ -44,15 +46,41 @@ const Home = () => {
   }
 
 
-  const addDataNavigate = (wallet, network) => {
-  
+  const addDataNavigate = async (searchParam, network) => {
+    document.getElementById("start_search").disabled = true;
     console.log("Searching");
     try {
-      if (wallet !== "") {
+      if (searchParam !== "") {
+        var wallet = "";
+        var solDomain = "";
+        
+        if(searchParam.length < 40)
+        {
+          setLoadingAddr(true);
+          var address = await getAddressfromDomain(searchParam);
+          if(address.success === true)
+          {
+            wallet = address.wallet_address;
+            solDomain = searchParam;
+          }
+          else
+          {
+            wallet = searchParam;
+            solDomain = "";
+          }
+        }
+        else
+        {
+          wallet = searchParam;
+          solDomain = "";
+        }
+        setLoadingAddr(false);
         const newAddress = {
+          domain: solDomain,
           address: wallet,
           network: network
         }
+        
         var newResults = [];
         if (searchData.length > 4)
           newResults = [...searchData.slice(1), newAddress];
@@ -60,12 +88,13 @@ const Home = () => {
           newResults = [...searchData, newAddress];
 
         setSearchData(newResults);
-        localStorage.setItem('shshis', JSON.stringify(newResults));
+        localStorage.setItem('shshis2', JSON.stringify(newResults));
         navigate(`/address/${wallet}?cluster=${network}`);
 
       }
     } catch (error) {
-      navigate(`/address/${wallet}?cluster=${network}`);
+      document.getElementById("start_search").disabled = false;
+      navigate(`/address/${searchParam}?cluster=${network}`);
     }
 
   }
@@ -97,7 +126,7 @@ const Home = () => {
                       {searchData.filter(result => result.address.startsWith(wallet)).map((result) => (<button className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
                         <div className="d-flex">
                           <div className={`flex-grow-1 ${styles.address_area}`}>
-                            {result.address}
+                            {result.domain || result.address}
                           </div>
                           <div className={styles.network_area}>
                             {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
@@ -120,11 +149,14 @@ const Home = () => {
               </motion.div>
               <div className="text-center">
                 <motion.div className={styles.button_container} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
-                  <button type="submit" className={styles.btn_solid_grad}>
+                  <button id="start_search" type="submit" className={styles.btn_solid_grad}>
                     Translate
                   </button>
                 </motion.div>
               </div>
+              {loadingAddr && <div className="text-center pt-3">
+                <TxnLoader />
+              </div>}
             </form>
           </div>
         </div>
