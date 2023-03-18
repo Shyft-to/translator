@@ -395,7 +395,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
 
     const copyValue = (value) => {
         navigator.clipboard.writeText(value);
-        setCopied("Copied✅");
+        setCopied("Copied");
         setTimeout(() => {
             setCopied("Copy");
         }, 500);
@@ -479,7 +479,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                             </div>
                                             <div className="col-12 col-md-6">
-                                                <div className={`text-end ${styles.field_sub_1}`}>
+                                                <div className={`text-end ${styles.field_sub_2}`}>
                                                     <div className={styles.minus_color}>
                                                         - {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
                                                     </div>
@@ -515,7 +515,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                             </div>
                                             <div className="col-12 col-md-6">
-                                                <div className={`text-end ${styles.field_sub_1}`}>
+                                                <div className={`text-end ${styles.field_sub_2}`}>
                                                     <div className={styles.plus_color}>
                                                         + {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
                                                     </div>
@@ -588,7 +588,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                 </div>
                                                 <div className="col-12 col-md-6">
-                                                    <div className={`text-end ${styles.field_sub_1}`}>
+                                                    <div className={`text-end ${styles.field_sub_2}`}>
                                                         {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
                                                     </div>
                                                 </div>
@@ -630,7 +630,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>
                                         <div className="col-12 col-md-6">
-                                            <div className={`text-end ${styles.field_sub_1}`}>
+                                            <div className={`text-end ${styles.field_sub_2}`}>
                                                 <div className={styles.plus_color}>
                                                     + {varFields.value}
                                                 </div>
@@ -660,7 +660,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>
                                         <div className="col-12 col-md-6">
-                                            <div className={`text-end ${styles.field_sub_1}`}>
+                                            <div className={`text-end ${styles.field_sub_2}`}>
                                                 <div className={styles.minus_color}>
                                                     - {varFields.value}
                                                 </div>
@@ -690,7 +690,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>
                                         <div className="col-12 col-md-6">
-                                            <div className={`text-end ${styles.field_sub_1}`}>
+                                            <div className={`text-end ${styles.field_sub_2}`}>
                                                 <div className={styles.plus_color}>
                                                     + 1
                                                 </div>
@@ -730,7 +730,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>
                                         <div className="col-12 col-md-6">
-                                            <div className={`text-end ${styles.field_sub_1}`}>
+                                            <div className={`text-end ${styles.field_sub_2}`}>
                                                 <div>
                                                     {varFields.value} {currency}
                                                 </div>
@@ -771,7 +771,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                             </div>
                                             <div className="col-12 col-md-6">
-                                                <div className={`text-end ${styles.field_sub_1}`}>
+                                                <div className={`text-end ${styles.field_sub_2}`}>
                                                     <div>
 
                                                     </div>
@@ -807,7 +807,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                             </div>
                                             <div className="col-12 col-md-6">
-                                                <div className={`text-end ${styles.field_sub_1}`}>
+                                                <div className={`text-end ${styles.field_sub_2}`}>
                                                     {varFields.value} {currency}
                                                 </div>
                                             </div>
@@ -876,7 +876,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>
                                         <div className="col-12 col-md-6">
-                                            <div className={`text-end ${styles.field_sub_1}`}>
+                                            <div className={`text-end ${styles.field_sub_2}`}>
                                                 <div>
                                                     {varFields.value} {currency}
                                                 </div>
@@ -916,7 +916,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>
                                         <div className="col-12 col-md-6">
-                                            <div className={`text-end ${styles.field_sub_1}`}>
+                                            <div className={`text-end ${styles.field_sub_2}`}>
                                                 <div>
                                                     {varFields.value} {currency}
                                                 </div>
@@ -993,7 +993,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                             </div>
                                             {(varFields.value)?<div className="col-12 col-md-6">
-                                                <div className={`text-end ${styles.field_sub_1}`}>
+                                                <div className={`text-end ${styles.field_sub_2}`}>
                                                     {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
                                                 </div>
                                             </div>:""}
@@ -1016,7 +1016,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                         <img src={solSmall} alt="" style={{ width: "14px", marginTop: "-2px" }} />
                                                     </div>
                                                     <div className="pe-2">
-                                                        <div className={styles.field_sub_1}>
+                                                        <div className={styles.field_sub_2}>
                                                             {varFields.value ?? "--"}
                                                         </div>
                                                     </div>

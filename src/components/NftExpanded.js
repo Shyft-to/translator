@@ -5,6 +5,7 @@ import unknown from "../resources/images/ok_bear.png";
 import copyBtn from "../resources/images/txnImages/copy_icon.svg";
 import Tooltip from 'react-tooltip-lite';
 import { Link } from "react-router-dom";
+import { FaLink } from "react-icons/fa";
 
 const NftExpanded = ({ nft, cluster }) => {
   const [copied, setcopied] = useState("copy");
@@ -22,15 +23,46 @@ const NftExpanded = ({ nft, cluster }) => {
         <motion.div className="col-12 col-lg-3" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className={styles.nft_image_container}>
             <img
-              src={(nft.image_uri === "") ? unknown : nft.image_uri}
+              src={(nft.image_uri === "") ? unknown : (nft.cached_image_uri || nft.image_uri)}
               className="img-fluid"
               alt="nft"
             />
           </div>
+          <div className={styles.view_original_button}>
+            {(nft.image_uri !== "")?<a href={ nft.image_uri} target="_blank" rel="noreferrer">
+              View Original
+            </a>:""}
+          </div>
         </motion.div>
         <div className="col-12 col-lg-9">
           <div className={styles.nft_desc_section}>
-            <motion.h2 className={styles.nft_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>{nft.name ?? "--"}</motion.h2>
+          <div className="d-flex flex-wrap">
+              <div>
+                <motion.h2 className={styles.nft_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+                  {nft.name ?? "--"}
+                </motion.h2>
+              </div>
+              <div className="px-2" style={{ marginTop: "6px", color: "#fff" }}>
+                <Tooltip
+                  content={copied}
+                  className="myTarget"
+                  direction="up"
+                  // eventOn="onClick"
+                  // eventOff="onMouseLeave"
+                  useHover={true}
+                  background="#101010"
+                  color="#fefefe"
+                  arrowSize={5}
+
+                >
+                  <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/address/${nft.mint}?cluster=${cluster}`)}>
+                    <FaLink />
+                  </button>
+                </Tooltip>
+              </div>
+            </div>
+            
+            
             <motion.div className={styles.nft_section} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
               <h6 className={styles.section_heading}>Description</h6>
               <p className={styles.section_desc}>{nft.description ?? "--"}</p>

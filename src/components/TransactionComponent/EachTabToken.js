@@ -13,7 +13,7 @@ const EachTabToken = ({ styles, token, cluster }) => {
     const [copied, setCopied] = useState("Copy");
     const copyValue = (value) => {
         navigator.clipboard.writeText(value);
-        setCopied("Copied✅");
+        setCopied("Copied");
         setTimeout(() => {
             setCopied("Copy");
         }, 1000);

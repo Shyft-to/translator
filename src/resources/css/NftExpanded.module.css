@@ -6,7 +6,7 @@
 .entire_nft_expanded
 {
     width: 100%;
-    max-width: 900px;
+    /* max-width: 900px; */
     margin: 0 auto;
     padding-top: 20px;
 }
@@ -17,6 +17,23 @@
     max-height: 500px;
     border-radius: 16px;
 
+}
+.view_original_button
+{
+ padding-top: 14px;
+ font: 300 12px/18px "Poppins", sans-serif;
+ text-align: center;
+ padding-right: 10px;
+}
+.view_original_button a
+{
+    text-decoration: none;
+    color: #fff5;
+}
+.view_original_button a:hover
+{
+    text-decoration: none;
+    color: #ffff;
 }
 .nft_image_container img
 {

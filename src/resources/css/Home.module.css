@@ -255,17 +255,17 @@
 .simple_input_container .search_area
 {
   position: absolute;
-  margin-top: 10px;
+  margin-top: 18px;
   width: 90%;
 }
 .simple_input_container .search_area .each_item
 {
   background: #3C1B6755;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   padding: 8px 8px 10px;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   width: 100%;
   border: none;
   outline:none;

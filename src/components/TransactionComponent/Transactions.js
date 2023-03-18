@@ -164,7 +164,7 @@ const Transactions = ({ address, cluster }) => {
             
          }
          {
-          (errOcc) && <div className={styles.could_not_text}>
+          (errOcc) && <div className={`text-center ${styles.could_not_text}`}>
             Could Not Load Transactions
           </div>
          }

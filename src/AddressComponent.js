@@ -3,6 +3,7 @@ import ReactGA from "react-ga4";
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
 import { useSearchParams, useParams, useNavigate } from "react-router-dom";
+import { FaLink } from "react-icons/fa";
 
 import styles from "./resources/css/WalletAddress.module.css";
 
@@ -88,7 +89,7 @@ const AddressComponent = () => {
 
     const copyValue = (value) => {
         navigator.clipboard.writeText(value);
-        setCopied("Copied✅");
+        setCopied("Copied");
         setTimeout(() => {
             setCopied("Copy");
         }, 800);
@@ -108,7 +109,14 @@ const AddressComponent = () => {
                     </div>
                 }
                 {!isLoading && <div>
-
+                    {
+                        (errOccured) && 
+                            <div className="pt-3 text-center conttainer">
+                                <div className="not_found_text">
+                                    Data not found, please enter a valid on-chain account address 
+                                </div>
+                            </div>
+                    }
                     {(contentType === "WALLET") &&
                         <div className="container">
                             <motion.div className={styles.heading_section} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
@@ -122,7 +130,7 @@ const AddressComponent = () => {
                                                     <Tooltip
                                                         content={copied}
                                                         className="myTarget"
-                                                        direction="right"
+                                                        direction="up"
                                                         // eventOn="onClick"
                                                         // eventOff="onMouseLeave"
                                                         useHover={true}
@@ -135,7 +143,25 @@ const AddressComponent = () => {
                                                             <img src={copyIcon} alt="Copy Image" />
                                                         </button>
                                                     </Tooltip>
+                                                    
+                                                </div>
+                                                <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
+                                                    <Tooltip
+                                                            content={copied}
+                                                            className="myTarget"
+                                                            direction="up"
+                                                            // eventOn="onClick"
+                                                            // eventOff="onMouseLeave"
+                                                            useHover={true}
+                                                            background="#101010"
+                                                            color="#fefefe"
+                                                            arrowSize={5}
 
+                                                        >
+                                                        <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/address/${addr}?cluster=${cluster}`)}>
+                                                            <FaLink />
+                                                        </button>
+                                                    </Tooltip>
                                                 </div>
                                             </div>
                                             {/*<span>Space Overview</span> */}

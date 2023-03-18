@@ -161,9 +161,9 @@
 .search_n_suggestions .suggestions_area_outer .each_search
 {
   display: block;
-  margin-top: 6px;
+  margin-top: 0px;
   background: #3C1B67aa;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   padding: 10px 8px;

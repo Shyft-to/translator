@@ -498,12 +498,18 @@
 .sub_txns .txn_details .subtxn_token
 {
     font: 400 15px/24px "Poppins",sans-serif;
-    color: #FFFFFFAA;
+    color: #FFFFFF;
 }
 .sub_txns .field_sub_1
 {
-    font: 400 13px/26px "Poppins",sans-serif;
-    color: #FFF;
+    font: 200 13px/26px "Poppins",sans-serif;
+    color: #FFFA;
+    width: 100%;
+}
+.sub_txns .field_sub_2
+{
+    font: 500 13px/26px "Poppins",sans-serif;
+    color: #FFFFFF;
     width: 100%;
 }
 .sub_txns .plus_color
