@@ -9,13 +9,22 @@ import { FaLink } from "react-icons/fa";
 
 const NftExpanded = ({ nft, cluster }) => {
   const [copied, setcopied] = useState("Copy");
-  const copyValue = (value) => {
-
-    navigator.clipboard.writeText(value);
-    setcopied("Copied");
-    setTimeout(() => {
-      setcopied("Copy");
-    }, 500);
+  const [copyLink, setCopyLink] = useState("Copy Link");
+  const copyValue = (value, link = false) => {
+    if (link === false) {
+      navigator.clipboard.writeText(value);
+      setcopied("Copied");
+      setTimeout(() => {
+        setcopied("Copy");
+      }, 500);
+    }
+    else {
+      navigator.clipboard.writeText(value);
+      setCopyLink("Copied");
+      setTimeout(() => {
+        setCopyLink("Copy Link");
+      }, 800);
+    }
   }
   return (
     <div className={styles.entire_nft_expanded}>
@@ -29,9 +38,9 @@ const NftExpanded = ({ nft, cluster }) => {
             />
           </div>
           <div className={styles.view_original_button}>
-            {(nft.image_uri !== "")?<a href={nft.cached_image_uri || nft.image_uri} target="_blank" rel="noreferrer">
+            {(nft.image_uri !== "") ? <a href={nft.cached_image_uri || nft.image_uri} target="_blank" rel="noreferrer">
               View Original
-            </a>:""}
+            </a> : ""}
           </div>
         </motion.div>
         <div className="col-12 col-lg-9">
@@ -44,7 +53,7 @@ const NftExpanded = ({ nft, cluster }) => {
               </div>
               <div className="px-2" style={{ marginTop: "6px", color: "#fff" }}>
                 <Tooltip
-                  content={copied}
+                  content={copyLink}
                   className="myTarget"
                   direction="up"
                   // eventOn="onClick"
@@ -55,7 +64,7 @@ const NftExpanded = ({ nft, cluster }) => {
                   arrowSize={5}
 
                 >
-                  <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/address/${nft.mint}?cluster=${cluster}`)}>
+                  <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/address/${nft.mint}?cluster=${cluster}`,true)}>
                     <FaLink />
                   </button>
                 </Tooltip>

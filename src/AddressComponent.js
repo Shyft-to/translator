@@ -27,6 +27,7 @@ const AddressComponent = () => {
 
     const [panel, setPanel] = useState("TXN");
     const [copied, setCopied] = useState("Copy");
+    const [copyLink,setCopyLink] = useState("Copy Link");
 
 
     const [isLoading, setLoading] = useState(true);
@@ -83,12 +84,24 @@ const AddressComponent = () => {
             navigate(`/address/${addr}?cluster=${networkCluster}`)
     }
 
-    const copyValue = (value) => {
-        navigator.clipboard.writeText(value);
-        setCopied("Copied");
-        setTimeout(() => {
-            setCopied("Copy");
-        }, 800);
+    const copyValue = (value,link=false) => {
+        if(link === false)
+        {
+            navigator.clipboard.writeText(value);
+            setCopied("Copied");
+            setTimeout(() => {
+                setCopied("Copy");
+            }, 800);
+        }
+        else
+        {
+            navigator.clipboard.writeText(value);
+            setCopyLink("Copied");
+            setTimeout(() => {
+                setCopyLink("Copy Link");
+            }, 800);
+        }
+        
     }
 
     return (
@@ -143,7 +156,7 @@ const AddressComponent = () => {
                                                 </div>
                                                 <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
                                                     <Tooltip
-                                                            content={copied}
+                                                            content={copyLink}
                                                             className="myTarget"
                                                             direction="up"
                                                             // eventOn="onClick"
@@ -154,7 +167,7 @@ const AddressComponent = () => {
                                                             arrowSize={5}
 
                                                         >
-                                                        <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/address/${addr}?cluster=${cluster}`)}>
+                                                        <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/address/${addr}?cluster=${cluster}`, true)}>
                                                             <FaLink />
                                                         </button>
                                                     </Tooltip>
