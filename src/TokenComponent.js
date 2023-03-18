@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useParams } from "react-router-dom";
+import { useSearchParams, useParams, useNavigate } from "react-router-dom";
 import PlanetLoader from "./components/loaders/loaders";
 import NftExpanded from "./components/NftExpanded";
 import TokenExpanded from "./components/TokenExpanded";
@@ -19,7 +19,7 @@ const TokenComponent = () => {
     setLoading(true);
     getClassifiedData();
   }, [cluster]);
-
+  
   const getClassifiedData = async () => {
     try {
       var res;
@@ -47,25 +47,25 @@ const TokenComponent = () => {
 
   return (
     <div className="background_super">
-
-      {isLoading && <PlanetLoader />}
-      {!isLoading && !errOccured && <div>
-        {type === "nft" && (
-          <div className="container pt-4">
-            <NftExpanded nft={data} />
-          </div>
-        )}
-        {type === "token" && (
-          <div className="container pt-4">
-            <TokenExpanded token={data} />
-          </div>
-        )}
-      </div>}
-      <div className="container pt-4">
-        <div className="pt-5">
-          <Transactions address={addr} cluster={cluster} />
+    
+    {isLoading && <PlanetLoader />}
+    {!isLoading && !errOccured && <div>
+      {type === "nft" && (
+        <div className="container pt-4">
+          <NftExpanded nft={data} />
         </div>
-      </div>
+      )}
+      {type === "token" && (
+        <div className="container pt-4">
+          <TokenExpanded token={data} />
+        </div>
+      )}
+    </div>}
+    <div className="container pt-4">
+        <div className="pt-5">
+            <Transactions address={addr} cluster={cluster} />
+        </div>
+    </div>
     </div>
   );
 };

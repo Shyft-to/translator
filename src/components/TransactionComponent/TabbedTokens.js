@@ -41,7 +41,7 @@ const TabbedTokens = ({address,cluster}) => {
             {
                 (!isLoading && tokens.length>0) && 
                 (
-                    tokens.map((token) => (<EachTabToken styles={styles} token={token} cluster={cluster} key={Math.random()} />))
+                    tokens.map((token) => (<EachTabToken styles={styles} token={token} cluster={cluster}/>))
                 )
             }
             {

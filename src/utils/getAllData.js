@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getDomainKey, NameRegistryState } from "@bonfida/spl-name-service";
-import {  clusterApiUrl, Connection,PublicKey } from "@solana/web3.js";
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
 
@@ -32,8 +31,7 @@ export async function getNFTData(network, address) {
       }
     })
     .catch((err) => {
-      //console.warn(err);
-      console.warn("The address does not seem to be a single NFT, checking other types");
+      console.warn(err);
     });
 
   return data;
@@ -67,8 +65,7 @@ export async function getTokenData(network, address) {
       }
     })
     .catch((err) => {
-      //console.warn(err);
-      console.warn("The address does not seem to be a token")
+      console.warn(err);
     });
 
   return data;
@@ -102,8 +99,7 @@ export async function getCollectionsData(network, address) {
       }
     })
     .catch((err) => {
-      //console.warn(err);
-      console.warn("Unable to get collections data, are you sure this is the right address?");
+      console.warn(err);
     });
 
   return data;
@@ -112,7 +108,7 @@ export async function getCollectionsData(network, address) {
 export async function getWalletData(network, address) {
   var data = {
     success: false,
-    type: "WALLET",
+    type: "UNKNOWN",
     details: null,
   };
   var details = {};
@@ -137,8 +133,7 @@ export async function getWalletData(network, address) {
         }
       })
       .catch((err) => {
-        //console.warn(err);
-        console.warn("Balance data not found");
+        console.warn(err);
         errorOccured = true;
       });
 
@@ -160,8 +155,7 @@ export async function getWalletData(network, address) {
         }
       })
       .catch((err) => {
-        //console.warn(err);
-        console.warn("Seems like there are no tokens in this account");
+        console.warn(err);
         errorOccured = true;
       });
 
@@ -183,15 +177,26 @@ export async function getWalletData(network, address) {
         }
       })
       .catch((err) => {
-        // console.warn(err);
-        console.warn("Seems like there are no collections in this account");
+        console.warn(err);
         errorOccured = true;
       });
-    data = {
-      success: true,
-      type: "WALLET",
-      details: details,
-    };
+      if(Object.keys(details).length === 0)
+      {
+        data = {
+          success: false,
+          type: "UNKNOWN",
+          details: details,
+        };
+      }
+      else
+      {
+        data = {
+          success: true,
+          type: "WALLET",
+          details: details,
+        };
+      }
+    
 
     return data;
   } catch (error) {
@@ -232,8 +237,7 @@ export async function getAllTokens(network, address) {
       }
     })
     .catch((err) => {
-      // console.warn(err);
-      console.warn("Seems like there are no tokens in this account");
+      console.warn(err);
     });
 
   return data;
@@ -330,22 +334,11 @@ export async function categorizeAddress(network, address) {
     };
   }
 }
-
-export async function getDomain(value)
+export async function getAddressfromDomain()
 {
-  const domainName = "";
-  const rpcUrl = clusterApiUrl("mainnet-beta");
-  console.log("Rpc: ",rpcUrl);
-  const connection = new Connection(process.env.REACT_APP_RPC_MAINNET,"confirmed");
-  console.log(connection);
+  
+const domainName = "bonfida"; // With or without the .sol at the end
 
-  const { pubkey } = await getDomainKey(domainName);
-  const owner = (await NameRegistryState.retrieve(connection, pubkey)).registry.owner.toBase58();
-  // const { registry, nftOwner } = await NameRegistryState.retrieve(
-  //   connection,
-  //   pubkey
-  // );
-  console.log("Searching for: ",domainName);
-  console.log(pubkey.toBase58());
-  console.log(owner);
+// Step 1
+const { pubkey } = await getDomainKey(domainName);
 }

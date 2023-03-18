@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import Tooltip from 'react-tooltip-lite';
 
+import icon from "../../resources/images/txnImages/nft_transfer_2.svg";
+import arrow from "../../resources/images/txnImages/arrow.svg";
 import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
+import solExplorer from "../../resources/images/txnImages/solana_explorer.jpeg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
-import SubTransactions from "./SubTransaction";
 
+import placeholder from "../../resources/images/txnImages/unknown.png";
+import { getNFTData } from "../../utils/getAllData";
 import { shortenAddress, getRelativetime, getFullTime, formatNames } from "../../utils/formatter";
+
+import SubTransactions from "./SubTransaction";
+import { Link } from "react-router-dom";
+
 
 
 const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
@@ -72,24 +80,14 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                     </div>
                                 </div>
                                 <div className="">
-                                <Tooltip
-                                    content={(data.timestamp != "") ? getFullTime(data.timestamp) : ""}
-                                    className="onlyHover"
-                                    direction="up"
-                                    useHover={true}
-                                    background="#101010"
-                                    color="#fefefe"
-                                    arrowSize={0}
-                                >
-                                    <div className={styles.txn_subname} style={{ cursor: "pointer" }}>
+                                    <div className={styles.txn_subname} style={{ cursor: "pointer" }} aria-label={(data.timestamp != "") ? getFullTime(data.timestamp) : ""} data-balloon-pos="up">
                                         {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
                                     </div>
-                                </Tooltip>
                                 </div>
                             </div>
                             {
                                 (data.actions.length > 0) ?
-                                    data.actions.map(action => <SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} key={Math.random()} />)
+                                    data.actions.map(action => <SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} />)
                                     : "-"
                             }
                             {/* <SubTransactions styles={styles} wallet={address} cluster={cluster}/> */}

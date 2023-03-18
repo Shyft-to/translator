@@ -8,13 +8,13 @@ import { Link } from "react-router-dom";
 import { FaLink } from "react-icons/fa";
 
 const NftExpanded = ({ nft, cluster }) => {
-  const [copied, setcopied] = useState("copy");
+  const [copied, setcopied] = useState("Copy");
   const copyValue = (value) => {
 
     navigator.clipboard.writeText(value);
-    setcopied("Copied✅");
+    setcopied("Copied");
     setTimeout(() => {
-      setcopied("copy");
+      setcopied("Copy");
     }, 500);
   }
   return (
@@ -29,14 +29,14 @@ const NftExpanded = ({ nft, cluster }) => {
             />
           </div>
           <div className={styles.view_original_button}>
-            {(nft.image_uri !== "")?<a href={ nft.image_uri} target="_blank" rel="noreferrer">
+            {(nft.image_uri !== "")?<a href={nft.cached_image_uri || nft.image_uri} target="_blank" rel="noreferrer">
               View Original
             </a>:""}
           </div>
         </motion.div>
         <div className="col-12 col-lg-9">
           <div className={styles.nft_desc_section}>
-          <div className="d-flex flex-wrap">
+            <div className="d-flex flex-wrap">
               <div>
                 <motion.h2 className={styles.nft_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                   {nft.name ?? "--"}
@@ -61,8 +61,7 @@ const NftExpanded = ({ nft, cluster }) => {
                 </Tooltip>
               </div>
             </div>
-            
-            
+
             <motion.div className={styles.nft_section} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
               <h6 className={styles.section_heading}>Description</h6>
               <p className={styles.section_desc}>{nft.description ?? "--"}</p>

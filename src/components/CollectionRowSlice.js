@@ -28,7 +28,7 @@ const CollectionRowSlice = ({ collection, cluster }) => {
                     <div className="d-flex flex-wrap justify-content-start">
                         {
                             (collection.nfts?.slice(0, numnfts).map((nft) => (
-                                <EachNft nft={nft} cluster={cluster} key={Math.random()}/>
+                                <EachNft nft={nft} cluster={cluster} />
                             )))
                         }
 

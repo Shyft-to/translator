@@ -19,7 +19,7 @@ export function getRelativetime(ISOString) {
 }
 
 export function getFullTime(ISOString) {
-    return (moment(ISOString).format('lll') + " [UTC]");
+    return (moment(ISOString).format('lll') + " (UTC)");
 }
 
 export function formatLamports(value) {
@@ -77,9 +77,9 @@ export function convertToDays(value)
             var s = Math.floor(seconds % 60);
 
             var dDisplay = d > 0 ? d + (d == 1 ? " day " : " days ") : "";
-            var hDisplay = h > 0 ? h + (h == 1 ? " h " : " h ") : "";
-            var mDisplay = m > 0 ? m + (m == 1 ? " m " : " m ") : "";
-            var sDisplay = s > 0 ? s + (s == 1 ? " s" : " s") : "";
+            var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " minute " : " minutes ") : "";
+            var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
             return dDisplay + hDisplay + mDisplay + sDisplay;
         }
         else

@@ -43,11 +43,11 @@ const AllNfts = ({collections,address,network}) => {
                         }
                     }}
                     dots={false}
-                    
+                    autoplay
                 >
                     
                     {collections.map(coll => (
-                        <div key={Math.random()}>
+                        <div>
                             <NFTs collection={coll} address={address} network={network} />
                         </div>
                     ))}

@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import 'balloon-css';
+import 'balloon-css';
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
-
-import { useInView } from 'react-intersection-observer'; 
 
 import icon from "../../resources/images/txnImages/unknown_token.png";
 import arrow from "../../resources/images/txnImages/arrow.svg";
@@ -27,16 +25,11 @@ import { shortenAddress, formatLamports,convertToDays } from "../../utils/format
 
 
 const SubTransactions = ({ styles, data, wallet, cluster }) => {
-
-    const {ref,inView} = useInView();
-
     const [image, setImage] = useState(icon);
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
     const [currency, setCurrency] = useState("");
     const [currencyField, setCurrencyField] = useState("");
-    const [errOccName,setErrOccName] = useState(false);
-    const [errOccCurrency,setErrOccNameCurrency] = useState(false);
     const [varFields, setVarFields] = useState({
         type: "",
         from: "",
@@ -57,14 +50,9 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
 
                 setName(res.details.name);
             }
-            else
-            {
-                setErrOccName(true);
-            }
         }
         catch (error) {
             setName("");
-            setErrOccName(true);
         }
 
     };
@@ -75,31 +63,11 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
             if (res.success === true) {
                 setCurrency(res.details.symbol ?? res.details.name ?? "");
             }
-            else
-            {
-                setErrOccNameCurrency(true);
-            }
         } catch (error) {
             setCurrencyField(address);
-            setErrOccNameCurrency(true);
         }
 
     };
-
-    useEffect(() => {
-        if(errOccName === false)
-        {
-            if (relField !== "" && inView === true && name === "") 
-                getData(cluster, relField);
-        }  
-    }, [relField,inView]);
-
-    useEffect(() => {
-        if(errOccCurrency === false)
-        {
-            if (currencyField !== "" && inView === true && currency === "") getCurrency(cluster, currencyField);
-        }   
-    }, [currencyField,inView]);
 
     const categoriseAction = () => {
         var type_obj = {
@@ -133,7 +101,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     to: data.info.receiver ?? "--",
                     token: "TOKEN",
                     action: "--",
-                    value: formatLamports(data.info.amount) ?? "--",
+                    value: data.info.amount ?? "--",
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");
@@ -291,7 +259,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     value: `${data.info.amount} SOL` ?? "--",
                     symbol: ""
                 }
-                //setRelField(data.info.lender ?? "");
+                setRelField(data.info.lender ?? "");
                 setImage(loan);
             }
             else if (data.type === "CANCEL_LOAN") {
@@ -304,7 +272,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     value: `` ?? "--",
                     symbol: ""
                 }
-                //setRelField(data.info.lender ?? "");
+                setRelField(data.info.lender ?? "");
                 setImage(loan);
             }
             else if (data.type === "TAKE_LOAN") {
@@ -401,12 +369,19 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
         }, 500);
     }
 
+    useEffect(() => {
+        if (relField !== "") getData(cluster, relField);
+    }, [relField]);
+
+    useEffect(() => {
+        if (currencyField !== "") getCurrency(cluster, currencyField);
+    }, [currencyField]);
 
     useEffect(() => {
         categoriseAction();
     }, []);
     return (
-        <div className={styles.sub_txns} ref={ref}>
+        <div className={styles.sub_txns}>
             <div className="d-flex">
                 <div className={styles.thumb_container}>
                     {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST") && relField !== "") ? <Link to={`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" /></Link> : <img src={image} alt="token" />}
@@ -416,12 +391,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                         <div className="d-flex">
                             <div>
                                 {/* {name || relField || "Unknown"} */}
-                                {
-                                    (data.type === "OFFER_LOAN" || data.type =="CANCEL_LOAN") ?
-                                        ((data.info.lender) ? <Link to={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</Link>: "--" )
-                                    :
-                                    (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST") ? ((relField) ? ((name === "") ? <Link to={`/address/${relField}?cluster=${cluster}`}>{relField}</Link> : <Link to={`/address/${relField}?cluster=${cluster}`}>{name}</Link>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
-                                }
+                                {(data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST") ? ((relField) ? ((name === "") ? <Link to={`/address/${relField}?cluster=${cluster}`}>{relField}</Link> : <Link to={`/address/${relField}?cluster=${cluster}`}>{name}</Link>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")}
                             </div>
 
                             {(relField !== "") ? <div className={styles.copy_bt}>
@@ -455,7 +425,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 <div className="d-flex">
                                                     <div className="pe-2">
                                                         <div className={styles.field_sub_1}>
-                                                            To
+                                                            Sent To
                                                         </div>
                                                     </div>
                                                     <div className="pe-1">
@@ -463,17 +433,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                        <Tooltip
-                                                            content={varFields.to}
-                                                            className="onlyHover"
-                                                            direction="up"
-                                                            useHover={true}
-                                                            background="#101010"
-                                                            color="#fefefe"
-                                                            arrowSize={0}
-                                                        >
-                                                            <Link to={`/address/${varFields.to}?cluster=${cluster}`}>{shortenAddress(varFields.to)}</Link>
-                                                        </Tooltip>
+                                                            <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -491,7 +451,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 <div className="d-flex">
                                                     <div className="pe-2">
                                                         <div className={styles.field_sub_1}>
-                                                            From
+                                                            Received From
                                                         </div>
                                                     </div>
                                                     <div className="pe-1">
@@ -499,17 +459,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                        <Tooltip
-                                                            content={varFields.from}
-                                                            className="onlyHover"
-                                                            direction="up"
-                                                            useHover={true}
-                                                            background="#101010"
-                                                            color="#fefefe"
-                                                            arrowSize={0}
-                                                        >
-                                                            <Link to={`/address/${varFields.from}?cluster=${cluster}`}>{shortenAddress(varFields.from)}</Link>
-                                                        </Tooltip>
+                                                            <Link to={`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</Link>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -523,7 +473,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>}
                                         {(wallet !== varFields.to && wallet !== varFields.from) && <>
-                                            <div className="row pt-1">
+                                            {/* <div className="row pt-1">
                                                 <div className="col-12 col-md-6">
                                                     <div className="d-flex">
                                                         <div className="pe-2">
@@ -536,17 +486,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                         </div>
                                                         <div className="pe-2">
                                                             <div className={styles.field_sub_1}>
-                                                            <Tooltip
-                                                                content={varFields.from}
-                                                                className="onlyHover"
-                                                                direction="up"
-                                                                useHover={true}
-                                                                background="#101010"
-                                                                color="#fefefe"
-                                                                arrowSize={0}
-                                                            >
-                                                                <Link to={`/address/${varFields.from}?cluster=${cluster}`}>{shortenAddress(varFields.from)}</Link>
-                                                            </Tooltip>
+                                                                <Link to={`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</Link>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -558,13 +498,13 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <div className="row pt-1">
                                                 <div className="col-12 col-md-6">
                                                     <div className="d-flex">
                                                         <div className="pe-1">
                                                             <div className={styles.field_sub_1}>
-                                                                To
+                                                                <Link to={`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</Link>
                                                             </div>
                                                         </div>
                                                         <div className="pe-1">
@@ -572,17 +512,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                         </div>
                                                         <div className="pe-1">
                                                             <div className={styles.field_sub_1}>
-                                                            <Tooltip
-                                                                content={varFields.to}
-                                                                className="onlyHover"
-                                                                direction="up"
-                                                                useHover={true}
-                                                                background="#101010"
-                                                                color="#fefefe"
-                                                                arrowSize={0}
-                                                            >
-                                                                <Link to={`/address/${varFields.to}?cluster=${cluster}`}>{shortenAddress(varFields.to)}</Link>
-                                                            </Tooltip>
+                                                                <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -614,17 +544,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                    <Tooltip
-                                                        content={varFields.to}
-                                                        className="onlyHover"
-                                                        direction="up"
-                                                        useHover={true}
-                                                        background="#101010"
-                                                        color="#fefefe"
-                                                        arrowSize={0}
-                                                    >
-                                                        <Link to={`/address/${varFields.to}?cluster=${cluster}`}>{shortenAddress(varFields.to)}</Link>
-                                                    </Tooltip>
+                                                        <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -714,17 +634,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                    <Tooltip
-                                                        content={varFields.from}
-                                                        className="onlyHover"
-                                                        direction="up"
-                                                        useHover={true}
-                                                        background="#101010"
-                                                        color="#fefefe"
-                                                        arrowSize={0}
-                                                    >
-                                                        <Link to={`/address/${varFields.from}?cluster=${cluster}`}>{shortenAddress(varFields.from)}</Link>
-                                                    </Tooltip>
+                                                        <Link to={`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -755,17 +665,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                        <Tooltip
-                                                            content={varFields.from}
-                                                            className="onlyHover"
-                                                            direction="up"
-                                                            useHover={true}
-                                                            background="#101010"
-                                                            color="#fefefe"
-                                                            arrowSize={0}
-                                                        >
-                                                            <Link to={`/address/${varFields.from}?cluster=${cluster}`}>{shortenAddress(varFields.from)}</Link>
-                                                        </Tooltip>
+                                                            <Link to={`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</Link>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -783,7 +683,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 <div className="d-flex">
                                                     <div className="pe-2">
                                                         <div className={styles.field_sub_1}>
-                                                            To
+                                                            Sold To
                                                         </div>
                                                     </div>
                                                     <div className="pe-1">
@@ -791,17 +691,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                        <Tooltip
-                                                            content={varFields.to}
-                                                            className="onlyHover"
-                                                            direction="up"
-                                                            useHover={true}
-                                                            background="#101010"
-                                                            color="#fefefe"
-                                                            arrowSize={0}
-                                                        >
-                                                            <Link to={`/address/${varFields.to}?cluster=${cluster}`}>{shortenAddress(varFields.to)}</Link>
-                                                        </Tooltip>
+                                                            <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -860,17 +750,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                    <Tooltip
-                                                        content={varFields.from}
-                                                        className="onlyHover"
-                                                        direction="up"
-                                                        useHover={true}
-                                                        background="#101010"
-                                                        color="#fefefe"
-                                                        arrowSize={0}
-                                                    >
-                                                        <Link to={`/address/${varFields.from}?cluster=${cluster}`}>{shortenAddress(varFields.from)}</Link>
-                                                    </Tooltip>
+                                                        <Link to={`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -900,17 +780,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                    <Tooltip
-                                                        content={varFields.to}
-                                                        className="onlyHover"
-                                                        direction="up"
-                                                        useHover={true}
-                                                        background="#101010"
-                                                        color="#fefefe"
-                                                        arrowSize={0}
-                                                    >
-                                                        <Link to={`/address/${varFields.to}?cluster=${cluster}`}>{shortenAddress(varFields.to)}</Link>
-                                                    </Tooltip>
+                                                        <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -941,17 +811,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-2">
                                                         <div className={styles.field_sub_1}>
-                                                        <Tooltip
-                                                            content={varFields.from}
-                                                            className="onlyHover"
-                                                            direction="up"
-                                                            useHover={true}
-                                                            background="#101010"
-                                                            color="#fefefe"
-                                                            arrowSize={0}
-                                                        >
-                                                            <Link to={`/address/${varFields.from}?cluster=${cluster}`}>{shortenAddress(varFields.from)}</Link>
-                                                        </Tooltip>
+                                                            <Link to={`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</Link>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -977,17 +837,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                        <Tooltip
-                                                            content={varFields.to}
-                                                            className="onlyHover"
-                                                            direction="up"
-                                                            useHover={true}
-                                                            background="#101010"
-                                                            color="#fefefe"
-                                                            arrowSize={0}
-                                                        >
-                                                            <Link to={`/address/${varFields.to}?cluster=${cluster}`}>{shortenAddress(varFields.to)}</Link>
-                                                        </Tooltip>
+                                                            <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link>
                                                         </div>
                                                     </div>
                                                 </div>

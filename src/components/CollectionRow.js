@@ -12,7 +12,7 @@ const CollectionRow = ({ collection,cluster }) => {
           <div className="d-flex flex-wrap justify-content-start">
             {
               (collection.nfts?.map((nft) => (
-                <EachNft nft={nft} cluster={cluster} key={Math.random()}/>
+                <EachNft nft={nft} cluster={cluster} />
               )))
             }
             

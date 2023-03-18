@@ -5,8 +5,8 @@ import Four04 from "./Four04";
 import Home from "./Home";
 import ScrollToTop from "./ScrollToTop";
 import SingleCollectionComponent from "./SingleCollectionComponent";
-// import TokenComponent from "./TokenComponent";
-// import TxnComponent from "./TxnComponent";
+import TokenComponent from "./TokenComponent";
+import TxnComponent from "./TxnComponent";
 
 const Parent = () => {
     return ( 
