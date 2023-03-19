@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import styles from "../resources/css/CollectionRow.module.css";
 
 import i_icon from "../resources/images/i_icon.svg";
+import noImage from "../resources/images/no_image.png";
 import ok_bear from "../resources/images/ok_bear.png";
 import { getNFTData } from "../utils/getAllData";
 
@@ -37,7 +38,13 @@ const EachNft = ({nft,cluster}) => {
                 
                 <Link to={`/address/${nft.mint}?cluster=${cluster}`}>
                   <div className={styles.image_container}>
-                    <img src={image} alt="nft" />
+                    <img src={image} alt="nft" 
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      // currentTarget.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5QUWaw3pkrAkI5OiokGFHvcvSWynIabHycdj_iwr4SLlOYw_1mL2ZpKe6db3puUZLp_s&usqp=CAU";
+                      currentTarget.src=noImage;
+                    }}
+                    />
                   </div>
                 </Link>
                 

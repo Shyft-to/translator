@@ -96,11 +96,11 @@ const SingleCollectionComponent = () => {
                             </div> */}
                         </div>
                         {
-                            (collectionName !== "") ? (data.filter(collection => collection.name === collectionName)).map(collection => (<div className="container-lg pt-4" id={collection.name} key={Math.random()}>
+                            (collectionName !== "") ? (data.filter(collection => collection.name === collectionName)).map(collection => (<div className="container-lg pt-4" id={collection.name}>
                                 <CollectionRow collection={collection} cluster={cluster} />
 
                             </div>)) :
-                                data.map(collection => (<div className="container-lg pt-4" id={collection.name} key={Math.random()}>
+                                data.map(collection => (<div className="container-lg pt-4" id={collection.name}>
                                     <CollectionRow collection={collection} cluster={cluster} />
 
                                 </div>))

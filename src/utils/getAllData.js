@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getDomainKey, NameRegistryState } from "@bonfida/spl-name-service";
+import { getDomainKeySync, NameRegistryState } from "@bonfida/spl-name-service";
 import {  clusterApiUrl, Connection } from "@solana/web3.js";
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
@@ -340,7 +340,7 @@ export async function getAddressfromDomain(domainName)
 {
   
   try {
-    const { pubkey } = await getDomainKey(domainName);
+    const { pubkey } = await getDomainKeySync(domainName);
     //const rpcUrl = clusterApiUrl(network);
     const connection = new Connection(rpc,"confirmed");
     if(!connection)

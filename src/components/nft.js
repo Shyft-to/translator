@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import styles from "../resources/css/Nft.module.css";
-
+import noImage from "../resources/images/no_image.png";
 import i_icon from "../resources/images/i_icon.svg";
 import ok_bear from "../resources/images/ok_bear.png";
 import { getNFTData } from "../utils/getAllData";
@@ -34,7 +34,12 @@ const NFTs = ({ collection, address, network }) => {
           >
             
             <div className={styles.image_container}>
-              <img src={image} alt="nft" />
+              <img src={image} alt="nft"
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src=noImage;
+              }}
+               />
             </div>
           </Link>
 

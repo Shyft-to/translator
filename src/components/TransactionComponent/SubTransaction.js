@@ -17,6 +17,7 @@ import list from "../../resources/images/txnImages/list.svg";
 import mint from "../../resources/images/txnImages/mint.svg";
 import loan from "../../resources/images/txnImages/loan.png";
 import solSmall from "../../resources/images/txnImages/sol_small.png";
+import noImage from "../../resources/images/no_image.png";
 
 
 import { getNFTData, getTokenData } from "../../utils/getAllData";
@@ -384,7 +385,13 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
         <div className={styles.sub_txns}>
             <div className="d-flex">
                 <div className={styles.thumb_container}>
-                    {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST") && relField !== "") ? <Link to={`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" /></Link> : <img src={image} alt="token" />}
+                    {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST") && relField !== "") ? <Link to={`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" onError={({ currentTarget }) => {
+                                                            currentTarget.onerror = null; // prevents looping
+                                                            currentTarget.src=noImage;
+                                                          }} /></Link> : <img src={image} onError={({ currentTarget }) => {
+                                                            currentTarget.onerror = null; // prevents looping
+                                                            currentTarget.src=noImage;
+                                                          }} alt="token" />}
                 </div>
                 <div className={styles.txn_details}>
                     <div className={styles.subtxn_token}>
@@ -429,7 +436,9 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                         </div>
                                                     </div>
                                                     <div className="pe-1">
-                                                        <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                        <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} 
+                                                        
+                                                        />
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>

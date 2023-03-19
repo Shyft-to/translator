@@ -21,19 +21,34 @@
 .view_original_button
 {
  padding-top: 14px;
- font: 300 12px/18px "Poppins", sans-serif;
+ font: 400 12px/18px "Poppins", sans-serif;
  text-align: center;
- padding-right: 10px;
+ /* padding-right: 10px; */
 }
 .view_original_button a
 {
     text-decoration: none;
-    color: #fff5;
+    color: #fffc;
 }
 .view_original_button a:hover
 {
     text-decoration: none;
-    color: #ffff;
+    color: #0AEEFF;
+}
+.download_button
+{
+    padding-top: 14px;
+    font: 400 12px/18px "Poppins", sans-serif;
+    text-align: center;
+    color: #fffc;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.download_button:hover
+{
+    color: #0AEEFF;
 }
 .nft_image_container img
 {
