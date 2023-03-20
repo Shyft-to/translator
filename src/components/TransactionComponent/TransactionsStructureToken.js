@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
 
-import icon from "../../resources/images/txnImages/nft_transfer_2.svg";
-import arrow from "../../resources/images/txnImages/arrow.svg";
+// import icon from "../../resources/images/txnImages/nft_transfer_2.svg";
+// import arrow from "../../resources/images/txnImages/arrow.svg";
 import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
-import solExplorer from "../../resources/images/txnImages/solana_explorer.jpeg";
+// import solExplorer from "../../resources/images/txnImages/solana_explorer.jpeg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
 
 import placeholder from "../../resources/images/txnImages/unknown.png";
