@@ -279,7 +279,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     to: "",
                     token: "--",
                     action: "--",
-                    value: `` ?? "--",
+                    value: `${data.info.amount} SOL` ?? "--",
                     symbol: ""
                 }
                 setRelField(data.info.lender ?? "");
@@ -288,12 +288,12 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
             else if (data.type === "TAKE_LOAN") {
                 type_obj = {
                     type: "SHARKYFI_GEN_LOAN",
-                    from: "",
+                    from: data.info.lender ?? "--",
                     to: data.info.borrower ?? "--",
                     token: "--",
                     action: "--",
-                    value: convertToDays(data.info.loan_duration_seconds) ?? "",
-                    symbol: ""
+                    value: `${data.info.amount} SOL` ?? "",
+                    symbol: convertToDays(data.info.loan_duration_seconds) ?? ""
                 }
                 setRelField(data.info.collateral_mint ?? "");
             }
@@ -304,7 +304,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     to: data.info.lender ?? "--",
                     token: "--",
                     action: "--",
-                    value: "",
+                    value: `${data.info.amount} SOL` ?? "--",
                     symbol: ""
                 }
                 setRelField(data.info.collateral_mint ?? "");
@@ -563,7 +563,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             <div className="d-flex">
                                                 <div className="pe-2">
                                                     <div className={styles.field_sub_1}>
-                                                        Mint
+                                                        Minted to
                                                     </div>
                                                 </div>
                                                 <div className="pe-3">
@@ -653,7 +653,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             <div className="d-flex justify-content-start">
                                                 <div className="pe-2">
                                                     <div className={styles.field_sub_1}>
-                                                        Listed
+                                                        Listed by
                                                     </div>
                                                 </div>
                                                 <div className="pe-3">
@@ -843,13 +843,12 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                 </div>
                                             </div>
+                                            {(varFields.symbol)?
                                             <div className="col-12 col-md-6">
-                                                <div className={`text-end ${styles.field_sub_1}`}>
-                                                    <div className={styles.plus}>
-
-                                                    </div>
+                                                <div className={`text-end ${styles.field_sub_2}`}>
+                                                    {varFields.symbol}
                                                 </div>
-                                            </div>
+                                            </div>:""}
                                         </div>:""}
                                         <div className="row pt-1">
                                             <div className="col-12 col-md-6">
