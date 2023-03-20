@@ -18,7 +18,7 @@ import list from "../../resources/images/txnImages/list.svg";
 import mint from "../../resources/images/txnImages/mint.svg";
 import loan from "../../resources/images/txnImages/loan.png";
 import solSmall from "../../resources/images/txnImages/sol_small.png";
-import noImage from "../../resources/images/no_image.png";
+import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 
 import { getNFTData, getTokenData } from "../../utils/getAllData";

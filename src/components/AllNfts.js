@@ -43,7 +43,6 @@ const AllNfts = ({collections,address,network}) => {
                         }
                     }}
                     dots={false}
-                    autoplay
                 >
                     
                     {collections.map(coll => (
