@@ -3,7 +3,7 @@ import {useSearchParams,useParams} from "react-router-dom";
 import ReactGA from "react-ga4";
 
 import styles from "./resources/css/CollectionRow.module.css";
-import CollectionRow from "./components/CollectionRow";
+import CollectionRowSlice from "./components/CollectionRowSlice";
 import SimpleLoader from "./components/loaders/SimpleLoader";
 
 import { getCollectionsData } from "./utils/getAllData";
@@ -89,8 +89,8 @@ const CollectionsComponent = () => {
                         </div>
                     </div>
                     {data.map(collection => (<div className="container-lg pt-5" id={collection.name}>
-                        <CollectionRow collection={collection} cluster={cluster}/>
-
+                        {/* <CollectionRow collection={collection} cluster={cluster}/> */}
+                        <CollectionRowSlice collection={collection} cluster={cluster} />
                     </div>))}
 
                     </div>

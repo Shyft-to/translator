@@ -25,7 +25,11 @@ export function getFullTime(ISOString) {
 export function formatLamports(value) {
     try {
         if (typeof value === "number")
-            return (parseFloat(value) / LAMPORTS_PER_SOL);
+        {
+            var num = (parseFloat(value) / LAMPORTS_PER_SOL)
+            num = num.toLocaleString('en-US');
+            return num;
+        }  
         else
             return value;
     } catch (error) {
@@ -88,4 +92,26 @@ export function convertToDays(value)
     } catch (error) {
         return value;
     }
+}
+export function formatNumbers(value) {
+    try {
+        if (typeof value === "number")
+        { 
+            return value.toLocaleString('en-US');
+        }
+        else if (typeof value === "string" && value !== "")
+        {
+            return numberWithCommas(value);
+        }  
+        else
+            return value;
+    } catch (error) {
+        return value;
+    }
+
+}
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
 }

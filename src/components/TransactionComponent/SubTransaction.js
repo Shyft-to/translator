@@ -21,7 +21,7 @@ import noImage from "../../resources/images/no_image.png";
 
 
 import { getNFTData, getTokenData } from "../../utils/getAllData";
-import { shortenAddress, formatLamports,convertToDays } from "../../utils/formatter";
+import { shortenAddress, formatLamports,convertToDays,formatNumbers } from "../../utils/formatter";
 
 
 
@@ -102,7 +102,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     to: data.info.receiver ?? "--",
                     token: "TOKEN",
                     action: "--",
-                    value: data.info.amount ?? "--",
+                    value: formatNumbers(data.info.amount) ?? "--",
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");
@@ -126,7 +126,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     to: data.info.receiver_address ?? "--",
                     token: "--",
                     action: "--",
-                    value: data.info.amount ?? "--",
+                    value: formatNumbers(data.info.amount) ?? "--",
                     symbol: ""
                 }
 
@@ -173,7 +173,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     to: "--",
                     token: "TOKEN",
                     action: "--",
-                    value: data.info.amount ?? "--",
+                    value: formatNumbers(data.info.amount) ?? "--",
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");

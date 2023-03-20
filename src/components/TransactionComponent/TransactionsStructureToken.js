@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 
 
 const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
+    const [txType,setTxType] = useState("");
     const [copied, setCopied] = useState("Copy");
     const copyValue = (value) => {
         navigator.clipboard.writeText(value);
@@ -27,6 +28,47 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
             setCopied("Copy");
         }, 1000);
     }
+    useEffect(() => {
+        if(data.type === "TOKEN_TRANSFER")
+        {
+            data.actions.forEach((txn) => {
+                if(data.type === txn.type)
+                {
+                    if(address === txn.info.sender)
+                        setTxType("Token Sent")
+                    else if(address === txn.info.receiver)
+                        setTxType("Token Received")
+                }
+            });
+        }
+        if(data.type === "NFT_TRANSFER")
+        {
+            data.actions.forEach((txn) => {
+                if(data.type === txn.type)
+                {
+                    if(address === txn.info.sender)
+                        setTxType("NFT Sent")
+                    else if(address === txn.info.receiver)
+                        setTxType("NFT Received")
+                }
+            });
+        }
+        if(data.type === "NFT_SALE")
+        {
+            data.actions.forEach((txn) => {
+                if(data.type === txn.type)
+                {
+                    if(address === txn.info.seller)
+                        setTxType("NFT Sold")
+                    else if(address === txn.info.buyer)
+                        setTxType("NFT Purchased")
+                }
+            });
+        }
+    
+     
+    }, [])
+    
 
     return (
         <div>
@@ -71,7 +113,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                             <div className="d-flex flex-wrap justify-content-start align-content-end">
                                 <div className="">
                                     <div className={styles.txn_name}>
-                                        {(data.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(data.type) || "Protocol Interaction")}
+                                        {txType || ((data.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(data.type) || "Protocol Interaction"))}
                                     </div>
                                 </div>
                                 <div className="">
@@ -87,7 +129,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                             </div>
                             {
                                 (data.actions.length > 0) ?
-                                    data.actions.map(action => <SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} />)
+                                    data.actions.map(action => <SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} />)
                                     : "-"
                             }
                             {/* <SubTransactions styles={styles} wallet={address} cluster={cluster}/> */}
