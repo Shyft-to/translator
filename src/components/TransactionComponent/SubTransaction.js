@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import 'balloon-css';
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
+import { useInView } from 'react-intersection-observer'; 
 
 import icon from "../../resources/images/txnImages/unknown_token.png";
 import arrow from "../../resources/images/txnImages/arrow.svg";
@@ -26,6 +27,9 @@ import { shortenAddress, formatLamports,convertToDays,formatNumbers } from "../.
 
 
 const SubTransactions = ({ styles, data, wallet, cluster }) => {
+
+    const {ref,inView} = useInView();
+
     const [image, setImage] = useState(icon);
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
@@ -40,6 +44,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
         value: "",
         symbol: ""
     });
+    const [dataLoaded,setDataLoaded] = useState(false);
     const [copy, setCopied] = useState("Copy");
 
     const getData = async (cluster, address) => {
@@ -51,9 +56,11 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
 
                 setName(res.details.name);
             }
+            setDataLoaded(true);
         }
         catch (error) {
             setName("");
+            setDataLoaded(true);
         }
 
     };
@@ -64,8 +71,10 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
             if (res.success === true) {
                 setCurrency(res.details.symbol ?? res.details.name ?? "");
             }
+            setDataLoaded(true);
         } catch (error) {
             setCurrencyField(address);
+            setDataLoaded(true);
         }
 
     };
@@ -371,18 +380,27 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
     }
 
     useEffect(() => {
-        if (relField !== "") getData(cluster, relField);
-    }, [relField]);
+        if(inView === true && dataLoaded === false)
+        {
+            if (relField !== "") 
+                getData(cluster, relField);
+        }
+        
+    }, [inView]);
 
     useEffect(() => {
-        if (currencyField !== "") getCurrency(cluster, currencyField);
-    }, [currencyField]);
+        if(inView === true && dataLoaded === false)
+        {
+            if (currencyField !== "") 
+                getCurrency(cluster, currencyField);
+        }
+    }, [inView]);
 
     useEffect(() => {
         categoriseAction();
     }, []);
     return (
-        <div className={styles.sub_txns}>
+        <div className={styles.sub_txns} ref={ref}>
             <div className="d-flex">
                 <div className={styles.thumb_container}>
                     {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST") && relField !== "") ? <Link to={`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" onError={({ currentTarget }) => {

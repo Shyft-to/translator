@@ -129,7 +129,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                             </div>
                             {
                                 (data.actions.length > 0) ?
-                                    data.actions.map(action => <SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} />)
+                                    data.actions.map((action,index) => <SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index}/>)
                                     : "-"
                             }
                             {/* <SubTransactions styles={styles} wallet={address} cluster={cluster}/> */}
