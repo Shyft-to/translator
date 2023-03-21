@@ -101,7 +101,15 @@ const Home = () => {
           localStorage.setItem('shshis2', JSON.stringify(newResults));
         }
         
-        navigate(`/address/${wallet}?cluster=${network}`);
+        if(network === "mainnet-beta")
+        {
+          navigate(`/address/${wallet}`);
+        }
+        else
+        {
+          navigate(`/address/${wallet}?cluster=${network}`);
+        }
+        //navigate(`/address/${wallet}?cluster=${network}`);
 
       }
     } catch (error) {

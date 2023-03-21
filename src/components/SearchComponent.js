@@ -92,7 +92,15 @@ const SearchComponent = () => {
             setSearchData(newResults);
             localStorage.setItem('shshis2', JSON.stringify(newResults));
         }
-        navigate(`/address/${wallet}?cluster=${network}`);
+        if(network === "mainnet-beta")
+        {
+          navigate(`/address/${wallet}`);
+        }
+        else
+        {
+          navigate(`/address/${wallet}?cluster=${network}`);
+        }
+        
 
       }
     } catch (error) {
@@ -166,7 +174,7 @@ const SearchComponent = () => {
                 {isFocused && <div className={styles.suggestions_area_outer}>
 
                   {<motion.div className={styles.suggestions_area} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
-                    {(searchData.length > 0) && (searchData.filter(result => result.address.startsWith(wallet)).map((result) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={Math.random()}>
+                    {(searchData.length > 0) && (searchData.filter(result => result.address.startsWith(wallet)).map((result,index) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={index}>
                       <div className="d-flex">
                         <div className={styles.network_area}>
                           {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
