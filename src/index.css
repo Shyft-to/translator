@@ -232,9 +232,9 @@ body {
   min-height: 50px;
   position: relative;
   z-index: -1;
-  background-color: pink;
-  margin-top: -1000px;
-  margin-bottom: 1000px;
+  background-color: black;
+  margin-top: -2200px;
+  margin-bottom: 2200px;
 }
 
 .could_not_text {

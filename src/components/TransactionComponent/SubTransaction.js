@@ -768,7 +768,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             <div className="d-flex">
                                                 <div className="pe-2">
                                                     <div className={styles.field_sub_1}>
-                                                        Bid
+                                                        Bid by
                                                     </div>
                                                 </div>
                                                 <div className="pe-3">
