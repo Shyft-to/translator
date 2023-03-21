@@ -22,7 +22,7 @@ import SimpleLoader from "./components/loaders/SimpleLoader";
 const AddressComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
-    const cluster = searchParams.get("cluster");
+    const cluster = searchParams.get("cluster") ?? "mainnet-beta";
     const navigate = useNavigate();
 
     const [panel, setPanel] = useState("TXN");
@@ -167,7 +167,7 @@ const AddressComponent = () => {
                                                             arrowSize={5}
 
                                                         >
-                                                        <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/address/${addr}?cluster=${cluster}`, true)}>
+                                                        <button className="copy_link" onClick={() => copyValue((cluster==='mainnet-beta')?`https://translator.shyft.to/address/${addr}`:`https://translator.shyft.to/address/${addr}?cluster=${cluster}`, true)}>
                                                             <FaLink />
                                                         </button>
                                                     </Tooltip>

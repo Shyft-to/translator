@@ -1,6 +1,6 @@
 import NFTs from "./nft";
 import styles from '../resources/css/Nft.module.css';
-
+import { Link } from "react-router-dom";
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
@@ -16,11 +16,12 @@ const AllNfts = ({collections,address,network}) => {
                     </div>
                     </div>
                     <div className="pe-2">
-                        <a className="no_underline" href={`/collections/${address}?cluster=${network}`}>
+                        
+                        <Link className="no_underline" to={(network==="mainnet-beta")?`/collections/${address}`:`/collections/${address}?cluster=${network}`}>
                             <div className={styles.view_all_text}>
                                 View All
                             </div>
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 

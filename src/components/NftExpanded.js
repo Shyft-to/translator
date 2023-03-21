@@ -120,7 +120,7 @@ const NftExpanded = ({ nft, cluster }) => {
                   arrowSize={5}
 
                 >
-                  <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/address/${nft.mint}?cluster=${cluster}`,true)}>
+                  <button className="copy_link" onClick={() => copyValue(((cluster === "mainnet-beta")?`https://translator.shyft.to/address/${nft.mint}`:`https://translator.shyft.to/address/${nft.mint}?cluster=${cluster}`),true)}>
                     <FaLink />
                   </button>
                 </Tooltip>
@@ -220,7 +220,7 @@ const NftExpanded = ({ nft, cluster }) => {
                         color="#fefefe"
                         styles={{ display: "inline" }}
                         arrowSize={5}
-                      ><button onClick={() => copyValue(nft.owner)}><img src={copyBtn} /></button></Tooltip>}{(nft.owner !== "") ? <Link to={`/address/${nft.owner}?cluster=${cluster}`}>{nft.owner}</Link> : "--"}
+                      ><button onClick={() => copyValue(nft.owner)}><img src={copyBtn} /></button></Tooltip>}{(nft.owner !== "") ? <Link to={(cluster === "mainnet-beta")?`/address/${nft.owner}`:`/address/${nft.owner}?cluster=${cluster}`}>{nft.owner}</Link> : "--"}
                     </div>
                   </div>
                 </div>

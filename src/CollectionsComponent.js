@@ -13,7 +13,7 @@ import SearchComponent from "./components/SearchComponent";
 const CollectionsComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
-    const cluster = searchParams.get("cluster");
+    const cluster = searchParams.get("cluster") ?? "mainnet-beta";
     const collectionName = searchParams.get("collName") ?? "";
     
     const [isLoading,setLoading] = useState(true);

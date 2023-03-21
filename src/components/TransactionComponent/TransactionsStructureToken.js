@@ -9,8 +9,8 @@ import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
 // import solExplorer from "../../resources/images/txnImages/solana_explorer.jpeg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
 
-import placeholder from "../../resources/images/txnImages/unknown.png";
-import { getNFTData } from "../../utils/getAllData";
+// import placeholder from "../../resources/images/txnImages/unknown.png";
+// import { getNFTData } from "../../utils/getAllData";
 import { shortenAddress, getRelativetime, getFullTime, formatNames } from "../../utils/formatter";
 
 import SubTransactions from "./SubTransaction";
@@ -118,7 +118,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                 </div>
                                 <div className="">
                                     <div className={styles.txn_subname}>
-                                        {(data.protocol.name != "") ? <div><Link to={`/address/${data.protocol.address}?cluster=mainnet-beta`}>{formatNames(data.protocol.name)}</Link></div> : (<Link to={`/address/${data.protocol.address}?cluster=mainnet-beta`}>{shortenAddress(data.protocol.address)}</Link>)}
+                                        {(data.protocol.name != "") ? <div><Link to={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</Link></div> : (<Link to={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</Link>)}
                                     </div>
                                 </div>
                                 <div className="">

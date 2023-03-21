@@ -5,18 +5,18 @@ import ReactGA from "react-ga4";
 import styles from "./resources/css/CollectionRow.module.css";
 import CollectionRow from "./components/CollectionRow";
 import SimpleLoader from "./components/loaders/SimpleLoader";
-import { FaLink } from "react-icons/fa";
-import Tooltip from 'react-tooltip-lite';
+// import { FaLink } from "react-icons/fa";
+// import Tooltip from 'react-tooltip-lite';
 
 import { getCollectionsData } from "./utils/getAllData";
-import Transactions from "./components/TransactionComponent/Transactions";
+// import Transactions from "./components/TransactionComponent/Transactions";
 import SearchComponent from "./components/SearchComponent";
 import CollectionRowSlice from "./components/CollectionRowSlice";
 
 const SingleCollectionComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
-    const cluster = searchParams.get("cluster");
+    const cluster = searchParams.get("cluster") ?? "mainnet-beta";
     const collectionName = searchParams.get("collName") ?? "";
 
     const [isLoading, setLoading] = useState(true);
