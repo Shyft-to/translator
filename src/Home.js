@@ -80,15 +80,27 @@ const Home = () => {
           address: wallet,
           network: network
         }
-        
-        var newResults = [];
-        if (searchData.length > 4)
-          newResults = [...searchData.slice(1), newAddress];
-        else
-          newResults = [...searchData, newAddress];
+        var is_unique = false;
+        searchData.map((search) => {
+          if(search.domain === newAddress.domain && search.address === newAddress.address && search.network === newAddress.network)
+          {
+            is_unique=true;
+          }
+        })
 
-        setSearchData(newResults);
-        localStorage.setItem('shshis2', JSON.stringify(newResults));
+        if(is_unique === false)
+        {
+
+          var newResults = [];
+          if (searchData.length > 4)
+            newResults = [...searchData.slice(1), newAddress];
+          else
+            newResults = [...searchData, newAddress];
+  
+          setSearchData(newResults);
+          localStorage.setItem('shshis2', JSON.stringify(newResults));
+        }
+        
         navigate(`/address/${wallet}?cluster=${network}`);
 
       }
@@ -123,7 +135,7 @@ const Home = () => {
                       </div>
                     </div>
                     {isFocused && <div className={styles.search_area}>
-                      {searchData.filter(result => result.address.startsWith(wallet)).map((result) => (<button className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
+                      {searchData.filter(result => result.address.startsWith(wallet)).map((result,index) => (<button key={index} className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
                         <div className="d-flex">
                           <div className={`flex-grow-1 ${styles.address_area}`}>
                             {result.domain || result.address}

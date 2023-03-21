@@ -72,15 +72,26 @@ const SearchComponent = () => {
           network: network
         }
 
-        var newResults = [];
-        if (searchData.length > 4)
-          newResults = [...searchData.slice(1), newAddress];
-        else
-          newResults = [...searchData, newAddress];
+        var is_unique = false;
+        searchData.map((search) => {
+          if(search.domain === newAddress.domain && search.address === newAddress.address && search.network === newAddress.network)
+          {
+            is_unique=true;
+          }
+        })
 
-          document.getElementById("start_search").disabled = false;
-        setSearchData(newResults);
-        localStorage.setItem('shshis2', JSON.stringify(newResults));
+        if(is_unique === false)
+        {
+            var newResults = [];
+            if (searchData.length > 4)
+              newResults = [...searchData.slice(1), newAddress];
+            else
+              newResults = [...searchData, newAddress];
+
+              document.getElementById("start_search").disabled = false;
+            setSearchData(newResults);
+            localStorage.setItem('shshis2', JSON.stringify(newResults));
+        }
         navigate(`/address/${wallet}?cluster=${network}`);
 
       }
