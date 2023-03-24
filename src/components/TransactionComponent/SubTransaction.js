@@ -18,6 +18,8 @@ import list from "../../resources/images/txnImages/list.svg";
 import mint from "../../resources/images/txnImages/mint.svg";
 import loan from "../../resources/images/txnImages/loan.png";
 import solSmall from "../../resources/images/txnImages/sol_small.png";
+import memo from "../../resources/images/txnImages/memo.png";
+import memo_small from "../../resources/images/txnImages/memo_small.png"
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 
@@ -257,6 +259,20 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     value: formatLamports(data.info.amount) ?? "--",
                     symbol: ""
                 }
+            }
+            else if (data.type === "MEMO") {
+                type_obj = {
+                    type: "MEMO",
+                    from: data.info.message ?? "--",
+                    to: "--",
+                    token: "--",
+                    action: "--",
+                    value: formatLamports(data.info.amount) ?? "--",
+                    symbol: ""
+                }
+                setName("Memo");
+                setImage(memo);
+
             }
             else if (data.type === "OFFER_LOAN") {
                 type_obj = {
@@ -817,6 +833,36 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                )
+                            }
+                            else if (varFields.type === "MEMO") {
+                                return (
+                                    <div className="row pt-1">
+                                        <div className="col-12 col-md-6">
+                                            <div className="d-flex">
+                                                <div className="pe-2">
+                                                    <div className={styles.field_sub_1}>
+                                                        Memo
+                                                    </div>
+                                                </div>
+                                                <div className="pe-2">
+                                                    <img src={memo_small} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                </div>
+                                                <div className="pe-1">
+                                                    <div className={styles.field_sub_1}>
+                                                        {varFields.from}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* <div className="col-12 col-md-6">
+                                            <div className={`text-end ${styles.field_sub_2}`}>
+                                                <div>
+                                                    {varFields.value} {currency}
+                                                </div>
+                                            </div>
+                                        </div> */}
                                     </div>
                                 )
                             }
