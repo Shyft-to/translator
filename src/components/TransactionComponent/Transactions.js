@@ -69,8 +69,7 @@ const Transactions = ({ address, cluster }) => {
       .then((res) => {
         if (res.data.success === true && res.data.result.length > 0) {
           const txnReceived = res.data.result;
-          if(txnReceived.length>=10)
-            setMoreTxns(true);
+          
           if (txnLastInitial === "")
             setTxnLastInitial(
               txnReceived[txnReceived.length - 1].signatures[0]
@@ -79,6 +78,14 @@ const Transactions = ({ address, cluster }) => {
           setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
           setTxnOne(txnReceived[0].signatures[0]);
           setTxns(txnReceived);
+
+          if(txnReceived.length>=10)
+          {
+            setTimeout(() => {
+              setMoreTxns(true);
+            }, 1000); 
+          }
+            
         }
         setLoading(false);
       })

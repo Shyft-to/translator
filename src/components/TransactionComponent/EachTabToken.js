@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import Tooltip from 'react-tooltip-lite';
 import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
-import solExplorer from "../../resources/images/txnImages/solana_explorer.jpeg";
+// import solExplorer from "../../resources/images/txnImages/solana_explorer.jpeg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg";
 import unknown from "../../resources/images/txnImages/unknown_token.png";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { shortenAddress } from "../../utils/formatter";
 
 const EachTabToken = ({ styles, token, cluster }) => {
@@ -67,15 +67,20 @@ const EachTabToken = ({ styles, token, cluster }) => {
                 <div className="row">
                     <div className="col-12 col-md-1">
                         <div className={styles.token_image_container}>
-                            <img src={token.info.image || unknown} alt="Unknown Token" />
+                            <img src={token.info.image || unknown}
+                            onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src=unknown;
+                              }}
+                             alt="Unknown Token" />
                         </div>
                     </div>
                     <div className="col-6 col-md-6 text-start">
                         <div className={styles.field}>
-                            <Link to={`/address/${token.address}?cluster=${cluster}`}>
+                            <a href={(cluster === "mainnet-beta") ? `/address/${token.address}` : `/address/${token.address}?cluster=${cluster}`}>
                                 {shortenAddress(token.address) || "unknown"}
 
-                            </Link>
+                            </a>
                         </div>
                     </div>
                     <div className="col-6 col-md-5 text-end">

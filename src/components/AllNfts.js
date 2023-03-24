@@ -17,11 +17,11 @@ const AllNfts = ({collections,address,network}) => {
                     </div>
                     <div className="pe-2">
                         
-                        <Link className="no_underline" to={(network==="mainnet-beta")?`/collections/${address}`:`/collections/${address}?cluster=${network}`}>
+                        <a className="no_underline" href={(network==="mainnet-beta")?`/collections/${address}`:`/collections/${address}?cluster=${network}`}>
                             <div className={styles.view_all_text}>
                                 View All
                             </div>
-                        </Link>
+                        </a>
                     </div>
                 </div>
                 

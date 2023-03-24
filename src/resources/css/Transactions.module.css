@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap');
 
 .txn_section
 {
@@ -502,7 +503,7 @@
 }
 .sub_txns .field_sub_1
 {
-    font: 200 13px/26px "Poppins",sans-serif;
+    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
     color: #FFFa;
     width: 100%;
 }

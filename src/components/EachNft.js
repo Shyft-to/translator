@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
@@ -47,7 +47,7 @@ const EachNft = ({nft,cluster}) => {
         <div className=" py-4 pe-4">
               <motion.div className={styles.nft_container} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
                 
-                <Link to={(cluster === "mainnet-beta")?`/address/${nft.mint}`:`/address/${nft.mint}?cluster=${cluster}`}>
+                <a href={(cluster === "mainnet-beta")?`/address/${nft.mint}`:`/address/${nft.mint}?cluster=${cluster}`}>
                   <div ref={ref} className={styles.image_container}>
                     <img src={image} alt="nft" 
                     onError={({ currentTarget }) => {
@@ -57,7 +57,7 @@ const EachNft = ({nft,cluster}) => {
                     }}
                     />
                   </div>
-                </Link>
+                </a>
                 
                 <div className={styles.name_section}>
                   <div className="row">

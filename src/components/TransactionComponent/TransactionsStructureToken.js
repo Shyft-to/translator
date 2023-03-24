@@ -14,9 +14,6 @@ import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
 import { shortenAddress, getRelativetime, getFullTime, formatNames } from "../../utils/formatter";
 
 import SubTransactions from "./SubTransaction";
-import { Link } from "react-router-dom";
-
-
 
 const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
     const [txType,setTxType] = useState("");
@@ -118,7 +115,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                 </div>
                                 <div className="">
                                     <div className={styles.txn_subname}>
-                                        {(data.protocol.name != "") ? <div><Link to={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</Link></div> : (<Link to={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</Link>)}
+                                        {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
                                     </div>
                                 </div>
                                 <div className="">

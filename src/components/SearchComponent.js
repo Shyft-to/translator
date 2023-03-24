@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
 
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -9,7 +8,7 @@ import styles from "../resources/css/SearchComponent.module.css";
 import { getAddressfromDomain } from "../utils/getAllData";
 
 const SearchComponent = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState("mainnet-beta");
   const [isFocused, setFocused] = useState(false);
@@ -94,18 +93,21 @@ const SearchComponent = () => {
         }
         if(network === "mainnet-beta")
         {
-          navigate(`/address/${wallet}`);
+          // navigate(`/address/${wallet}`);
+          window.location.href = `/address/${wallet}`;
         }
         else
         {
-          navigate(`/address/${wallet}?cluster=${network}`);
+          // navigate(`/address/${wallet}?cluster=${network}`);
+          window.location.href = `/address/${wallet}?cluster=${network}`;
         }
         
 
       }
     } catch (error) {
-      navigate(`/address/${searchParam}?cluster=${network}`);
+      // navigate(`/address/${searchParam}?cluster=${network}`);
       document.getElementById("start_search").disabled = false;
+      window.location.href = `/address/${wallet}?cluster=${network}`;
     }
 
   }
@@ -116,7 +118,7 @@ const SearchComponent = () => {
         <div className="row p-1" >
           <div className="col-12 col-lg-2">
             <div className="logo_container pt-3 text-center text-lg-start">
-              <Link to={`/`}>Translator</Link>
+              <a href={`/`}>Translator</a>
             </div>
           </div>
           <div className="col-12 col-lg-8">

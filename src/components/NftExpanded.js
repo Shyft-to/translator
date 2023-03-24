@@ -5,7 +5,7 @@ import unknown from "../resources/images/ok_bear.png";
 import noImage from "../resources/images/no_image.png";
 import copyBtn from "../resources/images/txnImages/copy_icon.svg";
 import Tooltip from 'react-tooltip-lite';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { FaLink } from "react-icons/fa";
 import { toPng } from 'html-to-image';
 
@@ -220,7 +220,7 @@ const NftExpanded = ({ nft, cluster }) => {
                         color="#fefefe"
                         styles={{ display: "inline" }}
                         arrowSize={5}
-                      ><button onClick={() => copyValue(nft.owner)}><img src={copyBtn} /></button></Tooltip>}{(nft.owner !== "") ? <Link to={(cluster === "mainnet-beta")?`/address/${nft.owner}`:`/address/${nft.owner}?cluster=${cluster}`}>{nft.owner}</Link> : "--"}
+                      ><button onClick={() => copyValue(nft.owner)}><img src={copyBtn} /></button></Tooltip>}{(nft.owner !== "") ? <a href={(cluster === "mainnet-beta")?`/address/${nft.owner}`:`/address/${nft.owner}?cluster=${cluster}`}>{nft.owner}</a> : "--"}
                     </div>
                   </div>
                 </div>

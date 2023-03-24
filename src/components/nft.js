@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
@@ -37,8 +37,8 @@ const NFTs = ({ collection, address, network }) => {
     <div className="pt-4 px-2 pb-5">
       <motion.div className={styles.nft_container_outer} initial={{ opacity: 0,scale:0.4 }} whileInView={{ opacity: 1,scale:1 }} viewport={{ once: true }} whileHover={{ scale: 1.05 }}>
         <div ref={ref} className={styles.nft_container}>
-          <Link
-            to={(collection.name)?((network === "mainnet-beta")?`/collection/${address}?collName=${collection.name}`:`/collection/${address}?cluster=${network}&collName=${collection.name}`):`/collections/${address}?cluster=${network}`}
+          <a
+            href={(collection.name)?((network === "mainnet-beta")?`/collection/${address}?collName=${collection.name}`:`/collection/${address}?cluster=${network}&collName=${collection.name}`):`/collections/${address}?cluster=${network}`}
           >
             
             <div className={styles.image_container}>
@@ -49,7 +49,7 @@ const NFTs = ({ collection, address, network }) => {
               }}
                />
             </div>
-          </Link>
+          </a>
 
           <div className={styles.name_section}>
             <div className="row">
