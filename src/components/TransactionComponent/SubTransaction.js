@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import 'balloon-css';
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
@@ -284,7 +284,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     value: `${data.info.amount} SOL` ?? "--",
                     symbol: ""
                 }
-                setRelField(data.info.lender ?? "");
+                // setRelField(data.info.lender ?? "");
                 setImage(loan);
             }
             else if (data.type === "CANCEL_LOAN") {
@@ -297,7 +297,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     value: `${data.info.amount} SOL` ?? "--",
                     symbol: ""
                 }
-                setRelField(data.info.lender ?? "");
+                // setRelField(data.info.lender ?? "");
                 setImage(loan);
             }
             else if (data.type === "TAKE_LOAN") {
@@ -416,7 +416,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
         <div className={styles.sub_txns} ref={ref}>
             <div className="d-flex">
                 <div className={styles.thumb_container}>
-                    {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST") && relField !== "") ? <a href={(cluster==="mainnet-beta")?`/address/${relField}`:`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" onError={({ currentTarget }) => {
+                    {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") && relField !== "") ? <a href={(cluster==="mainnet-beta")?`/address/${relField}`:`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
                         currentTarget.src = noImage;
                     }} /></a> : <img src={image} onError={({ currentTarget }) => {
@@ -429,7 +429,12 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                         <div className="d-flex">
                             <div>
                                 {/* {name || relField || "Unknown"} */}
-                                {(data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST") ? ((relField) ? ((name === "") ? <a href={(cluster==="mainnet-beta")?`/address/${relField}`:`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={(cluster==="mainnet-beta")?`/address/${relField}`:`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")}
+                                {
+                                    (data.type === "OFFER_LOAN" || data.type =="CANCEL_LOAN") ?
+                                        ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a>: "--" )
+                                    :
+                                    (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
+                                }
                             </div>
 
                             {(relField !== "") ? <div className={styles.copy_bt}>
