@@ -11,13 +11,15 @@ import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
 
 // import placeholder from "../../resources/images/txnImages/unknown.png";
 // import { getNFTData } from "../../utils/getAllData";
-import { shortenAddress, getRelativetime, getFullTime, formatNames } from "../../utils/formatter";
+import { shortenAddress, getRelativetime, getFullTime, formatNames,isParsable } from "../../utils/formatter";
 
 import SubTransactions from "./SubTransaction";
+import SubTxnUnknown from "./SubTxnUnknown";
 
 const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
     const [txType,setTxType] = useState("");
     const [copied, setCopied] = useState("Copy");
+    const [unknownCount,setUnknownCount] = useState(0);
     const copyValue = (value) => {
         navigator.clipboard.writeText(value);
         setCopied("Copied");
@@ -62,7 +64,23 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                 }
             });
         }
-    
+        try {
+            if(data.actions.length > 0)
+            {
+                var totalUnknown = 0;
+                data.actions.forEach(action => {
+                    if(isParsable(action.type) === false)
+                    {
+                        totalUnknown++;
+                        
+                    } 
+                });
+                setUnknownCount(totalUnknown);
+            }
+        } catch (error) {
+            console.log("Actions not Found");
+        }
+        
      
     }, [])
     
@@ -126,8 +144,11 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                             </div>
                             {
                                 (data.actions.length > 0) ?
-                                    data.actions.map((action,index) => <SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index}/>)
+                                    data.actions.map((action,index) => ((isParsable(action.type))?(<SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index}/>):""))
                                     : "-"
+                            }
+                            {
+                                (data.actions.length > 0 && data.actions.length === unknownCount) && <SubTxnUnknown styles={styles} unknownCount={unknownCount} />
                             }
                             {/* <SubTransactions styles={styles} wallet={address} cluster={cluster}/> */}
 
