@@ -81,9 +81,9 @@ const Transactions = ({ address, cluster }) => {
 
           if(txnReceived.length>=10)
           {
-            setTimeout(() => {
-              setMoreTxns(true);
-            }, 1000); 
+            setMoreTxns(true);
+            // setTimeout(() => {
+            // }, 1000); 
           }
             
         }

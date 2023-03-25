@@ -245,6 +245,53 @@ export async function getAllTokens(network, address) {
   return data;
 }
 
+export async function getIfTokenData(network, address) {
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  try {
+    await axios({
+      url: `${endpoint}token/get_info`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: {
+        network: network,
+        token_address: address,
+      },
+    })
+      .then((res) => {
+        if (res.data.success === true) {
+          if(res.data.result.decimals > 0)
+          {
+            data = {
+              success: true,
+              type: "TOKEN",
+              details: res.data.result,
+            };
+          }
+          
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  
+    return data;
+  } catch (error) {
+    return {
+      success: false,
+      type: "UNKNOWN",
+      details: null,
+    };
+  }
+  
+}
+
 // export async function categorizeAddress(network, address) {
 //   var data = {
 //     success: false,
@@ -302,30 +349,43 @@ export async function categorizeAddress(network, address) {
     details: null,
   };
   try {
-    const nftCheck = await getNFTData(network, address);
-    if (nftCheck.type === "NFT") {
+    const tokenCheck = await getIfTokenData(network, address);
+    if(tokenCheck.type === "TOKEN")
+    {
       data = {
         success: true,
-        type: "NFT",
-        details: nftCheck.details,
+        type: "TOKEN",
+        details: tokenCheck.details,
       };
-    } else {
-        const walletCheck = await getWalletData(network, address);
-        if (walletCheck.type === "WALLET") {
-          data = {
-            success: true,
-            type: "WALLET",
-            details: walletCheck.details,
-          };
-        } else {
-          data = {
-            success: false,
-            type: "UNKNOWN",
-            details: null,
-          };
-        }
-      
     }
+    else
+    {
+      const nftCheck = await getNFTData(network, address);
+      if (nftCheck.type === "NFT") {
+        data = {
+          success: true,
+          type: "NFT",
+          details: nftCheck.details,
+        };
+      } else {
+          const walletCheck = await getWalletData(network, address);
+          if (walletCheck.type === "WALLET") {
+            data = {
+              success: true,
+              type: "WALLET",
+              details: walletCheck.details,
+            };
+          } else {
+            data = {
+              success: false,
+              type: "UNKNOWN",
+              details: null,
+            };
+          }
+        
+      }
+    }
+    
 
     return data;
   } catch (err) {

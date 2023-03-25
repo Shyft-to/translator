@@ -13,6 +13,7 @@ import AllNfts from "./components/AllNfts";
 // import HeaderComponent from "./components/HeaderComponent";
 import Transactions from "./components/TransactionComponent/Transactions";
 import NftExpanded from "./components/NftExpanded";
+import TokenExpanded from "./components/TokenExpanded";
 import copyIcon from "./resources/images/txnImages/copy_icon.svg"
 import SearchComponent from "./components/SearchComponent";
 import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
@@ -208,6 +209,15 @@ const AddressComponent = () => {
                         <div>
                             <div className="container pt-4">
                                 <NftExpanded nft={data} cluster={cluster} />
+                            </div>
+
+                        </div>
+                    }
+                    {
+                        (contentType === "TOKEN") &&
+                        <div>
+                            <div className="container pt-4">
+                                <TokenExpanded token={data} cluster={cluster} />
                             </div>
 
                         </div>
