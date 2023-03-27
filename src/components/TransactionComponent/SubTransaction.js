@@ -258,6 +258,17 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
 
                 setRelField(data.info.nft_address ?? "");
                 setCurrencyField(data.info.currency ?? "");
+            } else if (data.type === "NFT_BID_CANCEL") {
+                type_obj = {
+                    type: "NFT_BID_CANCEL",
+                    from: data.info.bidder ?? "--",
+                    to: data.info.marketplace ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: "--",
+                    symbol: ""
+                }
+                setRelField(data.info.nft_address ?? "");
             } else if (data.type === "MARKETPLACE_WITHDRAW") {
                 type_obj = {
                     type: "MARKETPLACE_WITHDRAW",
@@ -425,7 +436,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
         <div className={styles.sub_txns} ref={ref}>
             <div className="d-flex">
                 <div className={styles.thumb_container}>
-                    {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") && relField !== "") ? <a href={(cluster==="mainnet-beta")?`/address/${relField}`:`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" onError={({ currentTarget }) => {
+                    {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") && relField !== "") ? <a href={(cluster==="mainnet-beta")?`/address/${relField}`:`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
                         currentTarget.src = noImage;
                     }} /></a> : <img src={image} onError={({ currentTarget }) => {
@@ -442,7 +453,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                     (data.type === "OFFER_LOAN" || data.type =="CANCEL_LOAN") ?
                                         ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a>: "--" )
                                     :
-                                    (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
+                                    (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
                                 }
                             </div>
 
@@ -817,6 +828,36 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                )
+                            }
+                            else if (varFields.type === "NFT_BID_CANCEL") {
+                                return (
+                                    <div className="row pt-1">
+                                        <div className="col-12 col-md-11">
+                                            <div className="d-flex">
+                                                <div className="pe-2">
+                                                    <div className={styles.field_sub_1}>
+                                                        Bid Cancelled
+                                                    </div>
+                                                </div>
+                                                <div className="pe-3">
+                                                    <img src={cancel} alt="" style={{ width: "14px", marginTop: "-4px" }} />
+                                                </div>
+                                                <div className="pe-1">
+                                                    <div className={styles.field_sub_1}>
+                                                        <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* <div className="col-12 col-md-6">
+                                            <div className={`text-end ${styles.field_sub_2}`}>
+                                                <div>
+                                                    {varFields.value} {currency}
+                                                </div>
+                                            </div>
+                                        </div> */}
                                     </div>
                                 )
                             }
