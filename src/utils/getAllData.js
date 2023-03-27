@@ -292,56 +292,6 @@ export async function getIfTokenData(network, address) {
   
 }
 
-// export async function categorizeAddress(network, address) {
-//   var data = {
-//     success: false,
-//     type: "UNKNOWN",
-//     details: null,
-//   };
-//   try {
-//     const nftCheck = await getNFTData(network, address);
-//     if (nftCheck.type === "NFT") {
-//       data = {
-//         success: true,
-//         type: "NFT",
-//         details: nftCheck.details,
-//       };
-//     } else {
-//       const tokenCheck = await getTokenData(network, address);
-//       if (tokenCheck.type === "TOKEN") {
-//         data = {
-//           success: true,
-//           type: "TOKEN",
-//           details: tokenCheck.details,
-//         };
-//       } else {
-//         const walletCheck = await getWalletData(network, address);
-//         if (walletCheck.type === "WALLET") {
-//           data = {
-//             success: true,
-//             type: "WALLET",
-//             details: walletCheck.details,
-//           };
-//         } else {
-//           data = {
-//             success: false,
-//             type: "UNKNOWN",
-//             details: null,
-//           };
-//         }
-//       }
-//     }
-
-//     return data;
-//   } catch (err) {
-//     return {
-//       success: false,
-//       type: "UNKNOWN",
-//       details: null,
-//     };
-//   }
-// }
-
 export async function categorizeAddress(network, address) {
   var data = {
     success: false,
@@ -393,6 +343,184 @@ export async function categorizeAddress(network, address) {
       success: false,
       type: "UNKNOWN",
       details: null,
+    };
+  }
+}
+export async function categorizeAddresswithExplorer(network, address)
+{
+  var response = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  try { 
+    const data = await knowAddressType(network, address);
+    if(data.addressType === "PROTOCOL")
+    {
+      response = {
+        success: true,
+        type: "PROTOCOL",
+        details: null,
+      }
+    }
+    else if(data.addressType === "WALLET")
+    {
+      const walletData = await getWalletData(network, address);
+      response = {
+        success: walletData.success,
+        type: walletData.type,
+        details: walletData.details,
+      };
+    }
+    else if(data.addressType === "NFT")
+    {
+      const nftData = await getNFTData(network, address);
+      response = {
+        success: nftData.success,
+        type: nftData.type,
+        details: nftData.details,
+      };
+    }
+    else if(data.addressType === "TOKEN")
+    {
+      const tokenData = await getIfTokenData(network, address);
+      response = {
+        success: tokenData.success,
+        type: tokenData.type,
+        details: tokenData.details,
+      };
+    }
+    else
+    {
+      response = {
+        success: false,
+        type: "UNKNOWN",
+        details: null,
+      };
+    }
+    console.log(response);
+    //return data;
+  } catch (error) {
+    console.log(error);
+    console.log("Some error");
+  }
+}
+export async function knowAddressType(network,address)
+{
+  try {
+    let reqUrl = "";
+    let typeObj = {
+      addressType: "UNKNOWN"
+    }
+    if (network === "testnet") {
+      reqUrl = "https://explorer-api.testnet.solana.com/";
+    }
+    else if(network === "devnet")
+    {
+      reqUrl = "https://explorer-api.devnet.solana.com/";
+    }
+    else
+    {
+      reqUrl = process.env.REACT_APP_RPC_MAINNET;
+    }
+    let data = JSON.stringify({
+      "method": "getMultipleAccounts",
+      "jsonrpc": "2.0",
+      "params": [
+        [
+          address
+        ],
+        {
+          "encoding": "jsonParsed",
+          "commitment": "confirmed"
+        }
+      ],
+      // "id": "cad88acb-2e1a-4fb4-a40b-cf632fd3c683"
+      "id": ""
+    });
+
+    await axios({
+      url: reqUrl,
+      method: "POST",
+      maxBodyLength: Infinity,
+      headers: {
+        "Content-Type": "application/json",
+        // "authority": reqUrl,
+        // "origin": "https://explorer.solana.com", 
+        // "referer": "https://explorer.solana.com/",
+      },
+      data: data
+    })
+      .then((res) => {
+        
+        if(Array.isArray(res.data.result.value))
+        {
+          let valueReceived = res.data.result.value[0];
+          if(valueReceived.executable === true)
+          {
+            typeObj = {
+              addressType: "PROTOCOL"
+            }
+          }
+          else
+          {
+            
+            if(valueReceived.owner === "11111111111111111111111111111111")
+            {
+              typeObj = {
+                addressType: "WALLET"
+              }
+            }
+            else if(valueReceived.data.program === "spl-token")
+            {
+              
+              if(valueReceived.data.parsed.info.decimals === 0)
+              {
+                typeObj = {
+                  addressType: "NFT"
+                }
+              }
+              else if(valueReceived.data.parsed.info.decimals > 0)
+              {
+                typeObj = {
+                  addressType: "TOKEN"
+                }
+              }
+              else
+              {
+                typeObj = {
+                  addressType: "UNKNOWN"
+                }
+              }
+            }
+            else
+            {
+              typeObj = {
+                addressType: "UNKNOWN"
+              }
+            }
+          }
+        }
+        else
+        {
+          typeObj = {
+            addressType: "UNKNOWN"
+          }
+        }
+        
+      })
+      .catch((err) => {
+        console.warn(err);
+        typeObj = {
+          addressType: "UNKNOWN"
+        }
+      });
+
+      return typeObj;
+  } catch (error) {
+    console.log(error)
+    return {
+      addressType: "UNKNOWN"
     };
   }
 }
