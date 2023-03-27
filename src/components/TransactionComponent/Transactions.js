@@ -33,7 +33,7 @@ const Transactions = ({ address, cluster }) => {
     {
       if(inView === true)
       {
-        if(moreTxns === true && txns.length>9)
+        if(moreTxns === true && txns.length>0)
         {
           console.log("Getting more txns");
           getPrevNext("next");
@@ -78,13 +78,14 @@ const Transactions = ({ address, cluster }) => {
           setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
           setTxnOne(txnReceived[0].signatures[0]);
           setTxns(txnReceived);
-
-          if(txnReceived.length>=10)
-          {
-            setMoreTxns(true);
-            // setTimeout(() => {
-            // }, 1000); 
-          }
+          
+          setMoreTxns(true);
+          // if(txnReceived.length>=10)
+          // {
+          //   setMoreTxns(true);
+          //   // setTimeout(() => {
+          //   // }, 1000); 
+          // }
             
         }
         setLoading(false);
@@ -127,11 +128,15 @@ const Transactions = ({ address, cluster }) => {
         
         if (res.data.success === true && res.data.result.length > 0) {
           const txnReceived = res.data.result;
-          if(txnReceived.length>=10)
-            setMoreTxns(true);
+          if(txnReceived.length === 0)
+            setMoreTxns(false);
           setTxns([...txns,...txnReceived]);
           setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
           setTxnOne(txnReceived[0].signatures[0]); 
+        }
+        else
+        {
+          setMoreTxns(false);
         }
         setLoaded(true);
         setTimeout(() => {
@@ -176,9 +181,10 @@ const Transactions = ({ address, cluster }) => {
           </div>
          }
          <div ref={ref} className="ten-height-2">
-              
+          <div className="text-danger">{JSON.stringify(moreTxns)}Hello</div>
          </div>
           <div  className="pt-2 text-center ten-height">
+          
             {isLoading && <TxnLoader />}
             {(isLoading === false && moreTxns === false && errOcc === false)?<div className={styles.could_not_text}>Genesis Transaction Reached</div>:""}
             {/* <button className="btn btn-light" onClick={() => getPrevNext("next")}>Load More</button> */}

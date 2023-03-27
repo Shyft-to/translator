@@ -68,11 +68,20 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
 
     const getCurrency = async (cluster, address) => {
         try {
-            const res = await getTokenData(cluster, address);
-            if (res.success === true) {
-                setCurrency(res.details.symbol ?? res.details.name ?? "");
+            if(address === "So11111111111111111111111111111111111111112")
+            {
+                setCurrency("SOL");
+                setDataLoaded(true);
             }
-            setDataLoaded(true);
+            else
+            {
+                const res = await getTokenData(cluster, address);
+                if (res.success === true) {
+                    setCurrency(res.details.symbol ?? res.details.name ?? "");
+                }
+                setDataLoaded(true);
+            }
+            
         } catch (error) {
             setCurrencyField(address);
             setDataLoaded(true);
@@ -848,7 +857,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             <div className="d-flex">
                                                 <div className="pe-2">
                                                     <div className={styles.field_sub_1}>
-                                                        Memo
+                                                        Message
                                                     </div>
                                                 </div>
                                                 <div className="pe-2">

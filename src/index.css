@@ -233,8 +233,8 @@ body {
   position: relative;
   z-index: -1;
   background-color: black;
-  margin-top: -800px;
-  margin-bottom: 800px;
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
 
 .could_not_text {
