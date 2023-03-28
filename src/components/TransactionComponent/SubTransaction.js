@@ -924,7 +924,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                             else if (varFields.type === "SHARKYFI_GEN_LOAN") {
                                 return (
                                     <>
-                                        {(varFields.from) ? <div className="row pt-1">
+                                        {(varFields.from && !varFields.to) ? <div className="row pt-1">
                                             <div className="col-12 col-md-6">
                                                 <div className="d-flex">
                                                     <div className="pe-2">
@@ -949,7 +949,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                 </div> : ""}
                                         </div> : ""}
-                                        <div className="row pt-1">
+                                        {(varFields.to && !varFields.from) ? <div className="row pt-1">
                                             <div className="col-12 col-md-6">
                                                 <div className="d-flex">
                                                     <div className="pe-1">
@@ -972,7 +972,31 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
                                                 </div>
                                             </div> : ""}
-                                        </div>
+                                        </div>: ""}
+                                        {(varFields.to && varFields.from) ? <div className="row pt-1">
+                                            <div className="col-12 col-md-6">
+                                                <div className="d-flex">
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                        </div>
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.to}`:`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {(varFields.value) ? <div className="col-12 col-md-6">
+                                                <div className={`text-end ${styles.field_sub_2}`}>
+                                                    {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
+                                                </div>
+                                            </div> : ""}
+                                        </div>: ""}
                                     </>
                                 )
                             }

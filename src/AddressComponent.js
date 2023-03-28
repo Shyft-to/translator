@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useSearchParams, useParams, useNavigate } from "react-router-dom";
-import { categorizeAddress } from "./utils/getAllData";
+import { categorizeAddress,categorizeAddresswithExplorer } from "./utils/getAllData";
 import { shortenAddress } from "./utils/formatter";
 import { motion } from "framer-motion";
 import { FaLink } from "react-icons/fa";
@@ -56,8 +56,8 @@ const AddressComponent = () => {
     const getClassifiedData = async () => {
 
         try {
-            const res = await categorizeAddress(cluster, addr);
-            console.log(res);
+            const res = await categorizeAddresswithExplorer(cluster, addr);
+            //console.log(res);
             if (res.success === true) {
                 setData(res.details);
                 setType(res.type);
@@ -218,6 +218,15 @@ const AddressComponent = () => {
                         <div>
                             <div className="container pt-4">
                                 <TokenExpanded token={data} cluster={cluster} />
+                            </div>
+
+                        </div>
+                    }
+                    {
+                        (contentType === "PROTOCOL") &&
+                        <div>
+                            <div className="container pt-2">
+                                
                             </div>
 
                         </div>

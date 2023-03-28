@@ -360,7 +360,7 @@ export async function categorizeAddresswithExplorer(network, address)
       response = {
         success: true,
         type: "PROTOCOL",
-        details: null,
+        details: [],
       }
     }
     else if(data.addressType === "WALLET")
@@ -390,6 +390,15 @@ export async function categorizeAddresswithExplorer(network, address)
         details: tokenData.details,
       };
     }
+    else if(data.addressType === "CHECKCATEGORYOLD")
+    {
+      const categorizedData = await categorizeAddress(network,address)
+      response = {
+        success: categorizedData.success,
+        type: categorizedData.type,
+        details: categorizedData.details,
+      };
+    }
     else
     {
       response = {
@@ -398,11 +407,12 @@ export async function categorizeAddresswithExplorer(network, address)
         details: null,
       };
     }
-    console.log(response);
-    //return data;
+    //console.log(response);
+    return response;
   } catch (error) {
-    console.log(error);
-    console.log("Some error");
+    //console.log(error);
+    console.log("could not categorize the address");
+    return response;
   }
 }
 export async function knowAddressType(network,address)
@@ -456,49 +466,58 @@ export async function knowAddressType(network,address)
         if(Array.isArray(res.data.result.value))
         {
           let valueReceived = res.data.result.value[0];
-          if(valueReceived.executable === true)
+          if(valueReceived === null)
           {
             typeObj = {
-              addressType: "PROTOCOL"
+              addressType: "CHECKCATEGORYOLD"
             }
           }
           else
           {
-            
-            if(valueReceived.owner === "11111111111111111111111111111111")
-            {
-              typeObj = {
-                addressType: "WALLET"
-              }
-            }
-            else if(valueReceived.data.program === "spl-token")
-            {
-              
-              if(valueReceived.data.parsed.info.decimals === 0)
+              if(valueReceived.executable === true)
               {
                 typeObj = {
-                  addressType: "NFT"
-                }
-              }
-              else if(valueReceived.data.parsed.info.decimals > 0)
-              {
-                typeObj = {
-                  addressType: "TOKEN"
+                  addressType: "PROTOCOL"
                 }
               }
               else
               {
-                typeObj = {
-                  addressType: "UNKNOWN"
+                
+                if(valueReceived.owner === "11111111111111111111111111111111")
+                {
+                  typeObj = {
+                    addressType: "WALLET"
+                  }
                 }
-              }
-            }
-            else
-            {
-              typeObj = {
-                addressType: "UNKNOWN"
-              }
-            }
+                else if(valueReceived.data.program === "spl-token")
+                {
+                  
+                  if(valueReceived.data.parsed.info.decimals === 0)
+                  {
+                    typeObj = {
+                      addressType: "NFT"
+                    }
+                  }
+                  else if(valueReceived.data.parsed.info.decimals > 0)
+                  {
+                    typeObj = {
+                      addressType: "TOKEN"
+                    }
+                  }
+                  else
+                  {
+                    typeObj = {
+                      addressType: "UNKNOWN"
+                    }
+                  }
+                }
+                else
+                {
+                  typeObj = {
+                    addressType: "UNKNOWN"
+                  }
+                }
+              }   
           }
         }
         else
