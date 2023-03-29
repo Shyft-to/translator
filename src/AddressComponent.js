@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useSearchParams, useParams, useNavigate } from "react-router-dom";
-import { categorizeAddress,categorizeAddresswithExplorer } from "./utils/getAllData";
+import { categorizeAddresswithExplorer,clearIfOutdated } from "./utils/getAllData";
 import { shortenAddress } from "./utils/formatter";
 import { motion } from "framer-motion";
 import { FaLink } from "react-icons/fa";
@@ -49,6 +49,7 @@ const AddressComponent = () => {
         setLoading(true);
         // setCurrentCuster(cluster);
         // console.log(cluster);
+        clearIfOutdated();
         getClassifiedData();
     }, [addr, cluster]);
     

@@ -1,10 +1,13 @@
 import axios from "axios";
+import moment from "moment";
 import { getDomainKeySync, NameRegistryState } from "@bonfida/spl-name-service";
 import { Connection } from "@solana/web3.js";
+
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
 const rpc = process.env.REACT_APP_RPC_MAINNET ?? "";
-
+const cachingEnabled = process.env.REACT_APP_CACHE_ENABLE ?? "";
+const cacheRefreshAfterMins = Number(process.env.REACT_APP_REFRESH_AFTER_MINS ?? 0);
 
 export async function getNFTData(network, address) {
   var data = {
@@ -12,30 +15,41 @@ export async function getNFTData(network, address) {
     type: "UNKNOWN",
     details: null,
   };
-  await axios({
-    url: `${endpoint}nft/read`,
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": xKey,
-    },
-    params: {
-      network: network,
-      token_address: address,
-    },
-  })
-    .then((res) => {
-      if (res.data.success === true) {
-        data = {
-          success: true,
-          type: "NFT",
-          details: res.data.result,
-        };
-      }
+  const ifCached = await getCacheData(network, address);
+  if (ifCached.success === true) {
+    data = {
+      success: true,
+      type: "NFT",
+      details: ifCached.details
+    };
+  }
+  else {
+    await axios({
+      url: `${endpoint}nft/read`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: {
+        network: network,
+        token_address: address,
+      },
     })
-    .catch((err) => {
-      console.warn(err);
-    });
+      .then((res) => {
+        if (res.data.success === true) {
+          data = {
+            success: true,
+            type: "NFT",
+            details: res.data.result,
+          };
+          pushDatatoCache(network, res.data.result, res.data.result.mint);
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  }
 
   return data;
 }
@@ -46,30 +60,41 @@ export async function getTokenData(network, address) {
     type: "UNKNOWN",
     details: null,
   };
-  await axios({
-    url: `${endpoint}token/get_info`,
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": xKey,
-    },
-    params: {
-      network: network,
-      token_address: address,
-    },
-  })
-    .then((res) => {
-      if (res.data.success === true) {
-        data = {
-          success: true,
-          type: "TOKEN",
-          details: res.data.result,
-        };
-      }
+  const ifCached = await getCacheData(network, address);
+  if (ifCached.success === true) {
+    data = {
+      success: true,
+      type: "TOKEN",
+      details: ifCached.details,
+    };
+  }
+  else {
+    await axios({
+      url: `${endpoint}token/get_info`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: {
+        network: network,
+        token_address: address,
+      },
     })
-    .catch((err) => {
-      console.warn(err);
-    });
+      .then((res) => {
+        if (res.data.success === true) {
+          data = {
+            success: true,
+            type: "TOKEN",
+            details: res.data.result,
+          };
+          pushDatatoCache(network, res.data.result, res.data.result.address);
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  }
 
   return data;
 }
@@ -546,101 +571,142 @@ export async function getAddressfromDomain(domainName) {
 
 }
 
-export async function pushDatatoCache(data, network) {
+export async function pushDatatoCache(network, data, key) {
   try {
-    let cachedData;
-    if (network === "mainnet-beta") {
-      cachedData = localStorage.getItem("mainData");
-    }
-    else if (network === "devnet") {
-      cachedData = localStorage.getItem("devData");
-    }
-    else {
-      cachedData = localStorage.getItem("testData");
-    }
-
-    if (cachedData) {
-
-      let dataSet = new Map(JSON.parse(cachedData));
-      dataSet.set(data.mint, JSON.stringify(data));
-
-      // console.log(JSON.stringify(Array.from(dataSet.entries())));
-      const valueToStore = JSON.stringify(Array.from(dataSet.entries()))
-
+    if (cachingEnabled === "true") {
+      let cachedData;
       if (network === "mainnet-beta") {
-        localStorage.setItem("mainData", valueToStore);
+        cachedData = localStorage.getItem("mainData");
       }
       else if (network === "devnet") {
-        localStorage.setItem("devData", valueToStore);
+        cachedData = localStorage.getItem("devData");
       }
       else {
-        localStorage.setItem("testData", valueToStore);
+        cachedData = localStorage.getItem("testData");
       }
 
-      return true;
+      if (cachedData) {
+
+        let dataSet = new Map(JSON.parse(cachedData));
+        dataSet.set(key, JSON.stringify(data));
+
+        // console.log(JSON.stringify(Array.from(dataSet.entries())));
+        const valueToStore = JSON.stringify(Array.from(dataSet.entries()))
+
+        if (network === "mainnet-beta") {
+          localStorage.setItem("mainData", valueToStore);
+        }
+        else if (network === "devnet") {
+          localStorage.setItem("devData", valueToStore);
+        }
+        else {
+          localStorage.setItem("testData", valueToStore);
+        }
+
+        return true;
+      }
+      else {
+        let dataSet = new Map();
+        dataSet.set(key, JSON.stringify(data));
+        // console.log(":new");
+        // console.log(JSON.stringify(Array.from(dataSet.entries())));
+        const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
+        if (network === "mainnet-beta") {
+          localStorage.setItem("mainData", valueToStore);
+        }
+        else if (network === "devnet") {
+          localStorage.setItem("devData", valueToStore);
+        }
+        else {
+          localStorage.setItem("testData", valueToStore);
+        }
+
+        return true;
+      }
     }
     else {
-      let dataSet = new Map();
-      dataSet.set(data.mint, JSON.stringify(data));
-      // console.log(":new");
-      // console.log(JSON.stringify(Array.from(dataSet.entries())));
-      const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
-      if (network === "mainnet-beta") {
-        localStorage.setItem("mainData", valueToStore);
-      }
-      else if (network === "devnet") {
-        localStorage.setItem("devData", valueToStore);
-      }
-      else {
-        localStorage.setItem("testData", valueToStore);
-      }
-
-      return true;
+      return false;
     }
+
   } catch (error) {
     console.log("Could not save NFT data");
     return false;
   }
 
 }
-export async function getCacheData(key, network) {
+export async function getCacheData(network, address) {
   var data = {
     success: false,
-    type: "UNKNOWN",
     details: null,
   };
   try {
-    let dataFromMem;
-    if (network === "mainnet-beta") {
-      dataFromMem = localStorage.getItem("mainData");
-    }
-    else if (network === "devnet") {
-      dataFromMem = localStorage.getItem("devData");
-    }
-    else {
-      dataFromMem = localStorage.getItem("testData");
-    }
-
-    if (dataFromMem) {
-      const cachedData = new Map(JSON.parse(dataFromMem));
-      const token = cachedData.get(key);
-      if (token) {
-        data = {
-          success: true,
-          details: JSON.parse(token)
-        }
+    if (cachingEnabled === "true") {
+      let dataFromMem;
+      if (network === "mainnet-beta") {
+        dataFromMem = localStorage.getItem("mainData");
+      }
+      else if (network === "devnet") {
+        dataFromMem = localStorage.getItem("devData");
+      }
+      else {
+        dataFromMem = localStorage.getItem("testData");
       }
 
+      if (dataFromMem) {
+        const cachedData = new Map(JSON.parse(dataFromMem));
+        const token = cachedData.get(address);
+        if (token) {
+          data = {
+            success: true,
+            details: JSON.parse(token)
+          }
+        }
+      }
+      else {
+        data = {
+          success: false,
+          details: null,
+        };
+      }
     }
-    else {
-      data = {
-        success: false,
-        type: "UNKNOWN",
-        details: null,
-      };
-    }
+
     return data;
   } catch (error) {
     return data;
   }
+}
+export async function clearIfOutdated() {
+  try {
+    if(cachingEnabled === "true" && cacheRefreshAfterMins > 0)
+    {
+      const lastCachedTime = localStorage.getItem("lastcatime");
+      const timeNow = new Date().toISOString();
+      if (lastCachedTime) {
+        const timeDiff = moment(timeNow).diff(moment(lastCachedTime), 'minutes', true);
+        if (timeDiff > cacheRefreshAfterMins) {
+          localStorage.setItem("mainData", "");
+          localStorage.setItem("devData", "");
+          localStorage.setItem("testData", "");
+          localStorage.setItem("lastcatime", timeNow);
+          console.log("All cached data cleared");
+          return true;
+        }
+        else
+          return false;
+  
+      }
+      else {
+        localStorage.setItem("lastcatime", timeNow);
+        return false;
+      }
+    }
+    else
+    {
+      return false;
+    }
+    
+  } catch (error) {
+    return false;
+  }
+
 }

@@ -1,6 +1,5 @@
 import NFTs from "./nft";
 import styles from '../resources/css/Nft.module.css';
-import { Link } from "react-router-dom";
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
@@ -46,8 +45,8 @@ const AllNfts = ({collections,address,network}) => {
                     dots={false}
                 >
                     
-                    {collections.map(coll => (
-                        <div>
+                    {collections.map((coll,index) => (
+                        <div key={index}>
                             <NFTs collection={coll} address={address} network={network} />
                         </div>
                     ))}
