@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState,useRef } from "react";
 import { useInView } from 'react-intersection-observer'; 
-
+import { AnimatePresence } from "framer-motion";
 
 import styles from "../../resources/css/Transactions.module.css";
 import TxnLoader from "../loaders/TxnLoader";
+import LiveTransactions from "./LiveTransactions";
 // import TokenTransfer from "./TokenTransfer";
 import TransactionStructureToken from "./TransactionsStructureToken";
+
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
@@ -26,6 +28,7 @@ const Transactions = ({ address, cluster }) => {
   const [firstTxn,setFirstTxn] = useState("");
   const [recall,setRecall] = useState(false);
   const [timer,setTimer] = useState(0);
+  const [liveTxns,setLiveTxns] = useState([]);
   
 
   const {ref,inView} = useInView();
@@ -51,6 +54,7 @@ const Transactions = ({ address, cluster }) => {
   useEffect(() => {
     setLoading(true);
     setTxns([]);
+    setLiveTxns([]);
     var params = {
       network: cluster,
       account: address,
@@ -191,7 +195,7 @@ const Transactions = ({ address, cluster }) => {
                     txnsToAppend.push(txnReceived[index]);
                 }
                 console.log("New txns received: ",txnsToAppend.length)
-                setTxns([...txnReceived,...txns]);
+                setTxns([...txnReceived,...liveTxns]);
                 setFirstTxn(txnReceived[0].signatures[0])
               }
             }
@@ -204,18 +208,18 @@ const Transactions = ({ address, cluster }) => {
     }
   }, [recall]);
 
-  useEffect(() => {
-    setTimeout(() => {
+  // useEffect(() => {
+  //   setTimeout(() => {
       
-      if(timer === 0)
-      {
-        setTimer(10);
-        setRecall(!recall);
-      }
-      else
-        setTimer(timer-1);
-    }, 1000);
-  }, [timer])
+  //     if(timer === 0)
+  //     {
+  //       setTimer(10);
+  //       setRecall(!recall);
+  //     }
+  //     else
+  //       setTimer(timer-1);
+  //   }, 1000);
+  // }, [timer])
   
   
   return (
@@ -223,23 +227,23 @@ const Transactions = ({ address, cluster }) => {
       <div className={styles.txn_section}>
       
         <h3 className={styles.main_heading}></h3>
-
-        {/* <div className={styles.all_txn_container}>
-          <TransactionStructure styles={styles} />
-        </div> */}
+        <div className={styles.refresh_section}>
+          Auto Refreshing in 3 secs
+        </div>
         
         <div className={styles.all_txn_container}>
-         {/* {
-            (txns.length>0)?
-                (
-                    txns.map((each_txn) => <TokenTransfer styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} />)
-                ):""
-            
-         } */}
+          <AnimatePresence initial={false}>
+          {
+            (liveTxns.length>0)?
+            (
+                liveTxns.map((each_txn) => <LiveTransactions styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster}/>)
+            ):""
+          }
+         </AnimatePresence>
          {
             (txns.length>0)?
                 (
-                    txns.map((each_txn) => <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster}/>)
+                    txns.map((each_txn,index) => <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} key={index}/>)
                 ):""
             
          }
