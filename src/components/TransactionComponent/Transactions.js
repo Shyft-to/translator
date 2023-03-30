@@ -23,6 +23,11 @@ const Transactions = ({ address, cluster }) => {
 
   const [moreTxns,setMoreTxns] = useState(false);
 
+  const [firstTxn,setFirstTxn] = useState("");
+  const [recall,setRecall] = useState(false);
+  const [timer,setTimer] = useState(0);
+  
+
   const {ref,inView} = useInView();
 
   // const loadMoreArea = useRef(null);
@@ -78,8 +83,9 @@ const Transactions = ({ address, cluster }) => {
           setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
           setTxnOne(txnReceived[0].signatures[0]);
           setTxns(txnReceived);
-          
+          setFirstTxn(txnReceived[0].signatures[0]);
           setMoreTxns(true);
+          
           // if(txnReceived.length>=10)
           // {
           //   setMoreTxns(true);
@@ -150,6 +156,68 @@ const Transactions = ({ address, cluster }) => {
       });
   };
 
+
+  //getting live txns
+  useEffect(() => {
+    
+    if(firstTxn != "")
+    {
+      
+      // setTimeout(() => {
+        console.log("Starting to get more txns");
+        var params = {
+          network: cluster,
+          account: address,
+        };
+        axios({
+          url: `${endpoint}transaction/history`,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": xKey,
+          },
+          params: params,
+        })
+          .then((res) => {
+            if (res.data.success === true && res.data.result.length > 0) {
+              const txnReceived = res.data.result;
+              let txnsToAppend = [];
+              if(txnReceived[0].signatures[0] !== firstTxn)
+              {
+                for (let index = 0; index < txnReceived.length; index++) {
+                  if(txnReceived[index].signatures[0] === firstTxn)
+                    break;
+                  else
+                    txnsToAppend.push(txnReceived[index]);
+                }
+                console.log("New txns received: ",txnsToAppend.length)
+                setTxns([...txnReceived,...txns]);
+                setFirstTxn(txnReceived[0].signatures[0])
+              }
+            }
+            
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      // }, 10000);
+    }
+  }, [recall]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      
+      if(timer === 0)
+      {
+        setTimer(10);
+        setRecall(!recall);
+      }
+      else
+        setTimer(timer-1);
+    }, 1000);
+  }, [timer])
+  
+  
   return (
     <div>
       <div className={styles.txn_section}>
