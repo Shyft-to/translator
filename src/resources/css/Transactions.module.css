@@ -588,9 +588,24 @@
 .refresh_section
 {
     background-color: #080012bb;
-    padding: 16px 20px 20px;
+    padding: 16px 20px;
     margin-bottom: 16px;
     border-radius: 8px;
     font: 300 14px/14px "Plus Jakarta Sans",sans-serif;
     color: #FFF;
+    position: relative;
+}
+.refresh_section .loading_image
+{
+    display: inline;
+    width: 22px;
+    margin-right: 8px;
+}
+.refresh_section .duration_image
+{
+    display: inline;
+    width: 12px;
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: -2px;
 }

@@ -18,6 +18,7 @@ import list from "../../resources/images/txnImages/list.svg";
 import mint from "../../resources/images/txnImages/mint.svg";
 import loan from "../../resources/images/txnImages/loan.png";
 import solSmall from "../../resources/images/txnImages/sol_small.png";
+import duration from "../../resources/images/txnImages/duration.png";
 import memo from "../../resources/images/txnImages/memo.png";
 import memo_small from "../../resources/images/txnImages/memo_small.png"
 import noImage from "../../resources/images/txnImages/unknown_token.png";
@@ -996,6 +997,26 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
                                                 </div>
                                             </div> : ""}
+                                        </div>: ""}
+                                        {(varFields.symbol) ? <div className="row">
+                                            <div className="col-12 col-md-12">
+                                                <div className="d-flex">
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            Duration
+                                                        </div>
+                                                    </div>
+                                                    <div className="ps-1 pe-2">
+                                                        <img src={duration} alt="" style={{ width: "13px", marginTop: "-1px" }} />
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            {varFields.symbol}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                         </div>: ""}
                                     </>
                                 )

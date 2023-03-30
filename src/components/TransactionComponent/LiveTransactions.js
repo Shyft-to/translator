@@ -83,7 +83,7 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
     return (
         <div>
             {/* <AnimatePresence initial={false}> */}
-                <motion.div initial={{ opacity: 0,scale:0.5 }} animate={{ opacity: 1,scale:1 }} className={styles.each_txn_3}>
+                <motion.div initial={{ opacity: 0,scale:0.5 }} animate={{ opacity: 1,scale:1 }} transition={{ ease: "linear", duration: 0.4 }} className={styles.each_txn_3}>
                     <div className={styles.toggle_button}>
                         <div className="pe-3">
                             <Tooltip
