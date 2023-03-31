@@ -234,6 +234,73 @@ export async function getWalletData(network, address) {
     };
   }
 }
+export async function getProtocolData(network, address) {
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+
+  try {
+    await axios({
+      url: `${endpoint}wallet/balance`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: {
+        network: network,
+        wallet: address,
+      },
+    })
+      .then((res) => {
+        if (res.data.success === true) {
+          data = {
+            success: true,
+            type: "PROTOCOL",
+            details: {
+              balance: res.data.result.balance ?? 0
+            },
+          };
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+        data = {
+          success: false,
+          type: "UNKOWN",
+          details: 0,
+        };
+      });
+
+    
+    // if (Object.keys(details).length === 0) {
+    //   data = {
+    //     success: false,
+    //     type: "UNKNOWN",
+    //     details: details,
+    //   };
+    // }
+    // else {
+    //   data = {
+    //     success: true,
+    //     type: "WALLET",
+    //     details: details,
+    //   };
+    // }
+
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      type: "UNKNOWN",
+      details: null,
+    };
+  }
+}
 
 export async function getAllTokens(network, address) {
   var data = {
@@ -376,10 +443,11 @@ export async function categorizeAddresswithExplorer(network, address) {
   try {
     const data = await knowAddressType(network, address);
     if (data.addressType === "PROTOCOL") {
+      const protocolData = await getProtocolData(network, address);
       response = {
-        success: true,
-        type: "PROTOCOL",
-        details: [],
+        success: protocolData.success,
+        type: protocolData.type,
+        details: protocolData.details
       }
     }
     else if (data.addressType === "WALLET") {

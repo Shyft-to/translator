@@ -69,20 +69,18 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
 
     const getCurrency = async (cluster, address) => {
         try {
-            if(address === "So11111111111111111111111111111111111111112")
-            {
+            if (address === "So11111111111111111111111111111111111111112") {
                 setCurrency("SOL");
                 setDataLoaded(true);
             }
-            else
-            {
+            else {
                 const res = await getTokenData(cluster, address);
                 if (res.success === true) {
                     setCurrency(res.details.symbol ?? res.details.name ?? "");
                 }
                 setDataLoaded(true);
             }
-            
+
         } catch (error) {
             setCurrencyField(address);
             setDataLoaded(true);
@@ -246,7 +244,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
 
                 setRelField(data.info.nft_address ?? "");
                 setCurrencyField(data.info.currency ?? "");
-            }else if (data.type === "NFT_LIST_UPDATE") {
+            } else if (data.type === "NFT_LIST_UPDATE") {
                 type_obj = {
                     type: "NFT_LIST_UPDATE",
                     from: formatLamports(data.info.old_price ?? "--"),
@@ -336,7 +334,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
             }
             else if (data.type === "TAKE_LOAN") {
                 type_obj = {
-                    type: "SHARKYFI_GEN_LOAN",
+                    type: "TAKE_LOAN",
                     from: data.info.lender ?? "--",
                     to: data.info.borrower ?? "--",
                     token: "--",
@@ -450,7 +448,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
         <div className={styles.sub_txns} ref={ref}>
             <div className="d-flex">
                 <div className={styles.thumb_container}>
-                    {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") && relField !== "") ? <a href={(cluster==="mainnet-beta")?`/address/${relField}`:`/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" onError={({ currentTarget }) => {
+                    {((data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") && relField !== "") ? <a href={(cluster === "mainnet-beta") ? `/address/${relField}` : `/address/${relField}?cluster=${cluster}`}><img src={image} alt="token" onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
                         currentTarget.src = noImage;
                     }} /></a> : <img src={image} onError={({ currentTarget }) => {
@@ -464,10 +462,10 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                             <div>
                                 {/* {name || relField || "Unknown"} */}
                                 {
-                                    (data.type === "OFFER_LOAN" || data.type =="CANCEL_LOAN") ?
-                                        ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a>: "--" )
-                                    :
-                                    (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL"|| data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
+                                    (data.type === "OFFER_LOAN" || data.type == "CANCEL_LOAN") ?
+                                        ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a> : "--")
+                                        :
+                                        (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
                                 }
                             </div>
 
@@ -513,7 +511,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
                                                             {/* <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link> */}
-                                                            <a href={(cluster=="mainnet-beta")?`/address/${varFields.to}`:`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+                                                            <a href={(cluster == "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -539,7 +537,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -584,7 +582,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     <div className="d-flex">
                                                         <div className="pe-1">
                                                             <div className={styles.field_sub_1}>
-                                                                <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                                <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
                                                             </div>
                                                         </div>
                                                         <div className="pe-1">
@@ -592,7 +590,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                         </div>
                                                         <div className="pe-1">
                                                             <div className={styles.field_sub_1}>
-                                                                <a href={(cluster==="mainnet-beta")?`/address/${varFields.to}`:`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+                                                                <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -714,7 +712,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                        <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                        <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -745,7 +743,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -771,7 +769,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.to}`:`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -847,7 +845,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                        {shortenAddress(varFields.symbol)}
+                                                        <a href={(cluster === "mainnet-beta") ? `/address/${varFields.symbol}` : `/address/${varFields.symbol}?cluster=${cluster}`} aria-label={varFields.symbol} data-balloon-pos="up">{shortenAddress(varFields.symbol)}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -870,7 +868,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                        <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                        <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -900,7 +898,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                        <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                        <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -930,7 +928,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 </div>
                                                 <div className="pe-1">
                                                     <div className={styles.field_sub_1}>
-                                                        <a href={(cluster==="mainnet-beta")?`/address/${varFields.to}`:`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+                                                        <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -991,7 +989,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-2">
                                                         <div className={styles.field_sub_1}>
-                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1016,7 +1014,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.to}`:`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1026,13 +1024,13 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
                                                 </div>
                                             </div> : ""}
-                                        </div>: ""}
+                                        </div> : ""}
                                         {(varFields.to && varFields.from) ? <div className="row pt-1">
                                             <div className="col-12 col-md-6">
                                                 <div className="d-flex">
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.from}`:`/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
                                                         </div>
                                                     </div>
                                                     <div className="pe-1">
@@ -1040,7 +1038,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                     <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
-                                                            <a href={(cluster==="mainnet-beta")?`/address/${varFields.to}`:`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1050,7 +1048,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
                                                 </div>
                                             </div> : ""}
-                                        </div>: ""}
+                                        </div> : ""}
                                         {(varFields.symbol) ? <div className="row">
                                             <div className="col-12 col-md-12">
                                                 <div className="d-flex">
@@ -1069,8 +1067,112 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                        </div>: ""}
+
+                                        </div> : ""}
+                                    </>
+                                )
+                            }
+                            else if (varFields.type === "TAKE_LOAN") {
+                                return (
+                                    <>
+                                        {(varFields.from && !varFields.to) ? <div className="row pt-1">
+                                            <div className="col-12 col-md-6">
+                                                <div className="d-flex">
+                                                    <div className="pe-2">
+                                                        <div className={styles.field_sub_1}>
+                                                            Borrowed From
+                                                        </div>
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                    </div>
+                                                    <div className="pe-2">
+                                                        <div className={styles.field_sub_1}>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {(varFields.symbol) ?
+                                                <div className="col-12 col-md-6">
+                                                    <div className={`text-end ${styles.field_sub_2}`}>
+                                                        {varFields.symbol}
+                                                    </div>
+                                                </div> : ""}
+                                        </div> : ""}
+                                        {(varFields.to && !varFields.from) ? <div className="row pt-1">
+                                            <div className="col-12 col-md-6">
+                                                <div className="d-flex">
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            Borrowed By
+                                                        </div>
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <img src={arrow_rev} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {(varFields.value) ? <div className="col-12 col-md-6">
+                                                <div className={`text-end ${styles.field_sub_2}`}>
+                                                    {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
+                                                </div>
+                                            </div> : ""}
+                                        </div> : ""}
+                                        {(varFields.to && varFields.from) ? <div className="row pt-1">
+                                            <div className="col-12 col-md-6">
+                                                <div className="d-flex">
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</a>
+
+                                                        </div>
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        {/* <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} /> */}
+                                                        <div className={styles.field_sub_3}>
+                                                            took a loan from
+                                                        </div>
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{shortenAddress(varFields.from)}</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {(varFields.value) ? <div className="col-12 col-md-6">
+                                                <div className={`text-end ${styles.field_sub_2}`}>
+                                                    {varFields.value} {(varFields.token === "SOL") ? "SOL" : ""}
+                                                </div>
+                                            </div> : ""}
+                                        </div> : ""}
+                                        {(varFields.symbol) ? <div className="row">
+                                            <div className="col-12 col-md-12">
+                                                <div className="d-flex">
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            Duration
+                                                        </div>
+                                                    </div>
+                                                    <div className="ps-1 pe-2">
+                                                        <img src={duration} alt="" style={{ width: "13px", marginTop: "-1px" }} />
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            {varFields.symbol}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div> : ""}
                                     </>
                                 )
                             }

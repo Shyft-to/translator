@@ -225,11 +225,74 @@ const AddressComponent = () => {
                     }
                     {
                         (contentType === "PROTOCOL") &&
-                        <div>
-                            <div className="container pt-2">
-                                
-                            </div>
+                        <div className="container pb-3 pt-1">
+                            <motion.div className={styles.heading_section} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                                <div className="row">
+                                    <div className="col-6 col-lg-6">
+                                        <div className={styles.main_heading}>
+                                            <div className="d-flex">
+                                                <div className="pe-2">{shortenAddress(addr)}</div>
+                                                <div>
 
+                                                    <Tooltip
+                                                        content={copied}
+                                                        className="myTarget"
+                                                        direction="up"
+                                                        // eventOn="onClick"
+                                                        // eventOff="onMouseLeave"
+                                                        useHover={true}
+                                                        background="#101010"
+                                                        color="#fefefe"
+                                                        arrowSize={5}
+
+                                                    >
+                                                        <button className={styles.copy_button} onClick={() => copyValue(addr)}>
+                                                            <img src={copyIcon} alt="Copy Image" />
+                                                        </button>
+                                                    </Tooltip>
+
+                                                </div>
+                                                <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
+                                                    <Tooltip
+                                                            content={copyLink}
+                                                            className="myTarget"
+                                                            direction="up"
+                                                            // eventOn="onClick"
+                                                            // eventOff="onMouseLeave"
+                                                            useHover={true}
+                                                            background="#101010"
+                                                            color="#fefefe"
+                                                            arrowSize={5}
+
+                                                        >
+                                                        <button className="copy_link" onClick={() => copyValue((cluster==='mainnet-beta')?`https://translator.shyft.to/address/${addr}`:`https://translator.shyft.to/address/${addr}?cluster=${cluster}`, true)}>
+                                                            <FaLink />
+                                                        </button>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
+                                            {/*<span>Space Overview</span> */}
+
+
+                                        </div>
+                                    </div>
+                                    <div className="col-6 col-lg-4 text-end">
+                                        <div className={styles.wallet_balance_indicator}>
+                                            {data.balance} SOL
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-lg-2 text-end">
+                                        <div className="select_container">
+                                            <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
+                                                <option value="mainnet-beta">Mainnet</option>
+                                                <option value="devnet">Devnet</option>
+                                                <option value="testnet">Testnet</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </motion.div>
                         </div>
                     }
 
