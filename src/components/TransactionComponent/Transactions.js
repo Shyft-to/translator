@@ -12,11 +12,12 @@ import TransactionStructureToken from "./TransactionsStructureToken";
 import staticRefresh from "../../resources/images/txnImages/refresh_static.png";
 import rotateRefresh from "../../resources/images/txnImages/refresh_rotate.gif";
 import duration from "../../resources/images/txnImages/duration.png";
+import { AnimatePresence } from "framer-motion";
 
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
-// const refreshCounter = Number(process.env.REACT_APP_REFRESH_FEED_AFTER_MINS ?? 0)
+const refreshCounter = Number(process.env.REACT_APP_REFRESH_FEED_AFTER_SECS ?? "0")
 
 const Transactions = ({ address, cluster }) => {
   const [loaded, setLoaded] = useState(false);
@@ -32,7 +33,7 @@ const Transactions = ({ address, cluster }) => {
 
   const [firstTxn, setFirstTxn] = useState("");
   const [recall, setRecall] = useState(false);
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(refreshCounter);
   const [liveTxns, setLiveTxns] = useState([]);
 
 
@@ -92,7 +93,7 @@ const Transactions = ({ address, cluster }) => {
             setTxns(txnReceived);
             setFirstTxn(txnReceived[0].signatures[0]);
             setMoreTxns(true);
-
+            
 
           }
           setLoading(false);
@@ -195,10 +196,12 @@ const Transactions = ({ address, cluster }) => {
                 setFirstTxn(txnReceived[0].signatures[0]);
               }
             }
-            setTimer(30);
+            if(refreshCounter)
+              setTimer(refreshCounter);
           })
           .catch((err) => {
             console.log(err);
+            setTimer(30);
           });
       }
 
@@ -207,13 +210,15 @@ const Transactions = ({ address, cluster }) => {
   }, [recall]);
 
   useEffect(() => {
-    setTimeout(() => {
-
-      if (timer === 0)
-        setRecall(!recall);
-      else
-        setTimer(timer - 1);
-    }, 1000);
+    if(refreshCounter)
+    {
+      setTimeout(() => {
+        if (timer === 0)
+          setRecall(!recall);
+        else
+          setTimer(timer - 1);
+      }, 1000);
+    }
   }, [timer]);
 
 
@@ -223,26 +228,27 @@ const Transactions = ({ address, cluster }) => {
 
         <h3 className={styles.main_heading}></h3>
         {
-          (timer === 0) ?
+          (refreshCounter)?((timer === 0) ?
             <div className={styles.refresh_section}>
               <img src={rotateRefresh} className={styles.loading_image} alt="loading" /> Refreshing
             </div>
             :
             <div className={styles.refresh_section}>
-              <img src={staticRefresh} className={styles.loading_image} alt="loading" /> Auto Refreshing in <img src={duration} className={styles.duration_image} alt="duration" /> {timer} secs
-            </div>
+              <img src={staticRefresh} className={styles.loading_image} alt="loading" /> Refreshing in <img src={duration} className={styles.duration_image} alt="duration" /> {timer} secs
+            </div>):(<div></div>)
         }
 
 
 
         <div className={styles.all_txn_container}>
+          <AnimatePresence>
             {
               (liveTxns.length > 0) ?
                 (
-                  liveTxns.map((each_txn) => <LiveTransactions styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} />)
+                  liveTxns.map((each_txn,index) => <LiveTransactions styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} key={liveTxns.length - index}/>)
                 ) : ""
             }
-          
+          </AnimatePresence>
           {
             (txns.length > 0) ?
               (

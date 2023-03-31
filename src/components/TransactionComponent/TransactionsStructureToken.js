@@ -64,6 +64,11 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                 }
             });
         }
+        if(data.type === "NFT_LIST_UPDATE")
+        {
+            setTxType("Listing Price Update")
+            
+        }
         try {
             if(data.actions.length > 0)
             {

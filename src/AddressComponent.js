@@ -237,7 +237,7 @@ const AddressComponent = () => {
                 <div className="container-lg pt-2">
                     <div className={styles.tab_container}>
                         <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("TXN")}>
-                            Activity
+                            Live Activity
                             {(panel === "TXN") ? <div className={styles.underline} /> : ""}
                         </button>
                         <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("TKN")}>

@@ -246,6 +246,19 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
 
                 setRelField(data.info.nft_address ?? "");
                 setCurrencyField(data.info.currency ?? "");
+            }else if (data.type === "NFT_LIST_UPDATE") {
+                type_obj = {
+                    type: "NFT_LIST_UPDATE",
+                    from: formatLamports(data.info.old_price ?? "--"),
+                    to: formatLamports(data.info.new_price ?? "--"),
+                    token: "--",
+                    action: "--",
+                    value: "",
+                    symbol: data.info.seller ?? "--"
+                }
+
+                setRelField(data.info.nft_address ?? "");
+                setCurrencyField(data.info.currency ?? "");
             } else if (data.type === "NFT_BID") {
                 type_obj = {
                     type: "NFT_BID",
@@ -454,7 +467,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                     (data.type === "OFFER_LOAN" || data.type =="CANCEL_LOAN") ?
                                         ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a>: "--" )
                                     :
-                                    (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
+                                    (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL"|| data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
                                 }
                             </div>
 
@@ -796,6 +809,46 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             <div className={`text-end ${styles.field_sub_1}`}>
                                                 <div className={styles.plus}>
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            else if (varFields.type === "NFT_LIST_UPDATE") {
+                                return (
+                                    <div className="row pt-1">
+                                        <div className="col-12 col-md-12">
+                                            <div className="d-flex">
+                                                <div className="pe-2">
+                                                    <div className={styles.field_sub_1}>
+                                                        {varFields.from} {currency}
+                                                    </div>
+                                                </div>
+                                                <div className="pe-2">
+                                                    <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                </div>
+                                                <div className="pe-1">
+                                                    <div className={styles.field_sub_1}>
+                                                        {varFields.to} {currency}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-12 col-md-12">
+                                            <div className="d-flex">
+                                                <div className="pe-2">
+                                                    <div className={styles.field_sub_1}>
+                                                        Updated by
+                                                    </div>
+                                                </div>
+                                                <div className="pe-3">
+                                                    <img src={list} alt="" style={{ width: "14px", marginTop: "-4px" }} />
+                                                </div>
+                                                <div className="pe-1">
+                                                    <div className={styles.field_sub_1}>
+                                                        {shortenAddress(varFields.symbol)}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
