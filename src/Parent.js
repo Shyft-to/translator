@@ -16,7 +16,7 @@ const Parent = () => {
                 <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/address/:addr" element={<AddressComponent />} />
-                {/* <Route exact path="/tx/:txn" element={<TxnComponent />} /> */}
+                <Route exact path="/tx/:txn" element={<TxnComponent />} />
                 <Route exact path="/collections/:addr" element={<CollectionsComponent />} />
                 <Route exact path="/collection/:addr" element={<SingleCollectionComponent />} />
                 {/* <Route exact path="/:type/:addr" element={<TokenComponent />} /> */}
