@@ -123,9 +123,9 @@ const AddressComponent = () => {
                 {!isLoading && <div>
                     {
                         (errOccured) && 
-                            <div className="pt-3 text-center conttainer">
+                            <div className="pt-3 text-center container">
                                 <div className="not_found_text">
-                                    Data not found, please enter a valid on-chain account address 
+                                    No Data Found
                                 </div>
                             </div>
                     }

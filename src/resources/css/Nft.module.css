@@ -55,7 +55,7 @@
     background-color: #3C1B67;
     width: 180px;
     /* min-height: 180px; */
-    padding: 12px 12px 0px;
+    padding: 10px 10px 0px;
     border-radius: 20px;
     z-index: 2;
     transform: rotate(8deg);
@@ -78,10 +78,11 @@
 }
 .nft_container .image_container
 {
-    width: 150px;
+    width: 100%;
     display: block;
     margin: 0 auto;
-    height: 140px;
+    height: 150px;
+    
 }
 .nft_container .image_container img
 {
@@ -179,7 +180,7 @@
     height: 40px;
     background: radial-gradient(41.93% 45% at 48.75% 48.75%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1855) 44.44%, rgba(255, 255, 255, 0.35) 100%);
     position: absolute;
-    left: -20px;
+    left: -40px;
     top: 38%;
     border-radius: 20px;
     font-size: 50px;
@@ -194,7 +195,7 @@
     height: 40px;
     background: radial-gradient(41.93% 45% at 48.75% 48.75%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1855) 44.44%, rgba(255, 255, 255, 0.35) 100%);
     position: absolute;
-    right: -20px;
+    right: -40px;
     top: 38%;
     border-radius: 20px;
     font-size: 50px;
