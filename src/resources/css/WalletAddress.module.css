@@ -34,7 +34,7 @@
   background-repeat: no-repeat;
   background-position: 100% 100%;
   background-attachment: fixed;
-  padding: 80px 0px 40px;
+  padding: 60px 0px 40px;
 
 }
 .main_heading
@@ -57,7 +57,7 @@
 }
 .wallet_balance_indicator
 {
-  font: 400 40px/48px "Odibee Sans", sans-serif;
+  font: 500 24px/32px "Montserrat", sans-serif;
   color: #fff;
 }
 .copy_button
@@ -151,4 +151,100 @@
   height: 1px;
   background: #FDF41B;
   transition: all 0.2s ease;
+}
+.select_container {
+  width: 150px;
+  background-color: #8254b066;
+  border-radius: 26px;
+  padding: 6px 16px;
+}
+
+.select_container select {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #fff;
+  font: 400 14px/18px "Montserrat", sans-serif;
+  letter-spacing: 1px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.select_container select:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.select_container option {
+  background-color: #2a0855;
+}
+
+.select_container_2 {
+  display: none;
+  width: 150px;
+  background-color: #8254b066;
+  border-radius: 26px;
+  padding: 6px 16px;
+}
+
+.select_container_2 select {
+  display: none;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #fff;
+  font: 400 14px/18px "Montserrat", sans-serif;
+  letter-spacing: 1px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.select_container_2 select:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.select_container_2 option {
+  background-color: #2a0855;
+}
+
+@media screen and (max-width: 767px) {
+  .select_container {
+    display: none !important;
+    width: 100%;
+    border-radius: 26px;
+    margin-top: 16px;
+    padding: 8px 12px;
+  }
+  .select_container_2 {
+    display: block;
+    width: 100%;
+    border-radius: 26px;
+    margin-top: 16px;
+    padding: 8px 12px;
+  }
+
+  .select_container_2 select {
+
+    font: 400 12px/16px "Montserrat", sans-serif;
+    letter-spacing: 1px;
+    /* padding:  6px; */
+    display: block;
+    margin: 0 auto;
+    /* width: 93%; */
+  }
+
+  .select_container_2 select:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .select_container_2 option {
+    background-color: #2a0855;
+  }
 }

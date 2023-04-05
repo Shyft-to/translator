@@ -18,6 +18,7 @@ import copyIcon from "./resources/images/txnImages/copy_icon.svg"
 import SearchComponent from "./components/SearchComponent";
 import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
 import SimpleLoader from "./components/loaders/SimpleLoader";
+import WalletIcon from "./resources/images/wallet_icon.svg";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
 
 const AddressComponent = () => {
@@ -190,32 +191,46 @@ const AddressComponent = () => {
                                                     </Tooltip>
                                                 </div>
                                             </div>
-                                            {/*<span>Space Overview</span> */}
-
-
                                         </div>
                                     </div>
-                                    <div className="col-6 col-lg-4 text-end">
-                                        <div className={styles.wallet_balance_indicator}>
-                                            {data.balance} SOL
+                                    <div className="col-6 col-lg-6">
+                                        <div className="d-flex flex-wrap justify-content-end">
+                                            <div>
+                                                <div className={styles.wallet_balance_indicator}>
+                                                    {data.balance} SOL
+                                                </div>
+                                            </div>
+                                            <div className="ps-2">
+                                                <div className={styles.select_container}>
+                                                    <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
+                                                        <option value="mainnet-beta">Mainnet</option>
+                                                        <option value="devnet">Devnet</option>
+                                                        <option value="testnet">Testnet</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
+                                        
                                     </div>
-                                    <div className="col-12 col-lg-2 text-end">
-                                        <div className="select_container">
-                                            <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
-                                                <option value="mainnet-beta">Mainnet</option>
-                                                <option value="devnet">Devnet</option>
-                                                <option value="testnet">Testnet</option>
-                                            </select>
-                                        </div>
-
+                                </div>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="pt-1">
+                                                <div className={styles.select_container_2}>
+                                                    <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
+                                                        <option value="mainnet-beta">Mainnet</option>
+                                                        <option value="devnet">Devnet</option>
+                                                        <option value="testnet">Testnet</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </motion.div>
                             {/* <div className="pt-5">
                         <AllTokens tokens={data.tokens} address={addr} network={cluster} />
                     </div> */}
-                            <div className="pt-3">
+                            <div className="pt-4">
                                 <AllNfts collections={data.collections} address={addr} network={cluster} />
                             </div>
 
@@ -246,9 +261,7 @@ const AddressComponent = () => {
                                     <div className="col-6 col-lg-6">
                                         <div className={styles.main_heading}>
                                             <div className="d-flex">
-                                                <div className="pe-2">{shortenAddress(addr)}</div>
-                                                <div>
-
+                                                <div className="pe-2" onClick={() => copyValue(addr)}>
                                                     <Tooltip
                                                         content={copied}
                                                         className="myTarget"
@@ -261,12 +274,10 @@ const AddressComponent = () => {
                                                         arrowSize={5}
 
                                                     >
-                                                        <button className={styles.copy_button} onClick={() => copyValue(addr)}>
-                                                            <img src={copyIcon} alt="Copy Image" />
-                                                        </button>
+                                                        {shortenAddress(addr)}
                                                     </Tooltip>
-
                                                 </div>
+                                                
                                                 <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
                                                     <Tooltip
                                                             content={copyLink}
@@ -291,20 +302,12 @@ const AddressComponent = () => {
 
                                         </div>
                                     </div>
-                                    <div className="col-6 col-lg-4 text-end">
+                                    <div className="col-6 col-lg-6 text-end">
                                         <div className={styles.wallet_balance_indicator}>
-                                            {data.balance} SOL
+                                            {data.balance} SOL 
+                                            <img src={WalletIcon} alt="Wallet Icon" style={{width:"22px", marginTop:"-4px",marginLeft:"8px"}}/>
                                         </div>
-                                    </div>
-                                    <div className="col-12 col-lg-2 text-end">
-                                        <div className="select_container">
-                                            <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
-                                                <option value="mainnet-beta">Mainnet</option>
-                                                <option value="devnet">Devnet</option>
-                                                <option value="testnet">Testnet</option>
-                                            </select>
-                                        </div>
-
+                                        
                                     </div>
                                 </div>
                             </motion.div>

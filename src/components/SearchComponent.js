@@ -115,13 +115,13 @@ const SearchComponent = () => {
     <motion.div className={styles.header_search_area} initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }}>
       <div className={styles.header_search_area_inner}>
         <div className="container-xl">
-        <div className="row p-1" >
-          <div className="col-12 col-lg-2">
+        <div className="row p-0" >
+          <div className="col-12 col-lg-2 p-0">
             <div className="logo_container pt-3 text-center text-lg-start">
               <a href={`/`}>Translator</a>
             </div>
           </div>
-          <div className="col-12 col-lg-8">
+          <div className="col-12 col-lg-10">
             <motion.div className={styles.form_container}>
               <div className={styles.search_n_suggestions} >
                 <div className={styles.form_field_outer}>
