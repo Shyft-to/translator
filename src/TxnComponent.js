@@ -4,12 +4,14 @@ import { useSearchParams, useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./resources/css/SingleTxn.module.css";
 
-import { shortenAddress,getRelativetime,getFullTime } from "./utils/formatter";
+import { shortenAddress,getRelativetime,getFullTime,formatLamports,convertToDays, formatNumbers } from "./utils/formatter";
+import { getNFTData } from "./utils/getAllData";
 
 import unknown from "./resources/images/ok_bear.png";
 import copyBtn from "./resources/images/txnImages/copy_icon.svg";
 import solscan from "./resources/images/txnImages/sol_scan_icon.svg"
 import successTick from "./resources/images/txnImages/success_tick.gif";
+import SimpleLoader from "./components/loaders/SimpleLoader";
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
@@ -61,7 +63,14 @@ const TxnComponent = () => {
 
     const [panel, setPanel] = useState("SHYFT");
     const [data, setData] = useState(null);
+    const [rawData,setRawData] = useState(null);
     const [loading,setLoading] = useState(true);
+
+    const [image, setImage] = useState(unknown);
+    const [name, setName] = useState("");
+    const [relField, setRelField] = useState("");
+
+    const [shyftMessage,setMessage] = useState("");
 
     const toggle = () => {
         console.log(document.getElementById("json_txns").style.height);
@@ -83,7 +92,7 @@ const TxnComponent = () => {
             enable_raw: true
         };
         axios({
-            url: `${endpoint}transaction/parsed`,
+            url: `${endpoint}transaction/raw`,
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -93,7 +102,20 @@ const TxnComponent = () => {
         })
             .then((res) => {
                 if (res.data.success === true) {
-                    setData(res.data.result);
+                    
+                    setData(res.data.result.parsed);
+                    var objectReceived = res.data.result;
+                    const newObj = Object.fromEntries(Object.entries(objectReceived).filter(([key]) => !key.includes('parsed')))
+                    // console.log(newObj);
+                    setRawData(newObj);
+                    if(Array.isArray(res.data.result.parsed.actions))
+                    {
+                        res.data.result.parsed.actions.forEach(element => {
+                            var categoryDone = categoriseAction(element,res.data.result.parsed?.type);
+                            if(categoryDone === "classified")
+                                return
+                        });
+                    }
                     
                 }
                 setLoading(false);
@@ -103,8 +125,376 @@ const TxnComponent = () => {
                 setLoading(false);
             });
     }, []);
+
+    const getData = async (cluster, address) => {
+        try {
+            const res = await getNFTData(cluster, address);
+            if (res.success === true) {
+                if (res.details.image_uri)
+                    setImage(res.details.cached_image_uri ?? res.details.image_uri);
+
+                setName(res.details.name);
+            }
+            // setDataLoaded(true);
+        }
+        catch (error) {
+            setName("");
+            // setDataLoaded(true);
+        }
+
+    };
+    useEffect(() => {
+        if (relField !== "")
+            getData(cluster, relField);
+    }, [relField]);
+
+    const categoriseAction = (data,txn_type) => {
+        var type_obj = {
+            type: "",
+            from: "",
+            to: "",
+            token: "",
+            action: "",
+            value: "",
+            symbol: ""
+        }
+        var msg ="";
+        try {
+            if (txn_type === "SOL_TRANSFER") {
+                type_obj = {
+                    type: "TRANSFER",
+                    from: data.info.sender ?? "--",
+                    to: data.info.receiver ?? "--",
+                    token: "SOL",
+                    action: "--",
+                    value: data.info.amount ?? "--",
+                    symbol: ""
+                }
+                setName("SOL");
+                // setImage(solanaIcon);
+                msg = `${data.info.amount} SOL was transferred from ${shortenAddress(data.info.sender)} to ${shortenAddress(data.info.receiver)}`
+
+            } else if (txn_type === "TOKEN_TRANSFER") {
+                type_obj = {
+                    type: "TRANSFER",
+                    from: data.info.sender ?? "--",
+                    to: data.info.receiver ?? "--",
+                    token: "TOKEN",
+                    action: "--",
+                    value: formatNumbers(data.info.amount) ?? "--",
+                    symbol: ""
+                }
+                setRelField(data.info.token_address ?? "");
+                msg = `${data.info.amount} TOKEN(s) was transferred from ${shortenAddress(data.info.sender)} to ${shortenAddress(data.info.receiver)}`
+                // setCurrencyField(data.info.token_address ?? "");
+            } else if (txn_type === "NFT_TRANSFER") {
+                type_obj = {
+                    type: "TRANSFER",
+                    from: data.info.sender ?? "--",
+                    to: data.info.receiver ?? "--",
+                    token: "NFT",
+                    action: "--",
+                    // value: data.info.amount ?? "--",
+                    value: data.info.amount ?? "--",
+                    symbol: ""
+                }
+                setRelField(data.info.nft_address ?? "");
+                msg = `${data.info.amount} NFT(s) was transferred from ${shortenAddress(data.info.sender)} to ${shortenAddress(data.info.receiver)}`
+            } else if (txn_type === "TOKEN_MINT") {
+                type_obj = {
+                    type: "MINT",
+                    from: "TOKEN",
+                    to: data.info.receiver_address ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: formatNumbers(data.info.amount) ?? "--",
+                    symbol: ""
+                }
+
+                setRelField(data.info.token_address ?? "");
+                msg = `${data.info.amount} TOKEN(s) were minted to ${shortenAddress(data.info.receiver_address)}`;
+            } else if (txn_type === "NFT_MINT") {
+                type_obj = {
+                    type: "MINT",
+                    from: "NFT",
+                    to: data.info.owner ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: data.info.amount ?? "--",
+                    symbol: ""
+                }
+                setRelField(data.info.nft_address ?? "");
+                msg = `${data.info.amount} NFT was minted to ${shortenAddress(data.info.owner)}`;
+            } else if (txn_type === "NFT_BURN") {
+                type_obj = {
+                    type: "BURN",
+                    from: data.info.wallet ?? "--",
+                    to: "--",
+                    token: "NFT",
+                    action: "--",
+                    value: data.info.amount ?? "--",
+                    symbol: ""
+                }
+
+                setRelField(data.info.nft_address ?? "");
+                msg = `${data.info.amount} NFT was burned from ${shortenAddress(data.info.wallet)}`;
+            } else if (txn_type === "BURN") {
+                type_obj = {
+                    type: "BURN",
+                    from: "--",
+                    to: "--",
+                    token: "NFT",
+                    action: "--",
+                    value: data.info.amount ?? "--",
+                    symbol: ""
+                }
+                msg = `${data.info.amount} NFT was burned from ${shortenAddress(data.info.wallet)}`;
+                setRelField(data.info.mint ?? "");
+            } else if (txn_type === "TOKEN_BURN") {
+                type_obj = {
+                    type: "BURN",
+                    from: data.info.wallet ?? "--",
+                    to: "--",
+                    token: "TOKEN",
+                    action: "--",
+                    value: formatNumbers(data.info.amount) ?? "--",
+                    symbol: ""
+                }
+                setRelField(data.info.token_address ?? "");
+                msg = `${data.info.amount} TOKENs were burned from ${shortenAddress(data.info.wallet)}`;
+            } else if (txn_type === "TOKEN_CREATE") {
+                type_obj = {
+                    type: "CREATE",
+                    from: "--",
+                    to: "--",
+                    token: "TOKEN",
+                    action: "--",
+                    value: "--",
+                    symbol: ""
+                }
+                setRelField(data.info.token_address ?? "");
+                msg = "A token was created"
+            } else if (txn_type === "NFT_LIST") {
+                type_obj = {
+                    type: "NFT_LIST",
+                    from: data.info.seller ?? "--",
+                    to: data.info.marketplace ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: formatLamports(data.info.price) ?? "--",
+                    symbol: ""
+                }
+
+                setRelField(data.info.nft_address ?? "");
+                msg = `An NFT was listed by ${data.info.seller}`
+                // setCurrencyField(data.info.currency ?? "");
+            } else if (txn_type === "NFT_SALE") {
+                type_obj = {
+                    type: "NFT_SALE",
+                    from: data.info.seller ?? "--",
+                    to: data.info.buyer ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: formatLamports(data.info.price) ?? "--",
+                    symbol: ""
+                }
+                setRelField(data.info.nft_address ?? "");
+                // setCurrencyField(data.info.currency ?? "");
+                msg = `An NFT was sold by ${data.info.seller} to ${data.info.buyer}`;
+            } else if (txn_type === "NFT_LIST_CANCEL") {
+                type_obj = {
+                    type: "NFT_LIST_CANCEL",
+                    from: data.info.seller ?? "--",
+                    to: data.info.marketplace ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: formatLamports(data.info.price) ?? "--",
+                    symbol: ""
+                }
+
+                setRelField(data.info.nft_address ?? "");
+                // setCurrencyField(data.info.currency ?? "");
+                msg = `An NFT listing was cancelled by ${data.info.seller} `;
+            } else if (txn_type === "NFT_LIST_UPDATE") {
+                type_obj = {
+                    type: "NFT_LIST_UPDATE",
+                    from: formatLamports(data.info.old_price ?? "--"),
+                    to: formatLamports(data.info.new_price ?? "--"),
+                    token: "--",
+                    action: "--",
+                    value: "",
+                    symbol: data.info.seller ?? "--"
+                }
+
+                setRelField(data.info.nft_address ?? "");
+                // setCurrencyField(data.info.currency ?? "");
+                msg = `An NFT listing was price was updated`;
+            } else if (txn_type === "NFT_BID") {
+                type_obj = {
+                    type: "NFT_BID",
+                    from: data.info.bidder ?? "--",
+                    to: data.info.marketplace ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: formatLamports(data.info.price) ?? "--",
+                    symbol: ""
+                }
+
+                setRelField(data.info.nft_address ?? "");
+                msg = `An NFT was bid by ${data.info.bidder}`;
+                // setCurrencyField(data.info.currency ?? "");
+            } else if (txn_type === "NFT_BID_CANCEL") {
+                type_obj = {
+                    type: "NFT_BID_CANCEL",
+                    from: data.info.bidder ?? "--",
+                    to: data.info.marketplace ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: "--",
+                    symbol: ""
+                }
+                setRelField(data.info.nft_address ?? "");
+                msg = `An NFT bid was cancelled`;
+            } else if (txn_type === "MARKETPLACE_WITHDRAW") {
+                type_obj = {
+                    type: "MARKETPLACE_WITHDRAW",
+                    from: data.info.marketplace ?? "--",
+                    to: data.info.withdrawal_destination_account ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: formatLamports(data.info.amount) ?? "--",
+                    symbol: ""
+                }
+                msg = `Marketplace withdrawal`;
+            }
+            else if (txn_type === "MEMO") {
+                type_obj = {
+                    type: "MEMO",
+                    from: data.info.message ?? "--",
+                    to: "--",
+                    token: "--",
+                    action: "--",
+                    value: formatLamports(data.info.amount) ?? "--",
+                    symbol: ""
+                }
+                setName("Memo");
+                // setImage(memo);
+                msg = `Memo Message`;
+            }
+            else if (txn_type === "OFFER_LOAN") {
+                type_obj = {
+                    type: "OFFER_LOAN",
+                    from: data.info.lender ?? "--",
+                    to: "",
+                    token: "--",
+                    action: "--",
+                    value: `${data.info.amount} SOL` ?? "--",
+                    symbol: ""
+                }
+                // setRelField(data.info.lender ?? "");
+                msg = `A loan was offered`;
+                // setImage(loan);
+            }
+            else if (txn_type === "CANCEL_LOAN") {
+                type_obj = {
+                    type: "CANCEL_LOAN",
+                    from: data.info.lender ?? "--",
+                    to: "",
+                    token: "--",
+                    action: "--",
+                    value: `${data.info.amount} SOL` ?? "--",
+                    symbol: ""
+                }
+                // setRelField(data.info.lender ?? "");
+                msg = `A loan was cancelled`;
+                // setImage(loan);
+            }
+            else if (txn_type === "TAKE_LOAN") {
+                type_obj = {
+                    type: "TAKE_LOAN",
+                    from: data.info.lender ?? "--",
+                    to: data.info.borrower ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: `${data.info.amount} SOL` ?? "",
+                    symbol: convertToDays(data.info.loan_duration_seconds) ?? ""
+                }
+                setRelField(data.info.collateral_mint ?? "");
+                msg = `A loan was taken`;
+            }
+            else if (txn_type === "REPAY_LOAN") {
+                type_obj = {
+                    type: "SHARKYFI_GEN_LOAN",
+                    from: data.info.borrower ?? "--",
+                    to: data.info.lender ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: `${data.info.amount} SOL` ?? "--",
+                    symbol: ""
+                }
+                setRelField(data.info.collateral_mint ?? "");
+                msg = `A loan was repaid`;
+            }
+            else if (txn_type === "REPAY_ESCROW_LOAN") {
+                type_obj = {
+                    type: "SHARKYFI_GEN_LOAN",
+                    from: data.info.borrower ?? "--",
+                    to: data.info.lender ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: "",
+                    symbol: ""
+                }
+                setRelField(data.info.collateral_mint ?? "");
+                msg = `A loan was repaid`;
+            }
+            else if (txn_type === "FORECLOSE_LOAN") {
+                type_obj = {
+                    type: "SHARKYFI_GEN_LOAN",
+                    from: data.info.borrower_token_account ?? "--",
+                    to: data.info.lender ?? "--",
+                    token: "--",
+                    action: "--",
+                    value: "",
+                    symbol: ""
+                }
+                setRelField(data.info.collateral_mint ?? "");
+                msg = `A loan was foreclosed`;
+            }
+            else {
+                type_obj = {
+                    type: "",
+                    from: "",
+                    to: "",
+                    token: "",
+                    action: "",
+                    value: "",
+                    symbol: ""
+                }
+            }
+            //setVarFields(type_obj);
+            setMessage(msg);
+            if(msg !== "")
+                return "classified";
+        } catch (err) {
+            console.warn(err);
+            var type_obj = {
+                type: "--",
+                from: "--",
+                to: "--",
+                token: "--",
+                action: "--",
+                value: "--",
+                symbol: "--"
+            }
+            //setVarFields(type_obj);
+            return "notClassified";
+        }
+
+    }
     return (
         <div>
+            {loading && <div className="pt-5"><SimpleLoader /></div>}
             {!loading && <div className={styles.single_txn_page}>
                 <div className="container-lg">
                     <div className={styles.main_heading}>
@@ -112,7 +502,7 @@ const TxnComponent = () => {
                     </div>
                     <div className={styles.token_name}>
                         <div className="d-flex align-items-baseline">
-                            <div>Famous Fox #3242</div>
+                            <div>{name}</div>
                             <div className="ps-2">
                                 <button className={styles.copy_button}>
                                     <img src={copyBtn} alt="Copy" />
@@ -127,12 +517,12 @@ const TxnComponent = () => {
 
                     </div>
                     <div className="row">
-                        <div className="col-12 col-md-5">
+                        <div className="col-12 col-md-4">
                             <div className={styles.img_container}>
-                                <img src={unknown} alt="Unknown" className="img-fluid" />
+                                <img src={image || unknown} alt="Unknown" className="img-fluid" />
                             </div>
                         </div>
-                        <div className="col-12 col-md-7">
+                        <div className="col-12 col-md-8">
                             <div className="row py-4">
                                 <div className="col-12 text-light">
                                     Overview
@@ -159,7 +549,7 @@ const TxnComponent = () => {
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Block
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}># 12423452</div>
+                                    <div className={`col-8 ${styles.row_value}`}># {rawData.blockTime ?? "--"}</div>
                                 </div>
                             </div>
                             <div className={styles.each_row}>
@@ -221,7 +611,7 @@ const TxnComponent = () => {
                                 Description
                             </div>
                             <div className={styles.body_detail_card}>
-                                Famous Fox #3242 was minted from 9Hzjsand1bAHBdja to 2nasnbh2jsHasdadajx
+                                {shyftMessage}
                             </div>
                         </div>
                     </div>
@@ -267,9 +657,17 @@ const TxnComponent = () => {
 
                     </div>
                     <div id="json_txns" className={styles.toggle_section_1}>
-                        <div className={styles.txn_raw}>
-                            <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} />
-                        </div>
+                        {
+                            (panel === "SHYFT")?
+                                <div className={styles.txn_raw}>
+                                    <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} />
+                                </div>
+                            :
+                                <div className={styles.txn_raw}>
+                                    <JsonViewer value={rawData} theme={ocean} displayDataTypes={false} rootName={false} />
+                                </div>
+                        }
+                        
                     </div>
 
                     <div className="row pt-2">
@@ -287,7 +685,11 @@ const TxnComponent = () => {
                     </div>
                     <div id="prog_logs" className={styles.toggle_section_1}>
                         <div className={styles.txn_raw}>
-                            <JsonViewer value={jsonValue} theme={ocean} displayDataTypes={false} rootName={false} />
+                            {
+                                (Array.isArray(rawData.meta.logMessages) && rawData.meta.logMessages.length>0)?
+                                    rawData.meta.logMessages.map((log,index) => <div key={index}>{JSON.stringify(log)}</div>)
+                                    :"No Program Logs found"
+                            }
                         </div>
                     </div>
                 </div>
