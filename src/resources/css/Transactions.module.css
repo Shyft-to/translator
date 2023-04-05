@@ -291,7 +291,7 @@
     backdrop-filter: blur(10px);
     border-radius: 14px;
     border: 2px solid transparent;
-    padding: 16px 24px;
+    padding: 8px 24px;
     margin-bottom: 20px;
     transition: all 0.05s ease;
 }

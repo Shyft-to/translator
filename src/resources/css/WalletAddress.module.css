@@ -44,6 +44,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 .main_heading span
 {
@@ -107,7 +108,7 @@
 {
   position: relative;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
   max-width: 900px;
   display: flex;

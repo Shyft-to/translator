@@ -816,7 +816,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                             else if (varFields.type === "NFT_LIST_UPDATE") {
                                 return (
                                     <div className="row pt-1">
-                                        <div className="col-12 col-md-12">
+                                        {(varFields.from && varFields.to) && <div className="col-12 col-md-12">
                                             <div className="d-flex">
                                                 <div className="pe-2">
                                                     <div className={styles.field_sub_1}>
@@ -832,7 +832,24 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>}
+                                        {(!varFields.from && varFields.to) && <div className="col-12 col-md-12">
+                                            <div className="d-flex">
+                                                <div className="pe-2">
+                                                    <div className={styles.field_sub_1}>
+                                                        New Price
+                                                    </div>
+                                                </div>
+                                                <div className="pe-2">
+                                                    <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                </div>
+                                                <div className="pe-1">
+                                                    <div className={styles.field_sub_1}>
+                                                        {varFields.to} {currency}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>}
                                         <div className="col-12 col-md-12">
                                             <div className="d-flex">
                                                 <div className="pe-2">

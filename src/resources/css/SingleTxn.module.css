@@ -157,6 +157,9 @@
 .single_txn_page .toggle_section_1
 {
     padding: 24px 0px;
+    height: auto;
+    overflow: hidden;
+    transition: all 0.5s ease;
 }
 .single_txn_page .txn_raw
 {
@@ -166,4 +169,15 @@
     font: 200 14px "Plus Jakarta Sans",sans-serif;
     color: #fff;
     letter-spacing: 1px;
+}
+.single_txn_page .hide_button
+{
+    border-radius: 25px;
+    padding: 8px 24px;
+    margin-top: 16px;
+    border: none;
+    outline: none;
+    background-color: #280C4C;
+    font: 400 14px "Plus Jakarta Sans",sans-serif;
+    color: #fff;
 }

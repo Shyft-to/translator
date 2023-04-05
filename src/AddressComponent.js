@@ -135,8 +135,23 @@ const AddressComponent = () => {
                                     <div className="col-6 col-lg-6">
                                         <div className={styles.main_heading}>
                                             <div className="d-flex">
-                                                <div className="pe-2">{shortenAddress(addr)}</div>
-                                                <div>
+                                                <div className="pe-2" onClick={() => copyValue(addr)}>
+                                                    <Tooltip
+                                                        content={copied}
+                                                        className="myTarget"
+                                                        direction="up"
+                                                        // eventOn="onClick"
+                                                        // eventOff="onMouseLeave"
+                                                        useHover={true}
+                                                        background="#101010"
+                                                        color="#fefefe"
+                                                        arrowSize={5}
+
+                                                    >
+                                                        {shortenAddress(addr)}
+                                                    </Tooltip>
+                                                </div>
+                                                {/* <div>
 
                                                     <Tooltip
                                                         content={copied}
@@ -155,7 +170,7 @@ const AddressComponent = () => {
                                                         </button>
                                                     </Tooltip>
 
-                                                </div>
+                                                </div> */}
                                                 <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
                                                     <Tooltip
                                                             content={copyLink}
@@ -200,7 +215,7 @@ const AddressComponent = () => {
                             {/* <div className="pt-5">
                         <AllTokens tokens={data.tokens} address={addr} network={cluster} />
                     </div> */}
-                            <div className="pt-5">
+                            <div className="pt-3">
                                 <AllNfts collections={data.collections} address={addr} network={cluster} />
                             </div>
 
@@ -208,7 +223,7 @@ const AddressComponent = () => {
                     {
                         (contentType === "NFT") &&
                         <div>
-                            <div className="container pt-4">
+                            <div className="container pt-2 pb-3">
                                 <NftExpanded nft={data} cluster={cluster} />
                             </div>
 
@@ -217,7 +232,7 @@ const AddressComponent = () => {
                     {
                         (contentType === "TOKEN") &&
                         <div>
-                            <div className="container pt-4">
+                            <div className="container pt-2 pb-1">
                                 <TokenExpanded token={data} cluster={cluster} />
                             </div>
 
@@ -225,7 +240,7 @@ const AddressComponent = () => {
                     }
                     {
                         (contentType === "PROTOCOL") &&
-                        <div className="container pb-3 pt-1">
+                        <div className="container pb-1 pt-1">
                             <motion.div className={styles.heading_section} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
                                 <div className="row">
                                     <div className="col-6 col-lg-6">
@@ -297,7 +312,7 @@ const AddressComponent = () => {
                     }
 
                 </div>}
-                <div className="container-lg pt-2">
+                <div className="container-lg">
                     <div className={styles.tab_container}>
                         <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("TXN")}>
                             Live Activity<div className="px-2" style={{display:"inline",position:"relative"}}><div className="blinking"></div></div>

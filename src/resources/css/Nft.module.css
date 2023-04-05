@@ -104,6 +104,14 @@
     font: 400 14px/22px "Montserrat", sans-serif;
     color: #fff;    
 }
+.nft_container .number_badge
+{
+    background-color: #FF008A;
+    position: relative;
+    font: 700 11px/14px "Montserrat", sans-serif;
+    min-width: 20px;
+    padding: 3px 8px 3px;
+}
 .i_hover_section
 {
     position: relative;
