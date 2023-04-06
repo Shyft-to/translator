@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { JsonViewer } from '@textea/json-viewer'
 import { useSearchParams, useParams } from "react-router-dom";
+import $ from 'jquery';
 import axios from "axios";
+import { FaLink } from "react-icons/fa";
+
 import styles from "./resources/css/SingleTxn.module.css";
 
 import { shortenAddress, getRelativetime, getFullTime, formatLamports, convertToDays, formatNumbers,formatNames,isParsable } from "./utils/formatter";
@@ -9,11 +12,17 @@ import { getNFTData } from "./utils/getAllData";
 
 import unknown from "./resources/images/ok_bear.png";
 import copyBtn from "./resources/images/txnImages/copy_icon.svg";
-import solscan from "./resources/images/txnImages/sol_scan_icon.svg"
+import solscan from "./resources/images/txnImages/sol_scan_icon.svg";
+import solanaIcon from "./resources/images/txnImages/solanaIcon.svg";
+import memoplaceholders from "./resources/images/txnImages/memoPlaceholder.png";
+import sharkyPlaceHolder from "./resources/images/txnImages/sharkyprotocol.png";
 import successTick from "./resources/images/txnImages/success_tick.gif";
 import failedTick from "./resources/images/txnImages/failed_tick.gif";
+import noImage from "./resources/images/no_image.png";
+
 import SimpleLoader from "./components/loaders/SimpleLoader";
 import SubTransactions from "./components/TransactionComponent/SubTransaction";
+import SearchComponent from "./components/SearchComponent";
 //import SubTransactionsDetails from "./components/TransactionComponent/SubTransactionDetails";
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -56,14 +65,15 @@ const TxnComponent = () => {
 
     const [shyftMessage, setMessage] = useState("");
 
-    const toggle = () => {
-        //console.log(document.getElementById("json_txns").style.height);
-        if (document.getElementById("json_txns").style.height === "" || document.getElementById("json_txns").style.height === "auto") {
-            document.getElementById("json_txns").style.height = "0px";
-        }
-        else {
-            document.getElementById("json_txns").style.height = "auto";
-        }
+    const toggleTxnsSection = () => {
+        $(`#json_txns`).animate({
+            height: "toggle",
+          },200,"linear");
+    }
+    const toggleLogsSection = () => {
+        $(`#prog_logs`).animate({
+            height: "toggle",
+          },200,"linear");
     }
 
     useEffect(() => {
@@ -163,7 +173,7 @@ const TxnComponent = () => {
                     symbol: ""
                 }
                 setName("SOL");
-                // setImage(solanaIcon);
+                setImage(solanaIcon);
                 msg = `${data.info.amount} SOL was transferred from ${shortenAddress(data.info.sender)} to ${shortenAddress(data.info.receiver)}`
 
             } else if (txn_type === "TOKEN_TRANSFER") {
@@ -370,7 +380,7 @@ const TxnComponent = () => {
                     symbol: ""
                 }
                 setName("Memo");
-                // setImage(memo);
+                setImage(memoplaceholders);
                 msg = `Memo Message`;
             }
             else if (txn_type === "OFFER_LOAN") {
@@ -385,7 +395,7 @@ const TxnComponent = () => {
                 }
                 // setRelField(data.info.lender ?? "");
                 msg = `A loan was offered`;
-                // setImage(loan);
+                setImage(sharkyPlaceHolder);
             }
             else if (txn_type === "CANCEL_LOAN") {
                 type_obj = {
@@ -399,7 +409,7 @@ const TxnComponent = () => {
                 }
                 // setRelField(data.info.lender ?? "");
                 msg = `A loan was cancelled`;
-                // setImage(loan);
+                setImage(sharkyPlaceHolder);
             }
             else if (txn_type === "TAKE_LOAN") {
                 type_obj = {
@@ -484,10 +494,32 @@ const TxnComponent = () => {
         }
 
     }
+    const copyValue = (value,link=false) => {
+        if(link === false)
+        {
+            navigator.clipboard.writeText(value);
+            setCopied("Copied");
+            setTimeout(() => {
+                setCopied("Copy");
+            }, 800);
+        }
+        else
+        {
+            navigator.clipboard.writeText(value);
+            setCopyLink("Copied");
+            setTimeout(() => {
+                setCopyLink("Copy Link");
+            }, 800);
+        }
+        
+    }
     return (
         <div>
             {loading && <div className="pt-5"><SimpleLoader /></div>}
             {!loading && <div className={styles.single_txn_page}>
+                <div className="container-lg pt-2 pb-1">
+                    <SearchComponent />
+                </div>
                 <div className="container-lg">
                     <div className={styles.main_heading}>
                         Transaction Details
@@ -496,8 +528,9 @@ const TxnComponent = () => {
                         <div className="d-flex align-items-baseline">
                             <div>{name}</div>
                             <div className="ps-2">
-                                <button className={styles.copy_button}>
-                                    <img src={copyBtn} alt="Copy" />
+                                <button className={styles.copy_button} onClick={() => copyValue((cluster==='mainnet-beta')?`https://translator.shyft.to/tx/${addr}`:`https://translator.shyft.to/tx/${addr}?cluster=${cluster}`, true)}>
+                                    {/* <img src={copyBtn} alt="Copy" /> */}
+                                    <FaLink />
                                 </button>
                             </div>
                             <div className="ps-2">
@@ -511,7 +544,12 @@ const TxnComponent = () => {
                     <div className="row">
                         <div className="col-12 col-md-4">
                             <div className={styles.img_container}>
-                                <img src={image || unknown} alt="Unknown" className="img-fluid" />
+                                <img src={image || unknown}
+                                onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null; // prevents looping
+                                    currentTarget.src=noImage;
+                                  }}
+                                alt="Unknown" className="img-fluid" />
                             </div>
                         </div>
                         <div className="col-12 col-md-8">
@@ -525,7 +563,17 @@ const TxnComponent = () => {
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Signature
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}>{shortenAddress(data.signatures[0])}</div>
+                                    <div className={`col-8 ${styles.row_value}`}>
+                                        {
+                                            (Array.isArray(data.signatures) && data.signatures.length>0)?
+                                            (
+                                                data.signatures.map((signature) => (
+                                                    <a href={(cluster === "mainnet-beta") ? `/tx/${signature}` : `/tx/${signature}?cluster=${cluster}`}>{shortenAddress(signature)}&nbsp;&nbsp;</a>
+                                                ))
+                                            ):""
+                                        }
+                                        
+                                    </div>
                                 </div>
                             </div>
                             <div className={styles.each_row}>
@@ -533,7 +581,17 @@ const TxnComponent = () => {
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Signer
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}>{shortenAddress(data.signers[0])}</div>
+                                    <div className={`col-8 ${styles.row_value}`}>
+                                        {
+                                            (Array.isArray(data.signers) && data.signers.length>0)?
+                                            (
+                                                data.signers.map((signer) => (
+                                                    <a href={(cluster === "mainnet-beta") ? `/address/${signer}` : `/address/${signer}?cluster=${cluster}`}>{shortenAddress(signer)}&nbsp;&nbsp;</a>
+                                                ))
+                                            ):""
+                                        }
+                                        
+                                    </div>
                                 </div>
                             </div>
                             <div className={styles.each_row}>
@@ -685,26 +743,29 @@ const TxnComponent = () => {
                             </div>
                         </div>
                         <div className="col-12 col-md-6 text-end">
-                            <button className={styles.hide_button} onClick={toggle}>
-                                Close button
+                            <button className={styles.hide_button} onClick={toggleTxnsSection}>
+                                Hide Details
                             </button>
 
                         </div>
 
                     </div>
-                    <div id="json_txns" className={styles.toggle_section_1}>
-                        {
-                            (panel === "SHYFT") ?
-                                <div className={styles.txn_raw}>
-                                    <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} />
-                                </div>
-                                :
-                                <div className={styles.txn_raw}>
-                                    <JsonViewer value={rawData} theme={ocean} displayDataTypes={false} rootName={false} />
-                                </div>
-                        }
+                    <div id="json_txns">
+                        <div className={styles.toggle_section_1}>
+                            {
+                                (panel === "SHYFT") ?
+                                    <div className={styles.txn_raw}>
+                                        <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} />
+                                    </div>
+                                    :
+                                    <div className={styles.txn_raw}>
+                                        <JsonViewer value={rawData} theme={ocean} displayDataTypes={false} rootName={false} />
+                                    </div>
+                            }
 
+                        </div>
                     </div>
+                    
 
                     <div className="row pt-2">
                         <div className="col-12 col-md-6">
@@ -713,21 +774,24 @@ const TxnComponent = () => {
                             </div>
                         </div>
                         <div className="col-12 col-md-6 text-end">
-                            <button className={styles.hide_button}>
-                                Close button
+                            <button className={styles.hide_button} onClick={toggleLogsSection}>
+                                Hide Details
                             </button>
                         </div>
 
                     </div>
-                    <div id="prog_logs" className={styles.toggle_section_1}>
-                        <div className={styles.txn_raw}>
-                            {
-                                (Array.isArray(rawData.meta.logMessages) && rawData.meta.logMessages.length > 0) ?
-                                    rawData.meta.logMessages.map((log, index) => <div key={index}>{JSON.stringify(log)}</div>)
-                                    : "No Program Logs found"
-                            }
+                    <div id="prog_logs">
+                        <div className={styles.toggle_section_1}>
+                            <div className={styles.txn_raw}>
+                                {
+                                    (Array.isArray(rawData.meta.logMessages) && rawData.meta.logMessages.length > 0) ?
+                                        rawData.meta.logMessages.map((log, index) => <div key={index}>{JSON.stringify(log)}</div>)
+                                        : "No Program Logs found"
+                                }
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>}
         </div>

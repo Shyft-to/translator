@@ -107,7 +107,8 @@
 }
 .nft_container .number_badge
 {
-    background-color: #FF008A;
+    background-color: transparent;
+    border: 3px solid white;
     position: relative;
     font: 700 11px/14px "Montserrat", sans-serif;
     min-width: 20px;
