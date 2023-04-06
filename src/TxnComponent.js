@@ -62,7 +62,7 @@ const TxnComponent = () => {
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
     const [unknownCount,setUnknownCount] = useState(0);
-
+    const [copyLink,setCopyLink] = useState("Copy Link");
     const [shyftMessage, setMessage] = useState("");
 
     const toggleTxnsSection = () => {
@@ -498,10 +498,10 @@ const TxnComponent = () => {
         if(link === false)
         {
             navigator.clipboard.writeText(value);
-            setCopied("Copied");
-            setTimeout(() => {
-                setCopied("Copy");
-            }, 800);
+            // setCopied("Copied");
+            // setTimeout(() => {
+            //     setCopied("Copy");
+            // }, 800);
         }
         else
         {
@@ -528,7 +528,7 @@ const TxnComponent = () => {
                         <div className="d-flex align-items-baseline">
                             <div>{name}</div>
                             <div className="ps-2">
-                                <button className={styles.copy_button} onClick={() => copyValue((cluster==='mainnet-beta')?`https://translator.shyft.to/tx/${addr}`:`https://translator.shyft.to/tx/${addr}?cluster=${cluster}`, true)}>
+                                <button className={styles.copy_button} onClick={() => copyValue((cluster==='mainnet-beta')?`https://translator.shyft.to/tx/${data.signatures[0]}`:`https://translator.shyft.to/tx/${data.signatures[0]}?cluster=${cluster}`, true)}>
                                     {/* <img src={copyBtn} alt="Copy" /> */}
                                     <FaLink />
                                 </button>
