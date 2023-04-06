@@ -28,7 +28,7 @@ import { getNFTData, getTokenData } from "../../utils/getAllData";
 import { shortenAddress, formatLamports, convertToDays, formatNumbers } from "../../utils/formatter";
 
 
-const SubTransactions = ({ styles, data, cluster }) => {
+const SubTransactionsDetails = ({ styles, data, cluster }) => {
 
     const { ref, inView } = useInView();
 
@@ -1190,4 +1190,4 @@ const SubTransactions = ({ styles, data, cluster }) => {
     );
 }
 
-export default SubTransactions;
+export default SubTransactionsDetails;

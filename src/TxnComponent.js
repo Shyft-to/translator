@@ -1,17 +1,20 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { JsonViewer } from '@textea/json-viewer'
 import { useSearchParams, useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./resources/css/SingleTxn.module.css";
 
-import { shortenAddress,getRelativetime,getFullTime,formatLamports,convertToDays, formatNumbers } from "./utils/formatter";
+import { shortenAddress, getRelativetime, getFullTime, formatLamports, convertToDays, formatNumbers,formatNames,isParsable } from "./utils/formatter";
 import { getNFTData } from "./utils/getAllData";
 
 import unknown from "./resources/images/ok_bear.png";
 import copyBtn from "./resources/images/txnImages/copy_icon.svg";
 import solscan from "./resources/images/txnImages/sol_scan_icon.svg"
 import successTick from "./resources/images/txnImages/success_tick.gif";
+import failedTick from "./resources/images/txnImages/failed_tick.gif";
 import SimpleLoader from "./components/loaders/SimpleLoader";
+import SubTransactions from "./components/TransactionComponent/SubTransaction";
+//import SubTransactionsDetails from "./components/TransactionComponent/SubTransactionDetails";
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
@@ -35,26 +38,6 @@ export const ocean = {
     base0E: '#b48ead',
     base0F: '#FDF41B', //value number color
 };
-const jsonValue = {
-    "type": "NFT_LIST_UPDATE",
-    "actions": [
-        {
-            "info": {
-                "seller": "4jnMwrqnCUNsnk8YzFexf7Z821mr1DT4XLZsLZaqytMy",
-                "currency": "So11111111111111111111111111111111111111112",
-                "marketplace": "CJsLwbP1iu5DuUikHEJnLfANgKy6stB2uFgvBBHoyxwz",
-                "nft_address": "DvHDgQ3jjN7qCAc3EeG79UnkUagepawvEhxfgbonFiEG",
-                "old_price": 42000000000,
-                "new_price": 40000000000
-            },
-            "source_protocol": {
-                "address": "CJsLwbP1iu5DuUikHEJnLfANgKy6stB2uFgvBBHoyxwz",
-                "name": "SOLANART"
-            },
-            "type": "NFT_LIST_UPDATE"
-        }
-    ]
-};
 
 const TxnComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -63,20 +46,20 @@ const TxnComponent = () => {
 
     const [panel, setPanel] = useState("SHYFT");
     const [data, setData] = useState(null);
-    const [rawData,setRawData] = useState(null);
-    const [loading,setLoading] = useState(true);
+    const [rawData, setRawData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const [image, setImage] = useState(unknown);
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
+    const [unknownCount,setUnknownCount] = useState(0);
 
-    const [shyftMessage,setMessage] = useState("");
+    const [shyftMessage, setMessage] = useState("");
 
     const toggle = () => {
-        console.log(document.getElementById("json_txns").style.height);
+        //console.log(document.getElementById("json_txns").style.height);
         if (document.getElementById("json_txns").style.height === "" || document.getElementById("json_txns").style.height === "auto") {
             document.getElementById("json_txns").style.height = "0px";
-
         }
         else {
             document.getElementById("json_txns").style.height = "auto";
@@ -102,21 +85,30 @@ const TxnComponent = () => {
         })
             .then((res) => {
                 if (res.data.success === true) {
-                    
+
                     setData(res.data.result.parsed);
                     var objectReceived = res.data.result;
                     const newObj = Object.fromEntries(Object.entries(objectReceived).filter(([key]) => !key.includes('parsed')))
                     // console.log(newObj);
                     setRawData(newObj);
-                    if(Array.isArray(res.data.result.parsed.actions))
-                    {
+                    var isCategorizationComplete = false;
+                    var unknownCounter = 0;
+                    if (Array.isArray(res.data.result.parsed.actions)) {
                         res.data.result.parsed.actions.forEach(element => {
-                            var categoryDone = categoriseAction(element,res.data.result.parsed?.type);
-                            if(categoryDone === "classified")
-                                return
+                            if(isCategorizationComplete === false)
+                            {
+                                var categoryDone = categoriseAction(element, res.data.result.parsed?.type);
+                                if (categoryDone === "classified")
+                                    isCategorizationComplete = true;
+                            }
+                            if(!isParsable(res.data.result.parsed?.type))
+                                unknownCounter++;
+                            
                         });
                     }
-                    
+                    setUnknownCount(unknownCounter);
+                    // console.log("Data status:",data.status);
+
                 }
                 setLoading(false);
             })
@@ -148,7 +140,7 @@ const TxnComponent = () => {
             getData(cluster, relField);
     }, [relField]);
 
-    const categoriseAction = (data,txn_type) => {
+    const categoriseAction = (data, txn_type) => {
         var type_obj = {
             type: "",
             from: "",
@@ -158,7 +150,7 @@ const TxnComponent = () => {
             value: "",
             symbol: ""
         }
-        var msg ="";
+        var msg = "";
         try {
             if (txn_type === "SOL_TRANSFER") {
                 type_obj = {
@@ -474,7 +466,7 @@ const TxnComponent = () => {
             }
             //setVarFields(type_obj);
             setMessage(msg);
-            if(msg !== "")
+            if (msg !== "")
                 return "classified";
         } catch (err) {
             console.warn(err);
@@ -566,14 +558,31 @@ const TxnComponent = () => {
                                         Status
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}>
-                                        <div className="d-flex">
+                                        {(data.status === "Success") && <div className="d-flex">
                                             <div className={styles.success_logo}>
                                                 <img src={successTick} alt="success" style={{ width: "25px" }} />
                                             </div>
                                             <div className={styles.success_text}>
                                                 Success
                                             </div>
-                                        </div>
+                                        </div>}
+                                        {(data.status === "Confirmed") && <div className="d-flex">
+                                            <div className={styles.success_logo}>
+                                                {/* <img src={successTick} alt="success" style={{ width: "25px" }} /> */}
+                                            </div>
+                                            <div className={styles.success_text}>
+                                                Confirmed
+                                            </div>
+                                        </div>}
+                                        {(data.status === "Failed") && <div className="d-flex">
+                                            <div className={styles.success_logo}>
+                                                <img src={failedTick} alt="failed" style={{ width: "25px" }} />
+                                            </div>
+                                            <div className={styles.failed_text}>
+                                                Failed
+                                            </div>
+                                        </div>}
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -590,7 +599,7 @@ const TxnComponent = () => {
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Protocol
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}>{data.protocol.name || data.protocol.address}</div>
+                                    <div className={`col-8 ${styles.row_value}`}>{formatNames(data.protocol.name) || data.protocol.address}</div>
                                 </div>
                             </div>
                             <div className={styles.each_row}>
@@ -598,14 +607,14 @@ const TxnComponent = () => {
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Main Action
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}>{data.type}</div>
+                                    <div className={`col-8 ${styles.row_value}`}>{formatNames(data.type)}</div>
                                 </div>
                             </div>
 
 
                         </div>
                     </div>
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-12">
                             <div className={styles.body_title}>
                                 Description
@@ -614,27 +623,54 @@ const TxnComponent = () => {
                                 {shyftMessage}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="row">
                         <div className="col-12">
                             <div className={styles.body_title}>
                                 Actions
-                                <span className={styles.body_title_sub}> (03)</span>
+                                <span className={styles.body_title_sub}> ( {Array.isArray(data.actions)?data.actions.length:0 } )</span>
                             </div>
-                            <div className={styles.body_detail_card}>
-                                Minted FNFT to 9u8a8uda97s89d98da9
-                            </div>
-                            <div className={styles.body_detail_card}>
-                                Minted FNFT to 9u8a8uda97s89d98da9
-                            </div>
-                            <div className={styles.body_detail_card}>
-                                Minted FNFT to 9u8a8uda97s89d98da9
-                            </div>
-                            <div className={styles.body_detail_card}>
-                                Minted FNFT to 9u8a8uda97s89d98da9
-                            </div>
+                            {
+                                (data.actions.length > 0) ?
+                                    data.actions.map((action, index) => ((isParsable(action.type)) ? (
+                                        <div className={styles.each_txn_3}>
+                                            <div>
+                                                <div className="row">
+                                                    <div className="col-12">
+                                                        <div className={styles.fields_container}>
+                                                            <div className="d-flex flex-wrap justify-content-start align-content-end">
+                                                                <div className="">
+                                                                    <div className={styles.txn_name}>
+                                                                        {((action.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(action.type) || "Protocol Interaction"))}
+                                                                    </div>
+                                                                </div>
+                                                                {/* <div className="">
+                                                                    <div className={styles.txn_subname}>
+                                                                        {(action.source_protocol.name != "") ? <div><a href={`/address/${action.source_protocol.address}`}>{formatNames(action.source_protocol.name)}</a></div> : (<a href={`/address/${action.source_protocol.address}`}>{shortenAddress(action.source_protocol.address)}</a>)}
+                                                                    </div>
+                                                                </div> */}
+                                                                
+                                                            </div>
+                                                            <SubTransactions styles={styles} wallet={123} cluster={cluster} data={action} setTxType={action.type} key={index} />
+                                                            {/* <SubTransactionsDetails styles={styles} wallet={123} cluster={cluster} data={action} setTxType={action.type} key={index} /> */}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : ""))
+                                    : "-"
+                            }
                         </div>
                     </div>
+                    {(unknownCount>0)?<div className="row">
+                        <div className="col-12">
+                            <div className={styles.body_detail_card}>
+                                +{unknownCount} additional interactions
+                            </div>
+                        </div>
+                    </div>:""}
                     <div className="row pt-4">
                         <div className="col-12 col-md-6">
                             <div className={styles.tab_container}>
@@ -658,16 +694,16 @@ const TxnComponent = () => {
                     </div>
                     <div id="json_txns" className={styles.toggle_section_1}>
                         {
-                            (panel === "SHYFT")?
+                            (panel === "SHYFT") ?
                                 <div className={styles.txn_raw}>
                                     <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} />
                                 </div>
-                            :
+                                :
                                 <div className={styles.txn_raw}>
                                     <JsonViewer value={rawData} theme={ocean} displayDataTypes={false} rootName={false} />
                                 </div>
                         }
-                        
+
                     </div>
 
                     <div className="row pt-2">
@@ -686,9 +722,9 @@ const TxnComponent = () => {
                     <div id="prog_logs" className={styles.toggle_section_1}>
                         <div className={styles.txn_raw}>
                             {
-                                (Array.isArray(rawData.meta.logMessages) && rawData.meta.logMessages.length>0)?
-                                    rawData.meta.logMessages.map((log,index) => <div key={index}>{JSON.stringify(log)}</div>)
-                                    :"No Program Logs found"
+                                (Array.isArray(rawData.meta.logMessages) && rawData.meta.logMessages.length > 0) ?
+                                    rawData.meta.logMessages.map((log, index) => <div key={index}>{JSON.stringify(log)}</div>)
+                                    : "No Program Logs found"
                             }
                         </div>
                     </div>

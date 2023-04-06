@@ -91,16 +91,31 @@ const SearchComponent = () => {
             setSearchData(newResults);
             localStorage.setItem('shshis2', JSON.stringify(newResults));
         }
-        if(network === "mainnet-beta")
+        if(searchParam.length > 55)
         {
-          // navigate(`/address/${wallet}`);
-          window.location.href = `/address/${wallet}`;
+          if(network === "mainnet-beta")
+          {
+            window.location.href = `/tx/${wallet}`;
+          }
+          else
+          {
+            window.location.href = `/tx/${wallet}?cluster=${network}`;
+          }
         }
         else
         {
-          // navigate(`/address/${wallet}?cluster=${network}`);
-          window.location.href = `/address/${wallet}?cluster=${network}`;
+          if(network === "mainnet-beta")
+          {
+            // navigate(`/address/${wallet}`);
+            window.location.href = `/address/${wallet}`;
+          }
+          else
+          {
+            // navigate(`/address/${wallet}?cluster=${network}`);
+            window.location.href = `/address/${wallet}?cluster=${network}`;
+          }
         }
+        
         
 
       }

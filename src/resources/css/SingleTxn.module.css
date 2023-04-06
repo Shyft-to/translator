@@ -83,6 +83,12 @@
     font: 600 16px "Plus Jakarta Sans",sans-serif;
     color: #70d91b;
 }
+.single_txn_page .failed_text
+{
+    padding: 2px 0px 0px 8px;
+    font: 600 16px "Plus Jakarta Sans",sans-serif;
+    color: #e25b5b;
+}
 .single_txn_page .body_title
 {
     font: 200 16px "Plus Jakarta Sans",sans-serif;
@@ -180,4 +186,313 @@
     background-color: #280C4C;
     font: 400 14px "Plus Jakarta Sans",sans-serif;
     color: #fff;
+}
+
+.each_txn_3
+{
+    position: relative;
+    min-height: 100px;
+    background-color: #3C1B67;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    border: 2px solid transparent;
+    padding: 8px 24px;
+    margin-bottom: 20px;
+    transition: all 0.05s ease;
+}
+.each_txn_3:hover
+{
+    border: 2px solid #01b4e0;
+}
+.each_txn_3 .toggle_button
+{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: end;
+}
+
+.each_txn_3 .toggle_button .sol_icon img
+{
+    width: 20px;
+    height: 20px;
+}
+.each_txn_3 .toggle_button .sol_icon_2 img
+{
+    width: 24px;
+    height: 24px;
+}
+
+.each_txn_3 .toggle_button .copyTxnSig img
+{
+    width: 23px;
+    height: 23px;
+}
+@media screen and (max-width: 767px) {
+    .each_txn_3 .toggle_button
+    {
+        top: 10px;
+        right: 12px;
+        
+    }
+    .each_txn_3 .toggle_button .sol_icon img
+    {
+        width: 14px;
+        height: 14px;
+    }
+    .each_txn_3 .toggle_button .sol_icon_2 img
+    {
+        width: 16px;
+        height: 16px;
+    }
+
+    .each_txn_3 .toggle_button .copyTxnSig img
+    {
+        display:none;
+    }
+}
+.each_txn_3 .txn_name
+{
+    font: 500 18px/24px "Montserrat",sans-serif;
+    padding: 10px 20px 10px 0px;
+    color: #FDF41B;
+}
+.each_txn_3 .txn_subname
+{
+    font: 300 11px/28px "Montserrat",sans-serif;
+    padding: 10px 20px 10px 0px;
+    color: #FFFFFF99;
+}
+.each_txn_3 .interacted_with
+{
+    font: 500 16px/20px "Montserrat",sans-serif;
+    padding: 4px 0px;
+    color: #fff;
+}
+@media screen and (max-width:767px) {
+    .each_txn_3
+    {
+        position: relative;
+        border: 2px solid transparent;
+        padding: 4px 16px;
+        margin-bottom: 20px;
+        transition: all 0.1s ease;
+    }
+    .each_txn_3 .txn_name
+    {
+        font: 500 16px/20px "Montserrat",sans-serif;
+        width: 70vw;
+        padding-bottom: 0px;
+    }
+    .each_txn_3 .txn_subname
+    {
+        font: 300 11px/14px "Montserrat",sans-serif;
+        padding: 6px 20px 20px 0px;
+        color: #FFFFFF99;
+    }
+}
+.each_txn_3 .dynamic_field
+{
+    font: 400 14px/14px "Montserrat",sans-serif;
+    /* letter-spacing: 1px; */
+    padding: 4px 0px;
+    color: #FFFA;
+}
+.each_txn_3 a
+{
+    text-decoration: none;
+    color: inherit;
+}
+.each_txn_3 a:hover
+{
+    text-decoration: none;
+    color: #0AEEFF;
+}
+.each_txn_3 .dynamic_field_2
+{
+    font: 400 16px/16px "Montserrat",sans-serif;
+    letter-spacing: 1px;
+    padding: 14px 0px;
+    color: #FFFFFF;
+}
+.each_txn_3 .dynamic_field_2 a
+{
+    text-decoration: none;
+    color: inherit;
+}
+.each_txn_3 .field_1
+{
+    font: 400 16px/16px "Poppins",sans-serif;
+    padding: 14px 0px;
+    color: #FFF;
+}
+.each_txn_3 .plus_color
+{
+    color: #FDF41B !important; 
+}
+.each_txn_3 .minus_color
+{
+    color: #FF5454 !important; 
+}
+
+.each_txn_3 .token_image_sm img
+{
+    width: 18px;
+    height: 18px;
+    border-radius: 10px;
+    object-fit: fill;
+}
+.each_txn_3 button
+{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    width: 20px;
+    height: 20px;
+}
+.each_txn_3 button img
+{
+    
+    width: 18px;
+    height: 18px;
+}
+.each_txn_3 .small_pad
+{
+    padding-top: 2px;
+}
+.sub_txns
+{
+    position: relative;
+    width: 95%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+/* .sub_txns::before
+{
+    content: "-----";
+    color: #01b4e0;
+    position: absolute;
+} */
+@media screen and (max-width: 1100px) {
+    .sub_txns
+    {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+        padding-bottom: 0px;
+    } 
+}
+.sub_txns .thumb_container
+{
+    padding-right: 8px;
+}
+.sub_txns .thumb_container img
+{
+    width: 38px;
+    height: 38px;
+    border-radius: 19px;
+    object-fit: fill;
+
+}
+.sub_txns .txn_details
+{
+    padding: 4px 8px;
+    width: 100%;
+}
+
+.sub_txns .txn_details .subtxn_token
+{
+    font: 400 15px/24px "Poppins",sans-serif;
+    color: #FFFFFF;
+}
+.sub_txns .field_sub_1
+{
+    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    color: #FFFa;
+    width: 100%;
+}
+.sub_txns .field_sub_2
+{
+    font: 500 13px/26px "Poppins",sans-serif;
+    color: #FFFFFF;
+    width: 100%;
+}
+.sub_txns .field_sub_3
+{
+    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    color: #FFFFFF;
+    width: 100%;
+}
+.sub_txns .plus_color
+{
+    color: #FDF41B !important; 
+    font-weight: 500;
+}
+.sub_txns .minus_color
+{
+    color: #FF5454 !important; 
+    font-weight: 500;
+}
+.sub_txns a
+{
+    text-decoration: none;
+    color: inherit;
+}
+.sub_txns a:hover
+{
+    text-decoration: none;
+    color: #0AEEFF;
+}
+.sub_txns .copy_bt
+{
+    display: block;
+    margin-top: -2px;
+}
+
+.could_not_text
+{
+    font: 300 16px/20px "Poppins",sans-serif;
+    color: #FFF3;
+    letter-spacing: 1px;
+}
+@media screen and (max-width: 767px) {
+    .sub_txns .thumb_container
+    {
+        padding-right: 4px;
+    }
+    .sub_txns .thumb_container img
+    {
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        object-fit: fill;
+
+    }
+    .sub_txns .txn_details
+    {
+        padding: 4px 8px;
+        width: 100%;
+        overflow: hidden;
+    }
+    .sub_txns .txn_details .subtxn_token
+    {
+        
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .sub_txns .field_sub_1
+    {
+        font: 400 12px/26px "Poppins",sans-serif;
+        color: #FFF;
+        width: 100%;
+        
+    }
+    .sub_txns .copy_bt
+    {
+        display: none;
+        /* margin-top: -2px; */
+    }
 }
