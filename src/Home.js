@@ -100,14 +100,27 @@ const Home = () => {
           setSearchData(newResults);
           localStorage.setItem('shshis2', JSON.stringify(newResults));
         }
-        
-        if(network === "mainnet-beta")
+        if(searchParam.length > 55)
         {
-          navigate(`/address/${wallet}`);
+          if(network === "mainnet-beta")
+          {
+            navigate(`/tx/${wallet}`);
+          }
+          else
+          {
+            navigate(`/tx/${wallet}?cluster=${network}`);
+          }
         }
         else
         {
-          navigate(`/address/${wallet}?cluster=${network}`);
+          if(network === "mainnet-beta")
+          {
+            navigate(`/address/${wallet}`);
+          }
+          else
+          {
+            navigate(`/address/${wallet}?cluster=${network}`);
+          }
         }
         //navigate(`/address/${wallet}?cluster=${network}`);
 
