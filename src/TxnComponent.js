@@ -4,14 +4,16 @@ import { useSearchParams, useParams } from "react-router-dom";
 import $ from 'jquery';
 import axios from "axios";
 import { FaLink } from "react-icons/fa";
+import Tooltip from 'react-tooltip-lite';
+import { motion } from "framer-motion";
 
 import styles from "./resources/css/SingleTxn.module.css";
 
-import { shortenAddress, getRelativetime, getFullTime, formatLamports, convertToDays, formatNumbers,formatNames,isParsable } from "./utils/formatter";
+import { shortenAddress, getRelativetime, getFullTime, formatLamports, convertToDays, formatNumbers, formatNames, isParsable } from "./utils/formatter";
 import { getNFTData } from "./utils/getAllData";
 
 import unknown from "./resources/images/ok_bear.png";
-import copyBtn from "./resources/images/txnImages/copy_icon.svg";
+// import copyBtn from "./resources/images/txnImages/copy_icon.svg";
 import solscan from "./resources/images/txnImages/sol_scan_icon.svg";
 import solanaIcon from "./resources/images/txnImages/solanaIcon.svg";
 import memoplaceholders from "./resources/images/txnImages/memoPlaceholder.png";
@@ -61,19 +63,19 @@ const TxnComponent = () => {
     const [image, setImage] = useState(unknown);
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
-    const [unknownCount,setUnknownCount] = useState(0);
-    const [copyLink,setCopyLink] = useState("Copy Link");
+    const [unknownCount, setUnknownCount] = useState(0);
+    const [copyLink, setCopyLink] = useState("Copy Link");
     const [shyftMessage, setMessage] = useState("");
 
     const toggleTxnsSection = () => {
         $(`#json_txns`).animate({
             height: "toggle",
-          },200,"linear");
+        }, 200, "linear");
     }
     const toggleLogsSection = () => {
         $(`#prog_logs`).animate({
             height: "toggle",
-          },200,"linear");
+        }, 200, "linear");
     }
 
     useEffect(() => {
@@ -105,15 +107,14 @@ const TxnComponent = () => {
                     var unknownCounter = 0;
                     if (Array.isArray(res.data.result.parsed.actions)) {
                         res.data.result.parsed.actions.forEach(element => {
-                            if(isCategorizationComplete === false)
-                            {
+                            if (isCategorizationComplete === false) {
                                 var categoryDone = categoriseAction(element, res.data.result.parsed?.type);
                                 if (categoryDone === "classified")
                                     isCategorizationComplete = true;
                             }
-                            if(!isParsable(res.data.result.parsed?.type))
+                            if (!isParsable(res.data.result.parsed?.type))
                                 unknownCounter++;
-                            
+
                         });
                     }
                     setUnknownCount(unknownCounter);
@@ -494,24 +495,22 @@ const TxnComponent = () => {
         }
 
     }
-    const copyValue = (value,link=false) => {
-        if(link === false)
-        {
+    const copyValue = (value, link = false) => {
+        if (link === false) {
             navigator.clipboard.writeText(value);
             // setCopied("Copied");
             // setTimeout(() => {
             //     setCopied("Copy");
             // }, 800);
         }
-        else
-        {
+        else {
             navigator.clipboard.writeText(value);
             setCopyLink("Copied");
             setTimeout(() => {
                 setCopyLink("Copy Link");
             }, 800);
         }
-        
+
     }
     return (
         <div>
@@ -524,33 +523,45 @@ const TxnComponent = () => {
                     <div className={styles.main_heading}>
                         Transaction Details
                     </div>
-                    <div className={styles.token_name}>
+                    <motion.div className={styles.token_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                         <div className="d-flex align-items-baseline">
                             <div>{name}</div>
                             <div className="ps-2">
-                                <button className={styles.copy_button} onClick={() => copyValue((cluster==='mainnet-beta')?`https://translator.shyft.to/tx/${data.signatures[0]}`:`https://translator.shyft.to/tx/${data.signatures[0]}?cluster=${cluster}`, true)}>
-                                    {/* <img src={copyBtn} alt="Copy" /> */}
-                                    <FaLink />
-                                </button>
+                                <Tooltip
+                                    content={copyLink}
+                                    className="myTarget"
+                                    direction="up"
+                                    // eventOn="onClick"
+                                    // eventOff="onMouseLeave"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                >
+                                    <button className={styles.copy_button} onClick={() => copyValue((cluster === 'mainnet-beta') ? `https://translator.shyft.to/tx/${data.signatures[0]}` : `https://translator.shyft.to/tx/${data.signatures[0]}?cluster=${cluster}`, true)}>
+                                        {/* <img src={copyBtn} alt="Copy" /> */}
+                                        <FaLink />
+                                    </button>
+                                </Tooltip>
                             </div>
                             <div className="ps-2">
-                                <a href="">
+                                <a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
                                     <img src={solscan} alt="SolScanIO" className={styles.sol_scan_image} />
                                 </a>
                             </div>
                         </div>
 
-                    </div>
+                    </motion.div>
                     <div className="row">
                         <div className="col-12 col-md-4">
-                            <div className={styles.img_container}>
+                            <motion.div className={styles.img_container} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
                                 <img src={image || unknown}
-                                onError={({ currentTarget }) => {
-                                    currentTarget.onerror = null; // prevents looping
-                                    currentTarget.src=noImage;
-                                  }}
-                                alt="Unknown" className="img-fluid" />
-                            </div>
+                                    onError={({ currentTarget }) => {
+                                        currentTarget.onerror = null; // prevents looping
+                                        currentTarget.src = noImage;
+                                    }}
+                                    alt="Unknown" className="img-fluid" />
+                            </motion.div>
                         </div>
                         <div className="col-12 col-md-8">
                             <div className="row py-4">
@@ -558,59 +569,59 @@ const TxnComponent = () => {
                                     Overview
                                 </div>
                             </div>
-                            <div className={styles.each_row}>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Signature
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}>
                                         {
-                                            (Array.isArray(data.signatures) && data.signatures.length>0)?
-                                            (
-                                                data.signatures.map((signature) => (
-                                                    <a href={(cluster === "mainnet-beta") ? `/tx/${signature}` : `/tx/${signature}?cluster=${cluster}`}>{shortenAddress(signature)}&nbsp;&nbsp;</a>
-                                                ))
-                                            ):""
+                                            (Array.isArray(data.signatures) && data.signatures.length > 0) ?
+                                                (
+                                                    data.signatures.map((signature) => (
+                                                        <a href={(cluster === "mainnet-beta") ? `/tx/${signature}` : `/tx/${signature}?cluster=${cluster}`}>{shortenAddress(signature)}&nbsp;&nbsp;</a>
+                                                    ))
+                                                ) : ""
                                         }
-                                        
+
                                     </div>
                                 </div>
-                            </div>
-                            <div className={styles.each_row}>
+                            </motion.div>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Signer
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}>
                                         {
-                                            (Array.isArray(data.signers) && data.signers.length>0)?
-                                            (
-                                                data.signers.map((signer) => (
-                                                    <a href={(cluster === "mainnet-beta") ? `/address/${signer}` : `/address/${signer}?cluster=${cluster}`}>{shortenAddress(signer)}&nbsp;&nbsp;</a>
-                                                ))
-                                            ):""
+                                            (Array.isArray(data.signers) && data.signers.length > 0) ?
+                                                (
+                                                    data.signers.map((signer) => (
+                                                        <a href={(cluster === "mainnet-beta") ? `/address/${signer}` : `/address/${signer}?cluster=${cluster}`}>{shortenAddress(signer)}&nbsp;&nbsp;</a>
+                                                    ))
+                                                ) : ""
                                         }
-                                        
+
                                     </div>
                                 </div>
-                            </div>
-                            <div className={styles.each_row}>
+                            </motion.div>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Block
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}># {rawData.blockTime ?? "--"}</div>
                                 </div>
-                            </div>
-                            <div className={styles.each_row}>
+                            </motion.div>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Time
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}>{getRelativetime(data.timestamp)} | {getFullTime(data.timestamp)}</div>
                                 </div>
-                            </div>
-                            <div className={styles.each_row}>
+                            </motion.div>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Status
@@ -640,34 +651,34 @@ const TxnComponent = () => {
                                                 Failed
                                             </div>
                                         </div>}
-                                        
+
                                     </div>
                                 </div>
-                            </div>
-                            <div className={styles.each_row}>
+                            </motion.div>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.8 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Fees
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}>{data.fee} SOL</div>
                                 </div>
-                            </div>
-                            <div className={styles.each_row}>
+                            </motion.div>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.9 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Protocol
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}>{formatNames(data.protocol.name) || data.protocol.address}</div>
                                 </div>
-                            </div>
-                            <div className={styles.each_row}>
+                            </motion.div>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 1.0 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Main Action
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}>{formatNames(data.type)}</div>
                                 </div>
-                            </div>
+                            </motion.div>
 
 
                         </div>
@@ -682,11 +693,11 @@ const TxnComponent = () => {
                             </div>
                         </div>
                     </div> */}
-                    <div className="row">
+                    <motion.div className="row" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
                         <div className="col-12">
                             <div className={styles.body_title}>
                                 Actions
-                                <span className={styles.body_title_sub}> ( {Array.isArray(data.actions)?data.actions.length:0 } )</span>
+                                <span className={styles.body_title_sub}> ( {Array.isArray(data.actions) ? data.actions.length : 0} )</span>
                             </div>
                             {
                                 (data.actions.length > 0) ?
@@ -707,7 +718,7 @@ const TxnComponent = () => {
                                                                         {(action.source_protocol.name != "") ? <div><a href={`/address/${action.source_protocol.address}`}>{formatNames(action.source_protocol.name)}</a></div> : (<a href={`/address/${action.source_protocol.address}`}>{shortenAddress(action.source_protocol.address)}</a>)}
                                                                     </div>
                                                                 </div> */}
-                                                                
+
                                                             </div>
                                                             <SubTransactions styles={styles} wallet={123} cluster={cluster} data={action} setTxType={action.type} key={index} />
                                                             {/* <SubTransactionsDetails styles={styles} wallet={123} cluster={cluster} data={action} setTxType={action.type} key={index} /> */}
@@ -721,77 +732,79 @@ const TxnComponent = () => {
                                     : "-"
                             }
                         </div>
-                    </div>
-                    {(unknownCount>0)?<div className="row">
+                    </motion.div>
+                    {(unknownCount > 0) ? <motion.div className="row" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
                         <div className="col-12">
                             <div className={styles.body_detail_card}>
                                 +{unknownCount} additional interactions
                             </div>
                         </div>
-                    </div>:""}
-                    <div className="row pt-4">
-                        <div className="col-12 col-md-6">
-                            <div className={styles.tab_container}>
-                                <button className={(panel === "SHYFT") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("SHYFT")}>
-                                    SHYFT Transaction
-                                    {(panel === "SHYFT") ? <div className={styles.underline} /> : ""}
-                                </button>
-                                <button className={(panel === "RAW") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("RAW")}>
-                                    Raw Transactions
-                                    {(panel === "RAW") ? <div className={styles.underline} /> : ""}
-                                </button>
+                    </motion.div> : ""}
+                    <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+                        <div className="row pt-4">
+                            <div className="col-12 col-md-6">
+                                <div className={styles.tab_container}>
+                                    <button className={(panel === "SHYFT") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("SHYFT")}>
+                                        SHYFT Transaction
+                                        {(panel === "SHYFT") ? <div className={styles.underline} /> : ""}
+                                    </button>
+                                    <button className={(panel === "RAW") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("RAW")}>
+                                        Raw Transactions
+                                        {(panel === "RAW") ? <div className={styles.underline} /> : ""}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-12 col-md-6 text-end">
-                            <button className={styles.hide_button} onClick={toggleTxnsSection}>
-                                Hide Details
-                            </button>
+                            <div className="col-12 col-md-6 text-end">
+                                <button className={styles.hide_button} onClick={toggleTxnsSection}>
+                                    Hide Details
+                                </button>
 
-                        </div>
-
-                    </div>
-                    <div id="json_txns">
-                        <div className={styles.toggle_section_1}>
-                            {
-                                (panel === "SHYFT") ?
-                                    <div className={styles.txn_raw}>
-                                        <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} />
-                                    </div>
-                                    :
-                                    <div className={styles.txn_raw}>
-                                        <JsonViewer value={rawData} theme={ocean} displayDataTypes={false} rootName={false} />
-                                    </div>
-                            }
-
-                        </div>
-                    </div>
-                    
-
-                    <div className="row pt-2">
-                        <div className="col-12 col-md-6">
-                            <div className={styles.body_title}>
-                                Program Logs
                             </div>
-                        </div>
-                        <div className="col-12 col-md-6 text-end">
-                            <button className={styles.hide_button} onClick={toggleLogsSection}>
-                                Hide Details
-                            </button>
-                        </div>
 
-                    </div>
-                    <div id="prog_logs">
-                        <div className={styles.toggle_section_1}>
-                            <div className={styles.txn_raw}>
+                        </div>
+                        <div id="json_txns">
+                            <div className={styles.toggle_section_1}>
                                 {
-                                    (Array.isArray(rawData.meta.logMessages) && rawData.meta.logMessages.length > 0) ?
-                                        rawData.meta.logMessages.map((log, index) => <div key={index}>{JSON.stringify(log)}</div>)
-                                        : "No Program Logs found"
+                                    (panel === "SHYFT") ?
+                                        <div className={styles.txn_raw}>
+                                            <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} />
+                                        </div>
+                                        :
+                                        <div className={styles.txn_raw}>
+                                            <JsonViewer value={rawData} theme={ocean} displayDataTypes={false} rootName={false} />
+                                        </div>
                                 }
+
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                     
+                    <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+                        <div className="row pt-2">
+                            <div className="col-12 col-md-6">
+                                <div className={styles.body_title}>
+                                    Program Logs
+                                </div>
+                            </div>
+                            <div className="col-12 col-md-6 text-end">
+                                <button className={styles.hide_button} onClick={toggleLogsSection}>
+                                    Hide Details
+                                </button>
+                            </div>
+
+                        </div>
+                        <div id="prog_logs">
+                            <div className={styles.toggle_section_1}>
+                                <div className={styles.txn_raw}>
+                                    {
+                                        (Array.isArray(rawData.meta.logMessages) && rawData.meta.logMessages.length > 0) ?
+                                            rawData.meta.logMessages.map((log, index) => <div key={index}>{JSON.stringify(log)}</div>)
+                                            : "No Program Logs found"
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </div>}
         </div>

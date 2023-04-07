@@ -15,6 +15,7 @@ import { shortenAddress, getRelativetime, getFullTime, formatNames,isParsable } 
 
 import SubTransactions from "./SubTransaction";
 import SubTxnUnknown from "./SubTxnUnknown";
+import { Link } from "react-router-dom";
 
 const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
     const [txType,setTxType] = useState("");
@@ -118,13 +119,13 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                             </div>
                         </motion.a>
                     </motion.div>
-                    {/* <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                        <a href={`https://explorer.solana.com/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
-                            <div className={styles.sol_icon_2}>
-                                <img src={solExplorer} alt="View on SolExplorer" />
+                    <motion.div whileTap={{ scale: 0.95 }}>
+                        <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
+                            <div className={styles.open_in_new}>
+                                Details
                             </div>
-                        </a>
-                    </motion.div> */}
+                        </Link>
+                    </motion.div>
 
                 </div>
                 <div className="row">

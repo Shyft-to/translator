@@ -318,7 +318,17 @@
     width: 24px;
     height: 24px;
 }
-
+.each_txn_3 .open_in_new
+{
+    font: 700 10px/10px "Poppins",sans-serif;
+    color: #3C1B67;
+    /* border: 2px solid white; */
+    background-color: #FDF41B;
+    border-radius: 12px;
+    margin-left: 6px;
+    margin-top: 4px;
+    padding: 6px 10px 6px;
+}
 .each_txn_3 .toggle_button .copyTxnSig img
 {
     width: 23px;
