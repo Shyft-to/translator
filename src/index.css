@@ -268,6 +268,14 @@ body {
   margin-left: 8px;
   text-align: center;
 }
+.generic .react-tooltip-lite {
+  /* width: 80px; */
+  padding: 18px 4px;
+  font: 300 12px/0 "Poppins", sans-serif;
+  display: inline;
+  margin-left: 8px;
+  text-align: center;
+}
 
 .footer-white {
   position: absolute;

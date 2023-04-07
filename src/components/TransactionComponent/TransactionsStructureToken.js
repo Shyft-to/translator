@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
+import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
 
 // import icon from "../../resources/images/txnImages/nft_transfer_2.svg";
 // import arrow from "../../resources/images/txnImages/arrow.svg";
@@ -120,11 +121,23 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                         </motion.a>
                     </motion.div>
                     <motion.div whileTap={{ scale: 0.95 }}>
-                        <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
-                            <div className={styles.open_in_new}>
-                                Details
-                            </div>
-                        </Link>
+                        <Tooltip
+                            content="view details in a new tab"
+                            className="generic"
+                            direction="up"
+                            // eventOn="onClick"
+                            // eventOff="onMouseLeave"
+                            useHover={true}
+                            background="#101010"
+                            color="#fefefe"
+                            arrowSize={0}
+                        >
+                            <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
+                                <div className={styles.open_in_new}>
+                                    <BsFillArrowUpRightSquareFill />
+                                </div>
+                            </Link>
+                        </Tooltip>
                     </motion.div>
 
                 </div>

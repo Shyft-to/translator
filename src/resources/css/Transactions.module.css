@@ -320,13 +320,13 @@
 }
 .each_txn_3 .open_in_new
 {
-    font: 700 10px/10px "Poppins",sans-serif;
-    color: #3C1B67;
+    font: 300 16px/16px "Poppins",sans-serif;
+    color: #FDF41B;
     /* border: 2px solid white; */
-    background-color: #FDF41B;
-    border-radius: 12px;
-    margin-left: 6px;
-    margin-top: 4px;
+    /* background-color: #FDF41B; */
+    /* border-radius: 12px; */
+    /* margin-left: 2px; */
+    margin-top: -1px;
     padding: 6px 10px 6px;
 }
 .each_txn_3 .toggle_button .copyTxnSig img
