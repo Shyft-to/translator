@@ -643,7 +643,7 @@ const TxnComponent = () => {
                                                 Confirmed
                                             </div>
                                         </div>}
-                                        {(data.status === "Failed") && <div className="d-flex">
+                                        {(data.status === "Fail") && <div className="d-flex">
                                             <div className={styles.success_logo}>
                                                 <img src={failedTick} alt="failed" style={{ width: "25px" }} />
                                             </div>
