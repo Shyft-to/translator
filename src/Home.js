@@ -149,7 +149,7 @@ const Home = () => {
                   <div className={styles.simple_input_container}>
                     <div className="d-flex">
                       <div className="flex-grow-1">
-                        <input type="text" placeholder="Search any wallet, token, NFT or .sol domains" value={wallet} onChange={(e) => setWallet(e.target.value)} onFocus={() => setFocused(true)} onBlur={BlurAfterTime} />
+                        <input type="text" placeholder="Search any wallet, token, .sol domains or transactions" value={wallet} onChange={(e) => setWallet(e.target.value)} onFocus={() => setFocused(true)} onBlur={BlurAfterTime} />
                       </div>
                       <div style={{ marginTop: "-1px", color: "#fff" }}>
                         <img src={searchIcon} alt="Search Box" />

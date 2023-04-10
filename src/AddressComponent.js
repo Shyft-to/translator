@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useSearchParams, useParams, useNavigate } from "react-router-dom";
 import { categorizeAddresswithExplorer,clearIfOutdated } from "./utils/getAllData";
-import { shortenAddress } from "./utils/formatter";
+import { shortenAddress,formatNames } from "./utils/formatter";
 import { motion } from "framer-motion";
 import { FaLink } from "react-icons/fa";
 import Tooltip from 'react-tooltip-lite';
@@ -36,6 +36,8 @@ const AddressComponent = () => {
     const [data, setData] = useState(null);
     const [contentType, setType] = useState('');
     const [errOccured, setErrOccured] = useState(false);
+
+    const [protocolName,setProtocolName] = useState("");
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
@@ -274,7 +276,7 @@ const AddressComponent = () => {
                                                         arrowSize={5}
 
                                                     >
-                                                        {shortenAddress(addr)}
+                                                        {(protocolName !== "")?formatNames(protocolName):shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
                                                 
@@ -328,7 +330,7 @@ const AddressComponent = () => {
                     </div>
                     <div className={styles.tabbed_section_container}>
                         {
-                            (panel === "TXN") && <Transactions address={addr} cluster={cluster} />
+                            (panel === "TXN") && <Transactions address={addr} cluster={cluster} setProtocolName={setProtocolName} />
                         }
                         {
                             (panel === "TKN") && <div className="text-center could_not_text pt-5">

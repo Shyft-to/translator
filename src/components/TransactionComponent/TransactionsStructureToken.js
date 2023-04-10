@@ -94,87 +94,89 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
 
     return (
         <div>
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={styles.each_txn_3}>
-                <div className={styles.toggle_button}>
-                    <div className="pe-3">
-                        <Tooltip
-                            content={copied}
-                            className="myTarget"
-                            direction="left"
-                            // eventOn="onClick"
-                            // eventOff="onMouseLeave"
-                            useHover={true}
-                            background="#101010"
-                            color="#fefefe"
-                            arrowSize={0}
-                        >
-                            <motion.button className={styles.copyTxnSig} onClick={() => copyValue(data.signatures[0])} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                                <img src={copyIcon} alt="Copy Value" />
-                            </motion.button>
-                        </Tooltip>
+            {/* <Link to={(cluster === "mainnet-beta") ? `/tx/${data.signatures[0]}` : `/tx/${data.signatures[0]}?cluster=${cluster}`} style={{textDecoration: "none"}}>  */}
+                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={styles.each_txn_3}>
+                    <div className={styles.toggle_button}>
+                        <div className="pe-3">
+                            <Tooltip
+                                content={copied}
+                                className="myTarget"
+                                direction="left"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                            >
+                                <motion.button className={styles.copyTxnSig} onClick={() => copyValue(data.signatures[0])} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                                    <img src={copyIcon} alt="Copy Value" />
+                                </motion.button>
+                            </Tooltip>
+                        </div>
+                        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                            <motion.a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
+                                <div className={styles.sol_icon}>
+                                    <img src={solScan} alt="View on SolScan" />
+                                </div>
+                            </motion.a>
+                        </motion.div>
+                        <motion.div whileTap={{ scale: 0.95 }}>
+                            <Tooltip
+                                content="view details in a new tab"
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                            >
+                                <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
+                                    <div className={styles.open_in_new}>
+                                        <BsFillArrowUpRightSquareFill />
+                                    </div>
+                                </Link>
+                            </Tooltip>
+                        </motion.div>
+
                     </div>
-                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                        <motion.a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
-                            <div className={styles.sol_icon}>
-                                <img src={solScan} alt="View on SolScan" />
-                            </div>
-                        </motion.a>
-                    </motion.div>
-                    <motion.div whileTap={{ scale: 0.95 }}>
-                        <Tooltip
-                            content="view details in a new tab"
-                            className="generic"
-                            direction="up"
-                            // eventOn="onClick"
-                            // eventOff="onMouseLeave"
-                            useHover={true}
-                            background="#101010"
-                            color="#fefefe"
-                            arrowSize={0}
-                        >
-                            <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
-                                <div className={styles.open_in_new}>
-                                    <BsFillArrowUpRightSquareFill />
+                    <div className="row">
+                        <div className="col-12">
+                            <div className={styles.fields_container}>
+                                <div className="d-flex flex-wrap justify-content-start align-content-end">
+                                    <div className="">
+                                        <div className={styles.txn_name}>
+                                            {txType || ((data.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(data.type) || "Protocol Interaction"))}
+                                        </div>
+                                    </div>
+                                    <div className="">
+                                        <div className={styles.txn_subname}>
+                                            {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                        </div>
+                                    </div>
+                                    <div className="">
+                                        <div className={styles.txn_subname} style={{ cursor: "pointer" }} aria-label={(data.timestamp != "") ? getFullTime(data.timestamp) : ""} data-balloon-pos="up">
+                                            {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                        </div>
+                                    </div>
                                 </div>
-                            </Link>
-                        </Tooltip>
-                    </motion.div>
+                                {
+                                    (data.actions.length > 0) ?
+                                        data.actions.map((action,index) => ((isParsable(action.type))?(<SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index}/>):""))
+                                        : "-"
+                                }
+                                {
+                                    (data.actions.length > 0 && data.actions.length === unknownCount) && <SubTxnUnknown styles={styles} unknownCount={unknownCount} />
+                                }
+                                {/* <SubTransactions styles={styles} wallet={address} cluster={cluster}/> */}
 
-                </div>
-                <div className="row">
-                    <div className="col-12">
-                        <div className={styles.fields_container}>
-                            <div className="d-flex flex-wrap justify-content-start align-content-end">
-                                <div className="">
-                                    <div className={styles.txn_name}>
-                                        {txType || ((data.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(data.type) || "Protocol Interaction"))}
-                                    </div>
-                                </div>
-                                <div className="">
-                                    <div className={styles.txn_subname}>
-                                        {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
-                                    </div>
-                                </div>
-                                <div className="">
-                                    <div className={styles.txn_subname} style={{ cursor: "pointer" }} aria-label={(data.timestamp != "") ? getFullTime(data.timestamp) : ""} data-balloon-pos="up">
-                                        {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
-                                    </div>
-                                </div>
                             </div>
-                            {
-                                (data.actions.length > 0) ?
-                                    data.actions.map((action,index) => ((isParsable(action.type))?(<SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index}/>):""))
-                                    : "-"
-                            }
-                            {
-                                (data.actions.length > 0 && data.actions.length === unknownCount) && <SubTxnUnknown styles={styles} unknownCount={unknownCount} />
-                            }
-                            {/* <SubTransactions styles={styles} wallet={address} cluster={cluster}/> */}
-
                         </div>
                     </div>
-                </div>
-            </motion.div>
+                </motion.div>
+            {/* </Link> */}
         </div>
     );
 }

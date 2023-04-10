@@ -65,6 +65,23 @@
         
     } 
 }
+.single_txn_page .each_row .inline_copy
+{
+    padding: 0px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: #fffa;
+    padding: 0px 10px;
+    font-size: 20px;
+}
+.single_txn_page .each_row .inline_copy img
+{
+    width: 20px;
+    margin-top: 1px;
+}
+
 .single_txn_page .each_row .row_title
 {
     font: 200 16px "Plus Jakarta Sans",sans-serif;

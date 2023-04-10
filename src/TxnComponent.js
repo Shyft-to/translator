@@ -13,8 +13,8 @@ import { shortenAddress, getRelativetime, getFullTime, formatLamports, convertTo
 import { getNFTData } from "./utils/getAllData";
 
 import unknown from "./resources/images/ok_bear.png";
-// import copyBtn from "./resources/images/txnImages/copy_icon.svg";
-import solscan from "./resources/images/txnImages/sol_scan_icon.svg";
+import copyBtn from "./resources/images/txnImages/copy_icon.svg";
+// import solscan from "./resources/images/txnImages/sol_scan_icon.svg";
 import solanaIcon from "./resources/images/txnImages/solanaIcon.svg";
 import memoplaceholders from "./resources/images/txnImages/memoPlaceholder.png";
 import sharkyPlaceHolder from "./resources/images/txnImages/sharkyprotocol.png";
@@ -64,6 +64,7 @@ const TxnComponent = () => {
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
     const [unknownCount, setUnknownCount] = useState(0);
+    const [copy,setCopied] = useState("Copy"); 
     const [copyLink, setCopyLink] = useState("Copy Link");
     const [shyftMessage, setMessage] = useState("");
 
@@ -498,10 +499,10 @@ const TxnComponent = () => {
     const copyValue = (value, link = false) => {
         if (link === false) {
             navigator.clipboard.writeText(value);
-            // setCopied("Copied");
-            // setTimeout(() => {
-            //     setCopied("Copy");
-            // }, 800);
+            setCopied("Copied");
+            setTimeout(() => {
+                setCopied("Copy");
+            }, 800);
         }
         else {
             navigator.clipboard.writeText(value);
@@ -544,11 +545,11 @@ const TxnComponent = () => {
                                     </button>
                                 </Tooltip>
                             </div>
-                            <div className="ps-2">
+                            {/* <div className="ps-2">
                                 <a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
                                     <img src={solscan} alt="SolScanIO" className={styles.sol_scan_image} />
                                 </a>
-                            </div>
+                            </div> */}
                         </div>
 
                     </motion.div>
@@ -564,11 +565,13 @@ const TxnComponent = () => {
                             </motion.div>
                         </div>
                         <div className="col-12 col-md-8">
-                            <div className="row py-4">
-                                <div className="col-12 text-light">
-                                    Overview
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+                                <div className="row py-4">
+                                    <div className="col-12 text-light">
+                                        Overview
+                                    </div>
                                 </div>
-                            </div>
+                            </motion.div>
                             <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
@@ -579,7 +582,22 @@ const TxnComponent = () => {
                                             (Array.isArray(data.signatures) && data.signatures.length > 0) ?
                                                 (
                                                     data.signatures.map((signature) => (
-                                                        <a href={(cluster === "mainnet-beta") ? `/tx/${signature}` : `/tx/${signature}?cluster=${cluster}`}>{shortenAddress(signature)}&nbsp;&nbsp;</a>
+                                                        <span>
+                                                            <a href={(cluster === "mainnet-beta") ? `/tx/${signature}` : `/tx/${signature}?cluster=${cluster}`}>{shortenAddress(signature)}</a>
+                                                            <Tooltip
+                                                                content={copy}
+                                                                className="inline_tooltip"
+                                                                direction="right"
+                                                                // eventOn="onClick"
+                                                                // eventOff="onMouseLeave"
+                                                                useHover={true}
+                                                                background="#101010"
+                                                                color="#fefefe"
+                                                                arrowSize={0}
+                                                            >
+                                                                <button className={styles.inline_copy}><img src={copyBtn} alt="Copy" onClick={() => copyValue(signature)} /></button>&nbsp;&nbsp;
+                                                            </Tooltip>
+                                                        </span>
                                                     ))
                                                 ) : ""
                                         }
@@ -597,7 +615,22 @@ const TxnComponent = () => {
                                             (Array.isArray(data.signers) && data.signers.length > 0) ?
                                                 (
                                                     data.signers.map((signer) => (
-                                                        <a href={(cluster === "mainnet-beta") ? `/address/${signer}` : `/address/${signer}?cluster=${cluster}`}>{shortenAddress(signer)}&nbsp;&nbsp;</a>
+                                                        <span>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${signer}` : `/address/${signer}?cluster=${cluster}`}>{shortenAddress(signer)}</a>
+                                                            <Tooltip
+                                                                content={copy}
+                                                                className="inline_tooltip"
+                                                                direction="right"
+                                                                // eventOn="onClick"
+                                                                // eventOff="onMouseLeave"
+                                                                useHover={true}
+                                                                background="#101010"
+                                                                color="#fefefe"
+                                                                arrowSize={0}
+                                                            >
+                                                                <button className={styles.inline_copy}><img src={copyBtn} alt="Copy" onClick={() => copyValue(signer)}/></button>&nbsp;&nbsp;
+                                                            </Tooltip>
+                                                        </span>
                                                     ))
                                                 ) : ""
                                         }
@@ -778,7 +811,7 @@ const TxnComponent = () => {
                             </div>
                         </div>
                     </motion.div>
-                    
+
                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                         <div className="row pt-2">
                             <div className="col-12 col-md-6">
