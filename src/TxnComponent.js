@@ -522,7 +522,7 @@ const TxnComponent = () => {
                 </div>
                 <div className="container-lg">
                     <div className={styles.main_heading}>
-                        Transaction Details
+                        {shortenAddress(txn) ?? "Transaction Details"}
                     </div>
                     <motion.div className={styles.token_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                         <div className="d-flex align-items-baseline">

@@ -16,8 +16,9 @@
 .single_txn_page .main_heading
 {
     padding-bottom: 30px;
-    font: 500 32px "Montserrat",sans-serif;
+    font: 700 32px "Montserrat",sans-serif;
     color: #fff;
+    letter-spacing: 1px;
 }
 .single_txn_page .token_name
 {
