@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
+import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
@@ -115,13 +117,25 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                 </div>
                             </motion.a>
                         </motion.div>
-                        {/* <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                            <a href={`https://explorer.solana.com/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
-                                <div className={styles.sol_icon_2}>
-                                    <img src={solExplorer} alt="View on SolExplorer" />
-                                </div>
-                            </a>
-                        </motion.div> */}
+                        <motion.div whileTap={{ scale: 0.95 }}>
+                            <Tooltip
+                                content="view details in a new tab"
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                            >
+                                <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
+                                    <div className={styles.open_in_new}>
+                                        <BsFillArrowUpRightSquareFill />
+                                    </div>
+                                </Link>
+                            </Tooltip>
+                        </motion.div>
 
                     </div>
                     <div className="row">

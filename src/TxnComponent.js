@@ -698,7 +698,7 @@ const TxnComponent = () => {
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Protocol
                                     </div>
-                                    <div className={`col-8 text-end text-md-start ${styles.row_value}`}>{formatNames(data.protocol.name) || data.protocol.address}</div>
+                                    <div className={`col-8 text-end text-md-start ${styles.row_value}`}>{formatNames(data.protocol.name) || shortenAddress(data.protocol.address)}</div>
                                 </div>
                             </motion.div>
 
