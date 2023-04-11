@@ -94,8 +94,12 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
 
     return (
         <div>
-            {/* <Link to={(cluster === "mainnet-beta") ? `/tx/${data.signatures[0]}` : `/tx/${data.signatures[0]}?cluster=${cluster}`} style={{textDecoration: "none"}}>  */}
                 <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={styles.each_txn_3}>
+                    <Link to={(cluster === "mainnet-beta") ? `/tx/${data.signatures[0]}` : `/tx/${data.signatures[0]}?cluster=${cluster}`} style={{textDecoration: "none"}} target="_blank"> 
+                        <div className={styles.clickable_section}>
+
+                        </div>
+                    </Link>
                     <div className={styles.toggle_button}>
                         <div className="pe-3">
                             <Tooltip
@@ -145,23 +149,26 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                     <div className="row">
                         <div className="col-12">
                             <div className={styles.fields_container}>
-                                <div className="d-flex flex-wrap justify-content-start align-content-end">
-                                    <div className="">
-                                        <div className={styles.txn_name}>
-                                            {txType || ((data.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(data.type) || "Protocol Interaction"))}
+                                <div className={styles.txn_name_section}>
+                                    <div className="d-flex flex-wrap justify-content-start align-content-end">
+                                        <div className="">
+                                            <div className={styles.txn_name}>
+                                                {txType || ((data.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(data.type) || "Protocol Interaction"))}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="">
-                                        <div className={styles.txn_subname}>
-                                            {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                        <div className="">
+                                            <div className={styles.txn_subname}>
+                                                {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="">
-                                        <div className={styles.txn_subname} style={{ cursor: "pointer" }} aria-label={(data.timestamp != "") ? getFullTime(data.timestamp) : ""} data-balloon-pos="up">
-                                            {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                        <div className="">
+                                            <div className={styles.txn_subname} style={{ cursor: "pointer" }} aria-label={(data.timestamp != "") ? getFullTime(data.timestamp) : ""} data-balloon-pos="up">
+                                                {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                
                                 {
                                     (data.actions.length > 0) ?
                                         data.actions.map((action,index) => ((isParsable(action.type))?(<SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index}/>):""))
@@ -176,7 +183,6 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                         </div>
                     </div>
                 </motion.div>
-            {/* </Link> */}
         </div>
     );
 }
