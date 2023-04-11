@@ -95,7 +95,6 @@
 {
     padding: 10px 0px;
     max-width: 180px;
-    
 }
 .nft_container .name_section .name_text
 {
@@ -108,11 +107,12 @@
 .nft_container .number_badge
 {
     background-color: transparent;
-    border: 3px solid white;
+    border: 2px solid white;
     position: relative;
-    font: 700 11px/14px "Montserrat", sans-serif;
+    font: 400 11px/14px "Montserrat", sans-serif;
     min-width: 20px;
     padding: 3px 8px 3px;
+
 }
 .i_hover_section
 {

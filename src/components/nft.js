@@ -53,9 +53,14 @@ const NFTs = ({ collection, address, network }) => {
 
           <div className={styles.name_section}>
             <div className="row">
-              <div className="col-12">
+              <div className="col-8">
                 <div className={styles.name_text}>
-                  {collection.name ?? "--"} <span class={`badge rounded-pill ${styles.number_badge}`}>{collection.nfts.length ?? "--"}</span> 
+                  {collection.name ?? "--"} 
+                </div>
+              </div>
+              <div className="col-4 text-end">
+                <div className={styles.name_text}>
+                  <span class={`badge rounded-pill ${styles.number_badge}`}>{collection.nfts.length ?? "--"}</span> 
                 </div>
               </div>
             </div>
