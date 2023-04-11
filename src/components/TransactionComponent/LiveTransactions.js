@@ -92,6 +92,11 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
         <div>
             {/* <AnimatePresence initial={false}> */}
                 <motion.div initial={{ opacity: 0,backgroundColor:"#9e57fa" }} animate={{ opacity: 1,backgroundColor:"#3C1B67" }} transition={{ duration: 0.6 }} className={styles.each_txn_3}>
+                    <Link to={(cluster === "mainnet-beta") ? `/tx/${data.signatures[0]}` : `/tx/${data.signatures[0]}?cluster=${cluster}`} style={{textDecoration: "none"}} target="_blank"> 
+                        <div className={styles.clickable_section}>
+
+                        </div>
+                    </Link>
                     <div className={styles.toggle_button}>
                         <div className="pe-3">
                             <Tooltip
