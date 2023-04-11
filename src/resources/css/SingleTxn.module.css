@@ -20,11 +20,26 @@
     color: #fff;
     letter-spacing: 1px;
 }
+@media screen and (max-width: 767px) {
+    .single_txn_page .main_heading
+    {
+        padding-bottom: 30px;
+        font: 700 22px "Montserrat",sans-serif;
+        color: #fff;
+        letter-spacing: 0px;
+    }
+}
 .single_txn_page .token_name
 {
-    padding: 20px 0px;
-    font: 500 24px/32px "Montserrat",sans-serif;
+    padding: 10px 0px;
+    font: 400 18px/24px "Montserrat",sans-serif;
     color: #fff;
+}
+.single_txn_page .overview_text
+{
+    font: 500 20px/26px "Montserrat",sans-serif;
+    color: #fff;
+    padding: 20px 0px;
 }
 .single_txn_page .copy_button
 {
@@ -33,13 +48,13 @@
     border: none;
     outline: none;
     box-shadow: none;
-    color: #fffa;
-    padding: 0px 10px;
+    color: #E0499B;
+    padding: 0px 6px;
     font-size: 20px;
 }
 .single_txn_page .copy_button img
 {
-    width: 20px;
+    width: 24px;
     margin-top: -3px;
 }
 .single_txn_page .sol_scan_image
@@ -75,7 +90,7 @@
     box-shadow: none;
     color: #fffa;
     padding: 0px 10px;
-    font-size: 20px;
+    font-size: 16px;
 }
 .single_txn_page .each_row .inline_copy img
 {
@@ -87,14 +102,14 @@
 {
     font: 200 16px "Plus Jakarta Sans",sans-serif;
     color: #fff; 
-    padding-bottom: 16px;
+    padding-bottom: 8px;
     letter-spacing: 1px;
 }
 .single_txn_page .each_row .row_value
 {
     font: 500 16px "Plus Jakarta Sans",sans-serif;
     color: #fff; 
-    padding-bottom: 16px;
+    padding-bottom: 8px;
     letter-spacing: 1px;
 }
 .single_txn_page .each_row .row_value a

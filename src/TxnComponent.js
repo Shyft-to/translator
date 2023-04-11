@@ -64,7 +64,7 @@ const TxnComponent = () => {
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
     const [unknownCount, setUnknownCount] = useState(0);
-    const [copy,setCopied] = useState("Copy"); 
+    const [copy, setCopied] = useState("Copy");
     const [copyLink, setCopyLink] = useState("Copy Link");
     const [shyftMessage, setMessage] = useState("");
 
@@ -81,6 +81,7 @@ const TxnComponent = () => {
 
     useEffect(() => {
         console.log("Getting txn details");
+        
         setLoading(true);
         var params = {
             network: cluster,
@@ -120,9 +121,18 @@ const TxnComponent = () => {
                     }
                     setUnknownCount(unknownCounter);
                     // console.log("Data status:",data.status);
-
+                    
                 }
                 setLoading(false);
+                setTimeout(() => {
+                    $(`#json_txns`).animate({
+                        height: "hide",
+                      });
+                      $(`#prog_logs`).animate({
+                        height: "hide",
+                      });
+                }, 500);
+                
             })
             .catch((err) => {
                 console.log(err);
@@ -475,6 +485,7 @@ const TxnComponent = () => {
                     value: "",
                     symbol: ""
                 }
+                setName("Unknown");
             }
             //setVarFields(type_obj);
             setMessage(msg);
@@ -522,12 +533,29 @@ const TxnComponent = () => {
                 </div>
                 <div className="container-lg">
                     <div className={styles.main_heading}>
-                        {shortenAddress(txn) ?? "Transaction Details"}
-                    </div>
-                    <motion.div className={styles.token_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-                        <div className="d-flex align-items-baseline">
-                            <div>{name}</div>
+                        <div className="d-flex align-items-center">
+                            <div>
+                                {shortenAddress(txn) ?? "Transaction Details"}
+                            </div>
                             <div className="ps-2">
+                                <Tooltip
+                                    content={copy}
+                                    className="myTarget"
+                                    direction="up"
+                                    // eventOn="onClick"
+                                    // eventOff="onMouseLeave"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                >
+                                    <button className={styles.copy_button} onClick={() => copyValue(txn)}>
+                                        <img src={copyBtn} alt="Copy" />
+                                        {/* <FaLink /> */}
+                                    </button>
+                                </Tooltip>
+                            </div>
+                            <div>
                                 <Tooltip
                                     content={copyLink}
                                     className="myTarget"
@@ -545,6 +573,16 @@ const TxnComponent = () => {
                                     </button>
                                 </Tooltip>
                             </div>
+                        </div>
+                        
+                    </div>
+                    <div className={styles.overview_text}>
+                        Overview
+                    </div>
+                    <motion.div className={styles.token_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+                        <div className="d-flex align-items-baseline">
+                            <div>{name || formatNames(data.type ?? "Unknown")}</div>
+                            
                             {/* <div className="ps-2">
                                 <a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
                                     <img src={solscan} alt="SolScanIO" className={styles.sol_scan_image} />
@@ -554,8 +592,8 @@ const TxnComponent = () => {
 
                     </motion.div>
                     <div className="row">
-                        <div className="col-12 col-md-4">
-                            <motion.div className={styles.img_container} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
+                        <div className="col-12 col-md-1">
+                            <motion.div className={styles.img_container} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                                 <img src={image || unknown}
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null; // prevents looping
@@ -564,18 +602,11 @@ const TxnComponent = () => {
                                     alt="Unknown" className="img-fluid" />
                             </motion.div>
                         </div>
-                        <div className="col-12 col-md-8">
-                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-                                <div className="row py-4">
-                                    <div className="col-12 text-light">
-                                        Overview
-                                    </div>
-                                </div>
-                            </motion.div>
-                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
+                        <div className="col-12 col-md-6">
+                            {/* <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
-                                        Signature
+                                        Signatures
                                     </div>
                                     <div className={`col-8 ${styles.row_value}`}>
                                         {
@@ -604,13 +635,13 @@ const TxnComponent = () => {
 
                                     </div>
                                 </div>
-                            </motion.div>
+                            </motion.div> */}
                             <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
-                                        Signer
+                                        Signers
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}>
+                                    <div className={`col-8 text-end text-md-start ${styles.row_value}`}>
                                         {
                                             (Array.isArray(data.signers) && data.signers.length > 0) ?
                                                 (
@@ -628,7 +659,7 @@ const TxnComponent = () => {
                                                                 color="#fefefe"
                                                                 arrowSize={0}
                                                             >
-                                                                <button className={styles.inline_copy}><img src={copyBtn} alt="Copy" onClick={() => copyValue(signer)}/></button>&nbsp;&nbsp;
+                                                                <button className={styles.inline_copy}><img src={copyBtn} alt="Copy" onClick={() => copyValue(signer)} /></button>&nbsp;&nbsp;
                                                             </Tooltip>
                                                         </span>
                                                     ))
@@ -638,20 +669,43 @@ const TxnComponent = () => {
                                     </div>
                                 </div>
                             </motion.div>
-                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                                <div className="row pt-3">
-                                    <div className={`col-4 ${styles.row_title}`}>
-                                        Block
-                                    </div>
-                                    <div className={`col-8 ${styles.row_value}`}># {rawData.blockTime ?? "--"}</div>
-                                </div>
-                            </motion.div>
+
                             <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Time
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}>{getRelativetime(data.timestamp)} | {getFullTime(data.timestamp)}</div>
+                                    <div className={`col-8 text-end text-md-start ${styles.row_value}`}>{getRelativetime(data.timestamp)} | {getFullTime(data.timestamp)}</div>
+                                </div>
+                            </motion.div>
+
+
+
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.8 }}>
+                                <div className="row pt-3">
+                                    <div className={`col-4 ${styles.row_title}`}>
+                                        Main Action
+                                    </div>
+                                    <div className={`col-8 text-end text-md-start ${styles.row_value}`}>{formatNames(data.type)}</div>
+                                </div>
+                            </motion.div>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 1.0 }}>
+                                <div className="row pt-3">
+                                    <div className={`col-4 ${styles.row_title}`}>
+                                        Protocol
+                                    </div>
+                                    <div className={`col-8 text-end text-md-start ${styles.row_value}`}>{formatNames(data.protocol.name) || data.protocol.address}</div>
+                                </div>
+                            </motion.div>
+
+                        </div>
+                        <div className="col-12 col-md-5">
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
+                                <div className="row pt-3">
+                                    <div className={`col-4 ${styles.row_title}`}>
+                                        Block
+                                    </div>
+                                    <div className={`col-8 text-end ${styles.row_value}`}># {rawData.blockTime ?? "--"}</div>
                                 </div>
                             </motion.div>
                             <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
@@ -659,8 +713,8 @@ const TxnComponent = () => {
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Status
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}>
-                                        {(data.status === "Success") && <div className="d-flex">
+                                    <div className={`col-8 text-end ${styles.row_value}`}>
+                                        {(data.status === "Success") && <div className="d-flex justify-content-end">
                                             <div className={styles.success_logo}>
                                                 <img src={successTick} alt="success" style={{ width: "25px" }} />
                                             </div>
@@ -668,7 +722,7 @@ const TxnComponent = () => {
                                                 Success
                                             </div>
                                         </div>}
-                                        {(data.status === "Confirmed") && <div className="d-flex">
+                                        {(data.status === "Confirmed") && <div className="d-flex justify-content-end">
                                             <div className={styles.success_logo}>
                                                 {/* <img src={successTick} alt="success" style={{ width: "25px" }} /> */}
                                             </div>
@@ -676,7 +730,7 @@ const TxnComponent = () => {
                                                 Confirmed
                                             </div>
                                         </div>}
-                                        {(data.status === "Fail") && <div className="d-flex">
+                                        {(data.status === "Fail") && <div className="d-flex justify-content-end">
                                             <div className={styles.success_logo}>
                                                 <img src={failedTick} alt="failed" style={{ width: "25px" }} />
                                             </div>
@@ -688,32 +742,15 @@ const TxnComponent = () => {
                                     </div>
                                 </div>
                             </motion.div>
-                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.8 }}>
+                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.9 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Fees
                                     </div>
-                                    <div className={`col-8 ${styles.row_value}`}>{data.fee} SOL</div>
+                                    <div className={`col-8 text-end ${styles.row_value}`}>{data.fee} SOL</div>
                                 </div>
                             </motion.div>
-                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.9 }}>
-                                <div className="row pt-3">
-                                    <div className={`col-4 ${styles.row_title}`}>
-                                        Protocol
-                                    </div>
-                                    <div className={`col-8 ${styles.row_value}`}>{formatNames(data.protocol.name) || data.protocol.address}</div>
-                                </div>
-                            </motion.div>
-                            <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 1.0 }}>
-                                <div className="row pt-3">
-                                    <div className={`col-4 ${styles.row_title}`}>
-                                        Main Action
-                                    </div>
-                                    <div className={`col-8 ${styles.row_value}`}>{formatNames(data.type)}</div>
-                                </div>
-                            </motion.div>
-
-
+                            
                         </div>
                     </div>
                     {/* <div className="row">
@@ -789,7 +826,7 @@ const TxnComponent = () => {
                             </div>
                             <div className="col-12 col-md-6 text-end">
                                 <button className={styles.hide_button} onClick={toggleTxnsSection}>
-                                    Hide Details
+                                    Show Details
                                 </button>
 
                             </div>
@@ -821,7 +858,7 @@ const TxnComponent = () => {
                             </div>
                             <div className="col-12 col-md-6 text-end">
                                 <button className={styles.hide_button} onClick={toggleLogsSection}>
-                                    Hide Details
+                                    Show Details
                                 </button>
                             </div>
 
