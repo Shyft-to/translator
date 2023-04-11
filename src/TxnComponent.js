@@ -6,6 +6,7 @@ import axios from "axios";
 import { FaLink } from "react-icons/fa";
 import Tooltip from 'react-tooltip-lite';
 import { motion } from "framer-motion";
+import ReactGA from "react-ga4";
 
 import styles from "./resources/css/SingleTxn.module.css";
 
@@ -78,6 +79,9 @@ const TxnComponent = () => {
             height: "toggle",
         }, 200, "linear");
     }
+    useEffect(() => {
+        ReactGA.send({ hitType: "pageview", page: "/tx", title: "Transaction Details" });
+    }, []);
 
     useEffect(() => {
         console.log("Getting txn details");
