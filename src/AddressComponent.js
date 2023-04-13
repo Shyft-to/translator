@@ -323,10 +323,10 @@ const AddressComponent = () => {
                             Live Activity<div className="px-2" style={{display:"inline",position:"relative"}}><div className="blinking"></div></div>
                             {(panel === "TXN") ? <div className={styles.underline} /> : ""}
                         </button>
-                        <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("TKN")}>
+                        {(contentType === "WALLET") && <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("TKN")}>
                             Tokens
                             {(panel === "TKN") ? <div className={styles.underline} /> : ""}
-                        </button>
+                        </button>}
                     </div>
                     <div className={styles.tabbed_section_container}>
                         {

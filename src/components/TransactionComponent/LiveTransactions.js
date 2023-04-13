@@ -122,25 +122,6 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                 </div>
                             </motion.a>
                         </motion.div>
-                        <motion.div whileTap={{ scale: 0.95 }}>
-                            <Tooltip
-                                content="view details in a new tab"
-                                className="generic"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={0}
-                            >
-                                <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
-                                    <div className={styles.open_in_new}>
-                                        <BsFillArrowUpRightSquareFill />
-                                    </div>
-                                </Link>
-                            </Tooltip>
-                        </motion.div>
 
                     </div>
                     <div className="row">
@@ -154,12 +135,56 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                     </div>
                                     <div className="">
                                         <div className={styles.txn_subname}>
-                                            {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                            <Tooltip
+                                                content={`Protocol`}
+                                                className="generic"
+                                                direction="up"
+                                                // eventOn="onClick"
+                                                // eventOff="onMouseLeave"
+                                                useHover={true}
+                                                background="#101010"
+                                                color="#fefefe"
+                                                arrowSize={0}
+                                            >
+                                                {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                            </Tooltip>
                                         </div>
                                     </div>
                                     <div className="">
-                                        <div className={styles.txn_subname} style={{ cursor: "pointer" }} aria-label={(data.timestamp != "") ? getFullTime(data.timestamp) : ""} data-balloon-pos="up">
-                                            {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                        <div className={styles.txn_subname}>
+                                            <div>
+                                                <Tooltip
+                                                    content={`Signature`}
+                                                    className="generic"
+                                                    direction="up"
+                                                    // eventOn="onClick"
+                                                    // eventOff="onMouseLeave"
+                                                    useHover={true}
+                                                    background="#101010"
+                                                    color="#fefefe"
+                                                    arrowSize={0}
+                                                >
+                                                    <Link to={(cluster === "mainnet-beta") ? `/tx/${data.signatures[0]}`:`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">{shortenAddress(data.signatures[0])}</Link>
+                                                </Tooltip>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div className="">
+                                        <div className={styles.txn_subname} style={{ cursor: "pointer" }}>
+                                            <Tooltip
+                                                content={(data.timestamp != "") ? getFullTime(data.timestamp) : ""}
+                                                className="generic"
+                                                direction="up"
+                                                // eventOn="onClick"
+                                                // eventOff="onMouseLeave"
+                                                useHover={true}
+                                                background="#101010"
+                                                color="#fefefe"
+                                                arrowSize={0}
+                                            >
+                                                {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>

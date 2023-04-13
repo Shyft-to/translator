@@ -211,3 +211,45 @@
 {
   position: relative;
 }
+.token_search_container
+{
+  width: 230px;
+  border-radius: 25px;
+  background-color: #280C4C;
+  padding: 4px 8px 9px 16px;
+}
+.token_search_container input {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  color: #fff;
+  font: 500 13px/18px "Montserrat", sans-serif;
+  letter-spacing: 1px;
+}
+.token_search_container input:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+.token_search_container .token_search_icon
+{
+    color: #FDF41B;
+    transition: all 0.2s ease-in;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    font: 300 14px/14px "Montserrat", sans-serif;
+}
+@media screen and (max-width: 767px) {
+  .token_search_container
+  {
+    width: 94vw;
+    border-radius: 25px;
+    background-color: #280C4C;
+    padding: 4px 8px 9px 16px;
+  }
+  
+}
+

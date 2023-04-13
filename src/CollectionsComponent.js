@@ -7,10 +7,11 @@ import CollectionRowSlice from "./components/CollectionRowSlice";
 import SimpleLoader from "./components/loaders/SimpleLoader";
 
 import { getCollectionsData } from "./utils/getAllData";
-import Transactions from "./components/TransactionComponent/Transactions";
+// import Transactions from "./components/TransactionComponent/Transactions";
 import SearchComponent from "./components/SearchComponent";
 import EachNft from "./components/EachNft";
 import SearchTokens from "./components/SearchTokens";
+import SearchEachNft from "./components/SearchedEachNft";
 
 const CollectionsComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -23,7 +24,7 @@ const CollectionsComponent = () => {
     const [contentType, setType] = useState('');
     const [errOccured, setErrOccured] = useState(false);
 
-    const [searchTerm,setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
     const [allNfts, setAllNfts] = useState([]);
 
     useEffect(() => {
@@ -81,8 +82,8 @@ const CollectionsComponent = () => {
             <div className="background_super">
 
                 <div className="container pt-2 pb-1">
-                    {/* <SearchComponent /> */}
-                    <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                    <SearchComponent />
+
                 </div>
                 {isLoading &&
                     <div className="pt-5 mt-3">
@@ -91,41 +92,67 @@ const CollectionsComponent = () => {
                 }
                 {!isLoading &&
                     <div>
-                        
-                        {(searchTerm !== "")?
                         <div className={styles.all_collections_page}>
                             <div className="container-lg pt-4">
-                                <div className={styles.main_heading}>
-                                    Search Results
-                                </div>
-                            </div>
-                            <div className="container-lg pt-5">
-                                <div className={styles.collection_nft_container}>
-                                    <div className="d-flex flex-wrap justify-content-start">
-                                        {allNfts.filter(nft => nft.name.startsWith(searchTerm)).map(nft => (
-                                            <EachNft nft={nft} cluster={cluster} />
-                                        ))}
+                                <div className="row pb-4">
+                                    <div className="col-12 col-md-6">
+                                        {(searchTerm !== "") ? <div className={styles.main_heading}>
+                                            Search Results
+                                        </div> :
+                                            <div className={styles.main_heading}>
+                                                Collections in your wallet
+                                            </div>
+                                        }
+                                    </div>
+                                    <div className="col-12 col-md-6 pt-2">
+                                        <div className="d-flex justify-content-end">
+                                            <div>
+                                                <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
-                                
+                                    
+                                {(searchTerm !== "") ?
+                                    <div>
+                                        <div className={styles.collection_nft_container}>
+                                            <div className="d-flex flex-wrap justify-content-start">
+                                                {allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).map((nft,index) => (
+                                                    <SearchEachNft nft={nft} cluster={cluster} key={index} />
+                                                ))}
+                                            </div>
+                                            {(searchTerm !== "" && allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).length === 0) && <div className="text-center">
+                                                <div className={`py-4 ${styles.could_not_text}`}>No Tokens Found</div>
+                                            </div>}
+                                            {/* <div className="pt-5">
+                                                <div className={styles.main_heading}>
+                                                    Collections
+                                                </div>
+                                                {data.filter(collection => collection.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).map((collection,index) => (<div className="pt-4" key={index} id={collection.name}>
+                                                    <CollectionRowSlice collection={collection} cluster={cluster} />
+                                                </div>))}
+                                                {
+                                                   (data.filter(collection => collection.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).length === 0) && 
+                                                    <div className="text-center">
+                                                        <div className={`py-4 ${styles.could_not_text}`}>No Collections Found</div>
+                                                    </div>
+                                                }
+                                            </div> */}
+                                        </div>
+                                    </div>
+                                    :
+                                    <div>
+                                        {data.map(collection => (<div className="pt-4" id={collection.name}>
+                                            {/* <CollectionRow collection={collection} cluster={cluster}/> */}
+                                            <CollectionRowSlice collection={collection} cluster={cluster} />
+                                        </div>))}
+                                    </div>}
                             </div>
-
                         </div>
-                        :
-                        <div className={styles.all_collections_page}>
-                            <div className="container-lg pt-4">
-                                <div className={styles.main_heading}>
-                                    Collections in your wallet
-                                </div>
-                            </div>
-                            {data.map(collection => (<div className="container-lg pt-5" id={collection.name}>
-                                {/* <CollectionRow collection={collection} cluster={cluster}/> */}
-                                <CollectionRowSlice collection={collection} cluster={cluster} />
-                            </div>))}
-
-                        </div>}
                     </div>
                 }
+
                 <div className="container pt-4">
                     {/* <div className="pt-5">
                         <Transactions address={addr} cluster={cluster} />
