@@ -125,7 +125,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                 </div>
                             </motion.a>
                         </motion.div>
-                        <motion.div whileTap={{ scale: 0.95 }}>
+                        {/* <motion.div whileTap={{ scale: 0.95 }}>
                             <Tooltip
                                 content="view details in a new tab"
                                 className="generic"
@@ -143,7 +143,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                     </div>
                                 </Link>
                             </Tooltip>
-                        </motion.div>
+                        </motion.div> */}
 
                     </div>
                     <div className="row">
@@ -159,6 +159,26 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                         <div className="">
                                             <div className={styles.txn_subname}>
                                                 {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                            </div>
+                                        </div>
+                                        <div className="">
+                                            <div className={styles.txn_subname}>
+                                                { <div>
+                                                    <Tooltip
+                                                        content={data.signatures[0]}
+                                                        className="generic"
+                                                        direction="up"
+                                                        // eventOn="onClick"
+                                                        // eventOff="onMouseLeave"
+                                                        useHover={true}
+                                                        background="#101010"
+                                                        color="#fefefe"
+                                                        arrowSize={0}
+                                                    >
+                                                        <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">{shortenAddress(data.signatures[0])}</Link>
+                                                    </Tooltip>
+                                                 </div>
+                                                }
                                             </div>
                                         </div>
                                         <div className="">
