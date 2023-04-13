@@ -35,6 +35,8 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
     const [image, setImage] = useState(icon);
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
+    const [relType,setRelType] = useState("")
+    //const [relType,setRelType] = useState("");
     const [currency, setCurrency] = useState("");
     const [currencyField, setCurrencyField] = useState("");
     const [varFields, setVarFields] = useState({
@@ -49,15 +51,29 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
     const [dataLoaded, setDataLoaded] = useState(false);
     const [copy, setCopied] = useState("Copy");
 
-    const getData = async (cluster, address) => {
+    const getData = async (cluster, address, type="") => {
         try {
-            const res = await getNFTData(cluster, address);
-            if (res.success === true) {
-                if (res.details.image_uri)
-                    setImage(res.details.cached_image_uri ?? res.details.image_uri);
-
-                setName(res.details.name);
+            if(type === "TOKEN")
+            {
+                const res = await getTokenData(cluster, address);
+                if (res.success === true) {
+                    if (res.details.image)
+                        setImage(res.details.image);
+    
+                    setName(res.details.name);
+                }
             }
+            else
+            {
+                const res = await getNFTData(cluster, address);
+                if (res.success === true) {
+                    if (res.details.image_uri)
+                        setImage(res.details.cached_image_uri ?? res.details.image_uri);
+    
+                    setName(res.details.name);
+                }
+            }
+            
             setDataLoaded(true);
         }
         catch (error) {
@@ -124,6 +140,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");
+                setRelType("TOKEN");
                 // setCurrencyField(data.info.token_address ?? "");
             } else if (data.type === "NFT_TRANSFER") {
                 type_obj = {
@@ -149,6 +166,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                 }
 
                 setRelField(data.info.token_address ?? "");
+                setRelType("TOKEN");
             } else if (data.type === "NFT_MINT") {
                 type_obj = {
                     type: "MINT",
@@ -195,6 +213,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");
+                setRelType("TOKEN");
             } else if (data.type === "TOKEN_CREATE") {
                 type_obj = {
                     type: "CREATE",
@@ -206,6 +225,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");
+                setRelType("TOKEN");
             } else if (data.type === "NFT_LIST") {
                 type_obj = {
                     type: "NFT_LIST",
@@ -429,7 +449,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
     useEffect(() => {
         if (inView === true && dataLoaded === false) {
             if (relField !== "")
-                getData(cluster, relField);
+                getData(cluster, relField,relType);
         }
 
     }, [inView]);
@@ -465,7 +485,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                     (data.type === "OFFER_LOAN" || data.type == "CANCEL_LOAN") ?
                                         ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a> : "--")
                                         :
-                                        (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "NFT_LIST_CANCEL" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
+                                        (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "NFT_LIST_CANCEL" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{shortenAddress(relField)}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
                                 }
                             </div>
 
