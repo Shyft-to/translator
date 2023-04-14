@@ -5,12 +5,14 @@ import { getAllTokens } from "../../utils/getAllData";
 import TxnLoader from "../loaders/TxnLoader";
 
 import EachTabToken from "./EachTabToken";
+import SearchTokens from "../SearchTokens";
 
 
 const TabbedTokens = ({address,cluster}) => {
     const [tokens,setTokens] = useState([]);
     const [isLoading,setLoading] = useState(false);
     // const [errorOcc,setErrorOcc] = useState(false);
+    const [searchTerm,setSearchTerm] = useState("");
 
     const getData = async (cluster, address) => {
         try {
@@ -37,12 +39,36 @@ const TabbedTokens = ({address,cluster}) => {
 
     return ( 
     <div>
+        <div className={styles.search_area_container}>
+            <div className="d-flex justify-content-end">
+                <div>
+                    <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search Tokens"} />
+                </div>
+            </div>
+        </div>
+        
         <div className={styles.tabbed_token_section}>
             {
                 (!isLoading && tokens.length>0) && 
-                (
-                    tokens.map((token) => (<EachTabToken styles={styles} token={token} cluster={cluster}/>))
-                )
+                    <div>
+                        {
+                            (searchTerm !== "")?
+                            (
+                                <div>
+                                {
+                                    tokens.filter(token => token.info.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).map((token,index) => (<EachTabToken styles={styles} key={index} token={token} cluster={cluster}/>))
+
+                                }
+                                {
+                                    (tokens.filter(token => token.info.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).length === 0)?
+                                        <div className={styles.could_not_text}>No Tokens Found</div>
+                                        :""
+                                }
+                                </div>
+                            ):
+                            (tokens.map((token,index) => (<EachTabToken styles={styles} key={index} token={token} cluster={cluster}/>)))
+                        }
+                    </div>  
             }
             {
                 

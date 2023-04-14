@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import styles from "../resources/css/SearchComponent.module.css";
 
 
-const SearchTokens = ({ searchTerm, setSearchTerm }) => {
+const SearchTokens = ({ searchTerm, setSearchTerm,placeholder }) => {
 
   return (
     <div className={styles.token_search_container}>
@@ -11,7 +11,7 @@ const SearchTokens = ({ searchTerm, setSearchTerm }) => {
         <div className="flex-grow-1">
           <input
             type="text"
-            placeholder="Search NFTs"
+            placeholder={placeholder}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           // onFocus={() => setFocused(true)}

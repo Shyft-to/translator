@@ -107,7 +107,7 @@ const CollectionsComponent = () => {
                                     <div className="col-12 col-md-6 pt-2">
                                         <div className="d-flex justify-content-end">
                                             <div>
-                                                <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                                                <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search NFTs"}/>
                                             </div>
                                         </div>
 
