@@ -542,3 +542,50 @@
         /* margin-top: -2px; */
     }
 }
+.swaps_container
+{
+    padding: 20px 20px;
+    background-color: #280C4C;
+    border-radius: 10px;
+    margin-left: 5%;
+    margin-top: 10px;
+    /* max-width: 900px; */
+}
+.swaps_container .swaps_main_image
+{
+    padding-top: 10px;
+    padding-right: 16px;
+}
+.swaps_container .swaps_main_image img
+{
+    width: 42px;
+}
+.swaps_container .swaps_main
+{
+    font: 500 18px/24px "Montserrat",sans-serif;
+    color: #FDF41B;
+    padding: 2px 30px 2px 0px;
+}
+.swaps_container .swaps_source
+{
+    font: 400 12px/24px "Plus Jakarta Sans",sans-serif;
+    /* letter-spacing: 1px; */
+    padding: 4px 10px;
+    color: #FFF5;
+}
+.swaps_container .field_sub_swap
+{
+    background-color: #190a2c;
+    padding: 6px 16px;
+    border-radius: 8px;
+}
+.swaps_container .field_sub_swap .field_top
+{
+    font: 600 18px/24px "Plus Jakarta Sans",sans-serif;
+    color: #FFF;
+}
+.swaps_container .field_sub_swap .field_bottom
+{
+    font: 600 12px/18px "Plus Jakarta Sans",sans-serif;
+    color: #fffa;
+}

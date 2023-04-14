@@ -11,6 +11,7 @@ import solanaIcon from "../../resources/images/txnImages/solana_icon.svg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
 
 import arrow_rev from "../../resources/images/txnImages/arrow_rev.svg";
+import arrow_swap from "../../resources/images/txnImages/swap.svg";
 import bid from "../../resources/images/txnImages/bid.svg";
 import burn from "../../resources/images/txnImages/burn.svg";
 import cancel from "../../resources/images/txnImages/cancel.svg";
@@ -21,6 +22,7 @@ import solSmall from "../../resources/images/txnImages/sol_small.png";
 import duration from "../../resources/images/txnImages/duration.png";
 import memo from "../../resources/images/txnImages/memo.png";
 import memo_small from "../../resources/images/txnImages/memo_small.png"
+import tokenSwap from "../../resources/images/txnImages/token_swap.png";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 
@@ -400,6 +402,25 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                 }
                 setRelField(data.info.collateral_mint ?? "");
             }
+            else if(data.type === "SWAP")
+            {
+                console.log("Swap inst found");
+                type_obj = {
+                    type: "SWAP",
+                    from_name:data.info.tokens_swapped.in.symbol ?? "--",
+                    to_name: data.info.tokens_swapped.out.symbol ?? "--",
+                    from: data.info.tokens_swapped.in.token_address ?? "--",
+                    to: data.info.tokens_swapped.out.token_address ?? "--",
+                    from_amount: data.info.tokens_swapped.in.amount ?? "",
+                    to_amount: data.info.tokens_swapped.out.amount ?? "",
+                    token: "--",
+                    action: "--",
+                    value: "",
+                    symbol: ""
+                }
+                console.log("type_ob:",type_obj);
+                setImage(tokenSwap);
+            }
             else {
                 type_obj = {
                     type: "",
@@ -481,11 +502,16 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                         <div className="d-flex">
                             <div>
                                 {/* {name || relField || "Unknown"} */}
+                                {/* {
+                                    (data.type === "SWAP")?<a href={`/address/${data.info.swapper}?cluster=${cluster}`}>{data.info.swapper ?? ""}</a>:""
+                                } */}
                                 {
-                                    (data.type === "OFFER_LOAN" || data.type == "CANCEL_LOAN") ?
+                                    (data.type === "SWAP")?<a href={`/address/${data.info.swapper}?cluster=${cluster}`}>{data.info.swapper ?? ""}</a>:
+                                    ((data.type === "OFFER_LOAN" || data.type == "CANCEL_LOAN") ?
                                         ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a> : "--")
                                         :
                                         (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "NFT_LIST_CANCEL" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{shortenAddress(relField)}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
+                                    )
                                 }
                             </div>
 
@@ -1262,6 +1288,31 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>
 
+                                    </>
+                                )
+                            }
+                            else if (varFields.type === "SWAP") {
+                                return (
+                                    <>
+                                        <div className="row pt-1">
+                                            <div className="col-12 col-md-10">
+                                                <div className="d-flex">
+                                                    <div className="pe-2">
+                                                        <div className={styles.field_sub_1}>
+                                                            {varFields.from_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{varFields.from_name || shortenAddress(varFields.from)}</a>
+                                                        </div>
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <img src={arrow_swap} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                    </div>
+                                                    <div className="pe-2">
+                                                        <div className={styles.field_sub_1}>
+                                                            {varFields.to_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{varFields.to_name || shortenAddress(varFields.to)}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </>
                                 )
                             }

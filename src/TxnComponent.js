@@ -21,11 +21,13 @@ import memoplaceholders from "./resources/images/txnImages/memoPlaceholder.png";
 import sharkyPlaceHolder from "./resources/images/txnImages/sharkyprotocol.png";
 import successTick from "./resources/images/txnImages/success_tick.gif";
 import failedTick from "./resources/images/txnImages/failed_tick.gif";
+
 import noImage from "./resources/images/no_image.png";
 
 import SimpleLoader from "./components/loaders/SimpleLoader";
 import SubTransactions from "./components/TransactionComponent/SubTransaction";
 import SearchComponent from "./components/SearchComponent";
+import SwapsSubTxn from "./components/TransactionComponent/SwapsSubTxn";
 //import SubTransactionsDetails from "./components/TransactionComponent/SubTransactionDetails";
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -85,7 +87,7 @@ const TxnComponent = () => {
 
     useEffect(() => {
         console.log("Getting txn details");
-        
+
         setLoading(true);
         var params = {
             network: cluster,
@@ -125,18 +127,18 @@ const TxnComponent = () => {
                     }
                     setUnknownCount(unknownCounter);
                     // console.log("Data status:",data.status);
-                    
+
                 }
                 setLoading(false);
                 setTimeout(() => {
                     $(`#json_txns`).animate({
                         height: "hide",
-                      });
-                      $(`#prog_logs`).animate({
+                    });
+                    $(`#prog_logs`).animate({
                         height: "hide",
-                      });
+                    });
                 }, 500);
-                
+
             })
             .catch((err) => {
                 console.log(err);
@@ -578,7 +580,7 @@ const TxnComponent = () => {
                                 </Tooltip>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div className={styles.overview_text}>
                         Overview
@@ -586,7 +588,7 @@ const TxnComponent = () => {
                     <motion.div className={styles.token_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                         <div className="d-flex align-items-baseline">
                             <div>{name || formatNames(data.type ?? "Unknown")}</div>
-                            
+
                             {/* <div className="ps-2">
                                 <a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
                                     <img src={solscan} alt="SolScanIO" className={styles.sol_scan_image} />
@@ -754,7 +756,7 @@ const TxnComponent = () => {
                                     <div className={`col-8 text-end ${styles.row_value}`}>{data.fee} SOL</div>
                                 </div>
                             </motion.div>
-                            
+
                         </div>
                     </div>
                     {/* <div className="row">
@@ -795,12 +797,22 @@ const TxnComponent = () => {
 
                                                             </div>
                                                             <SubTransactions styles={styles} wallet={123} cluster={cluster} data={action} setTxType={action.type} key={index} />
-                                                            {/* <SubTransactionsDetails styles={styles} wallet={123} cluster={cluster} data={action} setTxType={action.type} key={index} /> */}
-
+                                                            {
+                                                                (action.type === "SWAP") && 
+                                                                    (
+                                                                        // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
+                                                                        (Array.isArray(action.info.swaps) && action.info.swaps.length > 0) && 
+                                                                        action.info.swaps.map((swap_action, index) => <SwapsSubTxn key={index} swap_action={swap_action} cluster={cluster} />)
+                                                                            
+                                                                    )
+                                                                    
+                                                            }
+                                                            <div className="pb-2"></div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     ) : ""))
                                     : "-"
