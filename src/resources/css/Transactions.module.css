@@ -390,6 +390,16 @@
     position: relative;
     z-index: 2;
 }
+.each_txn_3 .txn_status
+{
+    padding: 10px 2px 0px;
+    position: relative;
+    z-index: 2;
+}
+.each_txn_3 .txn_status img
+{
+    width: 20px;
+}
 .each_txn_3 .interacted_with
 {
     font: 500 16px/20px "Montserrat",sans-serif;
