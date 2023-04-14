@@ -9,8 +9,8 @@ import Tooltip from 'react-tooltip-lite';
 import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
 // import solExplorer from "../../resources/images/txnImages/solana_explorer.jpeg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
-import successTick from "../../resources/images/txnImages/success_tick.gif";
-import failedTick from "../../resources/images/txnImages/failed_tick.gif";
+import successTick from "../../resources/images/txnImages/tick-icon.png";
+import failedTick from "../../resources/images/txnImages/cross-icon.png";
 
 // import placeholder from "../../resources/images/txnImages/unknown.png";
 // import { getNFTData } from "../../utils/getAllData";

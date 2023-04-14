@@ -6,7 +6,9 @@ import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
-import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
+import copyIcon from "../../resources/images/txnImages/copy_icon.svg";
+import successTick from "../../resources/images/txnImages/tick-icon.png";
+import failedTick from "../../resources/images/txnImages/cross-icon.png";
 
 import { shortenAddress, getRelativetime, getFullTime, formatNames,isParsable } from "../../utils/formatter";
 
@@ -184,6 +186,24 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                                 arrowSize={0}
                                             >
                                                 {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                            </Tooltip>
+                                        </div>
+                                    </div>
+                                    <div className="">
+                                        <div className={styles.txn_status} style={{ cursor: "pointer" }}>
+                                            <Tooltip
+                                                content={"Status"}
+                                                className="generic"
+                                                direction="up"
+                                                // eventOn="onClick"
+                                                // eventOff="onMouseLeave"
+                                                useHover={true}
+                                                background="#101010"
+                                                color="#fefefe"
+                                                arrowSize={0}
+                                            >
+                                                {((data.hasOwnProperty("status")) && data.status === "Success")?<img src={successTick} />:""}
+                                                {((data.hasOwnProperty("status")) && data.status === "Fail")?<img src={failedTick} />:""}
                                             </Tooltip>
                                         </div>
                                     </div>

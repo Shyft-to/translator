@@ -14,7 +14,7 @@ const SearchTokens = ({ searchTerm, setSearchTerm,placeholder }) => {
             placeholder={placeholder}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-          // onFocus={() => setFocused(true)}
+            // onFocus={() => setFocused(true)}
           // onBlur={BlurAfterTime}
           />
         </div>

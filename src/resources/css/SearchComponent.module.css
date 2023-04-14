@@ -213,7 +213,6 @@
 }
 .token_search_container
 {
-  width: 230px;
   border-radius: 25px;
   background-color: #280C4C;
   padding: 4px 8px 9px 16px;
@@ -226,11 +225,14 @@
   color: #fff;
   font: 500 13px/18px "Montserrat", sans-serif;
   letter-spacing: 1px;
+  width: 150px;
+  transition: width 0.3s ease;
 }
 .token_search_container input:focus {
   border: none;
   box-shadow: none;
   outline: none;
+  width: 250px;
 }
 .token_search_container .token_search_icon
 {
@@ -245,10 +247,18 @@
 @media screen and (max-width: 767px) {
   .token_search_container
   {
-    width: 94vw;
     border-radius: 25px;
     background-color: #280C4C;
     padding: 4px 8px 9px 16px;
+    width: 92vw;
+    
+    margin: 0 auto;
+  }
+  .token_search_container input {
+    width: 95%;
+  }
+  .token_search_container input:focus {
+    width: 95%;
   }
   
 }
