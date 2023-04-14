@@ -3,7 +3,7 @@ import { JsonViewer } from '@textea/json-viewer'
 import { useSearchParams, useParams } from "react-router-dom";
 import $ from 'jquery';
 import axios from "axios";
-import { FaLink } from "react-icons/fa";
+import { FaLink,FaChevronDown,FaChevronUp } from "react-icons/fa";
 import Tooltip from 'react-tooltip-lite';
 import { motion } from "framer-motion";
 import ReactGA from "react-ga4";
@@ -22,7 +22,7 @@ import sharkyPlaceHolder from "./resources/images/txnImages/sharkyprotocol.png";
 import successTick from "./resources/images/txnImages/success_tick.gif";
 import failedTick from "./resources/images/txnImages/failed_tick.gif";
 
-import noImage from "./resources/images/no_image.png";
+//import noImage from "./resources/images/no_image.png";
 
 import SimpleLoader from "./components/loaders/SimpleLoader";
 import SubTransactions from "./components/TransactionComponent/SubTransaction";
@@ -131,9 +131,9 @@ const TxnComponent = () => {
                 }
                 setLoading(false);
                 setTimeout(() => {
-                    $(`#json_txns`).animate({
-                        height: "hide",
-                    });
+                    // $(`#json_txns`).animate({
+                    //     height: "hide",
+                    // });
                     $(`#prog_logs`).animate({
                         height: "hide",
                     });
@@ -582,23 +582,21 @@ const TxnComponent = () => {
                         </div>
 
                     </div>
-                    <div className={styles.overview_text}>
-                        Overview
-                    </div>
-                    <motion.div className={styles.token_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+                    
+                    {/* <motion.div className={styles.token_name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                         <div className="d-flex align-items-baseline">
                             <div>{name || formatNames(data.type ?? "Unknown")}</div>
 
-                            {/* <div className="ps-2">
+                            <div className="ps-2">
                                 <a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
                                     <img src={solscan} alt="SolScanIO" className={styles.sol_scan_image} />
                                 </a>
-                            </div> */}
+                            </div>
                         </div>
 
-                    </motion.div>
+                    </motion.div> */}
                     <div className="row">
-                        <div className="col-12 col-md-1">
+                        {/* <div className="col-12 col-md-1">
                             <motion.div className={styles.img_container} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                                 <img src={image || unknown}
                                     onError={({ currentTarget }) => {
@@ -607,8 +605,8 @@ const TxnComponent = () => {
                                     }}
                                     alt="Unknown" className="img-fluid" />
                             </motion.div>
-                        </div>
-                        <div className="col-12 col-md-6">
+                        </div> */}
+                        <div className="col-12 col-md-8">
                             {/* <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
@@ -705,7 +703,7 @@ const TxnComponent = () => {
                             </motion.div>
 
                         </div>
-                        <div className="col-12 col-md-5">
+                        <div className="col-12 col-md-4">
                             <motion.div className={styles.each_row} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
                                 <div className="row pt-3">
                                     <div className={`col-4 ${styles.row_title}`}>
@@ -826,58 +824,66 @@ const TxnComponent = () => {
                             </div>
                         </div>
                     </motion.div> : ""}
+                    <div className="pt-5">
+
+                    </div>
                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-                        <div className="row pt-4">
-                            <div className="col-12 col-md-6">
-                                <div className={styles.tab_container}>
-                                    <button className={(panel === "SHYFT") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("SHYFT")}>
-                                        SHYFT Transaction
-                                        {(panel === "SHYFT") ? <div className={styles.underline} /> : ""}
-                                    </button>
-                                    <button className={(panel === "RAW") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("RAW")}>
-                                        Raw Transactions
-                                        {(panel === "RAW") ? <div className={styles.underline} /> : ""}
+                        <div className={styles.hide_details_container}>
+                            <div className="row">
+                                <div className="col-12 col-md-6">
+                                    <div className={styles.tab_container}>
+                                        <button className={(panel === "SHYFT") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("SHYFT")}>
+                                            SHYFT Transaction
+                                            {(panel === "SHYFT") ? <div className={styles.underline} /> : ""}
+                                        </button>
+                                        <button className={(panel === "RAW") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("RAW")}>
+                                            Raw Transactions
+                                            {(panel === "RAW") ? <div className={styles.underline} /> : ""}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="col-12 col-md-6 text-end">
+                                    <button className={styles.hide_button} onClick={toggleTxnsSection}>
+                                        Hide Details <span><FaChevronUp /></span>
                                     </button>
                                 </div>
                             </div>
-                            <div className="col-12 col-md-6 text-end">
-                                <button className={styles.hide_button} onClick={toggleTxnsSection}>
-                                    Show Details
-                                </button>
-
-                            </div>
-
                         </div>
+                        
                         <div id="json_txns">
                             <div className={styles.toggle_section_1}>
                                 {
                                     (panel === "SHYFT") ?
                                         <div className={styles.txn_raw}>
-                                            <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} />
+                                            <JsonViewer value={data} theme={ocean} displayDataTypes={false} rootName={false} defaultInspectDepth={1} displayObjectSize={false} />
                                         </div>
                                         :
                                         <div className={styles.txn_raw}>
-                                            <JsonViewer value={rawData} theme={ocean} displayDataTypes={false} rootName={false} />
+                                            <JsonViewer value={rawData} theme={ocean} displayDataTypes={false} rootName={false} defaultInspectDepth={2}/>
                                         </div>
                                 }
 
                             </div>
                         </div>
                     </motion.div>
+                    <div className="pt-4">
 
+                    </div>
                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-                        <div className="row pt-2">
-                            <div className="col-12 col-md-6">
-                                <div className={styles.body_title}>
-                                    Program Logs
+                        <div className={styles.hide_details_container}>
+                            <div className="row">
+                                <div className="col-12 col-md-6">
+                                    <div className={styles.body_title} style={{paddingBottom: "10px",paddingTop:"10px"}}>
+                                        Program Logs
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-12 col-md-6 text-end">
-                                <button className={styles.hide_button} onClick={toggleLogsSection}>
-                                    Show Details
-                                </button>
-                            </div>
+                                <div className="col-12 col-md-6 text-end">
+                                    <button className={styles.hide_button} onClick={toggleLogsSection} style={{marginTop: "2px"}}>
+                                        Show Details <span><FaChevronDown /></span>
+                                    </button>
+                                </div>
 
+                            </div>
                         </div>
                         <div id="prog_logs">
                             <div className={styles.toggle_section_1}>

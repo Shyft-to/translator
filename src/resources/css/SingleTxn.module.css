@@ -161,7 +161,6 @@
 {
   position: relative;
   margin: 0 auto;
-  margin-top: 20px;
   width: 100%;
   /* max-width: 900px; */
   display: flex;
@@ -226,12 +225,24 @@
 {
     border-radius: 25px;
     padding: 8px 24px;
-    margin-top: 16px;
+    margin-top: 4px;
     border: none;
     outline: none;
-    background-color: #280C4C;
+    background-color: transparent;
     font: 400 14px "Plus Jakarta Sans",sans-serif;
     color: #fff;
+}
+.single_txn_page .hide_button span
+{
+    color: #FDF41B;
+}
+.single_txn_page .hide_details_container
+{
+    background-color: #080012B2;
+    padding: 2px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    /* border: 2px solid white; */
 }
 
 .each_txn_3
