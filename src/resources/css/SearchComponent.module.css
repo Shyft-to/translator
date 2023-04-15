@@ -224,7 +224,7 @@
   width: 100%;
   color: #fff;
   font: 500 13px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   width: 150px;
   transition: width 0.3s ease;
 }

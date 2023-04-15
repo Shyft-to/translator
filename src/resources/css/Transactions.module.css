@@ -377,10 +377,21 @@
 .each_txn_3 .txn_name
 {
     font: 500 18px/24px "Montserrat",sans-serif;
-    padding: 10px 20px 10px 0px;
+    padding: 10px 2px 10px 0px;
     color: #FDF41B;
     position: relative;
     z-index: 2;
+}
+.each_txn_3 .txn_status
+{
+    padding: 10px 12px 0px 2px;
+    position: relative;
+    z-index: 2;
+    margin-top: -3px;
+}
+.each_txn_3 .txn_status img
+{
+    width: 18px;
 }
 .each_txn_3 .txn_subname
 {
@@ -390,15 +401,14 @@
     position: relative;
     z-index: 2;
 }
-.each_txn_3 .txn_status
+.each_txn_3 .txn_signature
 {
-    padding: 10px 2px 0px;
+    font: 300 10px/24px "Montserrat",sans-serif;
+    padding: 10px 10px 10px 0px;
+    color: #FFFFFF99;
     position: relative;
     z-index: 2;
-}
-.each_txn_3 .txn_status img
-{
-    width: 20px;
+    margin-top: -8px;
 }
 .each_txn_3 .interacted_with
 {
@@ -422,6 +432,12 @@
         padding-bottom: 0px;
     }
     .each_txn_3 .txn_subname
+    {
+        font: 300 11px/14px "Montserrat",sans-serif;
+        padding: 6px 20px 20px 0px;
+        color: #FFFFFF99;
+    }
+    .each_txn_3 .txn_signature
     {
         font: 300 11px/14px "Montserrat",sans-serif;
         padding: 6px 20px 20px 0px;

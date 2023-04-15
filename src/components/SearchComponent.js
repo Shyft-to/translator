@@ -163,7 +163,7 @@ const SearchComponent = () => {
                             <div className="flex-grow-1">
                               <input
                                 type="text"
-                                placeholder="Explore Solana"
+                                placeholder="Search any wallet, token, .sol domains or transaction"
                                 value={wallet}
                                 onChange={(e) => setWallet(e.target.value)}
                                 onFocus={() => setFocused(true)}
