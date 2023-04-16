@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 
 import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg";
-import successTick from "../../resources/images/txnImages/tick-icon.png";
-import failedTick from "../../resources/images/txnImages/cross-icon.png";
+import successTick from "../../resources/images/txnImages/tick-icon.svg";
+import failedTick from "../../resources/images/txnImages/cross-icon.svg";
 
 import { shortenAddress, getRelativetime, getFullTime, formatNames,isParsable } from "../../utils/formatter";
 
@@ -100,6 +100,25 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                         </div>
                     </Link>
                     <div className={styles.toggle_button}>
+                        <div className="">
+                            <div className={styles.txn_signature}>
+                                <div>
+                                    <Tooltip
+                                        content={`Signature`}
+                                        className="generic"
+                                        direction="up"
+                                        // eventOn="onClick"
+                                        // eventOff="onMouseLeave"
+                                        useHover={true}
+                                        background="#101010"
+                                        color="#fefefe"
+                                        arrowSize={0}
+                                    >
+                                        <Link to={(cluster === "mainnet-beta") ? `/tx/${data.signatures[0]}`:`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">{shortenAddress(data.signatures[0])}</Link>
+                                    </Tooltip>
+                                </div>
+                            </div>
+                        </div>
                         <div className="pe-3">
                             <Tooltip
                                 content={copied}
@@ -136,6 +155,24 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                         </div>
                                     </div>
                                     <div className="">
+                                        <div className={styles.txn_status} style={{ cursor: "pointer" }}>
+                                            <Tooltip
+                                                content={"Status"}
+                                                className="generic"
+                                                direction="up"
+                                                // eventOn="onClick"
+                                                // eventOff="onMouseLeave"
+                                                useHover={true}
+                                                background="#101010"
+                                                color="#fefefe"
+                                                arrowSize={0}
+                                            >
+                                                {((data.hasOwnProperty("status")) && data.status === "Success")?<img src={successTick} />:""}
+                                                {((data.hasOwnProperty("status")) && data.status === "Fail")?<img src={failedTick} />:""}
+                                            </Tooltip>
+                                        </div>
+                                    </div>
+                                    <div className="">
                                         <div className={styles.txn_subname}>
                                             <Tooltip
                                                 content={`Protocol`}
@@ -150,26 +187,6 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                             >
                                                 {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
                                             </Tooltip>
-                                        </div>
-                                    </div>
-                                    <div className="">
-                                        <div className={styles.txn_subname}>
-                                            <div>
-                                                <Tooltip
-                                                    content={`Signature`}
-                                                    className="generic"
-                                                    direction="up"
-                                                    // eventOn="onClick"
-                                                    // eventOff="onMouseLeave"
-                                                    useHover={true}
-                                                    background="#101010"
-                                                    color="#fefefe"
-                                                    arrowSize={0}
-                                                >
-                                                    <Link to={(cluster === "mainnet-beta") ? `/tx/${data.signatures[0]}`:`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">{shortenAddress(data.signatures[0])}</Link>
-                                                </Tooltip>
-                                            </div>
-                                            
                                         </div>
                                     </div>
                                     <div className="">
@@ -189,24 +206,7 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                             </Tooltip>
                                         </div>
                                     </div>
-                                    <div className="">
-                                        <div className={styles.txn_status} style={{ cursor: "pointer" }}>
-                                            <Tooltip
-                                                content={"Status"}
-                                                className="generic"
-                                                direction="up"
-                                                // eventOn="onClick"
-                                                // eventOff="onMouseLeave"
-                                                useHover={true}
-                                                background="#101010"
-                                                color="#fefefe"
-                                                arrowSize={0}
-                                            >
-                                                {((data.hasOwnProperty("status")) && data.status === "Success")?<img src={successTick} />:""}
-                                                {((data.hasOwnProperty("status")) && data.status === "Fail")?<img src={failedTick} />:""}
-                                            </Tooltip>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 {
                                     (data.actions.length > 0) ?
