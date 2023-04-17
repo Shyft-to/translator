@@ -199,3 +199,27 @@
     margin-top: -30px;
     right: 0;
 }
+.sort_button
+{
+    background-color: #3C1B67;
+    font: 400 12px/14px "Plus Jakarta Sans",sans-serif;
+    color: #fff;
+    border: none;
+    outline:none;
+    box-shadow: none;
+    border-radius: 25px;
+    padding: 6px 16px;
+    margin-top: 2px;
+}
+.sort_button span
+{
+    font: 400 16px/14px "Plus Jakarta Sans",sans-serif;
+    color: #FDF41B;
+}
+@media screen and (max-width:767px) {
+    .sort_button
+    {
+        
+        margin-top: 10px;
+    }   
+}

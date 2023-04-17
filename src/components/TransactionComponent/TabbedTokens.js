@@ -14,11 +14,20 @@ const TabbedTokens = ({address,cluster}) => {
     // const [errorOcc,setErrorOcc] = useState(false);
     const [searchTerm,setSearchTerm] = useState("");
 
+    const [descending,setDescending] = useState(true);
+
     const getData = async (cluster, address) => {
         try {
             const res = await getAllTokens(cluster, address);
             if (res.success === true) {
-                setTokens(res.details);
+                try {
+                    var allTokens = res.details;
+                    allTokens.sort((a,b) => b.balance - a.balance);
+                    setTokens(allTokens);
+                } catch (error) {
+                    setTokens(res.details);
+                }
+                
             }
             setLoading(false);
         }
@@ -36,13 +45,37 @@ const TabbedTokens = ({address,cluster}) => {
     
     }, [address,cluster])
     
+    const sortTokens = (by) => {
+        try {
+            var allTokens = tokens;
+            if(descending === true)
+            {
+                allTokens.sort((a,b) => a.balance - b.balance);
+                setTokens(allTokens);
+                setDescending(!descending);
+            }
+            else
+            {
+                allTokens.sort((a,b) => b.balance - a.balance);
+                setTokens(allTokens);
+                setDescending(!descending);
+            }    
+        } catch (error) {
+            console.log("Cannot sort due to some errors");
+        }
+    }
 
     return ( 
     <div>
         <div className={styles.search_area_container}>
-            <div className="d-flex justify-content-end">
+            <div className="d-flex flex-wrap justify-content-between">
                 <div>
                     <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search Tokens"} />
+                </div>
+                <div>
+                    <button className={styles.sort_button} onClick={sortTokens}>
+                        Balances <span>{(descending?"↑":"↓")}</span>
+                    </button>
                 </div>
             </div>
         </div>
