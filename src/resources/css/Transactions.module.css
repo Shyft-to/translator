@@ -340,10 +340,14 @@
     margin-top: -1px;
     padding: 6px 10px 6px;
 }
+.each_txn_3 .toggle_button .copyTxnSig
+{
+    margin-top: -2px;
+}
 .each_txn_3 .toggle_button .copyTxnSig img
 {
-    width: 23px;
-    height: 23px;
+    width: 22px;
+    height: 22px;
 }
 @media screen and (max-width: 767px) {
     .each_txn_3 .toggle_button
@@ -377,14 +381,14 @@
 .each_txn_3 .txn_name
 {
     font: 500 18px/24px "Montserrat",sans-serif;
-    padding: 10px 2px 10px 0px;
+    padding: 10px 20px 10px 0px;
     color: #FDF41B;
     position: relative;
     z-index: 2;
 }
 .each_txn_3 .txn_status
 {
-    padding: 10px 12px 0px 2px;
+    padding: 2px 2px 0px 2px;
     position: relative;
     z-index: 2;
     margin-top: -3px;

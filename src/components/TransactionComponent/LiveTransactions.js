@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
-import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
+// import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
+// import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg";
 import successTick from "../../resources/images/txnImages/tick-icon.svg";
 import failedTick from "../../resources/images/txnImages/cross-icon.svg";
@@ -119,11 +119,29 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="pe-3">
+                        <div className="">
+                            <div className={styles.txn_status} style={{ cursor: "pointer" }}>
+                                <Tooltip
+                                    content={"Status"}
+                                    className="generic"
+                                    direction="up"
+                                    // eventOn="onClick"
+                                    // eventOff="onMouseLeave"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                >
+                                    {((data.hasOwnProperty("status")) && data.status === "Success")?<img src={successTick} />:""}
+                                    {((data.hasOwnProperty("status")) && data.status === "Fail")?<img src={failedTick} />:""}
+                                </Tooltip>
+                            </div>
+                        </div>
+                        <div className="pe-2">
                             <Tooltip
                                 content={copied}
                                 className="myTarget"
-                                direction="left"
+                                direction="up"
                                 // eventOn="onClick"
                                 // eventOff="onMouseLeave"
                                 useHover={true}
@@ -136,13 +154,13 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                 </motion.button>
                             </Tooltip>
                         </div>
-                        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                        {/* <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                             <motion.a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
                                 <div className={styles.sol_icon}>
                                     <img src={solScan} alt="View on SolScan" />
                                 </div>
                             </motion.a>
-                        </motion.div>
+                        </motion.div> */}
 
                     </div>
                     <div className="row">
@@ -152,24 +170,6 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                     <div className="">
                                         <div className={styles.txn_name}>
                                             {txType || ((data.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(data.type) || "Protocol Interaction"))}
-                                        </div>
-                                    </div>
-                                    <div className="">
-                                        <div className={styles.txn_status} style={{ cursor: "pointer" }}>
-                                            <Tooltip
-                                                content={"Status"}
-                                                className="generic"
-                                                direction="up"
-                                                // eventOn="onClick"
-                                                // eventOff="onMouseLeave"
-                                                useHover={true}
-                                                background="#101010"
-                                                color="#fefefe"
-                                                arrowSize={0}
-                                            >
-                                                {((data.hasOwnProperty("status")) && data.status === "Success")?<img src={successTick} />:""}
-                                                {((data.hasOwnProperty("status")) && data.status === "Fail")?<img src={failedTick} />:""}
-                                            </Tooltip>
                                         </div>
                                     </div>
                                     <div className="">

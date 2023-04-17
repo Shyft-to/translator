@@ -113,11 +113,29 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="pe-3">
+                    <motion.div className="" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                        <div className={styles.txn_status} style={{ cursor: "pointer" }}>
+                            <Tooltip
+                                content={"Status"}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                            >
+                                {((data.hasOwnProperty("status")) && data.status === "Success")?<img src={successTick} />:""}
+                                {((data.hasOwnProperty("status")) && data.status === "Fail")?<img src={failedTick} />:""}
+                            </Tooltip>
+                        </div>
+                    </motion.div>
+                    <div className="pe-2">
                         <Tooltip
                             content={copied}
                             className="myTarget"
-                            direction="left"
+                            direction="up"
                             // eventOn="onClick"
                             // eventOff="onMouseLeave"
                             useHover={true}
@@ -130,13 +148,14 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                             </motion.button>
                         </Tooltip>
                     </div>
-                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                    
+                    {/* <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                         <motion.a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
                             <div className={styles.sol_icon}>
                                 <img src={solScan} alt="View on SolScan" />
                             </div>
                         </motion.a>
-                    </motion.div>
+                    </motion.div> */}
                     {/* <motion.div whileTap={{ scale: 0.95 }}>
                             <Tooltip
                                 content="view details in a new tab"
@@ -166,24 +185,6 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                     <div className="">
                                         <div className={styles.txn_name}>
                                             {txType || ((data.type === "UNKNOWN") ? "Protocol Interaction" : (formatNames(data.type) || "Protocol Interaction"))}
-                                        </div>
-                                    </div>
-                                    <div className="">
-                                        <div className={styles.txn_status} style={{ cursor: "pointer" }}>
-                                            <Tooltip
-                                                content={"Status"}
-                                                className="generic"
-                                                direction="up"
-                                                // eventOn="onClick"
-                                                // eventOff="onMouseLeave"
-                                                useHover={true}
-                                                background="#101010"
-                                                color="#fefefe"
-                                                arrowSize={0}
-                                            >
-                                                {((data.hasOwnProperty("status")) && data.status === "Success")?<img src={successTick} />:""}
-                                                {((data.hasOwnProperty("status")) && data.status === "Fail")?<img src={failedTick} />:""}
-                                            </Tooltip>
                                         </div>
                                     </div>
                                     <div className="">
