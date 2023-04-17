@@ -14,7 +14,7 @@ import AllNfts from "./components/AllNfts";
 import Transactions from "./components/TransactionComponent/Transactions";
 import NftExpanded from "./components/NftExpanded";
 import TokenExpanded from "./components/TokenExpanded";
-import copyIcon from "./resources/images/txnImages/copy_icon.svg"
+// import copyIcon from "./resources/images/txnImages/copy_icon.svg"
 import SearchComponent from "./components/SearchComponent";
 import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
 import SimpleLoader from "./components/loaders/SimpleLoader";
@@ -25,6 +25,7 @@ const AddressComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
+    const currentTab = searchParams.get("tab") ?? "TXN";
     const navigate = useNavigate();
 
     const [panel, setPanel] = useState("TXN");
@@ -54,6 +55,8 @@ const AddressComponent = () => {
         // console.log(cluster);
         clearIfOutdated();
         getClassifiedData();
+        if(currentTab === "token")
+            setPanel("TKN");
     }, [addr, cluster]);
     
 
@@ -105,8 +108,33 @@ const AddressComponent = () => {
             setTimeout(() => {
                 setCopyLink("Copy Link");
             }, 800);
+        }   
+    }
+
+    const tabSelected = (tab_name,type) => {
+        if(type === "add")
+        {
+            var addToUrl = "?";
+            if(cluster !== "mainnet-beta")
+            {
+                addToUrl += `cluster=${cluster}`;
+                addToUrl += `&tab=${tab_name}`;
+            }
+            else
+            {
+                addToUrl += `tab=${tab_name}`;
+            }
+            
+            window.history.replaceState(null, null, addToUrl);
         }
-        
+        else
+        {
+            var addToUrl = "?";
+            if(cluster !== "mainnet-beta")
+                addToUrl += `cluster=${cluster}`;
+            
+            window.history.replaceState(null, null, addToUrl);
+        }
     }
 
     return (
@@ -319,11 +347,17 @@ const AddressComponent = () => {
                 </div>}
                 <div className="container-lg">
                     <div className={styles.tab_container}>
-                        <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("TXN")}>
+                        <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                setPanel("TXN");
+                                tabSelected("txn","remove");
+                            }}>
                             Live Activity<div className="px-2" style={{display:"inline",position:"relative"}}><div className="blinking"></div></div>
                             {(panel === "TXN") ? <div className={styles.underline} /> : ""}
                         </button>
-                        {(contentType === "WALLET") && <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => setPanel("TKN")}>
+                        {(contentType === "WALLET") && <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                            setPanel("TKN");
+                            tabSelected("token","add");
+                            }}>
                             Tokens
                             {(panel === "TKN") ? <div className={styles.underline} /> : ""}
                         </button>}
