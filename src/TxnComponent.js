@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { JsonViewer } from '@textea/json-viewer'
-import { useSearchParams, useParams } from "react-router-dom";
+import { useSearchParams, useParams, Link } from "react-router-dom";
 import $ from 'jquery';
 import axios from "axios";
 import { FaLink,FaChevronDown,FaChevronUp } from "react-icons/fa";
@@ -698,7 +698,7 @@ const TxnComponent = () => {
                                     <div className={`col-4 ${styles.row_title}`}>
                                         Protocol
                                     </div>
-                                    <div className={`col-8 text-end text-md-start ${styles.row_value}`}>{formatNames(data.protocol.name) || shortenAddress(data.protocol.address)}</div>
+                                    <div className={`col-8 text-end text-md-start ${styles.row_value}`}><Link to={(data.protocol.address)?(`/address/${data.protocol.address}`):""}>{formatNames(data.protocol.name) || shortenAddress(data.protocol.address)}</Link></div>
                                 </div>
                             </motion.div>
 
