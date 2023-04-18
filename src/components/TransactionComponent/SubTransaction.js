@@ -523,7 +523,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             <div className="pe-2">
                                                 <div className={styles.second_token_field}>
                                                     <div className={styles.second_token_image}>
-                                                        <img className="img-fluid" src={varFields.to_image} onError={({ currentTarget }) => {
+                                                        <img className="img-fluid" src={varFields.to_image || noImage} onError={({ currentTarget }) => {
                                                             currentTarget.onerror = null; // prevents looping
                                                             currentTarget.src = noImage;
                                                         }} alt="token" />
