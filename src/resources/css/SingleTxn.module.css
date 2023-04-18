@@ -579,17 +579,29 @@
 .swaps_container .swaps_main_image
 {
     padding-top: 10px;
-    padding-right: 16px;
+    padding-right: 2px;
 }
 .swaps_container .swaps_main_image img
 {
-    width: 42px;
+    width: 28px;
+    border-radius: 15px;
+}
+.swaps_container .swaps_second_image
+{
+    /* padding-top: 10px; */
+    padding-right: 2px;
+    padding-left: 10px;
+}
+.swaps_container .swaps_second_image img
+{
+    width: 28px;
+    border-radius: 15px;
 }
 .swaps_container .swaps_main
 {
-    font: 500 18px/24px "Montserrat",sans-serif;
-    color: #FDF41B;
-    padding: 2px 30px 2px 0px;
+    font: 500 15px/20px "Montserrat",sans-serif;
+    color: #FFF5;
+    padding: 2px 0px 2px 12px;
 }
 .swaps_container .swaps_source
 {
@@ -600,17 +612,19 @@
 }
 .swaps_container .field_sub_swap
 {
-    background-color: #190a2c;
-    padding: 6px 16px;
+    background-color: transparent;
+    padding: 6px 10px;
     border-radius: 8px;
+    display: flex;
 }
 .swaps_container .field_sub_swap .field_top
 {
-    font: 600 18px/24px "Plus Jakarta Sans",sans-serif;
+    font: 600 14px/18px "Plus Jakarta Sans",sans-serif;
     color: #FFF;
 }
 .swaps_container .field_sub_swap .field_bottom
 {
-    font: 600 12px/18px "Plus Jakarta Sans",sans-serif;
+    font: 600 14px/18px "Plus Jakarta Sans",sans-serif;
     color: #fffa;
+    padding-right: 10px;
 }

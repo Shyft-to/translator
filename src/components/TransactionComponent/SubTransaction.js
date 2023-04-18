@@ -1330,10 +1330,10 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                             Swapped by
                                                         </div>
                                                     </div>
-                                                    <div className="pe-1">
+                                                    <div className="pe-2">
                                                         <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} />
                                                     </div>
-                                                    <div className="pe-2">
+                                                    <div className="pe-1">
                                                         <div className={styles.field_sub_1}>
                                                             <a href={(cluster === "mainnet-beta") ? `/address/${varFields.swapper}` : `/address/${varFields.swapper}?cluster=${cluster}`} aria-label={varFields.swapper} data-balloon-pos="up">{shortenAddress(varFields.swapper)}</a>
                                                         </div>
