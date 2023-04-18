@@ -624,7 +624,21 @@
     display: block;
     margin-top: -2px;
 }
-
+.sub_txns .second_token_field
+{
+    display: flex;
+}
+.sub_txns .second_token_field .second_token_image
+{
+    margin-top: -8px;
+    padding: 0px 12px 0px 10px;
+}
+.sub_txns .second_token_field .second_token_image img
+{
+    width: 38px;
+    height: 38px;
+    
+}
 .could_not_text
 {
     font: 300 16px/20px "Poppins",sans-serif;

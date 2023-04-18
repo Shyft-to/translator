@@ -63,6 +63,10 @@ const AllNfts = ({ collections, address, network }) => {
                     <SearchEachNft nft={nft} cluster={network} />
                   </div>
                 ))}
+                {
+                  (allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm.toLowerCase())).length < 1) && 
+                  <div className="pt-2 not_found_text">No Collections Found</div>
+                }
               </div>   
             </div>:
             <div>

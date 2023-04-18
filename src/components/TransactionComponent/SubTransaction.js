@@ -404,7 +404,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
             }
             else if(data.type === "SWAP")
             {
-                console.log("Swap inst found");
+                //console.log("Swap inst found");
                 type_obj = {
                     type: "SWAP",
                     from_name:data.info.tokens_swapped.in.symbol ?? "--",
@@ -413,13 +413,17 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     to: data.info.tokens_swapped.out.token_address ?? "--",
                     from_amount: data.info.tokens_swapped.in.amount ?? "",
                     to_amount: data.info.tokens_swapped.out.amount ?? "",
+                    swapper: data.info.swapper ?? "--",
+                    from_image: data.info.tokens_swapped.in.image_uri ?? "",
+                    to_image: data.info.tokens_swapped.out.image_uri ?? "",
                     token: "--",
                     action: "--",
                     value: "",
                     symbol: ""
                 }
-                console.log("type_ob:",type_obj);
-                setImage(tokenSwap);
+                //console.log("type_ob:",type_obj);
+                if(data.info.tokens_swapped.in.token_address !== "")
+                    setImage(data.info.tokens_swapped.in.image_uri);
             }
             else {
                 type_obj = {
@@ -506,8 +510,32 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                     (data.type === "SWAP")?<a href={`/address/${data.info.swapper}?cluster=${cluster}`}>{data.info.swapper ?? ""}</a>:""
                                 } */}
                                 {
-                                    (data.type === "SWAP")?<a href={`/address/${data.info.swapper}?cluster=${cluster}`}>{data.info.swapper ?? ""}</a>:
-                                    ((data.type === "OFFER_LOAN" || data.type == "CANCEL_LOAN") ?
+                                    (data.type === "SWAP")?<div>
+                                        <div className="d-flex">
+                                            <div className="pe-2">
+                                                <div>
+                                                    {varFields.from_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{varFields.from_name || shortenAddress(varFields.from)}</a>
+                                                </div>
+                                            </div>
+                                            <div className="px-3">
+                                                <img src={arrow_swap} alt="" style={{ width: "18px", marginTop: "-2px" }} />
+                                            </div>
+                                            <div className="pe-2">
+                                                <div className={styles.second_token_field}>
+                                                    <div className={styles.second_token_image}>
+                                                        <img className="img-fluid" src={varFields.to_image} onError={({ currentTarget }) => {
+                                                            currentTarget.onerror = null; // prevents looping
+                                                            currentTarget.src = noImage;
+                                                        }} alt="token" />
+                                                    </div>
+                                                    <div>
+                                                        {varFields.to_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{varFields.to_name || shortenAddress(varFields.to)}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>:
+                                    ((data.type === "OFFER_LOAN" || data.type === "CANCEL_LOAN") ?
                                         ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a> : "--")
                                         :
                                         (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "NFT_LIST_CANCEL" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{shortenAddress(relField)}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
@@ -1299,15 +1327,15 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                                 <div className="d-flex">
                                                     <div className="pe-2">
                                                         <div className={styles.field_sub_1}>
-                                                            {varFields.from_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{varFields.from_name || shortenAddress(varFields.from)}</a>
+                                                            Swapped by
                                                         </div>
                                                     </div>
                                                     <div className="pe-1">
-                                                        <img src={arrow_swap} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                        <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} />
                                                     </div>
                                                     <div className="pe-2">
                                                         <div className={styles.field_sub_1}>
-                                                            {varFields.to_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{varFields.to_name || shortenAddress(varFields.to)}</a>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.swapper}` : `/address/${varFields.swapper}?cluster=${cluster}`} aria-label={varFields.swapper} data-balloon-pos="up">{shortenAddress(varFields.swapper)}</a>
                                                         </div>
                                                     </div>
                                                 </div>

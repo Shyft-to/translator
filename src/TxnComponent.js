@@ -540,10 +540,22 @@ const TxnComponent = () => {
                 <div className="container-lg">
                     <div className={styles.main_heading}>
                         <div className="d-flex align-items-center">
-                            <div>
-                                {shortenAddress(txn) ?? "Transaction Details"}
+                            <div onClick={() => copyValue(txn)}>
+                                <Tooltip
+                                    content={copy}
+                                    className="myTarget"
+                                    direction="up"
+                                    // eventOn="onClick"
+                                    // eventOff="onMouseLeave"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                >
+                                    {shortenAddress(txn) ?? "Transaction Details"}
+                                </Tooltip>
                             </div>
-                            <div className="ps-2">
+                            {/* <div className="ps-2">
                                 <Tooltip
                                     content={copy}
                                     className="myTarget"
@@ -557,11 +569,10 @@ const TxnComponent = () => {
                                 >
                                     <button className={styles.copy_button} onClick={() => copyValue(txn)}>
                                         <img src={copyBtn} alt="Copy" />
-                                        {/* <FaLink /> */}
                                     </button>
                                 </Tooltip>
-                            </div>
-                            <div>
+                            </div> */}
+                            <div className="ps-2">
                                 <Tooltip
                                     content={copyLink}
                                     className="myTarget"
