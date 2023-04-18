@@ -1,11 +1,31 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Tooltip from "react-tooltip-lite";
 import styles from "../../resources/css/SingleTxn.module.css";
 
 import arrow_swap from "../../resources/images/txnImages/swap.svg";
 // import tokenSwap from "../../resources/images/txnImages/token_swap.png";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
+import copyBtn from "../../resources/images/txnImages/copy_icon.svg";
 
 import { shortenAddress } from "../../utils/formatter";
 const SwapsSubTxn = ({ swap_action, cluster }) => {
+    const [copy,setCopied] = useState("Copy");
+    const copyValue = (value, link = false) => {
+        if (link === false) {
+          navigator.clipboard.writeText(value);
+          setCopied("Copied");
+          setTimeout(() => {
+            setCopied("Copy");
+          }, 800);
+        } else {
+          navigator.clipboard.writeText(value);
+        //   setCopyLink("Copied");
+        //   setTimeout(() => {
+        //     setCopyLink("Copy Link");
+        //   }, 800);
+        }
+      };
   return (
     <div>
       <div className={styles.swaps_container}>
@@ -55,14 +75,14 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
                   </div>
                   <div>
                     <div className={styles.swaps_second_image}>
-                        <img
-                            src={swap_action.out.image_uri}
-                            onError={({ currentTarget }) => {
-                            currentTarget.onerror = null; // prevents looping
-                            currentTarget.src = noImage;
-                            }}
-                            alt="Swap"
-                        />
+                      <img
+                        src={swap_action.out.image_uri}
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null; // prevents looping
+                          currentTarget.src = noImage;
+                        }}
+                        alt="Swap"
+                      />
                     </div>
                   </div>
                   <div className="pe-2">
@@ -98,7 +118,31 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
             <div className="d-flex flex-wrap justify-content-between">
               <div>
                 <div className={`pt-1 pe-2 ${styles.swaps_main}`}>
-                  {swap_action.source ?? ""}
+                  <span>
+                    <Link to={`/address/${swap_action.liquidity_pool_address}`}>
+                      {swap_action.source ?? ""}
+                    </Link>
+                    <Tooltip
+                        content={copy}
+                        className="inline_tooltip"
+                        direction="up"
+                        // eventOn="onClick"
+                        // eventOff="onMouseLeave"
+                        useHover={true}
+                        background="#101010"
+                        color="#fefefe"
+                        arrowSize={0}
+                    >
+                        <button className={styles.inline_copy}>
+                        <img
+                            src={copyBtn}
+                            alt="Copy"
+                            onClick={() => copyValue(swap_action.liquidity_pool_address)}
+                        />
+                        </button>
+                        &nbsp;&nbsp;
+                    </Tooltip>
+                  </span>
                 </div>
               </div>
               <div></div>
