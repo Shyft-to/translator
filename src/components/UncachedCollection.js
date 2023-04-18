@@ -13,28 +13,31 @@ import { getNFTData } from "../utils/getAllData";
 const UncachedCollection = ({ collection, address, network }) => {
   const [image, setImage] = useState(ok_bear);
   const [isLoadedOnce,setLoadedOnce] = useState(false);
+  const [name,setName] = useState("");
   const { ref, inView } = useInView();
 
   const getData = async (cluster, address) => {
     const res = await getNFTData(cluster, address);
     if (res.success === true) {
-      setImage(res.details.cached_image_uri ?? res.details.image_uri);
+      setImage(res.details.image_uri);
+      setName(res.details.name);
     }
   };
 
   useEffect(() => {
-    if(isLoadedOnce === false)
+    if(inView === true)
     {
+      setImage(ok_bear);
       if (collection.address) 
         getData(network, collection.address);
       else
         getData(network, collection.nfts[0].mint);
       setLoadedOnce(true);
     }
-  }, []);
+  }, [inView]);
 
   return (
-    <div className="pt-4 px-2 pb-5">
+    <div ref={ref} className="pt-4 px-2 pb-5">
       <motion.div className={styles.nft_container_outer} initial={{ opacity: 0,scale:0.4 }} whileInView={{ opacity: 1,scale:1 }} viewport={{ once: true }} whileHover={{ scale: 1.05 }}>
         <div className={styles.nft_container}>
           <a
