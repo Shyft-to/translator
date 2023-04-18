@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import NFTs from "./nft";
 import styles from "../resources/css/Nft.module.css";
+import styles2 from "../resources/css/CollectionRow.module.css";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import UncachedCollection from "./UncachedCollection";
+// import UncachedCollection from "./UncachedCollection";
 import SearchTokens from "./SearchTokens";
+import SearchEachNft from "./SearchedEachNft";
 
 const AllNfts = ({ collections, address, network }) => {
   const [searchTerm, setSearchTerm] = useState("");
-    
+  const [allNfts, setAllNfts] = useState([]);
+
+  useEffect(() => {
+    var all_nfts = [];
+    collections.forEach(collection => {
+      const nfts = collection.nfts;
+      all_nfts = [...all_nfts,...nfts];
+    });
+    setAllNfts(all_nfts);
+  }, [])
+  
   return (
     <div>
       {
@@ -44,16 +56,14 @@ const AllNfts = ({ collections, address, network }) => {
 
           {collections.length > 0 && (
             (searchTerm !== "")?
-            <div className={styles.search_results}>
-                {collections.filter(collection => collection.name?.toLowerCase().startsWith(searchTerm.toLowerCase())).map((coll, index) => (
-                  <div className="pe-5" key={index}>
-                    <UncachedCollection
-                      collection={coll}
-                      address={address}
-                      network={network}
-                    />
+            <div className={styles2.collection_nft_container}>
+              <div className={styles.search_results}>
+                {allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm.toLowerCase())).map((nft, index) => (
+                  <div className="pe-4" key={index}>
+                    <SearchEachNft nft={nft} cluster={network} />
                   </div>
                 ))}
+              </div>   
             </div>:
             <div>
               <OwlCarousel
