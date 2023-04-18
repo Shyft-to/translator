@@ -935,7 +935,7 @@ const TxnComponent = () => {
                               <div className="col-12">
                                 <div className={styles.fields_container}>
                                   <div className="d-flex flex-wrap justify-content-start align-content-end">
-                                    <div className="">
+                                    <div className="pb-2 pb-md-0">
                                       <div className={styles.txn_name}>
                                         {action.type === "UNKNOWN"
                                           ? "Protocol Interaction"

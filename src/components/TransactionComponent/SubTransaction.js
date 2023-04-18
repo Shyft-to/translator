@@ -511,7 +511,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                 } */}
                                 {
                                     (data.type === "SWAP")?<div>
-                                        <div className="d-flex">
+                                        <div className="d-flex flex-wrap">
                                             <div className="pe-2">
                                                 <div>
                                                     {varFields.from_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{varFields.from_name || shortenAddress(varFields.from)}</a>
@@ -520,7 +520,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             <div className="px-3">
                                                 <img src={arrow_swap} alt="" style={{ width: "18px", marginTop: "-2px" }} />
                                             </div>
-                                            <div className="pe-2">
+                                            <div className="pe-2 pt-3 pt-md-0">
                                                 <div className={styles.second_token_field}>
                                                     <div className={styles.second_token_image}>
                                                         <img className="img-fluid" src={varFields.to_image || noImage} onError={({ currentTarget }) => {

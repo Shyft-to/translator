@@ -566,6 +566,17 @@
         display: none;
         /* margin-top: -2px; */
     }
+    .sub_txns .second_token_field .second_token_image
+    {
+        margin-top: -2px;
+        padding: 0px 6px 0px 5px;
+    }
+    .sub_txns .second_token_field .second_token_image img
+    {
+        width: 24px;
+        height: 24px;
+        border-radius: 14px;
+    }
 }
 .swaps_container
 {

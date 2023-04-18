@@ -45,7 +45,7 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
           <div className="flex-grow-1">
             <div className="row pt-2">
               <div className="col-12 col-md-8">
-                <div className="d-flex">
+                <div className="d-flex flex-wrap">
                   <div className="pe-2">
                     <div className={styles.field_sub_swap}>
                       <div className={styles.field_bottom}>
@@ -110,7 +110,7 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className={`pe-2 text-end ${styles.swaps_source}`}>
+                <div className={`pe-2 text-start text-md-end ${styles.swaps_source}`}>
                   {shortenAddress(swap_action.liquidity_pool_address ?? "")}
                 </div>
               </div>
