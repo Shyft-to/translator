@@ -225,7 +225,7 @@
   color: #fff;
   font: 500 13px/18px "Montserrat", sans-serif;
   /* letter-spacing: 1px; */
-  width: 150px;
+  width: 52px;
   transition: width 0.3s ease;
 }
 .token_search_container input:focus {
@@ -242,6 +242,18 @@
     border: none;
     outline: none;
     box-shadow: none;
+    font: 300 14px/14px "Montserrat", sans-serif;
+}
+.token_search_container .token_search_icon_reverse
+{
+    color: #FDF41B;
+    transition: all 0.2s ease-in;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    display: inline-block;
+    margin-left: -6px;
     font: 300 14px/14px "Montserrat", sans-serif;
 }
 @media screen and (max-width: 767px) {

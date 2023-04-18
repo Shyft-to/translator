@@ -70,7 +70,7 @@ const TabbedTokens = ({address,cluster}) => {
         <div className={styles.search_area_container}>
             <div className="d-flex flex-wrap justify-content-between">
                 <div>
-                    <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search Tokens"} />
+                    <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search Tokens"} reverse={true} />
                 </div>
                 <div>
                     <button className={styles.sort_button} onClick={sortTokens}>
