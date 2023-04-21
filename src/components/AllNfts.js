@@ -49,7 +49,7 @@ const AllNfts = ({ collections, address, network }) => {
               </div>
           </div>
           <div>
-            <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search NFTs"}/>
+            <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search NFTs"} highlight={true}/>
           </div>
         </div>
           

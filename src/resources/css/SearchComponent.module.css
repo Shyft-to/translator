@@ -215,7 +215,7 @@
 {
   border-radius: 25px;
   background-color: #280C4C;
-  padding: 4px 8px 9px 16px;
+  padding: 4px 8px 6px 16px;
 }
 .token_search_container input {
   background-color: transparent;
@@ -223,9 +223,9 @@
   box-shadow: none;
   width: 100%;
   color: #fff;
-  font: 500 13px/18px "Montserrat", sans-serif;
+  font: 300 13px/18px "Montserrat", sans-serif;
   /* letter-spacing: 1px; */
-  width: 52px;
+  width: 110px;
   transition: width 0.3s ease;
 }
 .token_search_container input:focus {
@@ -233,6 +233,10 @@
   box-shadow: none;
   outline: none;
   width: 250px;
+}
+.token_search_container input::placeholder
+{
+  color: #fff;
 }
 .token_search_container .token_search_icon
 {
@@ -273,5 +277,10 @@
     width: 95%;
   }
   
+}
+.token_search_container_highlight
+{
+  border: 2px solid #9650E5;
+  padding: 4px 8px 8px 16px;
 }
 
