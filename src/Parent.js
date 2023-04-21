@@ -7,12 +7,14 @@ import ScrollToTop from "./ScrollToTop";
 import SingleCollectionComponent from "./SingleCollectionComponent";
 // import TokenComponent from "./TokenComponent";
 import TxnComponent from "./TxnComponent";
+import ClickToTop from "./ClickToTop";
 
 const Parent = () => {
     return ( 
         <div>
             <Router>
                 <ScrollToTop />
+                <ClickToTop />
                 <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/address/:addr" element={<AddressComponent />} />
