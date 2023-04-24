@@ -71,6 +71,7 @@ const TxnComponent = () => {
   const [data, setData] = useState(null);
   const [rawData, setRawData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [errOcc,setErrOcc] = useState(false);
 
   const [image, setImage] = useState(unknown);
   const [name, setName] = useState("");
@@ -153,11 +154,9 @@ const TxnComponent = () => {
           setUnknownCount(unknownCounter);
           // console.log("Data status:",data.status);
         }
+        
         setLoading(false);
         setTimeout(() => {
-          // $(`#json_txns`).animate({
-          //     height: "hide",
-          // });
           $(`#prog_logs`).animate({
             height: "hide",
           });
@@ -165,6 +164,7 @@ const TxnComponent = () => {
       })
       .catch((err) => {
         console.log(err);
+        setErrOcc(true);
         setLoading(false);
       });
   }, []);
@@ -562,7 +562,15 @@ const TxnComponent = () => {
           <SimpleLoader />
         </div>
       )}
-      {!loading && (
+      {!loading && errOcc && 
+        <div className="container pt-5" style={{height: "100vh",background: "radial-gradient(#1E0C36 8%, #000 75%)"}}>
+          <div className="text-center could_not_text">
+              We currently do not parse this transaction,<br /> however our developers are working hard on parsing more and more transactions.
+
+          </div>
+        </div>
+      }
+      {!loading && !errOcc && (
         <div className={styles.single_txn_page}>
           <div className="container-lg pt-2 pb-1">
             <SearchComponent />
