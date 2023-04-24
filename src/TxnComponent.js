@@ -565,8 +565,7 @@ const TxnComponent = () => {
       {!loading && errOcc && 
         <div className="container pt-5" style={{height: "100vh",background: "radial-gradient(#1E0C36 8%, #000 75%)"}}>
           <div className="text-center could_not_text">
-              We currently do not parse this transaction,<br /> however our developers are working hard on parsing more and more transactions.
-
+              Failed to parse this transaction
           </div>
         </div>
       }
@@ -967,17 +966,34 @@ const TxnComponent = () => {
                                   />
                                   {action.type === "SWAP" &&
                                     // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
-                                    Array.isArray(action.info.swaps) &&
-                                    action.info.swaps.length > 0 &&
-                                    action.info.swaps.map(
-                                      (swap_action, index) => (
-                                        <SwapsSubTxn
-                                          key={index}
-                                          swap_action={swap_action}
-                                          cluster={cluster}
-                                        />
-                                      )
-                                    )}
+                                    <div>
+                                      {Array.isArray(action.info.swaps) &&
+                                      action.info.swaps.length > 0 &&
+                                      action.info.swaps.map(
+                                        (swap_action, index) => (
+                                          <SwapsSubTxn
+                                            key={index}
+                                            swap_action={swap_action}
+                                            cluster={cluster}
+                                          />
+                                        )
+                                      )}
+                                      <div className={styles.slippage_params}>
+                                        <div className="d-flex flex-wrap justify-content-start">
+                                            <div className={styles.slippage_param}>
+                                              <span>Slippage In: </span> {action.info.slippage_in_percent ?? "--"} %
+                                            </div>
+                                            <div className={styles.slippage_param}>
+                                              <span>Quoted Out: </span> {action.info.quoted_out_amount ?? "--"}
+                                            </div>
+                                            <div className={styles.slippage_param}>
+                                              <span>Slippage: </span> {action.info.slippage_paid ?? "--"}
+                                            </div>
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+                                    }
                                   <div className="pb-2"></div>
                                 </div>
                               </div>

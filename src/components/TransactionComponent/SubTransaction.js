@@ -1743,7 +1743,8 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     </div>
                     <div className="col-12 col-md-5 text-end">
                       <div className={styles.field_sub_1}>
-                        <div className={styles.minus_color}>
+                        
+                        <div className={(varFields.slippage_paid !== "" && varFields.slippage_paid>0)?styles.plus_color:styles.minus_color}>
                           <div>
                           <Tooltip
                             content={"Slippage paid"}

@@ -639,3 +639,24 @@
     color: #fffa;
     padding-right: 10px;
 }
+.slippage_params
+{
+    padding: 16px 64px 16px;
+}
+.slippage_param
+{
+    font: 400 14px/24px "Plus Jakarta Sans",sans-serif;
+    color: #fffa;
+    padding-right: 16px;
+}
+ .slippage_param span
+{
+    font: 600 14px/24px "Plus Jakarta Sans",sans-serif;
+    color: #fffe;
+}
+@media screen and (max-width: 767px) {
+    .slippage_params
+    {
+        padding: 16px 24px 16px;
+    }
+}
