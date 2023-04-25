@@ -215,7 +215,7 @@
 {
   border-radius: 25px;
   background-color: #280C4C;
-  padding: 4px 8px 6px 16px;
+  padding: 5px 8px 6px 16px;
 }
 .token_search_container input {
   background-color: transparent;
@@ -280,7 +280,8 @@
 }
 .token_search_container_highlight
 {
-  border: 2px solid #9650E5;
+  border: 1px solid #9650E5;
+  background-color: #0c0217 !important;
   padding: 4px 8px 8px 16px;
 }
 

@@ -208,7 +208,7 @@
     outline:none;
     box-shadow: none;
     border-radius: 25px;
-    padding: 6px 18px 7px;
+    padding: 6px 16px 7px 18px;
     margin-top: 0px;
 }
 .sort_button span

@@ -382,8 +382,8 @@ body {
 .scroll-to-top
 {
   position: fixed;
-  bottom: 10px;
-  right: 10px;
+  bottom: 24px;
+  right: 24px;
   z-index: 20;
 }
 .scroll-to-top button
@@ -393,8 +393,8 @@ body {
   box-shadow: none;
   border-radius: 25px;
   padding: 3px 10px 8px;
-  background-color: #9650E5;
-  color: #FDF41B;
+  background-color: #FDF41B;
+  color: #280c4c;
   font-weight: 700;
   /* border: 2px solid #fffa; */
 }

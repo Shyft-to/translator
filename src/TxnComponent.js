@@ -71,7 +71,7 @@ const TxnComponent = () => {
   const [data, setData] = useState(null);
   const [rawData, setRawData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [errOcc,setErrOcc] = useState(false);
+  const [errOcc, setErrOcc] = useState(false);
 
   const [image, setImage] = useState(unknown);
   const [name, setName] = useState("");
@@ -154,7 +154,7 @@ const TxnComponent = () => {
           setUnknownCount(unknownCounter);
           // console.log("Data status:",data.status);
         }
-        
+
         setLoading(false);
         setTimeout(() => {
           $(`#prog_logs`).animate({
@@ -562,13 +562,19 @@ const TxnComponent = () => {
           <SimpleLoader />
         </div>
       )}
-      {!loading && errOcc && 
-        <div className="container pt-5" style={{height: "100vh",background: "radial-gradient(#1E0C36 8%, #000 75%)"}}>
+      {!loading && errOcc && (
+        <div
+          className="container pt-5"
+          style={{
+            height: "100vh",
+            background: "radial-gradient(#1E0C36 8%, #000 75%)",
+          }}
+        >
           <div className="text-center could_not_text">
-              Failed to parse this transaction
+            Failed to parse this transaction
           </div>
         </div>
-      }
+      )}
       {!loading && !errOcc && (
         <div className={styles.single_txn_page}>
           <div className="container-lg pt-2 pb-1">
@@ -941,7 +947,7 @@ const TxnComponent = () => {
                             <div className="row">
                               <div className="col-12">
                                 <div className={styles.fields_container}>
-                                  <div className="d-flex flex-wrap justify-content-start align-content-end">
+                                  <div className="d-flex flex-wrap justify-content-start justify-content-md-between align-content-end">
                                     <div className="pb-2 pb-md-0">
                                       <div className={styles.txn_name}>
                                         {action.type === "UNKNOWN"
@@ -950,6 +956,34 @@ const TxnComponent = () => {
                                             "Protocol Interaction"}
                                       </div>
                                     </div>
+                                    {action.type === "SWAP" && (
+                                      <div className={styles.slippage_params}>
+                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-end">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Slippage In: </span>{" "}
+                                            {action.info.slippage_in_percent ??
+                                              "--"}{" "}
+                                            %
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Quoted Out: </span>{" "}
+                                            {action.info.quoted_out_amount ??
+                                              "--"}
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Slippage: </span>{" "}
+                                            {action.info.slippage_paid ?? "--"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+
                                     {/* <div className="">
                                                                     <div className={styles.txn_subname}>
                                                                         {(action.source_protocol.name != "") ? <div><a href={`/address/${action.source_protocol.address}`}>{formatNames(action.source_protocol.name)}</a></div> : (<a href={`/address/${action.source_protocol.address}`}>{shortenAddress(action.source_protocol.address)}</a>)}
@@ -964,36 +998,22 @@ const TxnComponent = () => {
                                     setTxType={action.type}
                                     key={index}
                                   />
-                                  {action.type === "SWAP" &&
+                                  {action.type === "SWAP" && (
                                     // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
                                     <div>
                                       {Array.isArray(action.info.swaps) &&
-                                      action.info.swaps.length > 0 &&
-                                      action.info.swaps.map(
-                                        (swap_action, index) => (
-                                          <SwapsSubTxn
-                                            key={index}
-                                            swap_action={swap_action}
-                                            cluster={cluster}
-                                          />
-                                        )
-                                      )}
-                                      <div className={styles.slippage_params}>
-                                        <div className="d-flex flex-wrap justify-content-start">
-                                            <div className={styles.slippage_param}>
-                                              <span>Slippage In: </span> {action.info.slippage_in_percent ?? "--"} %
-                                            </div>
-                                            <div className={styles.slippage_param}>
-                                              <span>Quoted Out: </span> {action.info.quoted_out_amount ?? "--"}
-                                            </div>
-                                            <div className={styles.slippage_param}>
-                                              <span>Slippage: </span> {action.info.slippage_paid ?? "--"}
-                                            </div>
-                                        </div>
-                                      </div>
-                                      
+                                        action.info.swaps.length > 0 &&
+                                        action.info.swaps.map(
+                                          (swap_action, index) => (
+                                            <SwapsSubTxn
+                                              key={index}
+                                              swap_action={swap_action}
+                                              cluster={cluster}
+                                            />
+                                          )
+                                        )}
                                     </div>
-                                    }
+                                  )}
                                   <div className="pb-2"></div>
                                 </div>
                               </div>
