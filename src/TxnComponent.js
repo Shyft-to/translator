@@ -80,7 +80,7 @@ const TxnComponent = () => {
   const [copy, setCopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [shyftMessage, setMessage] = useState("");
-  const [inspectionDepth,setInspectionDepth] = useState(false);
+  const [inspectionDepth,setInspectionDepth] = useState(true);
 
   const toggleTxnsSection = () => {
     $(`#json_txns`).animate(
