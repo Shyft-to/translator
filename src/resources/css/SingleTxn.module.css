@@ -660,3 +660,18 @@
         padding: 16px 24px 16px;
     }
 }
+.expand_button
+{
+    position: absolute;
+    z-index: 10;
+    margin-top: 12px;
+    margin-left: auto;
+    right: 0px;
+    padding: 0px 0px;
+    line-height: 10px;
+    color: #3C1B67;
+    background-color: #E0499B;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}

@@ -3,7 +3,7 @@ import { JsonViewer } from "@textea/json-viewer";
 import { useSearchParams, useParams, Link } from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";
-import { FaLink, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaLink, FaChevronDown, FaChevronUp,FaPlusSquare,FaMinusSquare } from "react-icons/fa";
 import Tooltip from "react-tooltip-lite";
 import { motion } from "framer-motion";
 import ReactGA from "react-ga4";
@@ -80,6 +80,7 @@ const TxnComponent = () => {
   const [copy, setCopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [shyftMessage, setMessage] = useState("");
+  const [inspectionDepth,setInspectionDepth] = useState(false);
 
   const toggleTxnsSection = () => {
     $(`#json_txns`).animate(
@@ -1104,15 +1105,34 @@ const TxnComponent = () => {
               <div id="json_txns">
                 <div className={styles.toggle_section_1}>
                   {panel === "SHYFT" ? (
-                    <div className={styles.txn_raw}>
-                      <JsonViewer
-                        value={data}
-                        theme={ocean}
-                        displayDataTypes={false}
-                        rootName={false}
-                        defaultInspectDepth={1}
-                        displayObjectSize={false}
-                      />
+                    <div>
+                      <div style={{position:"relative",width:"99%",textAlign:"end"}}>
+                        <button className={styles.expand_button} onClick={() => setInspectionDepth(!inspectionDepth)}>
+                          {(inspectionDepth)?<FaPlusSquare />:<FaMinusSquare />}
+                        </button>
+                      </div>
+                    {inspectionDepth &&
+                      <div className={styles.txn_raw}>
+                        <JsonViewer
+                          value={data}
+                          theme={ocean}
+                          displayDataTypes={false}
+                          rootName={false}
+                          defaultInspectDepth={1}
+                          displayObjectSize={false}
+                        />
+                      </div>}
+                      {!inspectionDepth &&
+                      <div className={styles.txn_raw}>
+                        <JsonViewer
+                          value={data}
+                          theme={ocean}
+                          displayDataTypes={false}
+                          rootName={false}
+                          defaultInspectDepth={4}
+                          displayObjectSize={false}
+                        />
+                      </div>}
                     </div>
                   ) : (
                     <div className={styles.txn_raw}>
