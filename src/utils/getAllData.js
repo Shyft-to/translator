@@ -581,7 +581,11 @@ export async function knowAddressType(network, address) {
     };
   }
 }
-export async function getTxns(network,accountAddress,beforeTxnSignature = "") {
+export async function getTxns(
+  network,
+  accountAddress,
+  beforeTxnSignature = ""
+) {
   var response = {
     success: false,
     type: "UNKNOWN",
@@ -614,32 +618,67 @@ export async function getTxns(network,accountAddress,beforeTxnSignature = "") {
             success: true,
             type: "TXNS",
             details: txnReceived,
-          }
+          };
         }
       })
       .catch((err) => {
         console.warn(err);
       });
-    
+
     return response;
   } catch (error) {
-      console.warn(error);
-      return response;
+    console.warn(error);
+    return response;
   }
 }
 
-export async function getTxnUptoSignature(network,address,uptoSign)
-{
-  
+export async function getTxnUptoSignature(network, address, uptoSign) {
+  var response = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+
+  try {
+    var txnReceivedComplete = false;
+    var beforeTxSignature = "";
+    var allTxns = [];
+    var counter = 0;
+    while (txnReceivedComplete === false || counter !== 4) {
+      const txnsFetch = await getTxns(network, address, beforeTxSignature);
+      if (txnsFetch.success === true) {
+        var txnReceived = txnsFetch.result;
+        beforeTxSignature = txnReceived[txnReceived.length - 1].signatures[0];
+        var txnsToAppend = [];
+
+        for (let index = 0; index < txnReceived.length; index++) {
+          if (txnReceived[index].signatures[0] === uptoSign) {
+            txnReceivedComplete = true;
+            break;
+          } else txnsToAppend.push(txnReceived[index]);
+        }
+        allTxns = [...allTxns,...txnsToAppend];
+      }
+      counter++;
+    }
+    response = {
+      success: true,
+      type: "TXNS",
+      details: allTxns
+    }
+    return response;
+  } catch (error) {
+    console.log(error);
+    return response;
+  }
 }
-export async function getRawTxn(network,txnAddress) {
+export async function getRawTxn(network, txnAddress) {
   var response = {
     success: false,
     type: "UNKNOWN",
     details: null,
   };
   try {
-    
   } catch (error) {
     console.warn(error);
     return response;

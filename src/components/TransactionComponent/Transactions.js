@@ -13,6 +13,7 @@ import staticRefresh from "../../resources/images/txnImages/refresh_static.png";
 import rotateRefresh from "../../resources/images/txnImages/refresh_rotate.gif";
 import duration from "../../resources/images/txnImages/duration.png";
 import { AnimatePresence } from "framer-motion";
+import { getTxnUptoSignature } from "../../utils/getAllData";
 
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -158,53 +159,76 @@ const Transactions = ({ address, cluster,setProtocolName }) => {
         setLoading(false);
       });
   };
-
+  const getLiveData = async () =>
+  {
+    try {
+      if (firstTxn !== "") {
+        console.log("Refreshing Activity Feed"); 
+        if (address) {
+          const txnFetch = getTxnUptoSignature(cluster,address,firstTxn);
+          if (txnFetch.success === true && txnFetch.result.length > 0) {
+            const txnReceived = txnFetch.result;
+            console.log("New txns received: ", txnReceived.length)
+            setLiveTxns([...txnReceived, ...liveTxns]);
+            setFirstTxn(txnReceived[0].signatures[0]);
+          }
+          if(refreshCounter)
+              setTimer(refreshCounter);
+          
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setTimer(30);
+    }
+    
+  }
 
   //getting live txns
   useEffect(() => {
-
-    if (firstTxn != "") {
+    if (firstTxn !== "") {
+      getLiveData();
 
       // setTimeout(() => {
-      console.log("Refreshing Activity Feed");
-      if (address) {
-        var params = {
-          network: cluster,
-          account: address,
-        };
-        axios({
-          url: `${endpoint}transaction/history`,
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": xKey,
-          },
-          params: params,
-        })
-          .then((res) => {
-            if (res.data.success === true && res.data.result.length > 0) {
-              const txnReceived = res.data.result;
-              let txnsToAppend = [];
-              if (txnReceived[0].signatures[0] !== firstTxn) {
-                for (let index = 0; index < txnReceived.length; index++) {
-                  if (txnReceived[index].signatures[0] === firstTxn)
-                    break;
-                  else
-                    txnsToAppend.push(txnReceived[index]);
-                }
-                console.log("New txns received: ", txnsToAppend.length)
-                setLiveTxns([...txnReceived, ...liveTxns]);
-                setFirstTxn(txnReceived[0].signatures[0]);
-              }
-            }
-            if(refreshCounter)
-              setTimer(refreshCounter);
-          })
-          .catch((err) => {
-            console.log(err);
-            setTimer(30);
-          });
-      }
+      // console.log("Refreshing Activity Feed");
+      // if (address) {
+      //   var params = {
+      //     network: cluster,
+      //     account: address,
+      //   };
+      //   axios({
+      //     url: `${endpoint}transaction/history`,
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "x-api-key": xKey,
+      //     },
+      //     params: params,
+      //   })
+      //     .then((res) => {
+      //       if (res.data.success === true && res.data.result.length > 0) {
+      //         const txnReceived = res.data.result;
+      //         let txnsToAppend = [];
+      //         if (txnReceived[0].signatures[0] !== firstTxn) {
+      //           for (let index = 0; index < txnReceived.length; index++) {
+      //             if (txnReceived[index].signatures[0] === firstTxn)
+      //               break;
+      //             else
+      //               txnsToAppend.push(txnReceived[index]);
+      //           }
+      //           console.log("New txns received: ", txnsToAppend.length)
+      //           setLiveTxns([...txnReceived, ...liveTxns]);
+      //           setFirstTxn(txnReceived[0].signatures[0]);
+      //         }
+      //       }
+      //       if(refreshCounter)
+      //         setTimer(refreshCounter);
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //       setTimer(30);
+      //     });
+      // }
 
       // }, 10000);
     }
