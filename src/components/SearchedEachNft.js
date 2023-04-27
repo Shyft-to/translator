@@ -7,7 +7,7 @@ import { useInView } from "react-intersection-observer";
 import styles from "../resources/css/CollectionRow.module.css";
 import noImage from "../resources/images/no_image.png";
 import ok_bear from "../resources/images/ok_bear.png";
-import test from "../resources/images/test.png";
+// import test from "../resources/images/test.png";
 
 
 import { getNFTData } from "../utils/getAllData";
