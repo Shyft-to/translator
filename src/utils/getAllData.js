@@ -628,7 +628,10 @@ export async function getTxns(network,accountAddress,beforeTxnSignature = "") {
   }
 }
 
-
+export async function getTxnUptoSignature(network,address,uptoSign)
+{
+  
+}
 export async function getRawTxn(network,txnAddress) {
   var response = {
     success: false,
