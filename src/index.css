@@ -405,7 +405,6 @@ body {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background-color: #1e003dcc;
   z-index: 12;
   display: flex;
   align-items: center;
@@ -413,18 +412,32 @@ body {
 }
 .popup_view_area
 {
-  background: pink;
+  background: #240E42A8;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   width: 100%;
   max-width: 1000px;
   z-index: 14;
   position: relative;
-  padding: 20px 40px;
+  padding: 60px 40px 40px;
+  border-radius: 16px;
 }
 .popup_view_area .close_cross_x
 {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 14px;
+  right: 14px;
+  border: none;
+  outline:none;
+  box-shadow: none;
+  width: 24px;
+  height: 24px;
+  line-height: 0px;
+  font-weight: 600;
+  font-size: 10px;
+  border-radius: 24px;
+  color: #FDF41B;
+  background-color: #fff2;
 }
 .popup_view_area .heading_1
 {
@@ -443,24 +456,66 @@ body {
 .popup_view_area .each_question_answer 
 {
   padding-top: 20px;
+  background-color: #120A1DB2;
+  border-radius: 8px;
+  margin-bottom: 16px;
 }
 .popup_view_area .each_question_answer .question
 {
-  font: 600 18px "Montserrat", sans-serif;
-  color: #fff;
-  padding-bottom: 8px;
+  font: 500 16px "Montserrat", sans-serif;
+  color: #FDF41B;
+  padding: 0px 16px 8px;
+}
+.popup_view_area .each_question_answer .question hr
+{
+  margin-top: 12px;
+  margin-bottom: 0px;
 }
 .popup_view_area .answer_area
 {
   padding: 16px;
   border-radius: 8px;
   background-color: #120A1DB2;
-  font: 300 14px/18px "Poppins", sans-serif;
+  font: 200 14px/22px "Poppins", sans-serif;
+  color: #fff;
+}
+.updown_arrow
+{
+  transition: all 0.3s ease;
+}
+.popup_view_area .link_area
+{
+  padding-top: 36px;
+  width: 100%;
+  max-width: 840px;
+  display: block;
+  margin: 0 auto;
+} 
+.link_area .each_contribute_link a
+{
+  text-decoration: none;
+}
+.link_area .each_contribute_link .icon_contri img
+{
+  width: 32px;
+}
+.link_area .each_contribute_link .text_contri
+{
+  padding-left: 14px;
+}
+.link_area .each_contribute_link .text_contri .title
+{
+  font: 500 16px/20px "Montserrat", sans-serif;
+  color: #fff;
+}
+.link_area .each_contribute_link .text_contri .link
+{
+  font: 300 12px/18px "Poppins", sans-serif;
+  color: #FDF41Bfe;
 }
 @media screen and (max-width:767px) {
   .popup_view_area
   {
-
     padding: 8px 16px;
   }
   .popup_view_area .heading_1
@@ -470,5 +525,18 @@ body {
     color: #fff;
     padding-bottom: 24px;
     padding-top: 24px;
+  }
+  .popup_view_area .link_area
+  {
+    padding-top: 24px;
+    width: 100%;
+    max-width: 840px;
+    display: block;
+    margin: 0 auto;
+  }
+  .link_area .each_contribute_link 
+  {
+    margin-bottom: 16px;
+    text-decoration: none;
   }
 }
