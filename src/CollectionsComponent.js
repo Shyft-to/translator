@@ -12,6 +12,8 @@ import SearchComponent from "./components/SearchComponent";
 import EachNft from "./components/EachNft";
 import SearchTokens from "./components/SearchTokens";
 import SearchEachNft from "./components/SearchedEachNft";
+import ClickToTop from "./ClickToTop";
+import PopupView from "./PopupView";
 
 const CollectionsComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -79,6 +81,9 @@ const CollectionsComponent = () => {
 
     return (
         <div>
+            
+            <ClickToTop />
+            <PopupView />
             <div className="background_super">
 
                 <div className="container pt-2 pb-1">

@@ -399,7 +399,27 @@ body {
   font-weight: 700;
   /* border: 2px solid #fffa; */
 }
-
+.scroll-to-top-2
+{
+  position: fixed;
+  bottom: 24px;
+  right: 66px;
+  z-index: 20;
+}
+.scroll-to-top-2 button
+{
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 25px;
+  width: 36px;
+  height: 35px;
+  padding: 3px 2px;
+  background-color: #FDF41B;
+  color: #280c4c;
+  font-weight: 700;
+  /* border: 2px solid #fffa; */
+}
 .popup_view_overlay
 {
   position: fixed;
@@ -409,6 +429,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #0008;
 }
 .popup_view_area
 {

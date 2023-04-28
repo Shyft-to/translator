@@ -19,9 +19,12 @@ import SearchComponent from "./components/SearchComponent";
 import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
 import SimpleLoader from "./components/loaders/SimpleLoader";
 import WalletIcon from "./resources/images/wallet_icon.svg";
+import ClickToTop from "./ClickToTop";
+import PopupView from "./PopupView";
+import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
 
-const AddressComponent = () => {
+const AddressComponent = ({popup,setPopUp}) => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -139,6 +142,10 @@ const AddressComponent = () => {
 
     return (
         <div>
+            <ClickToTop />
+            <OpenPopup setPopUp={setPopUp}/>
+            {popup && <PopupView setPopUp={setPopUp} />}
+            
             {/* <HeaderComponent /> */}
             <div className={styles.background_super}>
 

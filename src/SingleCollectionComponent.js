@@ -14,6 +14,8 @@ import SearchComponent from "./components/SearchComponent";
 import CollectionRowSlice from "./components/CollectionRowSlice";
 import SearchTokens from "./components/SearchTokens";
 import SearchEachNft from "./components/SearchedEachNft";
+import ClickToTop from "./ClickToTop";
+import PopupView from "./PopupView";
 
 const SingleCollectionComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -91,6 +93,9 @@ const SingleCollectionComponent = () => {
 
     return (
         <div>
+            
+            <ClickToTop />
+            <PopupView />
             <div className="background_super">
                 <div className="container pt-2 pb-1">
                     <SearchComponent />

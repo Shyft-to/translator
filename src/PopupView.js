@@ -2,7 +2,7 @@ import $ from "jquery";
 import arrow from "./resources/images/up_arrow.png";
 import github from "./resources/images/footer/github.svg";
 import discord from "./resources/images/footer/discord.svg";
-const PopupView = () => {
+const PopupView = ({setPopUp}) => {
 
   const toggleQuestionOne = () => {
     const transstate = $(`#q1_arrow`).css("transform");
@@ -37,7 +37,7 @@ const PopupView = () => {
   return (
     <div className="popup_view_overlay">
       <div className="popup_view_area">
-        <button className="close_cross_x">✖</button>
+        <button className="close_cross_x" onClick={() => setPopUp(false)}>✖</button>
         <div className="heading_1">Simplified dApp Development on Solana</div>
         <div className="question_section">
           <div className="each_question_answer">

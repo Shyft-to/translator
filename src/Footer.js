@@ -5,8 +5,9 @@ import linkedin from './resources/images/footer/lnkedin.svg';
 import twitter from './resources/images/footer/twitter.svg';
 import github from './resources/images/footer/github.svg';
 
+import i_icon from "./resources/images/info.svg";
 
-const Footer = () => {
+const Footer = ({setPopUp}) => {
     return ( 
     <div>
         <div className="footer-white">
@@ -15,6 +16,11 @@ const Footer = () => {
                         <a href="https://docs.shyft.to/" target="_blank" rel='noreferrer'>
                             <img src={poweredBy} alt="Powered By SHYFT" />
                         </a>
+                    </div>
+                    <div>
+                        <div className='ps-2' onClick={setPopUp}>
+                            <img src={i_icon} style={{width:"20px"}} />
+                        </div>
                     </div>
                 </div>
                 <div className='d-flex justify-content-center my-3 white-footer-icons'>
