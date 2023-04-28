@@ -5,7 +5,7 @@ import $ from "jquery";
 import axios from "axios";
 import { FaLink, FaChevronDown, FaChevronUp,FaPlusSquare,FaMinusSquare } from "react-icons/fa";
 import Tooltip from "react-tooltip-lite";
-import { motion } from "framer-motion";
+import { animate, motion } from "framer-motion";
 import ReactGA from "react-ga4";
 
 import styles from "./resources/css/SingleTxn.module.css";
@@ -83,6 +83,8 @@ const TxnComponent = () => {
   const [inspectionDepth,setInspectionDepth] = useState(true);
 
   const toggleTxnsSection = () => {
+    const height = $(`#json_txns`).height();
+    
     $(`#json_txns`).animate(
       {
         height: "toggle",
@@ -90,8 +92,19 @@ const TxnComponent = () => {
       200,
       "linear"
     );
+    if(height < 90)
+    {
+      //animate(".json_arrow", { rotate: 180 }, { duration: 0.2 });
+      $(`#json_arrow`).css("transform", 'rotate(0deg)');
+    }
+    else
+    {
+      $(`#json_arrow`).css("transform", 'rotate(180deg)');
+    }
   };
   const toggleLogsSection = () => {
+    const height = $(`#prog_logs`).height();
+    console.log("height");
     $(`#prog_logs`).animate(
       {
         height: "toggle",
@@ -99,6 +112,15 @@ const TxnComponent = () => {
       200,
       "linear"
     );
+    if(height < 90)
+    {
+      //animate(".json_arrow", { rotate: 180 }, { duration: 0.2 });
+      $(`#program_arrow`).css("transform", 'rotate(0deg)');
+    }
+    else
+    {
+      $(`#program_arrow`).css("transform", 'rotate(180deg)');
+    }
   };
   useEffect(() => {
     ReactGA.send({
@@ -1093,10 +1115,10 @@ const TxnComponent = () => {
                       className={styles.hide_button}
                       onClick={toggleTxnsSection}
                     >
-                      Hide Details{" "}
-                      <span>
+                      Details
+                      <div id="json_arrow">
                         <FaChevronUp />
-                      </span>
+                      </div>
                     </button>
                   </div>
                 </div>
@@ -1171,10 +1193,10 @@ const TxnComponent = () => {
                       onClick={toggleLogsSection}
                       style={{ marginTop: "2px" }}
                     >
-                      Show Details{" "}
-                      <span>
+                      Details
+                      <div id="program_arrow">
                         <FaChevronDown />
-                      </span>
+                      </div>
                     </button>
                   </div>
                 </div>

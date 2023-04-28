@@ -198,7 +198,7 @@
 .underline
 {
   position: absolute;
-  bottom: -1px;
+  bottom: -2px;
   left: 0;
   right: 0;
   height: 2px;
@@ -225,16 +225,19 @@
 {
     border-radius: 25px;
     padding: 8px 24px;
-    margin-top: 4px;
     border: none;
     outline: none;
     background-color: transparent;
     font: 400 14px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    color: #fffc;
 }
-.single_txn_page .hide_button span
+.single_txn_page .hide_button div
 {
+    display: inline-block;
+    font-size: 16px;
     color: #FDF41B;
+    padding: 0px 2px 6px 2px;
+    transition: all 0.3s ease;
 }
 .single_txn_page .hide_details_container
 {
