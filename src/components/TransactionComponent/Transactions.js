@@ -165,9 +165,9 @@ const Transactions = ({ address, cluster,setProtocolName }) => {
       if (firstTxn !== "") {
         console.log("Refreshing Activity Feed"); 
         if (address) {
-          const txnFetch = getTxnUptoSignature(cluster,address,firstTxn);
-          if (txnFetch.success === true && txnFetch.result.length > 0) {
-            const txnReceived = txnFetch.result;
+          const txnFetch = await getTxnUptoSignature(cluster,address,firstTxn);
+          if (txnFetch.success === true && txnFetch.details.length > 0) {
+            const txnReceived = txnFetch.details;
             console.log("New txns received: ", txnReceived.length)
             setLiveTxns([...txnReceived, ...liveTxns]);
             setFirstTxn(txnReceived[0].signatures[0]);
@@ -187,9 +187,8 @@ const Transactions = ({ address, cluster,setProtocolName }) => {
   //getting live txns
   useEffect(() => {
     if (firstTxn !== "") {
+      
       getLiveData();
-
-      // setTimeout(() => {
       // console.log("Refreshing Activity Feed");
       // if (address) {
       //   var params = {
@@ -230,7 +229,6 @@ const Transactions = ({ address, cluster,setProtocolName }) => {
       //     });
       // }
 
-      // }, 10000);
     }
   }, [recall]);
 

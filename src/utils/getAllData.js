@@ -581,11 +581,7 @@ export async function knowAddressType(network, address) {
     };
   }
 }
-export async function getTxns(
-  network,
-  accountAddress,
-  beforeTxnSignature = ""
-) {
+export async function getTxns(network,accountAddress,beforeTxnSignature = "") {
   var response = {
     success: false,
     type: "UNKNOWN",
@@ -602,7 +598,7 @@ export async function getTxns(
         before_tx_signature: beforeTxnSignature,
       };
     }
-    axios({
+    await axios({
       url: `${endpoint}transaction/history`,
       method: "GET",
       headers: {
@@ -613,18 +609,17 @@ export async function getTxns(
     })
       .then((res) => {
         if (res.data.success === true) {
-          const txnReceived = res.data.result;
+          const txnsReceived = res.data.result;
           response = {
             success: true,
             type: "TXNS",
-            details: txnReceived,
+            details: txnsReceived,
           };
         }
       })
       .catch((err) => {
         console.warn(err);
       });
-
     return response;
   } catch (error) {
     console.warn(error);
@@ -638,34 +633,44 @@ export async function getTxnUptoSignature(network, address, uptoSign) {
     type: "UNKNOWN",
     details: null,
   };
-
   try {
     var txnReceivedComplete = false;
     var beforeTxSignature = "";
     var allTxns = [];
     var counter = 0;
-    while (txnReceivedComplete === false || counter !== 4) {
+    while (txnReceivedComplete === false) {
+      
       const txnsFetch = await getTxns(network, address, beforeTxSignature);
-      if (txnsFetch.success === true) {
-        var txnReceived = txnsFetch.result;
-        beforeTxSignature = txnReceived[txnReceived.length - 1].signatures[0];
-        var txnsToAppend = [];
+      
+        if (txnsFetch.success === true) {
+          var txnReceived = txnsFetch.details;
+          beforeTxSignature = txnReceived[txnReceived.length - 1].signatures[0];
+          var txnsToAppend = [];
 
-        for (let index = 0; index < txnReceived.length; index++) {
-          if (txnReceived[index].signatures[0] === uptoSign) {
-            txnReceivedComplete = true;
-            break;
-          } else txnsToAppend.push(txnReceived[index]);
+          for (let index = 0; index < txnReceived.length; index++) {
+            
+            if (txnReceived[index].signatures?.includes(uptoSign)) {
+              txnReceivedComplete = true;
+              console.log("txnMatched At index: ", index, "for", txnReceived[index].signatures[0]);
+              break;
+            } else txnsToAppend.push(txnReceived[index]);
+
+          }
+          allTxns = [...allTxns, ...txnsToAppend];
         }
-        allTxns = [...allTxns,...txnsToAppend];
-      }
+        
       counter++;
+      if (counter > 5 || txnReceivedComplete === true)
+        break;
+      
     }
+    
     response = {
       success: true,
       type: "TXNS",
       details: allTxns
     }
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
