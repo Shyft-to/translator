@@ -3,7 +3,13 @@ import { JsonViewer } from "@textea/json-viewer";
 import { useSearchParams, useParams, Link } from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";
-import { FaLink, FaChevronDown, FaChevronUp,FaPlusSquare,FaMinusSquare } from "react-icons/fa";
+import {
+  FaLink,
+  FaChevronDown,
+  FaChevronUp,
+  FaPlusSquare,
+  FaMinusSquare,
+} from "react-icons/fa";
 import Tooltip from "react-tooltip-lite";
 import { animate, motion } from "framer-motion";
 import ReactGA from "react-ga4";
@@ -80,11 +86,11 @@ const TxnComponent = () => {
   const [copy, setCopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [shyftMessage, setMessage] = useState("");
-  const [inspectionDepth,setInspectionDepth] = useState(true);
+  const [inspectionDepth, setInspectionDepth] = useState(true);
 
   const toggleTxnsSection = () => {
     const height = $(`#json_txns`).height();
-    
+
     $(`#json_txns`).animate(
       {
         height: "toggle",
@@ -92,19 +98,11 @@ const TxnComponent = () => {
       200,
       "linear"
     );
-    if(height < 90)
-    {
-      //animate(".json_arrow", { rotate: 180 }, { duration: 0.2 });
-      $(`#json_arrow`).css("transform", 'rotate(0deg)');
-    }
-    else
-    {
-      $(`#json_arrow`).css("transform", 'rotate(180deg)');
-    }
+    if (height < 90) $(`#json_arrow`).css("transform", "rotate(0deg)");
+    else $(`#json_arrow`).css("transform", "rotate(180deg)");
   };
   const toggleLogsSection = () => {
     const height = $(`#prog_logs`).height();
-    console.log("height");
     $(`#prog_logs`).animate(
       {
         height: "toggle",
@@ -112,15 +110,8 @@ const TxnComponent = () => {
       200,
       "linear"
     );
-    if(height < 90)
-    {
-      //animate(".json_arrow", { rotate: 180 }, { duration: 0.2 });
-      $(`#program_arrow`).css("transform", 'rotate(0deg)');
-    }
-    else
-    {
-      $(`#program_arrow`).css("transform", 'rotate(180deg)');
-    }
+    if (height < 899) $(`#program_arrow`).css("transform", "rotate(180deg)");
+    else $(`#program_arrow`).css("transform", "rotate(0deg)");
   };
   useEffect(() => {
     ReactGA.send({
@@ -249,11 +240,10 @@ const TxnComponent = () => {
           symbol: "",
         };
         setRelField(data.info.token_address ?? "");
-        msg = `${
-          data.info.amount
-        } TOKEN(s) was transferred from ${shortenAddress(
-          data.info.sender
-        )} to ${shortenAddress(data.info.receiver)}`;
+        msg = `${data.info.amount
+          } TOKEN(s) was transferred from ${shortenAddress(
+            data.info.sender
+          )} to ${shortenAddress(data.info.receiver)}`;
         // setCurrencyField(data.info.token_address ?? "");
       } else if (txn_type === "NFT_TRANSFER") {
         type_obj = {
@@ -740,38 +730,38 @@ const TxnComponent = () => {
                     >
                       {Array.isArray(data.signers) && data.signers.length > 0
                         ? data.signers.map((signer) => (
-                            <span>
-                              <a
-                                href={
-                                  cluster === "mainnet-beta"
-                                    ? `/address/${signer}`
-                                    : `/address/${signer}?cluster=${cluster}`
-                                }
-                              >
-                                {shortenAddress(signer)}
-                              </a>
-                              <Tooltip
-                                content={copy}
-                                className="inline_tooltip"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={0}
-                              >
-                                <button className={styles.inline_copy}>
-                                  <img
-                                    src={copyBtn}
-                                    alt="Copy"
-                                    onClick={() => copyValue(signer)}
-                                  />
-                                </button>
-                                &nbsp;&nbsp;
-                              </Tooltip>
-                            </span>
-                          ))
+                          <span>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${signer}`
+                                  : `/address/${signer}?cluster=${cluster}`
+                              }
+                            >
+                              {shortenAddress(signer)}
+                            </a>
+                            <Tooltip
+                              content={copy}
+                              className="inline_tooltip"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                            >
+                              <button className={styles.inline_copy}>
+                                <img
+                                  src={copyBtn}
+                                  alt="Copy"
+                                  onClick={() => copyValue(signer)}
+                                />
+                              </button>
+                              &nbsp;&nbsp;
+                            </Tooltip>
+                          </span>
+                        ))
                         : ""}
                     </div>
                   </div>
@@ -964,89 +954,89 @@ const TxnComponent = () => {
                 </div>
                 {data.actions.length > 0
                   ? data.actions.map((action, index) =>
-                      isParsable(action.type) ? (
-                        <div className={styles.each_txn_3}>
-                          <div>
-                            <div className="row">
-                              <div className="col-12">
-                                <div className={styles.fields_container}>
-                                  <div className="d-flex flex-wrap justify-content-start justify-content-md-between align-content-end">
-                                    <div className="pb-2 pb-md-0">
-                                      <div className={styles.txn_name}>
-                                        {action.type === "UNKNOWN"
-                                          ? "Protocol Interaction"
-                                          : formatNames(action.type) ||
-                                            "Protocol Interaction"}
-                                      </div>
+                    isParsable(action.type) ? (
+                      <div className={styles.each_txn_3}>
+                        <div>
+                          <div className="row">
+                            <div className="col-12">
+                              <div className={styles.fields_container}>
+                                <div className="d-flex flex-wrap justify-content-start justify-content-md-between align-content-end">
+                                  <div className="pb-2 pb-md-0">
+                                    <div className={styles.txn_name}>
+                                      {action.type === "UNKNOWN"
+                                        ? "Protocol Interaction"
+                                        : formatNames(action.type) ||
+                                        "Protocol Interaction"}
                                     </div>
-                                    {action.type === "SWAP" && (
-                                      <div className={styles.slippage_params}>
-                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-end">
-                                          <div
-                                            className={styles.slippage_param}
-                                          >
-                                            <span>Slippage In: </span>{" "}
-                                            {action.info.slippage_in_percent ??
-                                              "--"}{" "}
-                                            %
-                                          </div>
-                                          <div
-                                            className={styles.slippage_param}
-                                          >
-                                            <span>Quoted Out: </span>{" "}
-                                            {action.info.quoted_out_amount ??
-                                              "--"}
-                                          </div>
-                                          <div
-                                            className={styles.slippage_param}
-                                          >
-                                            <span>Slippage: </span>{" "}
-                                            {action.info.slippage_paid ?? "--"}
-                                          </div>
+                                  </div>
+                                  {action.type === "SWAP" && (
+                                    <div className={styles.slippage_params}>
+                                      <div className="d-flex flex-wrap justify-content-start justify-content-md-end">
+                                        <div
+                                          className={styles.slippage_param}
+                                        >
+                                          <span>Slippage In: </span>{" "}
+                                          {action.info.slippage_in_percent ??
+                                            "--"}{" "}
+                                          %
+                                        </div>
+                                        <div
+                                          className={styles.slippage_param}
+                                        >
+                                          <span>Quoted Out: </span>{" "}
+                                          {action.info.quoted_out_amount ??
+                                            "--"}
+                                        </div>
+                                        <div
+                                          className={styles.slippage_param}
+                                        >
+                                          <span>Slippage: </span>{" "}
+                                          {action.info.slippage_paid ?? "--"}
                                         </div>
                                       </div>
-                                    )}
+                                    </div>
+                                  )}
 
-                                    {/* <div className="">
+                                  {/* <div className="">
                                                                     <div className={styles.txn_subname}>
                                                                         {(action.source_protocol.name != "") ? <div><a href={`/address/${action.source_protocol.address}`}>{formatNames(action.source_protocol.name)}</a></div> : (<a href={`/address/${action.source_protocol.address}`}>{shortenAddress(action.source_protocol.address)}</a>)}
                                                                     </div>
                                                                 </div> */}
-                                  </div>
-                                  <SubTransactions
-                                    styles={styles}
-                                    wallet={123}
-                                    cluster={cluster}
-                                    data={action}
-                                    setTxType={action.type}
-                                    key={index}
-                                  />
-                                  {action.type === "SWAP" && (
-                                    // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
-                                    <div>
-                                      {Array.isArray(action.info.swaps) &&
-                                        action.info.swaps.length > 0 &&
-                                        action.info.swaps.map(
-                                          (swap_action, index) => (
-                                            <SwapsSubTxn
-                                              key={index}
-                                              swap_action={swap_action}
-                                              cluster={cluster}
-                                            />
-                                          )
-                                        )}
-                                    </div>
-                                  )}
-                                  <div className="pb-2"></div>
                                 </div>
+                                <SubTransactions
+                                  styles={styles}
+                                  wallet={123}
+                                  cluster={cluster}
+                                  data={action}
+                                  setTxType={action.type}
+                                  key={index}
+                                />
+                                {action.type === "SWAP" && (
+                                  // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
+                                  <div>
+                                    {Array.isArray(action.info.swaps) &&
+                                      action.info.swaps.length > 0 &&
+                                      action.info.swaps.map(
+                                        (swap_action, index) => (
+                                          <SwapsSubTxn
+                                            key={index}
+                                            swap_action={swap_action}
+                                            cluster={cluster}
+                                          />
+                                        )
+                                      )}
+                                  </div>
+                                )}
+                                <div className="pb-2"></div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      ) : (
-                        ""
-                      )
+                      </div>
+                    ) : (
+                      ""
                     )
+                  )
                   : "-"}
               </div>
             </motion.div>
@@ -1128,33 +1118,48 @@ const TxnComponent = () => {
                 <div className={styles.toggle_section_1}>
                   {panel === "SHYFT" ? (
                     <div>
-                      <div style={{position:"relative",width:"99%",textAlign:"end"}}>
-                        <button className={styles.expand_button} onClick={() => setInspectionDepth(!inspectionDepth)}>
-                          {(inspectionDepth)?<FaPlusSquare />:<FaMinusSquare />}
+                      <div
+                        style={{
+                          position: "relative",
+                          width: "99%",
+                          textAlign: "end",
+                        }}
+                      >
+                        <button
+                          className={styles.expand_button}
+                          onClick={() => setInspectionDepth(!inspectionDepth)}
+                        >
+                          {inspectionDepth ? (
+                            <FaPlusSquare />
+                          ) : (
+                            <FaMinusSquare />
+                          )}
                         </button>
                       </div>
-                    {inspectionDepth &&
-                      <div className={styles.txn_raw}>
-                        <JsonViewer
-                          value={data}
-                          theme={ocean}
-                          displayDataTypes={false}
-                          rootName={false}
-                          defaultInspectDepth={1}
-                          displayObjectSize={false}
-                        />
-                      </div>}
-                      {!inspectionDepth &&
-                      <div className={styles.txn_raw}>
-                        <JsonViewer
-                          value={data}
-                          theme={ocean}
-                          displayDataTypes={false}
-                          rootName={false}
-                          defaultInspectDepth={4}
-                          displayObjectSize={false}
-                        />
-                      </div>}
+                      {inspectionDepth && (
+                        <div className={styles.txn_raw}>
+                          <JsonViewer
+                            value={data}
+                            theme={ocean}
+                            displayDataTypes={false}
+                            rootName={false}
+                            defaultInspectDepth={1}
+                            displayObjectSize={false}
+                          />
+                        </div>
+                      )}
+                      {!inspectionDepth && (
+                        <div className={styles.txn_raw}>
+                          <JsonViewer
+                            value={data}
+                            theme={ocean}
+                            displayDataTypes={false}
+                            rootName={false}
+                            defaultInspectDepth={4}
+                            displayObjectSize={false}
+                          />
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className={styles.txn_raw}>
@@ -1205,10 +1210,10 @@ const TxnComponent = () => {
                 <div className={styles.toggle_section_1}>
                   <div className={styles.txn_raw}>
                     {Array.isArray(rawData.meta.logMessages) &&
-                    rawData.meta.logMessages.length > 0
+                      rawData.meta.logMessages.length > 0
                       ? rawData.meta.logMessages.map((log, index) => (
-                          <div key={index}>{JSON.stringify(log)}</div>
-                        ))
+                        <div key={index}>{JSON.stringify(log)}</div>
+                      ))
                       : "No Program Logs found"}
                   </div>
                 </div>

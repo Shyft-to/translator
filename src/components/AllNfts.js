@@ -6,7 +6,7 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 // import UncachedCollection from "./UncachedCollection";
-import SearchTokens from "./SearchTokens";
+import SearchTokensHome from "./SearchTokensHome";
 import SearchEachNft from "./SearchedEachNft";
 
 const AllNfts = ({ collections, address, network }) => {
@@ -49,7 +49,7 @@ const AllNfts = ({ collections, address, network }) => {
               </div>
           </div>
           <div>
-            <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search NFTs"} highlight={true}/>
+            <SearchTokensHome searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search NFTs"} highlight={true}/>
           </div>
         </div>
           

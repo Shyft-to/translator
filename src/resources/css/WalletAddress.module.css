@@ -57,6 +57,9 @@
 }
 .wallet_balance_indicator
 {
+  position: relative;
+  overflow-x: hidden !important;
+  /* width: 150px; */
   font: 500 24px/32px "Montserrat", sans-serif;
   color: #fff;
 }
@@ -211,7 +214,21 @@
 .select_container_2 option {
   background-color: #2a0855;
 }
+.collections_cara_cont
+{
+  padding-top: 40px;
+}
 
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .collections_cara_cont
+  {
+    padding-top: 40px;
+  }
+  .heading_section
+  {
+    padding-top: 60px;
+  }
+}
 @media screen and (max-width: 767px) {
   .select_container {
     display: none !important;

@@ -146,7 +146,7 @@ const AddressComponent = () => {
                     <SearchComponent />
                 </div>
                 {isLoading &&
-                    <div className="container-lg pt-3">
+                    <div className="container-lg pt-4 pt-md-5 pt-xl-3">
                         <SimpleLoader />
                     </div>
                 }
@@ -182,26 +182,7 @@ const AddressComponent = () => {
                                                         {shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
-                                                {/* <div>
-
-                                                    <Tooltip
-                                                        content={copied}
-                                                        className="myTarget"
-                                                        direction="up"
-                                                        // eventOn="onClick"
-                                                        // eventOff="onMouseLeave"
-                                                        useHover={true}
-                                                        background="#101010"
-                                                        color="#fefefe"
-                                                        arrowSize={5}
-
-                                                    >
-                                                        <button className={styles.copy_button} onClick={() => copyValue(addr)}>
-                                                            <img src={copyIcon} alt="Copy Image" />
-                                                        </button>
-                                                    </Tooltip>
-
-                                                </div> */}
+                                                
                                                 <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
                                                     <Tooltip
                                                             content={copyLink}
@@ -257,10 +238,7 @@ const AddressComponent = () => {
                                     </div>
                                 </div>
                             </motion.div>
-                            {/* <div className="pt-5">
-                        <AllTokens tokens={data.tokens} address={addr} network={cluster} />
-                    </div> */}
-                            <div className="pt-4">
+                            <div className={styles.collections_cara_cont}>
                                 <AllNfts collections={data.collections} address={addr} network={cluster} />
                             </div>
 
