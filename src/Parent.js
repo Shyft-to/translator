@@ -8,6 +8,7 @@ import SingleCollectionComponent from "./SingleCollectionComponent";
 // import TokenComponent from "./TokenComponent";
 import TxnComponent from "./TxnComponent";
 import ClickToTop from "./ClickToTop";
+import PopupView from "./PopupView";
 
 const Parent = () => {
     return ( 
@@ -15,6 +16,7 @@ const Parent = () => {
             <Router>
                 <ScrollToTop />
                 <ClickToTop />
+                <PopupView />
                 <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/address/:addr" element={<AddressComponent />} />
