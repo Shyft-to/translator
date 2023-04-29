@@ -563,7 +563,89 @@ body {
 }
 .long_cards
 {
-  margin-bottom: 8px;
+  margin-bottom: 28px;
   background-color: #3c1b67;
   border-radius: 12px;
+}
+.long_cards .long_image_container
+{
+  padding: 10px;
+  /* height: 250px;
+  width: 250px; */
+}
+.long_cards .long_image_container img
+{
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: fill;
+  border-radius: 8px;
+}
+.long_cards .nft_details
+{
+  padding: 4px 24px;
+}
+.long_cards .name_section
+{
+  padding-top: 10px;
+}
+.long_cards .name_section .nft_name
+{
+  font: 500 18px/22px "Montserrat", sans-serif;
+  color: #FDF41B;
+}
+.long_cards .name_section .nft_sub_name
+{
+  font: 500 10px/22px "Montserrat", sans-serif;
+  color: #FFF6;
+  padding-left: 8px;
+}
+.long_cards .owner_section
+{
+  padding-top: 10px;
+  font: 500 14px/18px "Plus Jakarta Sans", sans-serif;
+  color: #fffa;
+}
+.long_cards .owner_section .detail
+{
+  font: 500 14px/18px "Plus Jakarta Sans", sans-serif;
+  color: #fff;
+}
+.long_cards .attribute_section
+{
+  padding-top: 22px;
+  font: 500 14px/18px "Plus Jakarta Sans", sans-serif;
+  color: #fffa;
+}
+.long_cards .attribute
+{
+  width: 220px;
+  background-color: #280c4c;
+  border-radius: 4px;
+  font: 500 12px/18px "Plus Jakarta Sans", sans-serif;
+  color: #fffa;
+  padding: 4px 0px;
+  padding-right: 4px;
+  margin-top: 6px;
+  margin-left: 0px;
+  margin-right: 8px;
+}
+.long_cards .attribute .attribname
+{
+  overflow: hidden;
+}
+.long_cards .attribute .attribvalue
+{
+  font: 500 12px/18px "Plus Jakarta Sans", sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+@media screen and (max-width: 767px) {
+  .long_cards
+  {
+    margin-bottom: 24px;
+    background-color: #3c1b67;
+    border-radius: 24px;
+    padding: 12px;
+    padding-bottom: 20px;
+  }
 }
