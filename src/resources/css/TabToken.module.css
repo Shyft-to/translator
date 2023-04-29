@@ -113,7 +113,7 @@
 {
     font: 300 16px/20px "Poppins",sans-serif;
     color: #FFF3;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     text-align: center;
 }
 @media screen and (max-width:767px) {

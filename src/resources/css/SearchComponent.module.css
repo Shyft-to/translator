@@ -6,7 +6,7 @@
 .form_container label {
   font: 500 16px/24px "Montserrat", sans-serif;
   color: #fff;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   margin-bottom: 8px;
 }
 
@@ -38,7 +38,7 @@
   width: 100%;
   color: #fff;
   font: 500 16px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 
 .form_field_outer .form_field_inner input:focus {
@@ -53,7 +53,7 @@
   box-shadow: none;
   color: #fff;
   font: 500 16px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 
 .form_field_outer .form_field_inner select:focus {
@@ -104,7 +104,7 @@
     width: 100%;
     color: #fff;
     font: 500 13px/18px "Montserrat", sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
   }
 
   .form_field_outer .form_field_inner input:focus {
@@ -118,7 +118,7 @@
     box-shadow: none;
     color: #fff;
     font: 500 13px/18px "Montserrat", sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     padding-top: 1px;
   }
   

@@ -53,7 +53,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .wallet_balance_indicator
 {
@@ -168,7 +168,7 @@
   box-shadow: none;
   color: #fff;
   font: 400 14px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   width: 100%;
   display: block;
   margin: 0 auto;
@@ -199,7 +199,7 @@
   box-shadow: none;
   color: #fff;
   font: 400 14px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   width: 100%;
   display: block;
   margin: 0 auto;
@@ -248,7 +248,7 @@
   .select_container_2 select {
 
     font: 400 12px/16px "Montserrat", sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     /* padding:  6px; */
     display: block;
     margin: 0 auto;
