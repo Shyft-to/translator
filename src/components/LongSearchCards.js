@@ -68,7 +68,12 @@ const LongSearchCards = ({ nft, cluster }) => {
       <div className="d-flex">
         <div className="">
           <div className="long_image_container">
-            <img src={(inView)?image:ok_bear} />
+            <img src={(inView)?image:ok_bear} alt="img" 
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src=noImage;
+              }}
+            />
           </div>
         </div>
         <div className="flex-grow-1">
