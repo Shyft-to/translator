@@ -43,6 +43,9 @@ import SimpleLoader from "./components/loaders/SimpleLoader";
 import SubTransactions from "./components/TransactionComponent/SubTransaction";
 import SearchComponent from "./components/SearchComponent";
 import SwapsSubTxn from "./components/TransactionComponent/SwapsSubTxn";
+import OpenPopup from "./OpenPopup";
+import PopupView from "./PopupView";
+import ClickToTop from "./ClickToTop";
 //import SubTransactionsDetails from "./components/TransactionComponent/SubTransactionDetails";
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -68,7 +71,7 @@ export const ocean = {
   base0F: "#FDF41B", //value number color
 };
 
-const TxnComponent = () => {
+const TxnComponent = ({popup,setPopUp}) => {
   let [searchParams, setSearchParams] = useSearchParams();
   const { txn } = useParams();
   const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -570,6 +573,9 @@ const TxnComponent = () => {
   };
   return (
     <div>
+      <ClickToTop />
+      <OpenPopup setPopUp={setPopUp}/>
+      {popup && <PopupView setPopUp={setPopUp} />}
       {loading && (
         <div className="pt-5">
           <SimpleLoader />

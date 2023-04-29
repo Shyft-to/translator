@@ -74,6 +74,7 @@ const LongSearchCards = ({ nft, cluster }) => {
 
   return (
     <div ref={ref} className="long_cards">
+      <a href={(cluster === "mainnet-beta")?`/address/${nft.mint}`:`/address/${nft.mint}?cluster=${cluster}`} style={{textDecoration:"none"}}>
       <div className="row">
         <div className="col-12 col-md-3 col-lg-2">
           <div className="long_image_container">
@@ -125,6 +126,7 @@ const LongSearchCards = ({ nft, cluster }) => {
           </div>
         </div>
       </div>
+      </a>
     </div>
   );
 };
