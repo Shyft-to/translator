@@ -561,3 +561,9 @@ body {
     text-decoration: none;
   }
 }
+.long_cards
+{
+  margin-bottom: 8px;
+  background-color: #3c1b67;
+  border-radius: 12px;
+}

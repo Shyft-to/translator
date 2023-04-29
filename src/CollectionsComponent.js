@@ -14,8 +14,10 @@ import SearchTokens from "./components/SearchTokens";
 import SearchEachNft from "./components/SearchedEachNft";
 import ClickToTop from "./ClickToTop";
 import PopupView from "./PopupView";
+import LongSearchCards from "./components/LongSearchCards";
+import OpenPopup from "./OpenPopup";
 
-const CollectionsComponent = () => {
+const CollectionsComponent = ({popup,setPopUp}) => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -83,7 +85,8 @@ const CollectionsComponent = () => {
         <div>
             
             <ClickToTop />
-            <PopupView />
+            <OpenPopup setPopUp={setPopUp}/>
+            {popup && <PopupView setPopUp={setPopUp} />}
             <div className="background_super">
 
                 <div className="container pt-2 pb-1">
@@ -122,11 +125,12 @@ const CollectionsComponent = () => {
                                 {(searchTerm !== "") ?
                                     <div>
                                         <div className={styles.collection_nft_container}>
-                                            <div className="d-flex flex-wrap justify-content-start">
+                                            {/* <div className="d-flex flex-wrap justify-content-start"> */}
                                                 {allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).map((nft,index) => (
-                                                    <SearchEachNft nft={nft} cluster={cluster} key={index} />
+                                                    // <SearchEachNft  />
+                                                    <LongSearchCards nft={nft} cluster={cluster} key={index}/>
                                                 ))}
-                                            </div>
+                                            {/* </div> */}
                                             {(searchTerm !== "" && allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).length === 0) && <div className="text-center">
                                                 <div className={`py-4 ${styles.could_not_text}`}>No Tokens Found</div>
                                             </div>}
