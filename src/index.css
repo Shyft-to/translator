@@ -569,7 +569,7 @@ body {
 }
 .long_cards .long_image_container
 {
-  padding: 10px;
+  padding: 16px;
   /* height: 250px;
   width: 250px; */
 }
@@ -577,7 +577,7 @@ body {
 {
   width: 100%;
   aspect-ratio: 1/1;
-  object-fit: fill;
+  object-fit: cover;
   border-radius: 8px;
 }
 .long_cards .nft_details
@@ -590,24 +590,24 @@ body {
 }
 .long_cards .name_section .nft_name
 {
-  font: 500 18px/22px "Montserrat", sans-serif;
+  font: 500 20px/24px "Montserrat", sans-serif;
   color: #FDF41B;
 }
 .long_cards .name_section .nft_sub_name
 {
-  font: 500 10px/22px "Montserrat", sans-serif;
+  font: 500 12px/22px "Montserrat", sans-serif;
   color: #FFF6;
-  padding-left: 8px;
+  padding-left: 12px;
 }
 .long_cards .owner_section
 {
   padding-top: 10px;
-  font: 500 14px/18px "Plus Jakarta Sans", sans-serif;
+  font: 500 16px/18px "Plus Jakarta Sans", sans-serif;
   color: #fffa;
 }
 .long_cards .owner_section .detail
 {
-  font: 500 14px/18px "Plus Jakarta Sans", sans-serif;
+  font: 500 16px/18px "Plus Jakarta Sans", sans-serif;
   color: #fff;
 }
 .long_cards .attribute_section
@@ -616,14 +616,20 @@ body {
   font: 500 14px/18px "Plus Jakarta Sans", sans-serif;
   color: #fffa;
 }
+.long_cards .attrib_section_title
+{
+  font: 500 16px/18px "Plus Jakarta Sans", sans-serif;
+  color: #fff;
+  padding-bottom: 6px;
+}
 .long_cards .attribute
 {
-  width: 220px;
+  width: 250px;
   background-color: #280c4c;
   border-radius: 4px;
-  font: 500 12px/18px "Plus Jakarta Sans", sans-serif;
+  font: 500 16px/18px "Plus Jakarta Sans", sans-serif;
   color: #fffa;
-  padding: 4px 0px;
+  padding: 10px 0px;
   padding-right: 4px;
   margin-top: 6px;
   margin-left: 0px;
@@ -635,9 +641,40 @@ body {
 }
 .long_cards .attribute .attribvalue
 {
-  font: 500 12px/18px "Plus Jakarta Sans", sans-serif;
+  font: 500 16px/18px "Plus Jakarta Sans", sans-serif;
   color: #fff;
   overflow: hidden;
+}
+@media screen and (max-width: 1400px) {
+  .long_cards .name_section .nft_name
+  {
+    font: 500 18px/22px "Montserrat", sans-serif;
+  }
+  .long_cards .owner_section
+  {
+    padding-top: 10px;
+    font: 500 14px/18px "Plus Jakarta Sans", sans-serif;
+    color: #fffa;
+  }
+  .long_cards .owner_section .detail
+  {
+    font: 500 14px/18px "Plus Jakarta Sans", sans-serif;
+    color: #fff;
+  }
+  .long_cards .attribute
+  {
+    font: 500 12px/18px "Plus Jakarta Sans", sans-serif !important;
+  }
+  .long_cards .attribute .attribvalue
+  {
+    font: 500 12px/18px "Plus Jakarta Sans", sans-serif !important;
+    color: #fff;
+    overflow: hidden;
+  }
+  .long_cards
+  {
+    padding-bottom: 16px;
+  }
 }
 @media screen and (max-width: 767px) {
   .long_cards
