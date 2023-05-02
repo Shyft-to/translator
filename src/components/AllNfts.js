@@ -48,7 +48,7 @@ const AllNfts = ({ collections, address, network }) => {
                 </div>
               </div>
           </div>
-          <div>
+          <div className={`${styles.test_margin}`}>
             <SearchTokensHome searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search NFTs"} highlight={true}/>
           </div>
         </div>
@@ -69,7 +69,7 @@ const AllNfts = ({ collections, address, network }) => {
                 }
               </div>   
             </div>:
-            <div>
+            <div className="pt-3">
               <OwlCarousel
                 className="owl-theme"
                 margin={40}

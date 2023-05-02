@@ -213,9 +213,12 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     </div>
                                     <div className="col-6 col-lg-6">
                                         <div className="d-flex flex-wrap justify-content-end">
-                                            <div>
+                                            <div 
+                                                //className="border border-light" 
+                                                style={{width:"200px",overflow:"hidden",overflowWrap:"normal"}}
+                                            >
                                                 <div className={styles.wallet_balance_indicator}>
-                                                    {data.balance} SOL
+                                                    {data.balance?.toFixed(8)}&nbsp;SOL
                                                 </div>
                                             </div>
                                             <div className="ps-2">
