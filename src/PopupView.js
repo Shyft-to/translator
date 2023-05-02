@@ -48,7 +48,7 @@ const PopupView = ({setPopUp}) => {
                   <img src={arrow} className="img-fluid rounded-top" alt="arrow" />
                 </div>
               </div>
-              <hr />
+              {/* <hr /> */}
             </div>
             <div className="answer_area" id="question1">
               Solana transactions are difficult to understand. User experience
@@ -66,7 +66,7 @@ const PopupView = ({setPopUp}) => {
                   <img src={arrow} className="img-fluid rounded-top" alt="arrow"/>
                 </div>
               </div>
-              <hr />
+              {/* <hr /> */}
             </div>
             <div className="answer_area" id="question2">
               We develop low-code Solana APIs, making development experience 10x
@@ -86,7 +86,7 @@ const PopupView = ({setPopUp}) => {
                   </div>
                   <div className="text_contri">
                       <div className="title">Contribute</div>
-                      <div className="link">https://github.com/Shyft-to</div>
+                      {/* <div className="link">https://github.com/Shyft-to</div> */}
                   </div>
                 </div>
               </a>
@@ -99,7 +99,7 @@ const PopupView = ({setPopUp}) => {
                   </div>
                   <div className="text_contri">
                       <div className="title">Join Discord</div>
-                      <div className="link">https://discord.com/invite/8JyZCjRPmr</div>
+                      {/* <div className="link">https://discord.com/invite/8JyZCjRPmr</div> */}
                   </div>
                 </div>
               </a>

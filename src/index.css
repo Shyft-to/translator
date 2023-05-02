@@ -257,7 +257,18 @@ body {
   text-decoration: none;
   color: #fff;
 }
-
+@media screen and (max-width:767px){
+  .logo_container {
+    font: 700 32px/32px "Montserrat", sans-serif;
+    width: 90vw !important;
+  
+  }
+  .logo_area
+  {
+    display: none;
+    width: 0px;
+  }
+}
 .myTarget .react-tooltip-lite {
   width: 76px;
   padding: 18px 4px;
@@ -420,7 +431,7 @@ body {
   width: 32px;
   height: 32px;
   padding: 3px 2px;
-  background-color: #FDF41B;
+  background-color: transparent;
   color: #280c4c;
   font-weight: 700;
   /* border: 2px solid #fffa; */
@@ -442,10 +453,10 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   width: 100%;
-  max-width: 1000px;
+  max-width: 500px;
   z-index: 14;
   position: relative;
-  padding: 60px 40px 40px;
+  padding: 40px 24px 36px;
   border-radius: 16px;
 }
 .popup_view_area .close_cross_x
@@ -467,10 +478,10 @@ body {
 }
 .popup_view_area .heading_1
 {
-  font: 600 40px "Montserrat", sans-serif;
+  font: 600 28px/36px "Montserrat", sans-serif;
   text-align: center;
   color: #fff;
-  padding-bottom: 32px;
+  padding-bottom: 16px;
 }
 .popup_view_area .question_section
 {
@@ -481,16 +492,16 @@ body {
 }
 .popup_view_area .each_question_answer 
 {
-  padding-top: 20px;
-  background-color: #120A1DB2;
+  padding-top: 4px;
+  /* background-color: #120A1DB2; */
   border-radius: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .popup_view_area .each_question_answer .question
 {
   font: 500 16px "Montserrat", sans-serif;
-  color: #FDF41B;
-  padding: 0px 16px 8px;
+  color: #FFF;
+  padding: 0px 12px 2px;
 }
 .popup_view_area .each_question_answer .question hr
 {
@@ -499,9 +510,9 @@ body {
 }
 .popup_view_area .answer_area
 {
-  padding: 16px;
+  padding: 16px 12px;
   border-radius: 8px;
-  background-color: #120A1DB2;
+  /* background-color: #120A1DB2; */
   font: 200 14px/22px "Poppins", sans-serif;
   color: #fff;
 }
@@ -512,6 +523,8 @@ body {
 .popup_view_area .link_area
 {
   padding-top: 36px;
+  padding-left: 12px;
+  padding-right: 12px;
   width: 100%;
   max-width: 840px;
   display: block;
@@ -528,6 +541,7 @@ body {
 .link_area .each_contribute_link .text_contri
 {
   padding-left: 14px;
+  padding-top: 6px;
 }
 .link_area .each_contribute_link .text_contri .title
 {
