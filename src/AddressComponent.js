@@ -20,8 +20,8 @@ import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
 import SimpleLoader from "./components/loaders/SimpleLoader";
 import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
-import PopupView from "./PopupView";
-import OpenPopup from "./OpenPopup";
+// import PopupView from "./PopupView";
+// import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
 
 const AddressComponent = ({popup,setPopUp}) => {

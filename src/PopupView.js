@@ -2,11 +2,12 @@ import $ from "jquery";
 import arrow from "./resources/images/up_arrow.png";
 import github from "./resources/images/footer/github.svg";
 import discord from "./resources/images/footer/discord.svg";
+import poweredBySHYFT from "./resources/images/powered_by_shyft.png";
 const PopupView = ({setPopUp}) => {
 
   const toggleQuestionOne = () => {
     const transstate = $(`#q1_arrow`).css("transform");
-    
+    // console.log(transstate);
     $(`#question1`).animate(
       {
         height: "toggle",
@@ -15,7 +16,7 @@ const PopupView = ({setPopUp}) => {
       "linear"
     );
     $(`#q1_arrow`).css("transform", "rotate(90deg)")
-    if (transstate === "matrix(-1, 0, 0, -1, 0, 0)") $(`#q1_arrow`).css("transform", "rotate(0deg)");
+    if (transstate === "matrix(0, 1, -1, 0, 0, 0)") $(`#q1_arrow`).css("transform", "rotate(0deg)");
     else $(`#q1_arrow`).css("transform", "rotate(90deg)");
   };
 
@@ -30,7 +31,7 @@ const PopupView = ({setPopUp}) => {
       "linear"
     );
     $(`#q2_arrow`).css("transform", "rotate(90deg)")
-    if (transstate === "matrix(-1, 0, 0, -1, 0, 0)") $(`#q2_arrow`).css("transform", "rotate(0deg)");
+    if (transstate === "matrix(0, 1, -1, 0, 0, 0)") $(`#q2_arrow`).css("transform", "rotate(0deg)");
     else $(`#q2_arrow`).css("transform", "rotate(90deg)");
   };
 
@@ -38,7 +39,9 @@ const PopupView = ({setPopUp}) => {
     <div className="popup_view_overlay">
       <div className="popup_view_area">
         <button className="close_cross_x" onClick={() => setPopUp(false)}>✖</button>
-        <div className="heading_1">Simplified dApp Development on Solana</div>
+        <div className="heading_1">
+          <img src={poweredBySHYFT} className="img-fluid" alt="powered by SHYFT" />
+        </div>
         <div className="question_section">
           <div className="each_question_answer">
             <div className="question">

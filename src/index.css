@@ -501,7 +501,7 @@ body {
 {
   font: 500 16px "Montserrat", sans-serif;
   color: #FFF;
-  padding: 0px 12px 2px;
+  padding: 0px 4px 2px;
 }
 .popup_view_area .each_question_answer .question hr
 {
@@ -511,7 +511,7 @@ body {
 
 .popup_view_area .answer_area
 {
-  padding: 16px 12px;
+  padding: 8px 26px 12px;
   border-radius: 8px;
   /* background-color: #120A1DB2; */
   font: 200 14px/22px "Poppins", sans-serif;
@@ -520,12 +520,12 @@ body {
 .updown_arrow
 {
   transition: all 0.3s ease;
+  padding-left: 8px;
   padding-right: 8px;
-  
 }
 .updown_arrow img
 {
-  width: 6px;
+  width: 8px;
 }
 .popup_view_area .link_area
 {
