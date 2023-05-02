@@ -11,6 +11,7 @@ import TxnLoader from "./components/loaders/TxnLoader";
 
 import searchIcon from "./resources/images/uil_search.svg";
 import PopupView from "./PopupView";
+import OpenPopup from "./OpenPopup";
 
 const Home = ({popup, setPopUp}) => {
   const navigate = useNavigate();
@@ -134,6 +135,7 @@ const Home = ({popup, setPopUp}) => {
   }
   return (
     <div>
+      <OpenPopup setPopUp={setPopUp} />
       {popup && <PopupView setPopUp={setPopUp} />}
       <div className={styles.background_2}>
         <div className="container-lg">

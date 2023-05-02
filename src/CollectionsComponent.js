@@ -85,12 +85,12 @@ const CollectionsComponent = ({popup,setPopUp}) => {
         <div>
             
             <ClickToTop />
-            <OpenPopup setPopUp={setPopUp}/>
-            {popup && <PopupView setPopUp={setPopUp} />}
+            {/* <OpenPopup setPopUp={setPopUp}/>
+            {popup && <PopupView setPopUp={setPopUp} />} */}
             <div className="background_super">
 
                 <div className="container pt-2 pb-1">
-                    <SearchComponent />
+                    <SearchComponent popup={popup} setPopUp={setPopUp} />
 
                 </div>
                 {isLoading &&

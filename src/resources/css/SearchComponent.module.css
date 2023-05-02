@@ -210,6 +210,7 @@
 .header_search_area .header_search_area_inner
 {
   position: relative;
+  padding: 0px 16px;
 }
 .token_search_container
 {
@@ -351,5 +352,21 @@
     width: 95%;
   }
   
+}
+.about_shyft_button
+{
+  display: block;
+  position: relative;
+  margin-top: 12px;
+  margin-left: auto;
+  margin-right: 16px;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  outline: none;
+}
+.about_shyft_button img
+{
+  width: 32px;
 }
 

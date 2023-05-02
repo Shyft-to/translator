@@ -143,14 +143,14 @@ const AddressComponent = ({popup,setPopUp}) => {
     return (
         <div>
             <ClickToTop />
-            <OpenPopup setPopUp={setPopUp}/>
-            {popup && <PopupView setPopUp={setPopUp} />}
+            {/* <OpenPopup setPopUp={setPopUp}/>
+            {popup && <PopupView setPopUp={setPopUp} />} */}
             
             {/* <HeaderComponent /> */}
             <div className={styles.background_super}>
 
                 <div className="container pt-2 pb-1">
-                    <SearchComponent />
+                    <SearchComponent popup={popup} setPopUp={setPopUp} />
                 </div>
                 {isLoading &&
                     <div className="container-lg pt-4 pt-md-5 pt-xl-3">

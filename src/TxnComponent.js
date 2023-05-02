@@ -574,8 +574,8 @@ const TxnComponent = ({popup,setPopUp}) => {
   return (
     <div>
       <ClickToTop />
-      <OpenPopup setPopUp={setPopUp}/>
-      {popup && <PopupView setPopUp={setPopUp} />}
+      {/* <OpenPopup setPopUp={setPopUp}/>
+      {popup && <PopupView setPopUp={setPopUp} />} */}
       {loading && (
         <div className="pt-5">
           <SimpleLoader />
@@ -597,7 +597,7 @@ const TxnComponent = ({popup,setPopUp}) => {
       {!loading && !errOcc && (
         <div className={styles.single_txn_page}>
           <div className="container-lg pt-2 pb-1">
-            <SearchComponent />
+            <SearchComponent popup={popup} setPopUp={setPopUp} />
           </div>
           <div className="container-lg">
             <div className={styles.main_heading}>

@@ -246,6 +246,11 @@ body {
 
 .logo_container {
   font: 700 32px/32px "Montserrat", sans-serif;
+  width: 250px;
+}
+.logo_area
+{
+  width: 250px;
 }
 
 .logo_container a {
@@ -394,7 +399,7 @@ body {
   box-shadow: none;
   border-radius: 25px;
   padding: 3px 10px 8px;
-  background-color: #FDF41B;
+  background-color: #FFF;
   color: #280c4c;
   font-weight: 700;
   /* border: 2px solid #fffa; */
@@ -402,8 +407,8 @@ body {
 .scroll-to-top-2
 {
   position: fixed;
-  bottom: 24px;
-  right: 66px;
+  top: 30px;
+  right: 45px;
   z-index: 20;
 }
 .scroll-to-top-2 button
@@ -412,8 +417,8 @@ body {
   outline: none;
   box-shadow: none;
   border-radius: 25px;
-  width: 36px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   padding: 3px 2px;
   background-color: #FDF41B;
   color: #280c4c;
@@ -559,6 +564,11 @@ body {
   {
     margin-bottom: 16px;
     text-decoration: none;
+  }
+  .scroll-to-top-2
+  {
+    top: 20px;
+    right: 20px;
   }
 }
 .long_cards
