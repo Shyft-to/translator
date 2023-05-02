@@ -14,9 +14,9 @@ const PopupView = ({setPopUp}) => {
       200,
       "linear"
     );
-    $(`#q1_arrow`).css("transform", "rotate(180deg)")
+    $(`#q1_arrow`).css("transform", "rotate(90deg)")
     if (transstate === "matrix(-1, 0, 0, -1, 0, 0)") $(`#q1_arrow`).css("transform", "rotate(0deg)");
-    else $(`#q1_arrow`).css("transform", "rotate(180deg)");
+    else $(`#q1_arrow`).css("transform", "rotate(90deg)");
   };
 
   const toggleQuestionTwo = () => {
@@ -29,9 +29,9 @@ const PopupView = ({setPopUp}) => {
       200,
       "linear"
     );
-    $(`#q2_arrow`).css("transform", "rotate(180deg)")
+    $(`#q2_arrow`).css("transform", "rotate(90deg)")
     if (transstate === "matrix(-1, 0, 0, -1, 0, 0)") $(`#q2_arrow`).css("transform", "rotate(0deg)");
-    else $(`#q2_arrow`).css("transform", "rotate(180deg)");
+    else $(`#q2_arrow`).css("transform", "rotate(90deg)");
   };
 
   return (
@@ -42,11 +42,12 @@ const PopupView = ({setPopUp}) => {
         <div className="question_section">
           <div className="each_question_answer">
             <div className="question">
-              <div className="d-flex justify-content-between">
-                <div className="question_text">Why Translator?</div>
+              <div className="d-flex justify-content-start">
                 <div className="updown_arrow" onClick={toggleQuestionOne} id="q1_arrow">
                   <img src={arrow} className="img-fluid rounded-top" alt="arrow" />
                 </div>
+                <div className="question_text">Why Translator?</div>
+                
               </div>
               {/* <hr /> */}
             </div>
@@ -60,11 +61,12 @@ const PopupView = ({setPopUp}) => {
           </div>
           <div className="each_question_answer">
             <div className="question">
-              <div className="d-flex justify-content-between">
-                <div className="question_text">About SHYFT APIs</div>
+              <div className="d-flex justify-content-start">
                 <div className="updown_arrow" onClick={toggleQuestionTwo} id="q2_arrow">
                   <img src={arrow} className="img-fluid rounded-top" alt="arrow"/>
                 </div>
+                <div className="question_text">About SHYFT APIs</div>
+                
               </div>
               {/* <hr /> */}
             </div>

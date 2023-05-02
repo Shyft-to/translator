@@ -508,6 +508,7 @@ body {
   margin-top: 12px;
   margin-bottom: 0px;
 }
+
 .popup_view_area .answer_area
 {
   padding: 16px 12px;
@@ -519,6 +520,12 @@ body {
 .updown_arrow
 {
   transition: all 0.3s ease;
+  padding-right: 8px;
+  
+}
+.updown_arrow img
+{
+  width: 6px;
 }
 .popup_view_area .link_area
 {
