@@ -58,7 +58,8 @@
 .wallet_balance_indicator
 {
   position: relative;
-  overflow-x: hidden !important;
+  /* overflow-x: hidden !important;
+  overflow-y: hidden !important; */
   /* width: 150px; */
   font: 500 24px/32px "Montserrat", sans-serif;
   color: #fff;
@@ -94,6 +95,7 @@
   {
     font: 300 18px/18px "Odibee Sans", sans-serif;
     color: #fff;
+    text-align: end;
   }
   
 }

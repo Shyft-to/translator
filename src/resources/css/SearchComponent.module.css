@@ -369,4 +369,24 @@
 {
   width: 32px;
 }
+.about_shyft_button_mobile
+{
+  display: none;
+}
+@media screen and (max-width: 767px) {
+  .about_shyft_button_mobile
+  {
+    display: inline-block;
+    position: relative;
+    top: -2px;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    outline: none;
+  }
+  .about_shyft_button_mobile img
+  {
+    width: 24px;
+  }
+}
 

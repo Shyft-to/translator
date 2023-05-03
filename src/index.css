@@ -252,6 +252,11 @@ body {
 {
   width: 250px;
 }
+.logo_area_mobile
+{
+  display: none;
+  width: 250px;
+}
 
 .logo_container a {
   text-decoration: none;
@@ -267,6 +272,11 @@ body {
   {
     display: none;
     width: 0px;
+  }
+  .logo_area_mobile
+  {
+    display: inline-block;
+    width: 20px;
   }
 }
 .myTarget .react-tooltip-lite {
@@ -499,7 +509,7 @@ body {
 }
 .popup_view_area .each_question_answer .question
 {
-  font: 500 16px "Montserrat", sans-serif;
+  font: 500 18px "Montserrat", sans-serif;
   color: #FFF;
   padding: 0px 4px 2px;
 }

@@ -447,6 +447,11 @@
         padding: 6px 20px 20px 0px;
         color: #FFFFFF99;
     }
+    .each_txn_3 .txn_signature
+    {
+        
+        margin-top: 0px;
+    }
 }
 .each_txn_3 .dynamic_field
 {

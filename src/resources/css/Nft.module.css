@@ -218,3 +218,14 @@
     padding: 0px 0px 20px;
     border: none;
 }
+
+@media screen and (max-width: 767px) {
+    .nav_class_color_left
+    {
+        left: -8px;
+    }
+    .nav_class_color_right
+    {
+        right: -8px;
+    }
+}

@@ -6,6 +6,7 @@ import Four04 from "./Four04";
 import Home from "./Home";
 import ScrollToTop from "./ScrollToTop";
 import SingleCollectionComponent from "./SingleCollectionComponent";
+import DomainSearchComponent from "./DomainSearchComponent";
 // import TokenComponent from "./TokenComponent";
 import TxnComponent from "./TxnComponent";
 // import ClickToTop from "./ClickToTop";
@@ -21,6 +22,7 @@ const Parent = () => {
                 <Routes>
                 <Route exact path="/" element={<Home popup={popup} setPopUp={setPopUp} />} />
                 <Route exact path="/address/:addr" element={<AddressComponent popup={popup} setPopUp={setPopUp}/>} />
+                <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp}/>} />
                 <Route exact path="/tx/:txn" element={<TxnComponent popup={popup} setPopUp={setPopUp}/>} />
                 <Route exact path="/collections/:addr" element={<CollectionsComponent popup={popup} setPopUp={setPopUp}/>} />
                 <Route exact path="/collection/:addr" element={<SingleCollectionComponent popup={popup} setPopUp={setPopUp}/>} />

@@ -82,7 +82,7 @@ const PopupView = ({setPopUp}) => {
           </div>
         </div>
         <div className="link_area">
-          <div className="d-flex flex-wrap justify-content-start justify-content-md-between">
+          <div className="d-flex flex-wrap justify-content-between justify-content-md-between">
             <div className="each_contribute_link">
               <a href="https://github.com/Shyft-to">
                 <div className="d-flex">

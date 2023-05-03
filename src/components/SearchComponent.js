@@ -139,10 +139,18 @@ const SearchComponent = ({popup,setPopUp}) => {
         <div className="container-fluid">
         <div className="d-flex flex-wrap justify-content-between p-0">
           <div className="px-2">
-            <div className="logo_container pt-3 text-center text-lg-start">
-              <a href={`/`}>Translator</a>
+            <div className="d-flex justify-content-start">
+              <div className="logo_container pt-3 text-center text-lg-start">
+                <a href={`/`}>Translator</a>
+                <button className={styles.about_shyft_button_mobile} onClick={() => setPopUp(true)}>
+                  <img src={infoIcon} />
+                </button>
+              </div>
+              
             </div>
+            
           </div>
+          
           <div className="flex-fill">
             <motion.div className={styles.form_container}>
               <div className={styles.search_n_suggestions} >
