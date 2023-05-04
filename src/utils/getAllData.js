@@ -83,12 +83,21 @@ export async function getTokenData(network, address) {
     })
       .then((res) => {
         if (res.data.success === true) {
+          var detailsToReturn = {};
+          if(res.data.image.includes("ray-initiative.gift"))
+          {
+            detailsToReturn = {...res.data.result,image:""}
+          }
+          else
+          {
+            detailsToReturn = res.data.result;
+          }
           data = {
             success: true,
             type: "TOKEN",
-            details: res.data.result,
+            details: detailsToReturn,
           };
-          pushDatatoCache(network, res.data.result, res.data.result.address);
+          pushDatatoCache(network, detailsToReturn, res.data.result.address);
         }
       })
       .catch((err) => {

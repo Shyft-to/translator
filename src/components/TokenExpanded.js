@@ -72,7 +72,7 @@ const TokenExpanded = ({token,cluster}) => {
         <motion.div className="col-12 col-lg-4" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className={styles.nft_image_container}>
             <img ref={ref2}
-              src={(token.image === "") ? unknown : (token.image)}
+              src={(token.image === "" || token.image.includes("ray-initiative.gift")) ? unknown : (token.image)}
               className="img-fluid"
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
@@ -88,11 +88,11 @@ const TokenExpanded = ({token,cluster}) => {
                   </a> : ""}
                 </div>
               </div>
-              {/* <div className="px-3">
+              <div className="px-3">
                 <div>
                   {(token.image_uri !== "") ? <button className={`text-center ${styles.download_button}`} onClick={onButtonClick}>Download</button>: ""}
                 </div>
-              </div> */}
+              </div>
             </div>
             
             
@@ -132,8 +132,8 @@ const TokenExpanded = ({token,cluster}) => {
               <p className={styles.section_desc}>{token.description ?? "--"}</p> */}
             </motion.div>
             <div className={styles.nft_image_container_mob}>
-              <motion.img
-                src={(token.image === "") ? unknown : token.image}
+              {/* <motion.img
+                src={(token.image === "" || token.image.includes("ray-initiative.gift")) ? unknown : token.image}
                 ref={ref3}
                 className="img-fluid"
                 alt="token"
@@ -143,7 +143,7 @@ const TokenExpanded = ({token,cluster}) => {
                   currentTarget.src=noImage;
                 }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}
-              />
+              /> */}
               <div className="d-flex justify-content-center">
                 <div className="px-3 pt-2">
                   <div className={styles.view_original_button}>
