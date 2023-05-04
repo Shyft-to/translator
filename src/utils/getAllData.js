@@ -698,10 +698,44 @@ export async function getRawTxn(network, txnAddress) {
     return response;
   }
 }
+export async function getDomainsFromWallet(network,address)
+{
+    var data = {
+      success: false,
+      type: "UNKNOWN",
+      details: null,
+    };
+    await axios({
+      url: `${endpoint}wallet/get_domains`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: {
+        network: network,
+        wallet: address,
+      },
+    })
+      .then((res) => {
+        if (res.data.success === true) {
+          data = {
+            success: true,
+            type: "DOMAINS",
+            details: res.data.result,
+          };
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+
+    return data;
+}
 
 export async function getAddressfromDomain(domainName) {
   try {
-    const { pubkey } = await getDomainKeySync(domainName);
+    const { pubkey } = await getDomainKeySync(domainName.toLowerCase());
     //const rpcUrl = clusterApiUrl(network);
     const connection = new Connection(rpc, "confirmed");
     if (!connection) {
