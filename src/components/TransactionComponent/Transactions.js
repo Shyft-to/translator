@@ -35,7 +35,8 @@ const Transactions = ({ address, cluster,setProtocolName }) => {
   const [recall, setRecall] = useState(false);
   const [timer, setTimer] = useState(refreshCounter);
   const [liveTxns, setLiveTxns] = useState([]);
-
+  const [pauseTimer,setPauseTimer] = useState(false);
+  const [chatFocus, setChatFocus] = useState(true);
 
   const { ref, inView } = useInView();
 
@@ -210,7 +211,7 @@ const Transactions = ({ address, cluster,setProtocolName }) => {
   }, [recall]);
 
   useEffect(() => {
-    if(refreshCounter)
+    if(refreshCounter && !pauseTimer)
     {
       setTimeout(() => {
         if (timer === 0)
@@ -219,7 +220,39 @@ const Transactions = ({ address, cluster,setProtocolName }) => {
           setTimer(timer - 1);
       }, 1000);
     }
-  }, [timer]);
+  }, [timer,pauseTimer]);
+  
+
+  useEffect(() => {
+      const handleActivityFalse = () => {
+          setChatFocus(false);
+          console.log("Stopping Live Feed Refresh");
+          if(refreshCounter)
+          {
+            setPauseTimer(true);
+          }
+          //serverRequest(false);
+      };
+
+      const handleActivityTrue = () => {
+          setChatFocus(true);
+          console.log("Starting Live Feed Refresh");
+          if(refreshCounter)
+          {
+            setPauseTimer(false);
+            
+          }
+          //serverRequest(true);
+      };
+
+      window.addEventListener('focus', handleActivityTrue);
+      window.addEventListener('blur', handleActivityFalse);
+
+      return () => {
+          window.removeEventListener('focus', handleActivityTrue);
+          window.removeEventListener('blur', handleActivityFalse);
+      };
+  }, [chatFocus]);
 
 
   return (

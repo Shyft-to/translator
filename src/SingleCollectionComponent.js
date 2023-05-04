@@ -12,6 +12,8 @@ import { getCollectionsData } from "./utils/getAllData";
 // import Transactions from "./components/TransactionComponent/Transactions";
 import SearchComponent from "./components/SearchComponent";
 import CollectionRowSlice from "./components/CollectionRowSlice";
+import SearchTokens from "./components/SearchTokens";
+import SearchEachNft from "./components/SearchedEachNft";
 
 const SingleCollectionComponent = () => {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -23,6 +25,9 @@ const SingleCollectionComponent = () => {
     const [data, setData] = useState(null);
     const [contentType, setType] = useState('');
     const [errOccured, setErrOccured] = useState(false);
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [allNfts, setAllNfts] = useState([]);
 
     useEffect(() => {
         setLoading(true);
@@ -40,6 +45,13 @@ const SingleCollectionComponent = () => {
             console.log(res);
             if (res.success === true) {
                 setData(res.details);
+                var all_nfts = [];
+                res.details.forEach(collection => {
+                    const nfts = collection.nfts;
+                    all_nfts = [...all_nfts, ...nfts];
+                });
+                //console.log("Number of NFTs",all_nfts.length);
+                setAllNfts(all_nfts);
             }
             else {
                 setErrOccured(true);
@@ -68,14 +80,14 @@ const SingleCollectionComponent = () => {
     }, [data])
 
     
-    const copyValue = (value) => {
+    // const copyValue = (value) => {
 
-        navigator.clipboard.writeText(value);
-        // setcopied("Copied✅");
-        // setTimeout(() => {
-        // setcopied("Copy");
-        // }, 500);
-    }
+    //     navigator.clipboard.writeText(value);
+    //     // setcopied("Copied✅");
+    //     // setTimeout(() => {
+    //     // setcopied("Copy");
+    //     // }, 500);
+    // }
 
     return (
         <div>
@@ -89,27 +101,47 @@ const SingleCollectionComponent = () => {
                     </div>
                 }
                 {!isLoading &&
-                    <div className={styles.all_collections_page}>
+                    <div>
                         <div className="container-lg pt-4">
-                            {/* <div className={styles.main_heading}>
-                                NFTs from this Collection
-                            </div> */}
+                            <div className="d-flex justify-content-end">
+                                <div>
+                                    <SearchTokens searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search NFTs"} />
+                                </div>
+                            </div>
                         </div>
-                        {
-                            (collectionName !== "") ? (data.filter(collection => collection.name === collectionName)).map(collection => (<div className="container-lg pt-4" id={collection.name}>
-                                <CollectionRow collection={collection} cluster={cluster} />
+                        <div className={styles.all_collections_page}>
+                            {
+                                (searchTerm !== "") ?
+                                <div className="container-lg pt-4">
+                                    <div className={styles.collection_nft_container}>
+                                        <div className="d-flex flex-wrap justify-content-start">
+                                            {allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).map((nft,index) => (
+                                                <SearchEachNft nft={nft} cluster={cluster} key={index} />
+                                            ))}
+                                        </div>
+                                        {(searchTerm !== "" && allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).length === 0) && <div className="text-center">
+                                            <div className={`py-4 ${styles.could_not_text}`}>No Tokens Found</div>
+                                        </div>}
+                                        
+                                    </div>
+                                </div>
+                                :
+                                <div className="pt-4">
+                                {
+                                    (collectionName !== "") ? (data.filter(collection => collection.name === collectionName)).map(collection => (<div className="container-lg pt-4" id={collection.name}>
+                                        <CollectionRow collection={collection} cluster={cluster} />
 
-                            </div>)) :
-                                data.map(collection => (<div className="container-lg pt-4" id={collection.name}>
-                                    <CollectionRow collection={collection} cluster={cluster} />
+                                    </div>)) :
+                                        data.map(collection => (<div className="container-lg pt-4" id={collection.name}>
+                                            <CollectionRow collection={collection} cluster={cluster} />
 
-                                </div>))
-                        }
-                        {/* {data.map(collection => (<div className="container-lg pt-4" id={collection.name} key={Math.random()}>
-                        <CollectionRow collection={collection} cluster={cluster}/>
-
-                    </div>))} */}
-
+                                        </div>))
+                                }
+                                </div>
+                            }
+                            
+                            
+                        </div>
                     </div>
                 }
                 {!isLoading &&
@@ -119,45 +151,19 @@ const SingleCollectionComponent = () => {
                                 <div className={styles.main_heading}>
                                     More Collections from this wallet
                                 </div>
-                                {/* <div className="px-2" style={{ marginTop: "6px",color: "#fff"  }}>
-                                    <Tooltip
-                                    content={"Copied✅"}
-                                    className="myTarget"
-                                    direction="up"
-                                    eventOn="onClick"
-                                    eventOff="onMouseLeave"
-                                    useHover={false}
-                                    background="#101010"
-                                    color="#fefefe"
-                                    arrowSize={5}
-
-                                    >
-                                    <button className="copy_link" onClick={() => copyValue(`https://translator.shyft.to/collection/${addr}?cluster=${cluster}`)}>
-                                        <FaLink />
-                                    </button>
-                                    </Tooltip>
-                                </div> */}
                             </div>
-                            
-                            
-                                
-                            
+          
                         </div>
                         {
                             (collectionName !== "") ? (data.filter(collection => collection.name !== collectionName)).map(collection => (<div className="container-lg pt-4" id={collection.name}>
                                 <CollectionRowSlice collection={collection} cluster={cluster} />
 
                             </div>)) :
-                                data.map(collection => (<div className="container-lg pt-4" id={collection.name} key={Math.random()}>
+                                data.map(collection => (<div className="container-lg pt-4" id={collection.name}>
                                     <CollectionRow collection={collection} cluster={cluster} />
                                     
                                 </div>))
                         }
-                        {/* {data.map(collection => (<div className="container-lg pt-4" id={collection.name} key={Math.random()}>
-                        <CollectionRow collection={collection} cluster={cluster}/>
-
-                    </div>))} */}
-
                     </div>
                 }
             </div>

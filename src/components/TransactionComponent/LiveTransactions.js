@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
-import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
+// import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
-import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
+// import solScan from "../../resources/images/txnImages/sol_scan_icon.svg";
+import copyIcon from "../../resources/images/txnImages/copy_icon.svg";
+import successTick from "../../resources/images/txnImages/tick-icon.svg";
+import failedTick from "../../resources/images/txnImages/cross-icon.svg";
 
 import { shortenAddress, getRelativetime, getFullTime, formatNames,isParsable } from "../../utils/formatter";
 
@@ -98,11 +100,48 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                         </div>
                     </Link>
                     <div className={styles.toggle_button}>
-                        <div className="pe-3">
+                        <div className="">
+                            <div className={styles.txn_signature}>
+                                <div>
+                                    <Tooltip
+                                        content={`Signature`}
+                                        className="generic"
+                                        direction="up"
+                                        // eventOn="onClick"
+                                        // eventOff="onMouseLeave"
+                                        useHover={true}
+                                        background="#101010"
+                                        color="#fefefe"
+                                        arrowSize={0}
+                                    >
+                                        <Link to={(cluster === "mainnet-beta") ? `/tx/${data.signatures[0]}`:`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">{shortenAddress(data.signatures[0])}</Link>
+                                    </Tooltip>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="">
+                            <div className={styles.txn_status} style={{ cursor: "pointer" }}>
+                                <Tooltip
+                                    content={"Status"}
+                                    className="generic"
+                                    direction="up"
+                                    // eventOn="onClick"
+                                    // eventOff="onMouseLeave"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                >
+                                    {((data.hasOwnProperty("status")) && data.status === "Success")?<img src={successTick} />:""}
+                                    {((data.hasOwnProperty("status")) && data.status === "Fail")?<img src={failedTick} />:""}
+                                </Tooltip>
+                            </div>
+                        </div>
+                        <div className="pe-2">
                             <Tooltip
                                 content={copied}
                                 className="myTarget"
-                                direction="left"
+                                direction="up"
                                 // eventOn="onClick"
                                 // eventOff="onMouseLeave"
                                 useHover={true}
@@ -115,32 +154,13 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                 </motion.button>
                             </Tooltip>
                         </div>
-                        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                        {/* <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                             <motion.a href={(cluster === "mainnet-beta") ? `https://solscan.io/tx/${data.signatures[0]}` : `https://solscan.io/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
                                 <div className={styles.sol_icon}>
                                     <img src={solScan} alt="View on SolScan" />
                                 </div>
                             </motion.a>
-                        </motion.div>
-                        <motion.div whileTap={{ scale: 0.95 }}>
-                            <Tooltip
-                                content="view details in a new tab"
-                                className="generic"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={0}
-                            >
-                                <Link to={`/tx/${data.signatures[0]}?cluster=${cluster}`} target="_blank">
-                                    <div className={styles.open_in_new}>
-                                        <BsFillArrowUpRightSquareFill />
-                                    </div>
-                                </Link>
-                            </Tooltip>
-                        </motion.div>
+                        </motion.div> */}
 
                     </div>
                     <div className="row">
@@ -154,14 +174,39 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                     </div>
                                     <div className="">
                                         <div className={styles.txn_subname}>
-                                            {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                            <Tooltip
+                                                content={`Protocol`}
+                                                className="generic"
+                                                direction="up"
+                                                // eventOn="onClick"
+                                                // eventOff="onMouseLeave"
+                                                useHover={true}
+                                                background="#101010"
+                                                color="#fefefe"
+                                                arrowSize={0}
+                                            >
+                                                {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                            </Tooltip>
                                         </div>
                                     </div>
                                     <div className="">
-                                        <div className={styles.txn_subname} style={{ cursor: "pointer" }} aria-label={(data.timestamp != "") ? getFullTime(data.timestamp) : ""} data-balloon-pos="up">
-                                            {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                        <div className={styles.txn_subname} style={{ cursor: "pointer" }}>
+                                            <Tooltip
+                                                content={(data.timestamp != "") ? getFullTime(data.timestamp) : ""}
+                                                className="generic"
+                                                direction="up"
+                                                // eventOn="onClick"
+                                                // eventOff="onMouseLeave"
+                                                useHover={true}
+                                                background="#101010"
+                                                color="#fefefe"
+                                                arrowSize={0}
+                                            >
+                                                {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                            </Tooltip>
                                         </div>
                                     </div>
+                                    
                                 </div>
                                 {
                                     (data.actions.length > 0) ?

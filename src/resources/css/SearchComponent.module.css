@@ -211,3 +211,67 @@
 {
   position: relative;
 }
+.token_search_container
+{
+  border-radius: 25px;
+  background-color: #280C4C;
+  padding: 4px 8px 9px 16px;
+}
+.token_search_container input {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  color: #fff;
+  font: 500 13px/18px "Montserrat", sans-serif;
+  /* letter-spacing: 1px; */
+  width: 52px;
+  transition: width 0.3s ease;
+}
+.token_search_container input:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  width: 250px;
+}
+.token_search_container .token_search_icon
+{
+    color: #FDF41B;
+    transition: all 0.2s ease-in;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    font: 300 14px/14px "Montserrat", sans-serif;
+}
+.token_search_container .token_search_icon_reverse
+{
+    color: #FDF41B;
+    transition: all 0.2s ease-in;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    display: inline-block;
+    margin-left: -6px;
+    font: 300 14px/14px "Montserrat", sans-serif;
+}
+@media screen and (max-width: 767px) {
+  .token_search_container
+  {
+    border-radius: 25px;
+    background-color: #280C4C;
+    padding: 4px 8px 9px 16px;
+    width: 92vw;
+    
+    margin: 0 auto;
+  }
+  .token_search_container input {
+    width: 95%;
+  }
+  .token_search_container input:focus {
+    width: 95%;
+  }
+  
+}
+

@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap');
 
 .tabbed_token_section
 {
@@ -13,13 +14,13 @@
 .each_tab_token
 {
     position: relative;
-    min-height: 100px;
+    /* min-height: 100px; */
     background-color: #3C1B67;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 14px;
     border: 2px solid transparent;
-    padding: 16px 24px;
+    padding: 6px 24px;
     margin-bottom: 20px;
     transition: all 0.05s ease;
 }
@@ -42,19 +43,19 @@
     width: 24px;
     height: 24px;
 }
-.each_tab_token .toggle_button .copyTxnSig
+.each_tab_token .copyTxnSig
 {
     background-color: transparent;
     border: none;
     outline:none;
     box-shadow: none;
-    margin-top: -1px;
+    margin-top: 10px;
     display: block;
 }
-.each_tab_token .toggle_button .copyTxnSig img
+.each_tab_token .copyTxnSig img
 {
-    width: 23px;
-    height: 23px;
+    width: 18px;
+    height: 18px;
 }
 .each_tab_token .name_section
 {
@@ -78,7 +79,7 @@
 }
 .each_tab_token .info_section
 {
-    padding: 12px 0px 12px;
+    padding: 4px 0px 8px;
 }
 .each_tab_token .info_section .token_image_container 
 {
@@ -93,9 +94,9 @@
 }
 .each_tab_token .info_section .field
 {
-    font: 400 16px/24px "Poppins",sans-serif;
+    font: 400 15px/24px "Plus Jakarta Sans",sans-serif;
     /* letter-spacing: 1px; */
-    color: #FFFFFF;
+    color: #FFFFFFdd;
     padding-top: 10px;
 }
 .each_tab_token .info_section .field a
@@ -169,7 +170,7 @@
     }
     .each_tab_token .info_section .field
     {
-        font: 400 12px/24px "Poppins",sans-serif;
+        font: 400 12px/24px "Plus Jakarta Sans",sans-serif;
         padding-top: 4px;
     }
     .each_tab_token .toggle_button .sol_icon img
@@ -189,4 +190,36 @@
         display: none;
     }
     
+}
+.search_area_container
+{
+    position: relative;
+    /* top: -40px; */
+    margin-bottom: 10px;
+    margin-top: -30px;
+    right: 0;
+}
+.sort_button
+{
+    background-color: #3C1B67;
+    font: 400 12px/14px "Plus Jakarta Sans",sans-serif;
+    color: #fff;
+    border: none;
+    outline:none;
+    box-shadow: none;
+    border-radius: 25px;
+    padding: 6px 16px;
+    margin-top: 2px;
+}
+.sort_button span
+{
+    font: 400 16px/14px "Plus Jakarta Sans",sans-serif;
+    color: #FDF41B;
+}
+@media screen and (max-width:767px) {
+    .sort_button
+    {
+        
+        margin-top: 10px;
+    }   
 }

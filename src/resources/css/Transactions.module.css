@@ -340,10 +340,14 @@
     margin-top: -1px;
     padding: 6px 10px 6px;
 }
+.each_txn_3 .toggle_button .copyTxnSig
+{
+    margin-top: -2px;
+}
 .each_txn_3 .toggle_button .copyTxnSig img
 {
-    width: 23px;
-    height: 23px;
+    width: 22px;
+    height: 22px;
 }
 @media screen and (max-width: 767px) {
     .each_txn_3 .toggle_button
@@ -382,6 +386,17 @@
     position: relative;
     z-index: 2;
 }
+.each_txn_3 .txn_status
+{
+    padding: 2px 2px 0px 2px;
+    position: relative;
+    z-index: 2;
+    margin-top: -3px;
+}
+.each_txn_3 .txn_status img
+{
+    width: 18px;
+}
 .each_txn_3 .txn_subname
 {
     font: 300 11px/28px "Montserrat",sans-serif;
@@ -389,6 +404,15 @@
     color: #FFFFFF99;
     position: relative;
     z-index: 2;
+}
+.each_txn_3 .txn_signature
+{
+    font: 300 10px/24px "Montserrat",sans-serif;
+    padding: 10px 10px 10px 0px;
+    color: #FFFFFF99;
+    position: relative;
+    z-index: 2;
+    margin-top: -8px;
 }
 .each_txn_3 .interacted_with
 {
@@ -412,6 +436,12 @@
         padding-bottom: 0px;
     }
     .each_txn_3 .txn_subname
+    {
+        font: 300 11px/14px "Montserrat",sans-serif;
+        padding: 6px 20px 20px 0px;
+        color: #FFFFFF99;
+    }
+    .each_txn_3 .txn_signature
     {
         font: 300 11px/14px "Montserrat",sans-serif;
         padding: 6px 20px 20px 0px;
@@ -594,7 +624,21 @@
     display: block;
     margin-top: -2px;
 }
-
+.sub_txns .second_token_field
+{
+    display: flex;
+}
+.sub_txns .second_token_field .second_token_image
+{
+    margin-top: -8px;
+    padding: 0px 12px 0px 10px;
+}
+.sub_txns .second_token_field .second_token_image img
+{
+    width: 38px;
+    height: 38px;
+    border-radius: 20px;
+}
 .could_not_text
 {
     font: 300 16px/20px "Poppins",sans-serif;
@@ -637,6 +681,17 @@
     {
         display: none;
         /* margin-top: -2px; */
+    }
+    .sub_txns .second_token_field .second_token_image
+    {
+        margin-top: -8px;
+        padding: 0px 12px 0px 10px;
+    }
+    .sub_txns .second_token_field .second_token_image img
+    {
+        width: 24px;
+        height: 24px;
+        border-radius: 20px;
     }
 }
 

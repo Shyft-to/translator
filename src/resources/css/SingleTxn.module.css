@@ -161,7 +161,6 @@
 {
   position: relative;
   margin: 0 auto;
-  margin-top: 20px;
   width: 100%;
   /* max-width: 900px; */
   display: flex;
@@ -226,12 +225,24 @@
 {
     border-radius: 25px;
     padding: 8px 24px;
-    margin-top: 16px;
+    margin-top: 4px;
     border: none;
     outline: none;
-    background-color: #280C4C;
+    background-color: transparent;
     font: 400 14px "Plus Jakarta Sans",sans-serif;
     color: #fff;
+}
+.single_txn_page .hide_button span
+{
+    color: #FDF41B;
+}
+.single_txn_page .hide_details_container
+{
+    background-color: #080012B2;
+    padding: 2px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    /* border: 2px solid white; */
 }
 
 .each_txn_3
@@ -496,7 +507,21 @@
     display: block;
     margin-top: -2px;
 }
-
+.sub_txns .second_token_field
+{
+    display: flex;
+}
+.sub_txns .second_token_field .second_token_image
+{
+    margin-top: -8px;
+    padding: 0px 12px 0px 10px;
+}
+.sub_txns .second_token_field .second_token_image img
+{
+    width: 38px;
+    height: 38px;
+    
+}
 .could_not_text
 {
     font: 300 16px/20px "Poppins",sans-serif;
@@ -541,4 +566,76 @@
         display: none;
         /* margin-top: -2px; */
     }
+    .sub_txns .second_token_field .second_token_image
+    {
+        margin-top: -2px;
+        padding: 0px 6px 0px 5px;
+    }
+    .sub_txns .second_token_field .second_token_image img
+    {
+        width: 24px;
+        height: 24px;
+        border-radius: 14px;
+    }
+}
+.swaps_container
+{
+    padding: 20px 20px;
+    background-color: #280C4C;
+    border-radius: 10px;
+    margin-left: 5%;
+    margin-top: 10px;
+    /* max-width: 900px; */
+}
+.swaps_container .swaps_main_image
+{
+    padding-top: 10px;
+    padding-right: 2px;
+}
+.swaps_container .swaps_main_image img
+{
+    width: 28px;
+    border-radius: 15px;
+}
+.swaps_container .swaps_second_image
+{
+    /* padding-top: 10px; */
+    padding-right: 2px;
+    padding-left: 10px;
+}
+.swaps_container .swaps_second_image img
+{
+    width: 28px;
+    border-radius: 15px;
+}
+.swaps_container .swaps_main
+{
+    font: 500 15px/20px "Montserrat",sans-serif;
+    color: #FFF5;
+    padding: 2px 0px 2px 12px;
+}
+.swaps_container .swaps_source
+{
+    font: 400 12px/24px "Plus Jakarta Sans",sans-serif;
+    /* letter-spacing: 1px; */
+    padding: 4px 10px;
+    color: #FFF5;
+}
+.swaps_container .field_sub_swap
+{
+    background-color: transparent;
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: flex;
+}
+.swaps_container .field_sub_swap .field_top
+{
+    font: 600 14px/18px "Plus Jakarta Sans",sans-serif;
+    color: #FFF;
+}
+.swaps_container .field_sub_swap .field_bottom
+{
+    font: 600 14px/18px "Plus Jakarta Sans",sans-serif;
+    color: #fffa;
+    padding-right: 10px;
 }

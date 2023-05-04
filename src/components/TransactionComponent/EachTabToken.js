@@ -22,24 +22,6 @@ const EachTabToken = ({ styles, token, cluster }) => {
     return (
         <div className={styles.each_tab_token}>
             <div className={styles.toggle_button}>
-                <div className="pe-1">
-                    <Tooltip
-                        content={copied}
-                        className="myTarget"
-                        direction="left"
-                        // eventOn="onClick"
-                        // eventOff="onMouseLeave"
-                        useHover={true}
-                        background="#101010"
-                        color="#fefefe"
-                        arrowSize={0}
-                    >
-                        <motion.button className={styles.copyTxnSig} onClick={() => copyValue(token.address)} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                            <img src={copyIcon} alt="Copy Value" />
-                        </motion.button>
-                    </Tooltip>
-
-                </div>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                     <motion.a href={(cluster === "mainnet-beta") ? `https://solscan.io/token/${token.address}` : `https://solscan.io/token/${token.address}?cluster=${cluster}`} target="_blank">
                         <div className={styles.sol_icon}>
@@ -76,12 +58,33 @@ const EachTabToken = ({ styles, token, cluster }) => {
                         </div>
                     </div>
                     <div className="col-6 col-md-6 text-start">
-                        <div className={styles.field}>
-                            <a href={(cluster === "mainnet-beta") ? `/address/${token.address}` : `/address/${token.address}?cluster=${cluster}`}>
-                                {shortenAddress(token.address) || "unknown"}
+                        <div className="d-flex">
+                            <div className={styles.field}>
+                                <a href={(cluster === "mainnet-beta") ? `/address/${token.address}` : `/address/${token.address}?cluster=${cluster}`}>
+                                    {shortenAddress(token.address) || "unknown"}
 
-                            </a>
+                                </a>
+                            </div>
+                            <div className="ps-1">
+                                <Tooltip
+                                    content={copied}
+                                    className="myTarget"
+                                    direction="left"
+                                    // eventOn="onClick"
+                                    // eventOff="onMouseLeave"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                >
+                                    <motion.button className={styles.copyTxnSig} onClick={() => copyValue(token.address)} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                                        <img src={copyIcon} alt="Copy Value" />
+                                    </motion.button>
+                                </Tooltip>
+
+                            </div>
                         </div>
+                        
                     </div>
                     <div className="col-6 col-md-5 text-end">
                         <div className={styles.field}>

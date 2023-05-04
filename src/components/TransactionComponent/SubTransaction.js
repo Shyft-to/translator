@@ -11,6 +11,7 @@ import solanaIcon from "../../resources/images/txnImages/solana_icon.svg";
 import copyIcon from "../../resources/images/txnImages/copy_icon.svg"
 
 import arrow_rev from "../../resources/images/txnImages/arrow_rev.svg";
+import arrow_swap from "../../resources/images/txnImages/swap.svg";
 import bid from "../../resources/images/txnImages/bid.svg";
 import burn from "../../resources/images/txnImages/burn.svg";
 import cancel from "../../resources/images/txnImages/cancel.svg";
@@ -21,6 +22,7 @@ import solSmall from "../../resources/images/txnImages/sol_small.png";
 import duration from "../../resources/images/txnImages/duration.png";
 import memo from "../../resources/images/txnImages/memo.png";
 import memo_small from "../../resources/images/txnImages/memo_small.png"
+import tokenSwap from "../../resources/images/txnImages/token_swap.png";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 
@@ -35,6 +37,8 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
     const [image, setImage] = useState(icon);
     const [name, setName] = useState("");
     const [relField, setRelField] = useState("");
+    const [relType,setRelType] = useState("")
+    //const [relType,setRelType] = useState("");
     const [currency, setCurrency] = useState("");
     const [currencyField, setCurrencyField] = useState("");
     const [varFields, setVarFields] = useState({
@@ -49,15 +53,29 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
     const [dataLoaded, setDataLoaded] = useState(false);
     const [copy, setCopied] = useState("Copy");
 
-    const getData = async (cluster, address) => {
+    const getData = async (cluster, address, type="") => {
         try {
-            const res = await getNFTData(cluster, address);
-            if (res.success === true) {
-                if (res.details.image_uri)
-                    setImage(res.details.cached_image_uri ?? res.details.image_uri);
-
-                setName(res.details.name);
+            if(type === "TOKEN")
+            {
+                const res = await getTokenData(cluster, address);
+                if (res.success === true) {
+                    if (res.details.image)
+                        setImage(res.details.image);
+    
+                    setName(res.details.name);
+                }
             }
+            else
+            {
+                const res = await getNFTData(cluster, address);
+                if (res.success === true) {
+                    if (res.details.image_uri)
+                        setImage(res.details.cached_image_uri ?? res.details.image_uri);
+    
+                    setName(res.details.name);
+                }
+            }
+            
             setDataLoaded(true);
         }
         catch (error) {
@@ -124,6 +142,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");
+                setRelType("TOKEN");
                 // setCurrencyField(data.info.token_address ?? "");
             } else if (data.type === "NFT_TRANSFER") {
                 type_obj = {
@@ -149,6 +168,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                 }
 
                 setRelField(data.info.token_address ?? "");
+                setRelType("TOKEN");
             } else if (data.type === "NFT_MINT") {
                 type_obj = {
                     type: "MINT",
@@ -195,6 +215,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");
+                setRelType("TOKEN");
             } else if (data.type === "TOKEN_CREATE") {
                 type_obj = {
                     type: "CREATE",
@@ -206,6 +227,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                     symbol: ""
                 }
                 setRelField(data.info.token_address ?? "");
+                setRelType("TOKEN");
             } else if (data.type === "NFT_LIST") {
                 type_obj = {
                     type: "NFT_LIST",
@@ -380,6 +402,29 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                 }
                 setRelField(data.info.collateral_mint ?? "");
             }
+            else if(data.type === "SWAP")
+            {
+                //console.log("Swap inst found");
+                type_obj = {
+                    type: "SWAP",
+                    from_name:data.info.tokens_swapped.in.symbol ?? "--",
+                    to_name: data.info.tokens_swapped.out.symbol ?? "--",
+                    from: data.info.tokens_swapped.in.token_address ?? "--",
+                    to: data.info.tokens_swapped.out.token_address ?? "--",
+                    from_amount: data.info.tokens_swapped.in.amount ?? "",
+                    to_amount: data.info.tokens_swapped.out.amount ?? "",
+                    swapper: data.info.swapper ?? "--",
+                    from_image: data.info.tokens_swapped.in.image_uri ?? "",
+                    to_image: data.info.tokens_swapped.out.image_uri ?? "",
+                    token: "--",
+                    action: "--",
+                    value: "",
+                    symbol: ""
+                }
+                //console.log("type_ob:",type_obj);
+                if(data.info.tokens_swapped.in.token_address !== "")
+                    setImage(data.info.tokens_swapped.in.image_uri);
+            }
             else {
                 type_obj = {
                     type: "",
@@ -429,7 +474,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
     useEffect(() => {
         if (inView === true && dataLoaded === false) {
             if (relField !== "")
-                getData(cluster, relField);
+                getData(cluster, relField,relType);
         }
 
     }, [inView]);
@@ -461,11 +506,40 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                         <div className="d-flex">
                             <div>
                                 {/* {name || relField || "Unknown"} */}
+                                {/* {
+                                    (data.type === "SWAP")?<a href={`/address/${data.info.swapper}?cluster=${cluster}`}>{data.info.swapper ?? ""}</a>:""
+                                } */}
                                 {
-                                    (data.type === "OFFER_LOAN" || data.type == "CANCEL_LOAN") ?
+                                    (data.type === "SWAP")?<div>
+                                        <div className="d-flex flex-wrap">
+                                            <div className="pe-2">
+                                                <div>
+                                                    {varFields.from_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.from}` : `/address/${varFields.from}?cluster=${cluster}`} aria-label={varFields.from} data-balloon-pos="up">{varFields.from_name || shortenAddress(varFields.from)}</a>
+                                                </div>
+                                            </div>
+                                            <div className="px-3">
+                                                <img src={arrow_swap} alt="" style={{ width: "18px", marginTop: "-2px" }} />
+                                            </div>
+                                            <div className="pe-2 pt-3 pt-md-0">
+                                                <div className={styles.second_token_field}>
+                                                    <div className={styles.second_token_image}>
+                                                        <img className="img-fluid" src={varFields.to_image || noImage} onError={({ currentTarget }) => {
+                                                            currentTarget.onerror = null; // prevents looping
+                                                            currentTarget.src = noImage;
+                                                        }} alt="token" />
+                                                    </div>
+                                                    <div>
+                                                        {varFields.to_amount} <a href={(cluster === "mainnet-beta") ? `/address/${varFields.to}` : `/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{varFields.to_name || shortenAddress(varFields.to)}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>:
+                                    ((data.type === "OFFER_LOAN" || data.type === "CANCEL_LOAN") ?
                                         ((data.info.lender) ? <a href={`/address/${data.info.lender}?cluster=${cluster}`}>{data.info.lender}</a> : "--")
                                         :
-                                        (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "NFT_LIST_CANCEL" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{relField}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
+                                        (data.type === "NFT_TRANSFER" || data.type === "TOKEN_TRANSFER" || data.type === "NFT_MINT" || data.type === "TOKEN_MINT" || data.type === "TOKEN_CREATE" || data.type === "NFT_SALE" || data.type === "NFT_BID" || data.type === "NFT_BID_CANCEL" || data.type === "NFT_LIST_UPDATE" || data.type === "NFT_LIST" || data.type === "NFT_LIST_CANCEL" || data.type === "TAKE_LOAN" || data.type === "FORECLOSE_LOAN" || data.type === "REPAY_ESCROW_LOAN" || data.type === "REPAY_LOAN") ? ((relField) ? ((name === "") ? <a href={`/address/${relField}?cluster=${cluster}`}>{shortenAddress(relField)}</a> : <a href={`/address/${relField}?cluster=${cluster}`}>{name}</a>) : "Protocol Interaction") : (name || relField || "Protocol Interaction")
+                                    )
                                 }
                             </div>
 
@@ -1242,6 +1316,31 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                                             </div>
                                         </div>
 
+                                    </>
+                                )
+                            }
+                            else if (varFields.type === "SWAP") {
+                                return (
+                                    <>
+                                        <div className="row pt-1">
+                                            <div className="col-12 col-md-10">
+                                                <div className="d-flex">
+                                                    <div className="pe-2">
+                                                        <div className={styles.field_sub_1}>
+                                                            Swapped by
+                                                        </div>
+                                                    </div>
+                                                    <div className="pe-2">
+                                                        <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} />
+                                                    </div>
+                                                    <div className="pe-1">
+                                                        <div className={styles.field_sub_1}>
+                                                            <a href={(cluster === "mainnet-beta") ? `/address/${varFields.swapper}` : `/address/${varFields.swapper}?cluster=${cluster}`} aria-label={varFields.swapper} data-balloon-pos="up">{shortenAddress(varFields.swapper)}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </>
                                 )
                             }
