@@ -459,9 +459,9 @@ body {
 }
 .popup_view_area
 {
-  background: #240E42A8;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: #240E42;
+  /* backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); */
   width: 100%;
   max-width: 500px;
   z-index: 14;
