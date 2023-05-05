@@ -14,7 +14,9 @@ const TabbedDomains = ({ address, cluster }) => {
     try {
       const res = await getDomainsFromWallet(cluster, address);
       if (res.success === true) {
-        setDomains(res.details);
+        var allDomains = res.details;
+        allDomains.sort((a, b) => (a.name > b.name) ? 1: -1);
+        setDomains(allDomains);
       }
       setLoading("false");
     } catch (error) {
@@ -65,7 +67,7 @@ const TabbedDomains = ({ address, cluster }) => {
                       <div className="col-12 col-lg-6" key={index}>
                         <div className={styles.each_tab_domain}>
                           <div className={styles.name_section}>
-                            {domain.name ?? ""}
+                            {domain.name ?? "--"}
                           </div>
                         </div>
                       </div>

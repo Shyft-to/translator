@@ -22,6 +22,7 @@ import solSmall from "../../resources/images/txnImages/sol_small.png";
 import duration from "../../resources/images/txnImages/duration.png";
 import memo from "../../resources/images/txnImages/memo.png";
 import memo_small from "../../resources/images/txnImages/memo_small.png";
+import royalty_crown from "../../resources/images/txnImages/royaltyCrown.png";
 import tokenSwap from "../../resources/images/txnImages/token_swap.png";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
@@ -33,7 +34,7 @@ import {
   formatNumbers,
 } from "../../utils/formatter";
 
-const SubTransactions = ({ styles, data, wallet, cluster }) => {
+const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCreators }) => {
   const { ref, inView } = useInView();
 
   const [image, setImage] = useState(icon);
@@ -54,6 +55,8 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
   });
   const [dataLoaded, setDataLoaded] = useState(false);
   const [copy, setCopied] = useState("Copy");
+
+  const [isRoyalty,setIsRoyalty] = useState(false);
 
   const getData = async (cluster, address, type = "") => {
     try {
@@ -467,6 +470,17 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
   useEffect(() => {
     categoriseAction();
   }, []);
+
+  useEffect(() => {
+    
+        if(showRoyalty === true && Array.isArray(saleNftCreators) && saleNftCreators.length > 0)
+        {
+          if(saleNftCreators.includes(data.info.receiver) === true)
+            setIsRoyalty(true);
+        }
+        
+  }, [saleNftCreators])
+  
   return (
     <div className={styles.sub_txns} ref={ref}>
       <div className="d-flex">
@@ -648,6 +662,27 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
               ) : (
                 ""
               )}
+              
+                {
+                  (showRoyalty === true && isRoyalty === true) && 
+                  
+                      <div className={styles.royalty_badge}>
+                        <div className={"d-flex"}>
+                          <div className="pe-1">
+                            <img
+                              src={royalty_crown}
+                              alt="royalty paid"
+                              style={{ width: "14px", marginTop: "-2px" }}
+                            />
+                          </div>
+                          <div className="pe-2">
+                            <div>Royalty Paid</div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                }
+              
             </div>
           </div>
 
@@ -674,7 +709,7 @@ const SubTransactions = ({ styles, data, wallet, cluster }) => {
                               {/* <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link> */}
                               <a
                                 href={
-                                  cluster == "mainnet-beta"
+                                  cluster === "mainnet-beta"
                                     ? `/address/${varFields.to}`
                                     : `/address/${varFields.to}?cluster=${cluster}`
                                 }
