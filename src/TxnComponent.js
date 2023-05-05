@@ -1113,7 +1113,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
                 transition={{ delay: 0.4 }}
               >
                 <div className="col-12">
-                  <div className={styles.body_title}>Royalty Fee Actions
+                  <div className={styles.body_title}>Royalties
                     <span className={styles.body_title_sub}>
                       ( {Array.isArray(royaltyFeeActions) ? royaltyFeeActions.length : 0} )
                     </span>

@@ -4,8 +4,12 @@ import { useEffect } from "react";
 import styles from "../../resources/css/TabDomain.module.css";
 import SearchTokens from "../SearchTokens";
 import TxnLoader from "../loaders/TxnLoader";
+import copyIcon from "../../resources/images/txnImages/copy_icon.svg";
+import { shortenAddress } from "../../utils/formatter";
 
-const TabbedDomains = ({ address, cluster }) => {
+import Tooltip from "react-tooltip-lite";
+
+const TabbedDomains = ({ address, cluster, setDomainsCount }) => {
   const [domains, setDomains] = useState([]);
   const [isLoading, setLoading] = useState("false");
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,8 +19,9 @@ const TabbedDomains = ({ address, cluster }) => {
       const res = await getDomainsFromWallet(cluster, address);
       if (res.success === true) {
         var allDomains = res.details;
-        allDomains.sort((a, b) => (a.name > b.name) ? 1: -1);
+        allDomains.sort((a, b) => (a.name > b.name ? 1 : -1));
         setDomains(allDomains);
+        if (Array.isArray(res.details)) setDomainsCount(res.details.length);
       }
       setLoading("false");
     } catch (error) {
@@ -29,6 +34,15 @@ const TabbedDomains = ({ address, cluster }) => {
     setLoading("true");
     getData(cluster, address);
   }, [address, cluster]);
+
+  const [copied, setCopied] = useState("Copy");
+  const copyValue = (value) => {
+    navigator.clipboard.writeText(value);
+    setCopied("Copied");
+    setTimeout(() => {
+      setCopied("Copy");
+    }, 1000);
+  };
 
   return (
     <div>
@@ -64,10 +78,42 @@ const TabbedDomains = ({ address, cluster }) => {
                         .startsWith(searchTerm?.toLowerCase())
                     )
                     .map((domain, index) => (
-                      <div className="col-12 col-lg-6" key={index}>
+                      <div className="col-12 col-lg-12" key={index}>
                         <div className={styles.each_tab_domain}>
-                          <div className={styles.name_section}>
-                            {domain.name ?? "--"}
+                          <div className="row">
+                            <div className="col-12 col-md-6">
+                              <div className={styles.name_section}>
+                                {domain.name ?? "--"}
+                              </div>
+                            </div>
+                            <div className="col-12 col-md-6 text-start text-md-end">
+                              <div className={styles.address_section}>
+                                <div>
+                                  {shortenAddress(domain.address ?? "--")}
+                                </div>
+                                <div>
+                                  <Tooltip
+                                    content={copied}
+                                    className="myTarget"
+                                    direction="up"
+                                    // eventOn="onClick"
+                                    // eventOff="onMouseLeave"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                  >
+                                    <button className={styles.copy_btn} onClick={() => copyValue(domain.address)}>
+                                      <img
+                                        src={copyIcon}
+                                        style={{ width: "16px" }}
+                                        alt="copy"
+                                      />
+                                    </button>
+                                  </Tooltip>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -86,9 +132,41 @@ const TabbedDomains = ({ address, cluster }) => {
                 </div>
               ) : (
                 domains.map((domain, index) => (
-                  <div className="col-12 col-lg-6" key={index}>
+                  <div className="col-12 col-lg-12" key={index}>
                     <div className={styles.each_tab_domain}>
-                      <div className={styles.name_section}>{domain.name}</div>
+                      <div className="row">
+                        <div className="col-12 col-md-6">
+                          <div className={styles.name_section}>
+                            {domain.name ?? "--"}
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-6 text-start text-md-end">
+                          <div className={styles.address_section}>
+                            <div>{shortenAddress(domain.address ?? "--")}</div>
+                            <div>
+                              <Tooltip
+                                content={copied}
+                                className="myTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                              >
+                                <button className={styles.copy_btn} onClick={() => copyValue(domain.address)}>
+                                  <img
+                                    src={copyIcon}
+                                    style={{ width: "16px" }}
+                                    alt="copy"
+                                  />
+                                </button>
+                              </Tooltip>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))

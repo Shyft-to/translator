@@ -676,7 +676,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             />
                           </div>
                           <div className="pe-2">
-                            <div>Royalty Paid</div>
+                            <div>Royalties</div>
                           </div>
                           
                         </div>

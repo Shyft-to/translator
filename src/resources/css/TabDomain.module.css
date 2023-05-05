@@ -26,6 +26,24 @@
     text-align: start;
     transition: all 0.05s ease;
 }
+.each_tab_domain .address_section
+{
+    font: 500 14px/16px "Poppins",sans-serif;
+    color: #fffa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+.each_tab_domain .address_section .copy_btn
+{
+    padding: 0px;
+    margin-top: -10px;
+    margin-left: 4px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
 /* .each_tab_domain .toggle_button
 {
     position: absolute;
