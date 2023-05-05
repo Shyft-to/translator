@@ -40,7 +40,9 @@ const PopupView = ({setPopUp}) => {
       <div className="popup_view_area">
         <button className="close_cross_x" onClick={() => setPopUp(false)}>✖</button>
         <div className="heading_1">
-          <img src={poweredBySHYFT} className="img-fluid" alt="powered by SHYFT" />
+          <a href="https://shyft.to/" target="_blank" rel="noreferrer">
+            <img src={poweredBySHYFT} className="img-fluid" alt="powered by SHYFT" />
+          </a>
         </div>
         <div className="question_section">
           <div className="each_question_answer">
@@ -59,7 +61,7 @@ const PopupView = ({setPopUp}) => {
               for non developers is a bummer. Translator makes on-chain data
               human-friendly by presenting it in a simple-to-read format. We
               want to make Solana more accessible, we want to translate Solana
-              for humans
+              for humans.
             </div>
           </div>
           <div className="each_question_answer">
@@ -68,7 +70,7 @@ const PopupView = ({setPopUp}) => {
                 <div className="updown_arrow" onClick={toggleQuestionTwo} id="q2_arrow">
                   <img src={arrow} className="img-fluid rounded-top" alt="arrow"/>
                 </div>
-                <div className="question_text">About SHYFT APIs</div>
+                <div className="question_text">About <a href="https://shyft.to/" target="_blank" rel="noreferrer">SHYFT</a> APIs</div>
                 
               </div>
               {/* <hr /> */}
@@ -84,7 +86,7 @@ const PopupView = ({setPopUp}) => {
         <div className="link_area">
           <div className="d-flex flex-wrap justify-content-between justify-content-md-between">
             <div className="each_contribute_link">
-              <a href="https://github.com/Shyft-to">
+              <a href="https://github.com/Shyft-to/translator" target="_blank" rel="noreferrer">
                 <div className="d-flex">
                   <div className="icon_contri">
                     <img src={github} alt="github"/>
@@ -97,7 +99,7 @@ const PopupView = ({setPopUp}) => {
               </a>
             </div>
             <div className="each_contribute_link">
-              <a href="https://discord.com/invite/8JyZCjRPmr">
+              <a href="https://discord.com/invite/8JyZCjRPmr" target="_blank" rel="noreferrer">
                 <div className="d-flex">
                   <div className="icon_contri">
                     <img src={discord} alt="reach us at discord" />

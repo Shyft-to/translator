@@ -500,6 +500,16 @@ body {
   display: block;
   margin: 0 auto;
 }
+.popup_view_area .question_section a
+{
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.popup_view_area .question_section a:hover
+{
+  color:#0AEEFF;
+}
 .popup_view_area .each_question_answer 
 {
   padding-top: 4px;
