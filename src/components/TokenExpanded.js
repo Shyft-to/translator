@@ -132,7 +132,7 @@ const TokenExpanded = ({token,cluster}) => {
               <p className={styles.section_desc}>{token.description ?? "--"}</p> */}
             </motion.div>
             <div className={styles.nft_image_container_mob}>
-              {/* <motion.img
+              <motion.img
                 src={(token.image === "" || token.image.includes("ray-initiative.gift")) ? unknown : token.image}
                 ref={ref3}
                 className="img-fluid"
@@ -143,7 +143,7 @@ const TokenExpanded = ({token,cluster}) => {
                   currentTarget.src=noImage;
                 }}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}
-              /> */}
+              />
               <div className="d-flex justify-content-center">
                 <div className="px-3 pt-2">
                   <div className={styles.view_original_button}>

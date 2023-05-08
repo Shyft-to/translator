@@ -262,12 +262,7 @@ body {
   text-decoration: none;
   color: #fff;
 }
-@media screen and (max-width:767px){
-  .logo_container {
-    font: 700 32px/32px "Montserrat", sans-serif;
-    width: 90vw !important;
-  
-  }
+@media screen and (max-width:970px){
   .logo_area
   {
     display: none;
@@ -278,6 +273,14 @@ body {
     display: inline-block;
     width: 20px;
   }
+}
+@media screen and (max-width:767px){
+  .logo_container {
+    font: 700 32px/32px "Montserrat", sans-serif;
+    width: 90vw !important;
+  
+  }
+  
 }
 .myTarget .react-tooltip-lite {
   width: 76px;
@@ -446,6 +449,19 @@ body {
   font-weight: 700;
   /* border: 2px solid #fffa; */
 }
+.scroll-to-top-3
+{
+  position: fixed;
+  top: 30px;
+  left: 45px;
+  z-index: 20;
+}
+.scroll-to-top-3 a
+{
+  font: 700 32px/32px "Montserrat", sans-serif;
+  color: #fff;
+  text-decoration: none;
+}
 .popup_view_overlay
 {
   position: fixed;
@@ -610,6 +626,18 @@ body {
   {
     top: 20px;
     right: 20px;
+  }
+  .scroll-to-top-3
+  {
+    
+    top: 24px;
+    left: 25px;
+  }
+  .scroll-to-top-3 a
+  {
+    font: 700 24px/24px "Montserrat", sans-serif;
+    color: #fff;
+    text-decoration: none;
   }
 }
 .long_cards

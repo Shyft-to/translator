@@ -84,7 +84,7 @@ export async function getTokenData(network, address) {
       .then((res) => {
         if (res.data.success === true) {
           var detailsToReturn = {};
-          if(res.data.image.includes("ray-initiative.gift"))
+          if(res.data.image?.includes("ray-initiative.gift"))
           {
             detailsToReturn = {...res.data.result,image:""}
           }

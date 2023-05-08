@@ -99,7 +99,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
 
     }, [])
     const getCreators = async (actions) => {
-        console.log("For txn",data.signatures[0]);
+        // console.log("For txn",data.signatures[0]);
         try {
           var saleMints = [];
           if (actions.length > 0) {
@@ -108,19 +108,19 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                 saleMints = [...saleMints, action.info.nft_address];
               }
             });
-            console.log("Sale Mints:", saleMints);
+            // console.log("Sale Mints:", saleMints);
             var creatorFromMint = [];
             for (const mintAddr of saleMints) {
               const res = await getNFTData(cluster, mintAddr);
               if (res.success === true) {
                 var creatorsReceived = res.details.creators;
-                console.log("Received", creatorsReceived);
+                // console.log("Received", creatorsReceived);
                 for (const creator of creatorsReceived) {
                   creatorFromMint = [...creatorFromMint, creator.address];
                 }
               }
             }
-            console.log("Creators:", creatorFromMint);
+            // console.log("Creators:", creatorFromMint);
             setNftCreators(creatorFromMint);
           }
         } catch (error) {

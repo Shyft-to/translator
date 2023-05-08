@@ -135,6 +135,11 @@ const Home = ({popup, setPopUp}) => {
   }
   return (
     <div>
+      
+      <div className="scroll-to-top-3">
+        <a href="https://translator.shyft.to/">Translator</a>
+      </div>
+      
       <OpenPopup setPopUp={setPopUp} />
       {popup && <PopupView setPopUp={setPopUp} />}
       <div className={styles.background_2}>

@@ -408,12 +408,12 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           to_name: data.info.tokens_swapped.out.symbol ?? "--",
           from: data.info.tokens_swapped.in.token_address ?? "--",
           to: data.info.tokens_swapped.out.token_address ?? "--",
-          from_amount: data.info.tokens_swapped.in.amount ?? "",
-          to_amount: data.info.tokens_swapped.out.amount ?? "",
+          from_amount: formatNumbers(data.info.tokens_swapped.in.amount) ?? "",
+          to_amount: formatNumbers(data.info.tokens_swapped.out.amount) ?? "",
           swapper: data.info.swapper ?? "--",
           from_image: data.info.tokens_swapped.in.image_uri ?? "",
           to_image: data.info.tokens_swapped.out.image_uri ?? "",
-          slippage_paid: data.info.slippage_paid ?? "",
+          slippage_paid: formatNumbers(data.info.slippage_paid) ?? "",
           token: "--",
           action: "--",
           value: "",
@@ -432,7 +432,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           end_date: data.info.end_date ?? "--",
           token: "--",
           action: "--",
-          value: data.info.ticket_price ?? "",
+          value: formatNumbers(data.info.ticket_price) ?? "",
           symbol: "",
         };
         setRelField(data.info.raffle_token ?? "");
@@ -451,9 +451,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           tickets: data.info.tickets ?? "--",
           token: "--",
           action: "--",
-          value: data.info.ticket_price ?? "",
+          value: formatNumbers(data.info.ticket_price) ?? "",
           symbol: "",
-          total_price: totalPrice.toFixed(3)
+          total_price: formatNumbers(totalPrice.toFixed(3))
         };
         //setRelField(data.info.raffle_address ?? "");
         setCurrencyField(data.info.currency ?? "");
@@ -501,8 +501,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           tickets: "--",
           token: "--",
           action: "--",
-          value: data.info.raffle_closure_amount ?? "",
-          fee_taken: data.info.fee_taken ?? "",
+          value: formatNumbers(data.info.raffle_closure_amount) ?? "",
+          fee_taken: formatNumbers(data.info.fee_taken) ?? "",
           symbol: "",
         };
         //setRelField(data.info.raffle_token ?? "");
