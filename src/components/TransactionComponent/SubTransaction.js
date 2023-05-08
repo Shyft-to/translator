@@ -65,7 +65,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
   const getData = async (cluster, address, type = "") => {
     try {
       if (type === "TOKEN") {
-        //add SOL logic here
+        
         if (address === "So11111111111111111111111111111111111111112") {
           setImage(solanaIcon);
           setName("Wrapped SOL");
