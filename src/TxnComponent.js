@@ -1060,12 +1060,24 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                         </div>
                                       </div>
                                     )}
+                                    {action.type === "BUY_TICKETS" && (
+                                      <div className={styles.slippage_params}>
+                                        <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Each Ticket Price: </span>{" "}
+                                            {action.info.ticket_price ??
+                                              "--"}
+                                          </div>
+                                      </div>
+                                    )}
 
                                     {/* <div className="">
                                                                     <div className={styles.txn_subname}>
                                                                         {(action.source_protocol.name != "") ? <div><a href={`/address/${action.source_protocol.address}`}>{formatNames(action.source_protocol.name)}</a></div> : (<a href={`/address/${action.source_protocol.address}`}>{shortenAddress(action.source_protocol.address)}</a>)}
                                                                     </div>
                                                                 </div> */}
+
                                   </div>
                                   <SubTransactions
                                     styles={styles}
@@ -1091,6 +1103,95 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                         )}
                                     </div>
                                   )}
+                                  {action.type === "CREATE_RAFFLE" && (
+                                      <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                        <div className="d-flex flex-wrap justify-content-start">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Creator: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.raffle_creator}`
+                                                : `/address/${action.info.raffle_creator}?cluster=${cluster}`}>{shortenAddress(action.info.raffle_creator)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Total Tickets: </span>{" "}
+                                            {action.info.tickets ??
+                                              "--"}
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Ticket Price: </span>{" "}
+                                            {action.info.ticket_price ??
+                                              "--"}
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Starts: </span>{" "}
+                                            {getFullTime(action.info.start_date ??
+                                              "--")}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Ends: </span>{" "}
+                                            {getFullTime(action.info.end_date ??
+                                              "--")}{" "}
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    )}
+                                    
+                                    {
+                                      action.type === "CLOSE_RAFFLE" &&
+                                      <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Creator: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.raffle_creator}`
+                                                : `/address/${action.info.raffle_creator}?cluster=${cluster}`}>{shortenAddress(action.info.raffle_creator)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Closure Amount: </span>{" "}
+                                            {action.info.raffle_closure_amount ??
+                                              "--"}
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Fee Taker: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.fee_taker}`
+                                                : `/address/${action.info.fee_taker}?cluster=${cluster}`}>{shortenAddress(action.info.fee_taker)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Fee Taken: </span>{" "}
+                                            {action.info.fee_taken ??
+                                              "--"}{" "}
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    }
                                   <div className="pb-2"></div>
                                 </div>
                               </div>

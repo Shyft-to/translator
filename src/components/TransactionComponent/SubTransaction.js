@@ -24,6 +24,9 @@ import memo from "../../resources/images/txnImages/memo.png";
 import memo_small from "../../resources/images/txnImages/memo_small.png";
 import royalty_crown from "../../resources/images/txnImages/royaltyCrown.png";
 import tokenSwap from "../../resources/images/txnImages/token_swap.png";
+import Foxy from "../../resources/images/txnImages/FoxyRaffle.svg";
+import Raffle_ticket from "../../resources/images/txnImages/raffle_ticket.svg";
+import Raffle_icon from "../../resources/images/txnImages/raffle_icon.svg";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 import { getNFTData, getTokenData } from "../../utils/getAllData";
@@ -32,6 +35,7 @@ import {
   formatLamports,
   convertToDays,
   formatNumbers,
+  getFullTime
 } from "../../utils/formatter";
 
 const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCreators }) => {
@@ -61,11 +65,19 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
   const getData = async (cluster, address, type = "") => {
     try {
       if (type === "TOKEN") {
-        const res = await getTokenData(cluster, address);
-        if (res.success === true) {
-          if (res.details.image) setImage(res.details.image);
+        //add SOL logic here
+        if (address === "So11111111111111111111111111111111111111112") {
+          setImage(solanaIcon);
+          setName("Wrapped SOL");
+        }
+        else
+        {
+          const res = await getTokenData(cluster, address);
+          if (res.success === true) {
+            if (res.details.image) setImage(res.details.image);
 
-          setName(res.details.name);
+            setName(res.details.name);
+          }
         }
       } else {
         const res = await getNFTData(cluster, address);
@@ -410,7 +422,116 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         //console.log("type_ob:",type_obj);
         if (data.info.tokens_swapped.in.token_address !== "")
           setImage(data.info.tokens_swapped.in.image_uri);
-      } else {
+      }
+      else if(data.type === "CREATE_RAFFLE") {
+        type_obj = {
+          type: "CREATE_RAFFLE",
+          raffle_address: data.info.raffle_address ?? "--",
+          from: data.info.raffle_creator ?? "--",
+          start_date: data.info.start_date ?? "--",
+          end_date: data.info.end_date ?? "--",
+          token: "--",
+          action: "--",
+          value: data.info.ticket_price ?? "",
+          symbol: "",
+        };
+        setRelField(data.info.raffle_token ?? "");
+        //setRelType("NFT");
+      }
+      else if(data.type === "BUY_TICKETS") {
+        var totalPrice = 0;
+        if(data.info.tickets && data.info.ticket_price)
+          totalPrice = Number(data.info.tickets) * Number(data.info.ticket_price);
+        else
+          totalPrice = data.info.ticket_price ?? "--";
+        type_obj = {
+          type: "BUY_TICKETS",
+          raffle_address: data.info.raffle_address ?? "--",
+          to: data.info.buyer ?? "--",
+          tickets: data.info.tickets ?? "--",
+          token: "--",
+          action: "--",
+          value: data.info.ticket_price ?? "",
+          symbol: "",
+          total_price: totalPrice.toFixed(3)
+        };
+        //setRelField(data.info.raffle_address ?? "");
+        setCurrencyField(data.info.currency ?? "");
+        setName(data.info.raffle_address ?? "--");
+        setImage(Foxy);
+        //setRelType("NFT");
+      } 
+      else if(data.type === "REVEAL_WINNERS") {
+        type_obj = {
+          type: "REVEAL_WINNERS",
+          raffle_address: data.info.raffle_address ?? "--",
+          to: data.info.raffle_winner ?? "--",
+          tickets: "--",
+          token: "--",
+          action: "--",
+          value: "",
+          symbol: "",
+        };
+        setName(data.info.raffle_address);
+        setImage(Foxy);
+        //setRelField(data.info.raffle_address ?? "");
+        //setCurrencyField(data.info.currency ?? "");
+        //setRelType("NFT");
+      }
+      else if(data.type === "CLAIM_PRIZE") {
+        type_obj = {
+          type: "CLAIM_PRIZE",
+          raffle_address: data.info.raffle_address ?? "--",
+          to: data.info.raffle_winner ?? "--",
+          tickets: "--",
+          token: "--",
+          action: "--",
+          value: "",
+          symbol: "",
+        };
+        setRelField(data.info.raffle_token ?? "");
+        //setCurrencyField(data.info.currency ?? "");
+        //setRelType("NFT");
+      }
+      else if(data.type === "CLOSE_RAFFLE") {
+        type_obj = {
+          type: "CLOSE_RAFFLE",
+          raffle_address: data.info.raffle_address ?? "--",
+          to: data.info.raffle_creator ?? "--",
+          tickets: "--",
+          token: "--",
+          action: "--",
+          value: data.info.raffle_closure_amount ?? "",
+          fee_taken: data.info.fee_taken ?? "",
+          symbol: "",
+        };
+        //setRelField(data.info.raffle_token ?? "");
+        setCurrencyField(data.info.currency ?? "");
+        setName(data.info.raffle_address);
+        setImage(Foxy);
+        //setRelType("NFT");
+      }
+      else if(data.type === "CANCEL_RAFFLE") {
+        type_obj = {
+          type: "CANCEL_RAFFLE",
+          raffle_address: data.info.raffle_address ?? "--",
+          to: data.info.raffle_creator ?? "--",
+          tickets: "--",
+          token: "--",
+          action: "--",
+          value: "",
+          symbol: "",
+        };  
+        if(data.info.raffle_token !== "")
+          setRelField(data.info.raffle_token);
+        else
+        {
+          setName(data.info.raffle_address ?? "--");
+          setImage(Foxy);
+        }
+        
+      }
+      else {
         type_obj = {
           type: "",
           from: "",
@@ -498,7 +619,11 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
             data.type === "TAKE_LOAN" ||
             data.type === "FORECLOSE_LOAN" ||
             data.type === "REPAY_ESCROW_LOAN" ||
-            data.type === "REPAY_LOAN") &&
+            data.type === "REPAY_LOAN" || 
+            data.type === "CREATE_RAFFLE" ||
+            data.type === "CLAIM_PRIZE" ||
+            data.type === "CANCEL_RAFFLE"
+            ) &&
           relField !== "" ? (
             <a
               href={
@@ -531,10 +656,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           <div className={styles.subtxn_token}>
             <div className="d-flex">
               <div>
-                {/* {name || relField || "Unknown"} */}
-                {/* {
-                                    (data.type === "SWAP")?<a href={`/address/${data.info.swapper}?cluster=${cluster}`}>{data.info.swapper ?? ""}</a>:""
-                                } */}
+                
                 {data.type === "SWAP" ? (
                   <div>
                     <div className="d-flex flex-wrap">
@@ -617,7 +739,10 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "TAKE_LOAN" ||
                   data.type === "FORECLOSE_LOAN" ||
                   data.type === "REPAY_ESCROW_LOAN" ||
-                  data.type === "REPAY_LOAN" ? (
+                  data.type === "REPAY_LOAN" ||
+                  data.type === "CREATE_RAFFLE" ||
+                  data.type === "CLAIM_PRIZE" ||
+                  data.type === "CANCEL_RAFFLE" ? (
                   relField ? (
                     name === "" ? (
                       <a href={`/address/${relField}?cluster=${cluster}`}>
@@ -631,12 +756,35 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   ) : (
                     "Protocol Interaction"
                   )
-                ) : (
-                  name || relField || "Protocol Interaction"
+                ) : ((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE")?(<a href={`/address/${name}?cluster=${cluster}`}>{name}</a>):
+                  (name || relField || "Protocol Interaction")
                 )}
               </div>
 
-              {relField !== "" ? (
+              {((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE") && name !== "")?(
+                <div className={styles.copy_bt}>
+                <Tooltip
+                  content={copy}
+                  className="myMarginTarget"
+                  direction="up"
+                  // eventOn="onClick"
+                  // eventOff="onMouseLeave"
+                  useHover={true}
+                  background="#101010"
+                  color="#fefefe"
+                  arrowSize={0}
+                  styles={{ display: "inline" }}
+                >
+                  <motion.button
+                    onClick={() => copyValue(name)}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <img src={copyIcon} alt="Copy Icon" />
+                  </motion.button>
+                </Tooltip>
+              </div>
+              ) :(relField !== "" ? (
                 <div className={styles.copy_bt}>
                   <Tooltip
                     content={copy}
@@ -661,7 +809,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 </div>
               ) : (
                 ""
-              )}
+              ))}
               
                 {
                   (showRoyalty === true && isRoyalty === true) && 
@@ -1804,7 +1952,391 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                 </>
               );
-            } else {
+            } else if (varFields.type === "CREATE_RAFFLE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-6">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Address</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={Raffle_icon}
+                            alt=""
+                            style={{ width: "18px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                              content={varFields.raffle_address}
+                              className="generic"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <a href={((varFields.raffle_address !== "--")?((cluster === "mainnet-beta"
+                                    ? `/address/${varFields.raffle_address}`
+                                    : `/address/${varFields.raffle_address}?cluster=${cluster}`)):(``))}>
+                                {shortenAddress(varFields.raffle_address) ?? "--"}
+                              </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        {varFields.value} 
+                        {currency}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div>
+                        <Tooltip
+                              content={varFields.start_date}
+                              className="generic"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                          <div className={styles.field_sub_1}>
+                          
+                              {getFullTime(varFields.start_date)}
+                            </div>
+                            </Tooltip>
+                        </div>
+                        <div className="px-2">
+                          <img
+                            src={duration}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div>
+                            <Tooltip
+                              content={varFields.end_date}
+                              className="generic"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <div className={styles.field_sub_1}>
+                                {getFullTime(varFields.end_date)}
+                              </div>
+                            </Tooltip>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+            else if (varFields.type === "BUY_TICKETS") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-6">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                              content={varFields.to}
+                              className="generic"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <a href={(cluster === "mainnet-beta"
+                                      ? `/address/${varFields.to}`
+                                      : `/address/${varFields.to}?cluster=${cluster}`)}>{shortenAddress(varFields.to) ?? "--"}
+                              </a>
+                            </Tooltip> 
+                             &nbsp;&nbsp; bought</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>{shortenAddress(varFields.tickets) ?? "--"}</div>
+                        </div>
+                        <div>
+                          <img
+                            src={Raffle_ticket}
+                            alt=""
+                            style={{ width: "22px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        {varFields.total_price} {currency}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+            else if (varFields.type === "REVEAL_WINNERS") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Winner</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={royalty_crown}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                              content={varFields.to}
+                              className="generic"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <a href={(cluster === "mainnet-beta"
+                                        ? `/address/${varFields.to}`
+                                        : `/address/${varFields.to}?cluster=${cluster}`)}>
+                                {shortenAddress(varFields.to) ?? "--"}
+                              </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+            else if (varFields.type === "CLAIM_PRIZE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Address</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={Raffle_icon}
+                            alt=""
+                            style={{ width: "18px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-2">
+                          
+                          <div className={styles.field_sub_1}>
+                          <Tooltip
+                              content={varFields.to}
+                              className="generic"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <a href={(cluster === "mainnet-beta"
+                                        ? `/address/${varFields.raffle_address}`
+                                        : `/address/${varFields.raffle_address}?cluster=${cluster}`)}>
+                                      {shortenAddress(varFields.raffle_address) ?? "--"}</a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Claimed by</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={royalty_crown}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>
+                              <Tooltip
+                                content={varFields.to}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <a href={(cluster === "mainnet-beta"
+                                            ? `/address/${varFields.to}`
+                                            : `/address/${varFields.to}?cluster=${cluster}`)}>
+                                  {shortenAddress(varFields.to) ?? "--"}
+                                </a>
+                              </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+            else if (varFields.type === "CLOSE_RAFFLE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-6">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Closed</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={cancel}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        {varFields.fee_taken} {currency}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-6">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Closure Amount</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>{varFields.value ?? "--"} {currency}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+            else if (varFields.type === "CANCEL_RAFFLE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Address</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={Raffle_icon}
+                            alt=""
+                            style={{ width: "18px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.raffle_address}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.raffle_address}`
+                              : `/address/${varFields.raffle_address}?cluster=${cluster}`)}>
+                              {shortenAddress(varFields.raffle_address) ?? "--"}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Cancel Raffle</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={cancel}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-2">
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+             else {
               return (
                 <div className="row pt-1">
                   <div className="col-10">
