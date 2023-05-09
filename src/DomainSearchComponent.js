@@ -24,6 +24,7 @@ import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
 import SimpleLoader from "./components/loaders/SimpleLoader";
 import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
+import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -48,7 +49,10 @@ const DomainSearchComponent = ({ popup, setPopUp }) => {
 
   const [protocolName, setProtocolName] = useState("");
 
-  const [isDecoding,setDecoding] = useState("false")
+  const [tokenCount, setTokensCount] = useState(-1);
+  const [domainsCount, setDomainsCount] = useState(-1);
+
+  const [isDecoding, setDecoding] = useState("false");
   // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
   useEffect(() => {
     ReactGA.send({
@@ -61,7 +65,7 @@ const DomainSearchComponent = ({ popup, setPopUp }) => {
 
   useEffect(() => {
     // ReactGA.send({ hitType: "pageview", page: "/domain", title: "Domain Page" });
-    
+
     decodeAddress();
   }, []);
 
@@ -84,25 +88,18 @@ const DomainSearchComponent = ({ popup, setPopUp }) => {
     // setLoading(true);
     setDecoding("true");
     if (addressOrDomain.length < 40) {
-        try {
-          const decodedAddress = await getAddressfromDomain(addressOrDomain);
-          
-          if(decodedAddress.success === true)
-          {
-            
-            setAddr(decodedAddress.wallet_address);
-            setDecoding("Complete");
-          }
-          else
-          {
-            setDecoding("Error");
-          }
-          
-        } catch (error) {
+      try {
+        const decodedAddress = await getAddressfromDomain(addressOrDomain);
+
+        if (decodedAddress.success === true) {
+          setAddr(decodedAddress.wallet_address);
+          setDecoding("Complete");
+        } else {
           setDecoding("Error");
         }
-        
-        
+      } catch (error) {
+        setDecoding("Error");
+      }
     } else setAddr(addressOrDomain);
   };
 
@@ -173,120 +170,138 @@ const DomainSearchComponent = ({ popup, setPopUp }) => {
 
   return (
     <div>
-      {
-        (isDecoding === "true") &&
-          <div className="container-lg pt-4 pt-md-5 pt-xl-3">
-              <SimpleLoader />
-          </div>
-      }
-      {
-        (isDecoding === "Error") &&
-          <div className="pt-3 text-center container">
-            <div className="not_found_text">No Data Found</div>
-          </div>
-      }
-      {(isDecoding === "Complete") && <div>
-        <ClickToTop />
-        {/* <OpenPopup setPopUp={setPopUp}/>
+      {isDecoding === "true" && (
+        <div className="container-lg pt-4 pt-md-5 pt-xl-3">
+          <SimpleLoader />
+        </div>
+      )}
+      {isDecoding === "Error" && (
+        <div className="pt-3 text-center container">
+          <div className="not_found_text">No Data Found</div>
+        </div>
+      )}
+      {isDecoding === "Complete" && (
+        <div>
+          <ClickToTop />
+          {/* <OpenPopup setPopUp={setPopUp}/>
             {popup && <PopupView setPopUp={setPopUp} />} */}
 
-        {/* <HeaderComponent /> */}
-        <div className={styles.background_super}>
-          <div className="container pt-2 pb-1">
-            <SearchComponent popup={popup} setPopUp={setPopUp} />
-          </div>
-          {isLoading && (
-            <div className="container-lg pt-4 pt-md-5 pt-xl-3">
-              <SimpleLoader />
+          {/* <HeaderComponent /> */}
+          <div className={styles.background_super}>
+            <div className="container pt-2 pb-1">
+              <SearchComponent popup={popup} setPopUp={setPopUp} />
             </div>
-          )}
-          {!isLoading && (
-            <div>
-              {errOccured && (
-                <div className="pt-3 text-center container">
-                  <div className="not_found_text">No Data Found</div>
-                </div>
-              )}
-              {contentType === "WALLET" && (
-                <div className="container">
-                  <motion.div
-                    className={styles.heading_section}
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="row">
-                      <div className="col-6 col-lg-6">
-                        <div className={styles.main_heading}>
-                          <div className="d-flex">
-                            <div
-                              className="pe-2"
-                              onClick={() => copyValue(addr)}
-                            >
-                              <Tooltip
-                                content={copied}
-                                className="myTarget"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={5}
+            {isLoading && (
+              <div className="container-lg pt-4 pt-md-5 pt-xl-3">
+                <SimpleLoader />
+              </div>
+            )}
+            {!isLoading && (
+              <div>
+                {errOccured && (
+                  <div className="pt-3 text-center container">
+                    <div className="not_found_text">No Data Found</div>
+                  </div>
+                )}
+                {contentType === "WALLET" && (
+                  <div className="container">
+                    <motion.div
+                      className={styles.heading_section}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                    >
+                      <div className="row">
+                        <div className="col-6 col-lg-6">
+                          <div className={styles.main_heading}>
+                            <div className="d-flex">
+                              <div
+                                className="pe-2"
+                                onClick={() => copyValue(addr)}
                               >
-                                {shortenAddress(addr)}
-                              </Tooltip>
-                            </div>
+                                <Tooltip
+                                  content={copied}
+                                  className="myTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={5}
+                                >
+                                  {shortenAddress(addr)}
+                                </Tooltip>
+                              </div>
 
-                            <div
-                              className="px-1"
-                              style={{ marginTop: "-1px", color: "#fff" }}
-                            >
-                              <Tooltip
-                                content={copyLink}
-                                className="myTarget"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={5}
+                              <div
+                                className="px-1"
+                                style={{ marginTop: "-1px", color: "#fff" }}
                               >
-                                <button
-                                  className="copy_link"
-                                  onClick={() =>
-                                    copyValue(
-                                      cluster === "mainnet-beta"
-                                        ? `https://translator.shyft.to/address/${addressOrDomain}`
-                                        : `https://translator.shyft.to/address/${addressOrDomain}?cluster=${cluster}`,
-                                      true
-                                    )
+                                <Tooltip
+                                  content={copyLink}
+                                  className="myTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={5}
+                                >
+                                  <button
+                                    className="copy_link"
+                                    onClick={() =>
+                                      copyValue(
+                                        cluster === "mainnet-beta"
+                                          ? `https://translator.shyft.to/address/${addressOrDomain}`
+                                          : `https://translator.shyft.to/address/${addressOrDomain}?cluster=${cluster}`,
+                                        true
+                                      )
+                                    }
+                                  >
+                                    <FaLink />
+                                  </button>
+                                </Tooltip>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-6 col-lg-6">
+                          <div className="d-flex flex-wrap justify-content-end">
+                            <div
+                              //className="border border-light"
+                              style={{
+                                width: "200px",
+                                overflow: "hidden",
+                                overflowWrap: "normal",
+                              }}
+                            >
+                              <div className={styles.wallet_balance_indicator}>
+                                {data.balance?.toFixed(8)}&nbsp;SOL
+                              </div>
+                            </div>
+                            <div className="ps-2">
+                              <div className={styles.select_container}>
+                                <select
+                                  value={cluster}
+                                  onChange={(e) =>
+                                    changeCluster(e.target.value)
                                   }
                                 >
-                                  <FaLink />
-                                </button>
-                              </Tooltip>
+                                  <option value="mainnet-beta">Mainnet</option>
+                                  <option value="devnet">Devnet</option>
+                                  <option value="testnet">Testnet</option>
+                                </select>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="col-6 col-lg-6">
-                        <div className="d-flex flex-wrap justify-content-end">
-                          <div
-                            //className="border border-light"
-                            style={{
-                              width: "200px",
-                              overflow: "hidden",
-                              overflowWrap: "normal",
-                            }}
-                          >
-                            <div className={styles.wallet_balance_indicator}>
-                              {data.balance?.toFixed(8)}&nbsp;SOL
-                            </div>
-                          </div>
-                          <div className="ps-2">
-                            <div className={styles.select_container}>
+                      <div className="row">
+                        <div className="col-12">
+                          <div className="pt-1">
+                            <div className={styles.select_container_2}>
                               <select
                                 value={cluster}
                                 onChange={(e) => changeCluster(e.target.value)}
@@ -299,190 +314,210 @@ const DomainSearchComponent = ({ popup, setPopUp }) => {
                           </div>
                         </div>
                       </div>
+                    </motion.div>
+                    <div className={styles.collections_cara_cont}>
+                      <AllNfts
+                        collections={data.collections}
+                        address={addr}
+                        network={cluster}
+                      />
                     </div>
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="pt-1">
-                          <div className={styles.select_container_2}>
-                            <select
-                              value={cluster}
-                              onChange={(e) => changeCluster(e.target.value)}
-                            >
-                              <option value="mainnet-beta">Mainnet</option>
-                              <option value="devnet">Devnet</option>
-                              <option value="testnet">Testnet</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
+                  </div>
+                )}
+                {contentType === "NFT" && (
+                  <div>
+                    <div className="container pt-2 pb-3">
+                      <NftExpanded nft={data} cluster={cluster} />
                     </div>
-                  </motion.div>
-                  <div className={styles.collections_cara_cont}>
-                    <AllNfts
-                      collections={data.collections}
-                      address={addr}
-                      network={cluster}
-                    />
                   </div>
-                </div>
-              )}
-              {contentType === "NFT" && (
-                <div>
-                  <div className="container pt-2 pb-3">
-                    <NftExpanded nft={data} cluster={cluster} />
+                )}
+                {contentType === "TOKEN" && (
+                  <div>
+                    <div className="container pt-2 pb-1">
+                      <TokenExpanded token={data} cluster={cluster} />
+                    </div>
                   </div>
-                </div>
-              )}
-              {contentType === "TOKEN" && (
-                <div>
-                  <div className="container pt-2 pb-1">
-                    <TokenExpanded token={data} cluster={cluster} />
-                  </div>
-                </div>
-              )}
-              {contentType === "PROTOCOL" && (
-                <div className="container pb-1 pt-1">
-                  <motion.div
-                    className={styles.heading_section}
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="row">
-                      <div className="col-6 col-lg-6">
-                        <div className={styles.main_heading}>
-                          <div className="d-flex">
-                            <div
-                              className="pe-2"
-                              onClick={() => copyValue(addr)}
-                            >
-                              <Tooltip
-                                content={copied}
-                                className="myTarget"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={5}
+                )}
+                {contentType === "PROTOCOL" && (
+                  <div className="container pb-1 pt-1">
+                    <motion.div
+                      className={styles.heading_section}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                    >
+                      <div className="row">
+                        <div className="col-6 col-lg-6">
+                          <div className={styles.main_heading}>
+                            <div className="d-flex">
+                              <div
+                                className="pe-2"
+                                onClick={() => copyValue(addr)}
                               >
-                                {protocolName !== ""
-                                  ? formatNames(protocolName)
-                                  : shortenAddress(addr)}
-                              </Tooltip>
-                            </div>
-
-                            <div
-                              className="px-1"
-                              style={{ marginTop: "-1px", color: "#fff" }}
-                            >
-                              <Tooltip
-                                content={copyLink}
-                                className="myTarget"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={5}
-                              >
-                                <button
-                                  className="copy_link"
-                                  onClick={() =>
-                                    copyValue(
-                                      cluster === "mainnet-beta"
-                                        ? `https://translator.shyft.to/address/${addr}`
-                                        : `https://translator.shyft.to/address/${addr}?cluster=${cluster}`,
-                                      true
-                                    )
-                                  }
+                                <Tooltip
+                                  content={copied}
+                                  className="myTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={5}
                                 >
-                                  <FaLink />
-                                </button>
-                              </Tooltip>
+                                  {protocolName !== ""
+                                    ? formatNames(protocolName)
+                                    : shortenAddress(addr)}
+                                </Tooltip>
+                              </div>
+
+                              <div
+                                className="px-1"
+                                style={{ marginTop: "-1px", color: "#fff" }}
+                              >
+                                <Tooltip
+                                  content={copyLink}
+                                  className="myTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={5}
+                                >
+                                  <button
+                                    className="copy_link"
+                                    onClick={() =>
+                                      copyValue(
+                                        cluster === "mainnet-beta"
+                                          ? `https://translator.shyft.to/address/${addr}`
+                                          : `https://translator.shyft.to/address/${addr}?cluster=${cluster}`,
+                                        true
+                                      )
+                                    }
+                                  >
+                                    <FaLink />
+                                  </button>
+                                </Tooltip>
+                              </div>
                             </div>
+                            {/*<span>Space Overview</span> */}
                           </div>
-                          {/*<span>Space Overview</span> */}
+                        </div>
+                        <div className="col-6 col-lg-6 text-end">
+                          <div className={styles.wallet_balance_indicator}>
+                            {data.balance} SOL
+                            <img
+                              src={WalletIcon}
+                              alt="Wallet Icon"
+                              style={{
+                                width: "22px",
+                                marginTop: "-4px",
+                                marginLeft: "8px",
+                              }}
+                            />
+                          </div>
                         </div>
                       </div>
-                      <div className="col-6 col-lg-6 text-end">
-                        <div className={styles.wallet_balance_indicator}>
-                          {data.balance} SOL
-                          <img
-                            src={WalletIcon}
-                            alt="Wallet Icon"
-                            style={{
-                              width: "22px",
-                              marginTop: "-4px",
-                              marginLeft: "8px",
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-              )}
-            </div>
-          )}
-          <div className="container-lg">
-            <div className={styles.tab_container}>
-              <button
-                className={
-                  panel === "TXN"
-                    ? `${styles.top_tab} ${styles.top_tab_selected}`
-                    : `${styles.top_tab} `
-                }
-                onClick={(e) => {
-                  setPanel("TXN");
-                  tabSelected("txn", "remove");
-                }}
-              >
-                Live Activity
-                <div
-                  className="px-2"
-                  style={{ display: "inline", position: "relative" }}
-                >
-                  <div className="blinking"></div>
-                </div>
-                {panel === "TXN" ? <div className={styles.underline} /> : ""}
-              </button>
-              {contentType === "WALLET" && (
+                    </motion.div>
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="container-lg">
+              <div className={styles.tab_container}>
                 <button
                   className={
-                    panel === "TKN"
+                    panel === "TXN"
                       ? `${styles.top_tab} ${styles.top_tab_selected}`
                       : `${styles.top_tab} `
                   }
                   onClick={(e) => {
-                    setPanel("TKN");
-                    tabSelected("token", "add");
+                    setPanel("TXN");
+                    tabSelected("txn", "remove");
                   }}
                 >
-                  Tokens
-                  {panel === "TKN" ? <div className={styles.underline} /> : ""}
+                  Live Activity
+                  <div
+                    className="px-2"
+                    style={{ display: "inline", position: "relative" }}
+                  >
+                    <div className="blinking"></div>
+                  </div>
+                  {panel === "TXN" ? <div className={styles.underline} /> : ""}
                 </button>
-              )}
-            </div>
-            <div className={styles.tabbed_section_container}>
-              {panel === "TXN" && (
-                <Transactions
-                  address={addr}
-                  cluster={cluster}
-                  setProtocolName={setProtocolName}
-                />
-              )}
-              {panel === "TKN" && (
-                <div className="text-center could_not_text pt-5">
-                  <TabbedTokens address={addr} cluster={cluster} />
-                </div>
-              )}
+                {contentType === "WALLET" && (
+                  <button
+                    className={
+                      panel === "TKN"
+                        ? `${styles.top_tab} ${styles.top_tab_selected}`
+                        : `${styles.top_tab} `
+                    }
+                    onClick={(e) => {
+                      setPanel("TKN");
+                      tabSelected("token", "add");
+                    }}
+                  >
+                    Tokens
+                    {panel === "TKN" ? (
+                      <div className={styles.underline} />
+                    ) : (
+                      ""
+                    )}
+                  </button>
+                )}
+                {contentType === "WALLET" && (
+                  <button
+                    className={
+                      panel === "DOM"
+                        ? `${styles.top_tab} ${styles.top_tab_selected}`
+                        : `${styles.top_tab} `
+                    }
+                    onClick={(e) => {
+                      setPanel("DOM");
+                      //tabSelected("token","add");
+                    }}
+                  >
+                    Domains
+                    {domainsCount > -1 && (
+                      <div className={styles.count_badge}>{domainsCount}</div>
+                    )}
+                    {panel === "DOM" ? (
+                      <div className={styles.underline} />
+                    ) : (
+                      ""
+                    )}
+                  </button>
+                )}
+              </div>
+              <div className={styles.tabbed_section_container}>
+                {panel === "TXN" && (
+                  <Transactions
+                    address={addr}
+                    cluster={cluster}
+                    setProtocolName={setProtocolName}
+                  />
+                )}
+                {panel === "TKN" && (
+                  <div className="text-center could_not_text pt-5">
+                    <TabbedTokens address={addr} cluster={cluster} />
+                  </div>
+                )}
+                {panel === "DOM" && (
+                  <div className="text-center pt-5">
+                    <TabbedDomains
+                      address={addr}
+                      cluster={cluster}
+                      setDomainsCount={setDomainsCount}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 };
