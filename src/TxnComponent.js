@@ -1119,17 +1119,27 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                           <div
                                             className={styles.slippage_param}
                                           >
+                                            <span>Raffle Address: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.raffle_address}`
+                                                : `/address/${action.info.raffle_address}?cluster=${cluster}`}>{shortenAddress(action.info.raffle_address)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          {/* <div
+                                            className={styles.slippage_param}
+                                          >
                                             <span>Total Tickets: </span>{" "}
                                             {action.info.tickets ??
                                               "--"}
-                                          </div>
-                                          <div
+                                          </div> */}
+                                          {/* <div
                                             className={styles.slippage_param}
                                           >
                                             <span>Ticket Price: </span>{" "}
                                             {action.info.ticket_price ??
                                               "--"}
-                                          </div>
+                                          </div> */}
                                           <div
                                             className={styles.slippage_param}
                                           >

@@ -434,16 +434,14 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           action: "--",
           value: formatNumbers(data.info.ticket_price) ?? "",
           symbol: "",
+          tickets: data.info.tickets ?? "--"
         };
         setRelField(data.info.raffle_token ?? "");
+        setCurrencyField(data.info.currency ?? "");
         //setRelType("NFT");
       }
       else if(data.type === "BUY_TICKETS") {
-        var totalPrice = 0;
-        if(data.info.tickets && data.info.ticket_price)
-          totalPrice = Number(data.info.tickets) * Number(data.info.ticket_price);
-        else
-          totalPrice = data.info.ticket_price ?? "--";
+        
         type_obj = {
           type: "BUY_TICKETS",
           raffle_address: data.info.raffle_address ?? "--",
@@ -453,7 +451,6 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           action: "--",
           value: formatNumbers(data.info.ticket_price) ?? "",
           symbol: "",
-          total_price: formatNumbers(totalPrice.toFixed(3))
         };
         //setRelField(data.info.raffle_address ?? "");
         setCurrencyField(data.info.currency ?? "");
@@ -1955,50 +1952,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
             } else if (varFields.type === "CREATE_RAFFLE") {
               return (
                 <>
-                  <div className="row pt-1">
-                    <div className="col-12 col-md-6">
-                      <div className="d-flex">
-                        <div className="pe-2">
-                          <div className={styles.field_sub_1}>Address</div>
-                        </div>
-                        <div className="pe-1">
-                          <img
-                            src={Raffle_icon}
-                            alt=""
-                            style={{ width: "18px", marginTop: "-2px" }}
-                          />
-                        </div>
-                        <div className="pe-2">
-                          <div className={styles.field_sub_1}>
-                            <Tooltip
-                              content={varFields.raffle_address}
-                              className="generic"
-                              direction="up"
-                              // eventOn="onClick"
-                              // eventOff="onMouseLeave"
-                              useHover={true}
-                              background="#101010"
-                              color="#fefefe"
-                              arrowSize={0}
-                              styles={{ display: "inline" }}
-                            >
-                              <a href={((varFields.raffle_address !== "--")?((cluster === "mainnet-beta"
-                                    ? `/address/${varFields.raffle_address}`
-                                    : `/address/${varFields.raffle_address}?cluster=${cluster}`)):(``))}>
-                                {shortenAddress(varFields.raffle_address) ?? "--"}
-                              </a>
-                            </Tooltip>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className={`text-end ${styles.field_sub_2}`}>
-                        {varFields.value} 
-                        {currency}
-                      </div>
-                    </div>
-                  </div>
+                  
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
                       <div className="d-flex">
@@ -2023,7 +1977,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                         <div className="px-2">
                           <img
-                            src={duration}
+                            src={arrow}
                             alt=""
                             style={{ width: "14px", marginTop: "-2px" }}
                           />
@@ -2048,6 +2002,37 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className="row pt-0">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                              {varFields.tickets}                           
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={Raffle_ticket}
+                            alt=""
+                            style={{ width: "22px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                          at{" "}{varFields.value}{"  "}
+                          {currency} each                   
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    {/* <div className="col-12 col-md-6">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        {varFields.value} 
+                        {currency}
+                      </div>
+                    </div> */}
                   </div>
                 </>
               );
@@ -2094,7 +2079,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     </div>
                     <div className="col-12 col-md-6">
                       <div className={`text-end ${styles.field_sub_2}`}>
-                        {varFields.total_price} {currency}
+                        {varFields.tickets ?? "--"} x {varFields.value} {currency}
                       </div>
                     </div>
                   </div>
