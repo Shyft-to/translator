@@ -660,7 +660,7 @@ export async function getTxnUptoSignature(network, address, uptoSign) {
             
             if (txnReceived[index].signatures?.includes(uptoSign)) {
               txnReceivedComplete = true;
-              console.log("txnMatched At index: ", index, "for", txnReceived[index].signatures[0]);
+              // console.log("txnMatched At index: ", index, "for", txnReceived[index].signatures[0]);
               break;
             } else txnsToAppend.push(txnReceived[index]);
 

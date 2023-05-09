@@ -51,8 +51,11 @@ const TabbedDomains = ({ address, cluster, setDomainsCount }) => {
           <TxnLoader />
         </div>
       )}
+      {isLoading === "false" && domains.length === 0 && (
+        <div className="could_not_text">No Domains Found</div>
+      )}
       {isLoading === "error" && domains.length === 0 && (
-        <div className={styles.could_not_text}>No Domains Found</div>
+        <div className="could_not_text">No Domains Found</div>
       )}
       {isLoading === "false" && domains.length > 0 && (
         <div>

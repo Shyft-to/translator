@@ -27,6 +27,7 @@ import tokenSwap from "../../resources/images/txnImages/token_swap.png";
 import Foxy from "../../resources/images/txnImages/FoxyRaffle.svg";
 import Raffle_ticket from "../../resources/images/txnImages/raffle_ticket.svg";
 import Raffle_icon from "../../resources/images/txnImages/raffle_icon.svg";
+import raffle_winner from "../../resources/images/txnImages/raffle_winner.png";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 import { getNFTData, getTokenData } from "../../utils/getAllData";
@@ -469,8 +470,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: "",
           symbol: "",
         };
-        setName(data.info.raffle_address);
-        setImage(Foxy);
+        setName(data.info.raffle_winner);
+        setImage(raffle_winner);
         //setRelField(data.info.raffle_address ?? "");
         //setCurrencyField(data.info.currency ?? "");
         //setRelType("NFT");
@@ -2092,17 +2093,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
                       <div className="d-flex">
-                        <div className="pe-2">
-                          <div className={styles.field_sub_1}>Winner</div>
-                        </div>
                         <div className="pe-1">
-                          <img
-                            src={royalty_crown}
-                            alt=""
-                            style={{ width: "14px", marginTop: "-2px" }}
-                          />
-                        </div>
-                        <div className="pe-2">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                               content={varFields.to}
@@ -2120,6 +2111,40 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                         ? `/address/${varFields.to}`
                                         : `/address/${varFields.to}?cluster=${cluster}`)}>
                                 {shortenAddress(varFields.to) ?? "--"}
+                              </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        {/* <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div> */}
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            won the raffle
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                              content={varFields.raffle_address}
+                              className="generic"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <a href={(cluster === "mainnet-beta"
+                                        ? `/address/${varFields.raffle_address}`
+                                        : `/address/${varFields.raffle_address}?cluster=${cluster}`)}>
+                                {shortenAddress(varFields.raffle_address) ?? "--"}
                               </a>
                             </Tooltip>
                           </div>

@@ -44,8 +44,8 @@ const AddressComponent = ({popup,setPopUp}) => {
 
     const [protocolName,setProtocolName] = useState("");
 
-    const [tokenCount,setTokensCount] = useState(0);
-    const [domainsCount,setDomainsCount] = useState(0);
+    const [tokenCount,setTokensCount] = useState(-1);
+    const [domainsCount,setDomainsCount] = useState(-1);
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
@@ -351,7 +351,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                             tabSelected("token","add");
                             }}>
                             Tokens
-                            {(tokenCount > 0) && <div className={styles.count_badge}>{tokenCount}</div>}
+                            {(tokenCount > -1) && <div className={styles.count_badge}>{tokenCount}</div>}
                             {(panel === "TKN") ? <div className={styles.underline} /> : ""}
                         </button>}
                         {(contentType === "WALLET") && <button className={(panel === "DOM") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
@@ -359,7 +359,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                             //tabSelected("token","add");
                             }}>
                             Domains
-                            {(domainsCount > 0) &&<div className={styles.count_badge}>{domainsCount}</div>}
+                            {(domainsCount > -1) &&<div className={styles.count_badge}>{domainsCount}</div>}
                             {(panel === "DOM") ? <div className={styles.underline} /> : ""}
                         </button>}
                     </div>
