@@ -718,7 +718,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "CANCEL_LOAN" ? (
                   data.info.lender ? (
                     <a href={`/address/${data.info.lender}?cluster=${cluster}`}>
-                      {data.info.lender}
+                      {shortenAddress(data.info.lender)}
                     </a>
                   ) : (
                     "--"
@@ -754,8 +754,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   ) : (
                     "Protocol Interaction"
                   )
-                ) : ((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE")?(<a href={`/address/${name}?cluster=${cluster}`}>{name}</a>):
-                  (name || relField || "Protocol Interaction")
+                ) : ((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE")?(<a href={`/address/${name}?cluster=${cluster}`}>{shortenAddress(name)}</a>):
+                  (name || shortenAddress(relField) || "Protocol Interaction")
                 )}
               </div>
 
@@ -2161,17 +2161,42 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
                       <div className="d-flex">
-                        <div className="pe-2">
-                          <div className={styles.field_sub_1}>Address</div>
+                      <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                              <Tooltip
+                                content={varFields.to}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <a href={(cluster === "mainnet-beta"
+                                            ? `/address/${varFields.to}`
+                                            : `/address/${varFields.to}?cluster=${cluster}`)}>
+                                  {shortenAddress(varFields.to) ?? "--"}
+                                </a>
+                              </Tooltip>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>claimed</div>
                         </div>
                         <div className="pe-1">
                           <img
-                            src={Raffle_icon}
+                            src={royalty_crown}
                             alt=""
-                            style={{ width: "18px", marginTop: "-2px" }}
+                            style={{ width: "14px", marginTop: "-2px" }}
                           />
                         </div>
-                        <div className="pe-2">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>for raffle</div>
+                        </div>
+                        <div className="pe-1">
                           
                           <div className={styles.field_sub_1}>
                           <Tooltip
@@ -2196,7 +2221,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       </div>
                     </div>
                   </div>
-                  <div className="row pt-1">
+                  {/* <div className="row pt-1">
                     <div className="col-12 col-md-10">
                       <div className="d-flex">
                         <div className="pe-2">
@@ -2233,7 +2258,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </>
               );
             }
