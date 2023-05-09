@@ -413,7 +413,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           swapper: data.info.swapper ?? "--",
           from_image: data.info.tokens_swapped.in.image_uri ?? "",
           to_image: data.info.tokens_swapped.out.image_uri ?? "",
-          slippage_paid: formatNumbers(data.info.slippage_paid) ?? "",
+          slippage_paid: formatNumbers(data.info.slippage_paid.toFixed(7)) ?? "",
           token: "--",
           action: "--",
           value: "",
@@ -1942,7 +1942,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             styles={{ display: "inline" }}
                         >
                             {varFields.slippage_paid !== ""
-                              ? varFields.slippage_paid.toFixed(7)
+                              ? varFields.slippage_paid
                               : ""}
                             </Tooltip>
                           </div>
