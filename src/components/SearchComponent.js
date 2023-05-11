@@ -6,8 +6,12 @@ import { motion } from "framer-motion";
 
 import styles from "../resources/css/SearchComponent.module.css";
 import { getAddressfromDomain } from "../utils/getAllData";
+import PopupView from "../PopupView";
+import OpenPopup from "../OpenPopup";
 
-const SearchComponent = () => {
+import infoIcon from "../resources/images/info.svg";
+
+const SearchComponent = ({popup,setPopUp}) => {
   // const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState("mainnet-beta");
@@ -128,15 +132,26 @@ const SearchComponent = () => {
   }
   return (
     <motion.div className={styles.header_search_area} initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }}>
+      {/* <OpenPopup setPopUp={setPopUp}/> */}
+      {popup && <PopupView setPopUp={setPopUp} />}
+      
       <div className={styles.header_search_area_inner}>
-        <div className="container-xl">
-        <div className="row p-0" >
-          <div className="col-12 col-lg-2 p-0">
-            <div className="logo_container pt-3 text-center text-lg-start">
-              <a href={`/`}>Translator</a>
+        <div className="container-fluid">
+        <div className="d-flex flex-wrap justify-content-between p-0">
+          <div className="px-2">
+            <div className="d-flex justify-content-start">
+              <div className="logo_container pt-3 text-center text-lg-start">
+                <a href={`/`}>Translator</a>
+                <button className={styles.about_shyft_button_mobile} onClick={() => setPopUp(true)}>
+                  <img src={infoIcon} />
+                </button>
+              </div>
+              
             </div>
+            
           </div>
-          <div className="col-12 col-lg-10">
+          
+          <div className="flex-fill">
             <motion.div className={styles.form_container}>
               <div className={styles.search_n_suggestions} >
                 <div className={styles.form_field_outer}>
@@ -209,7 +224,11 @@ const SearchComponent = () => {
               </div>
             </motion.div>
           </div>
-          <div className="col-12 col-lg-2"></div>
+          <div className="logo_area">
+              <button className={styles.about_shyft_button} onClick={() => setPopUp(true)}>
+                <img src={infoIcon} />
+              </button>
+          </div>
         </div>
         </div>
       </div>

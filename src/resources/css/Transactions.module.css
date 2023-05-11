@@ -220,7 +220,7 @@
 .each_txn_2 .dynamic_field
 {
     font: 400 14px/14px "Montserrat",sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     padding: 4px 0px;
     color: #FFFA;
 }
@@ -232,7 +232,7 @@
 .each_txn_2 .dynamic_field_2
 {
     font: 400 16px/16px "Montserrat",sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     padding: 14px 0px;
     color: #FFFFFF;
 }
@@ -447,6 +447,11 @@
         padding: 6px 20px 20px 0px;
         color: #FFFFFF99;
     }
+    .each_txn_3 .txn_signature
+    {
+        
+        margin-top: 0px;
+    }
 }
 .each_txn_3 .dynamic_field
 {
@@ -468,7 +473,7 @@
 .each_txn_3 .dynamic_field_2
 {
     font: 400 16px/16px "Montserrat",sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     padding: 14px 0px;
     color: #FFFFFF;
 }
@@ -643,7 +648,7 @@
 {
     font: 300 16px/20px "Poppins",sans-serif;
     color: #FFF3;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 @media screen and (max-width: 767px) {
     .sub_txns .thumb_container

@@ -1,5 +1,5 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
 
@@ -18,7 +18,7 @@
     padding-bottom: 30px;
     font: 700 32px "Montserrat",sans-serif;
     color: #fff;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 @media screen and (max-width: 767px) {
     .single_txn_page .main_heading
@@ -26,7 +26,7 @@
         padding-bottom: 30px;
         font: 700 22px "Montserrat",sans-serif;
         color: #fff;
-        letter-spacing: 0px;
+        /* letter-spacing: 0px; */
     }
 }
 .single_txn_page .token_name
@@ -103,14 +103,14 @@
     font: 200 16px "Plus Jakarta Sans",sans-serif;
     color: #fff; 
     padding-bottom: 8px;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 .single_txn_page .each_row .row_value
 {
     font: 500 16px "Plus Jakarta Sans",sans-serif;
     color: #fff; 
     padding-bottom: 8px;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 .single_txn_page .each_row .row_value a
 {
@@ -132,7 +132,7 @@
 .single_txn_page .failed_text
 {
     padding: 2px 0px 0px 8px;
-    font: 600 16px "Plus Jakarta Sans",sans-serif;
+    font: 800 16px "Plus Jakarta Sans",sans-serif;
     color: #e25b5b;
 }
 .single_txn_page .body_title
@@ -154,7 +154,7 @@
     border-radius: 12px;
     font: 200 16px "Plus Jakarta Sans",sans-serif;
     color: #fff;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     margin-bottom: 20px;
 }
 .tab_container
@@ -198,7 +198,7 @@
 .underline
 {
   position: absolute;
-  bottom: -1px;
+  bottom: -2px;
   left: 0;
   right: 0;
   height: 2px;
@@ -219,22 +219,25 @@
     border-radius: 12px;
     font: 200 14px "Plus Jakarta Sans",sans-serif;
     color: #fff;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 .single_txn_page .hide_button
 {
     border-radius: 25px;
     padding: 8px 24px;
-    margin-top: 4px;
     border: none;
     outline: none;
     background-color: transparent;
     font: 400 14px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    color: #fffc;
 }
-.single_txn_page .hide_button span
+.single_txn_page .hide_button div
 {
+    display: inline-block;
+    font-size: 16px;
     color: #FDF41B;
+    padding: 0px 2px 6px 2px;
+    transition: all 0.3s ease;
 }
 .single_txn_page .hide_details_container
 {
@@ -370,7 +373,7 @@
 .each_txn_3 .dynamic_field_2
 {
     font: 400 16px/16px "Montserrat",sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     padding: 14px 0px;
     color: #FFFFFF;
 }
@@ -520,13 +523,13 @@
 {
     width: 38px;
     height: 38px;
-    
+    border-radius: 20px;
 }
 .could_not_text
 {
     font: 300 16px/20px "Poppins",sans-serif;
     color: #FFF3;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 @media screen and (max-width: 767px) {
     .sub_txns .thumb_container
@@ -638,4 +641,40 @@
     font: 600 14px/18px "Plus Jakarta Sans",sans-serif;
     color: #fffa;
     padding-right: 10px;
+}
+.slippage_params
+{
+    padding: 12px 0px 16px 2px;
+}
+.slippage_param
+{
+    font: 600 13px/24px "Plus Jakarta Sans",sans-serif;
+    color: #fffe;
+    padding-right: 16px;
+}
+ .slippage_param span
+{
+    font: 400 13px/24px "Plus Jakarta Sans",sans-serif;
+    color: #fffa;
+}
+@media screen and (max-width: 767px) {
+    .slippage_params
+    {
+        padding: 16px 24px 16px;
+    }
+}
+.expand_button
+{
+    position: absolute;
+    z-index: 10;
+    margin-top: 12px;
+    margin-left: auto;
+    right: 0px;
+    padding: 0px 0px;
+    line-height: 10px;
+    color: #3C1B67;
+    background-color: #E0499B;
+    border: none;
+    outline: none;
+    box-shadow: none;
 }

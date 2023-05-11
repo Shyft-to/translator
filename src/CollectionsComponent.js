@@ -12,8 +12,12 @@ import SearchComponent from "./components/SearchComponent";
 import EachNft from "./components/EachNft";
 import SearchTokens from "./components/SearchTokens";
 import SearchEachNft from "./components/SearchedEachNft";
+import ClickToTop from "./ClickToTop";
+import PopupView from "./PopupView";
+import LongSearchCards from "./components/LongSearchCards";
+import OpenPopup from "./OpenPopup";
 
-const CollectionsComponent = () => {
+const CollectionsComponent = ({popup,setPopUp}) => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -79,10 +83,14 @@ const CollectionsComponent = () => {
 
     return (
         <div>
+            
+            <ClickToTop />
+            {/* <OpenPopup setPopUp={setPopUp}/>
+            {popup && <PopupView setPopUp={setPopUp} />} */}
             <div className="background_super">
 
                 <div className="container pt-2 pb-1">
-                    <SearchComponent />
+                    <SearchComponent popup={popup} setPopUp={setPopUp} />
 
                 </div>
                 {isLoading &&
@@ -120,6 +128,7 @@ const CollectionsComponent = () => {
                                             <div className="d-flex flex-wrap justify-content-start">
                                                 {allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).map((nft,index) => (
                                                     <SearchEachNft nft={nft} cluster={cluster} key={index} />
+                                                    // <LongSearchCards />
                                                 ))}
                                             </div>
                                             {(searchTerm !== "" && allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm?.toLowerCase())).length === 0) && <div className="text-center">

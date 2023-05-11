@@ -131,7 +131,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: 2px;
+    /* letter-spacing: 2px; */
     width: auto;
     display: inline;
 }

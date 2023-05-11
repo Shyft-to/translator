@@ -4,6 +4,7 @@
     margin: 0 auto;
     width: 100%;
     max-width: 900px;
+    padding-top: 8px;
 }
 .nft_all_section .main_heading
 {
@@ -34,6 +35,10 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-left: 10px;
+}
+.test_margin
+{
+    margin-right: 8px;
 }
 
 
@@ -189,7 +194,7 @@
     height: 40px;
     background: radial-gradient(41.93% 45% at 48.75% 48.75%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1855) 44.44%, rgba(255, 255, 255, 0.35) 100%);
     position: absolute;
-    left: -40px;
+    left: -56px;
     top: 38%;
     border-radius: 20px;
     font-size: 50px;
@@ -204,7 +209,7 @@
     height: 40px;
     background: radial-gradient(41.93% 45% at 48.75% 48.75%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1855) 44.44%, rgba(255, 255, 255, 0.35) 100%);
     position: absolute;
-    right: -40px;
+    right: -56px;
     top: 38%;
     border-radius: 20px;
     font-size: 50px;
@@ -212,4 +217,15 @@
     color: #FDF41B;
     padding: 0px 0px 20px;
     border: none;
+}
+
+@media screen and (max-width: 767px) {
+    .nav_class_color_left
+    {
+        left: -8px;
+    }
+    .nav_class_color_right
+    {
+        right: -8px;
+    }
 }

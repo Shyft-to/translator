@@ -10,22 +10,22 @@ import copyBtn from "../../resources/images/txnImages/copy_icon.svg";
 
 import { shortenAddress } from "../../utils/formatter";
 const SwapsSubTxn = ({ swap_action, cluster }) => {
-    const [copy,setCopied] = useState("Copy");
-    const copyValue = (value, link = false) => {
-        if (link === false) {
-          navigator.clipboard.writeText(value);
-          setCopied("Copied");
-          setTimeout(() => {
-            setCopied("Copy");
-          }, 800);
-        } else {
-          navigator.clipboard.writeText(value);
-        //   setCopyLink("Copied");
-        //   setTimeout(() => {
-        //     setCopyLink("Copy Link");
-        //   }, 800);
-        }
-      };
+  const [copy, setCopied] = useState("Copy");
+  const copyValue = (value, link = false) => {
+    if (link === false) {
+      navigator.clipboard.writeText(value);
+      setCopied("Copied");
+      setTimeout(() => {
+        setCopied("Copy");
+      }, 800);
+    } else {
+      navigator.clipboard.writeText(value);
+      //   setCopyLink("Copied");
+      //   setTimeout(() => {
+      //     setCopyLink("Copy Link");
+      //   }, 800);
+    }
+  };
   return (
     <div>
       <div className={styles.swaps_container}>
@@ -33,7 +33,7 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
           <div className="pe-1">
             <div className={styles.swaps_main_image}>
               <img
-                src={swap_action.in.image_uri}
+                src={swap_action.in?.image_uri ?? noImage}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null; // prevents looping
                   currentTarget.src = noImage;
@@ -49,19 +49,19 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
                   <div className="pe-2">
                     <div className={styles.field_sub_swap}>
                       <div className={styles.field_bottom}>
-                        {swap_action.in.amount}
+                        {swap_action.in?.amount}
                       </div>
                       <div className={styles.field_top}>
                         <a
                           href={
                             cluster === "mainnet-beta"
-                              ? `/address/${swap_action.in.token_address}`
-                              : `/address/${swap_action.in.token_address}?cluster=${cluster}`
+                              ? `/address/${swap_action.in?.token_address}`
+                              : `/address/${swap_action.in?.token_address}?cluster=${cluster}`
                           }
                           style={{ textDecoration: "none" }}
                         >
-                          {swap_action.in.symbol ||
-                            shortenAddress(swap_action.in.token_address)}
+                          {swap_action.in?.symbol ||
+                            shortenAddress(swap_action.in?.token_address)}
                         </a>
                       </div>
                     </div>
@@ -76,7 +76,7 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
                   <div>
                     <div className={styles.swaps_second_image}>
                       <img
-                        src={swap_action.out.image_uri}
+                        src={swap_action.out?.image_uri ?? noImage}
                         onError={({ currentTarget }) => {
                           currentTarget.onerror = null; // prevents looping
                           currentTarget.src = noImage;
@@ -88,19 +88,19 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
                   <div className="pe-2">
                     <div className={styles.field_sub_swap}>
                       <div className={styles.field_bottom}>
-                        {swap_action.out.amount}
+                        {swap_action.out?.amount}
                       </div>
                       <div className={styles.field_top}>
                         <a
                           href={
                             cluster === "mainnet-beta"
-                              ? `/address/${swap_action.out.token_address}`
-                              : `/address/${swap_action.out.token_address}?cluster=${cluster}`
+                              ? `/address/${swap_action.out?.token_address}`
+                              : `/address/${swap_action.out?.token_address}?cluster=${cluster}`
                           }
                           style={{ textDecoration: "none" }}
                         >
-                          {swap_action.out.symbol ||
-                            shortenAddress(swap_action.out.token_address)}
+                          {swap_action.out?.symbol ||
+                            shortenAddress(swap_action.out?.token_address)}
                         </a>
                       </div>
 
@@ -110,7 +110,9 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className={`pe-2 text-start text-md-end ${styles.swaps_source}`}>
+                <div
+                  className={`pe-2 text-start text-md-end ${styles.swaps_source}`}
+                >
                   {shortenAddress(swap_action.liquidity_pool_address ?? "")}
                 </div>
               </div>
@@ -123,24 +125,26 @@ const SwapsSubTxn = ({ swap_action, cluster }) => {
                       {swap_action.source ?? ""}
                     </Link>
                     <Tooltip
-                        content={copy}
-                        className="inline_tooltip"
-                        direction="up"
-                        // eventOn="onClick"
-                        // eventOff="onMouseLeave"
-                        useHover={true}
-                        background="#101010"
-                        color="#fefefe"
-                        arrowSize={0}
+                      content={copy}
+                      className="inline_tooltip"
+                      direction="up"
+                      // eventOn="onClick"
+                      // eventOff="onMouseLeave"
+                      useHover={true}
+                      background="#101010"
+                      color="#fefefe"
+                      arrowSize={0}
                     >
-                        <button className={styles.inline_copy}>
+                      <button className={styles.inline_copy}>
                         <img
-                            src={copyBtn}
-                            alt="Copy"
-                            onClick={() => copyValue(swap_action.liquidity_pool_address)}
+                          src={copyBtn}
+                          alt="Copy"
+                          onClick={() =>
+                            copyValue(swap_action.liquidity_pool_address)
+                          }
                         />
-                        </button>
-                        &nbsp;&nbsp;
+                      </button>
+                      &nbsp;&nbsp;
                     </Tooltip>
                   </span>
                 </div>

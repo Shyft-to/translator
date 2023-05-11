@@ -3,10 +3,10 @@ import { FaSearch } from "react-icons/fa";
 import styles from "../resources/css/SearchComponent.module.css";
 
 
-const SearchTokens = ({ searchTerm, setSearchTerm, placeholder,reverse,highlight }) => {
+const SearchTokensHome = ({ searchTerm, setSearchTerm, placeholder,reverse,highlight }) => {
 
   return (
-    <div className={(highlight)?`${styles.token_search_container} ${styles.token_search_container_highlight}`:`${styles.token_search_container}`}>
+    <div className={(highlight)?`${styles.token_search_container_2} ${styles.token_search_container_highlight}`:`${styles.token_search_container_2}`}>
       
       <div className={(reverse)?"d-flex flex-row-reverse justify-content-between":"d-flex justify-content-between"}>
         <div className="flex-grow-1">
@@ -33,4 +33,4 @@ const SearchTokens = ({ searchTerm, setSearchTerm, placeholder,reverse,highlight
   );
 };
 
-export default SearchTokens;
+export default SearchTokensHome;

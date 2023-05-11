@@ -2,16 +2,21 @@ import moment from "moment";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 export function shortenAddress(address) {
-    var trimmedString = "";
-    if (address === "")
-        return "unknown";
-    if (address != null || address.length > 16) {
-        trimmedString = (address.substring(0, 8) + "..." + address.substring(address.length - 5));
+    try {
+        var trimmedString = "";
+        if (address === "")
+            return "unknown";
+        if (address != null || address.length > 16) {
+            trimmedString = (address.substring(0, 8) + "..." + address.substring(address.length - 5));
+        }
+        else {
+            trimmedString = address ?? "";
+        }
+        return trimmedString;    
+    } catch (error) {
+        return address;
     }
-    else {
-        trimmedString = address ?? "";
-    }
-    return trimmedString;
+    
 }
 
 export function getRelativetime(ISOString) {

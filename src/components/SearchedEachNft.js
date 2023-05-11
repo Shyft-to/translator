@@ -7,6 +7,8 @@ import { useInView } from "react-intersection-observer";
 import styles from "../resources/css/CollectionRow.module.css";
 import noImage from "../resources/images/no_image.png";
 import ok_bear from "../resources/images/ok_bear.png";
+// import test from "../resources/images/test.png";
+
 
 import { getNFTData } from "../utils/getAllData";
 
@@ -14,6 +16,7 @@ const SearchEachNft = ({nft,cluster}) => {
     
     const [image, setImage] = useState(ok_bear);
     const [loadedOnce, setLoadedOnce] = useState(false);
+    const { ref, inView } = useInView();
     // const [attributes, setAttributes] = useState([]);
     // const [msg, setMsg] = useState("None");
 
@@ -48,8 +51,8 @@ const SearchEachNft = ({nft,cluster}) => {
               <motion.div className={styles.nft_container} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
                 
                 <a href={(cluster === "mainnet-beta")?`/address/${nft.mint}`:`/address/${nft.mint}?cluster=${cluster}`}>
-                  <div className={styles.image_container}>
-                    <img src={image} alt="nft" 
+                  <div ref={ref} className={styles.image_container}>
+                    <img src={(inView)?image:ok_bear} alt="nft" 
                     onError={({ currentTarget }) => {
                       currentTarget.onerror = null; // prevents looping
                       // currentTarget.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5QUWaw3pkrAkI5OiokGFHvcvSWynIabHycdj_iwr4SLlOYw_1mL2ZpKe6db3puUZLp_s&usqp=CAU";

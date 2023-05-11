@@ -19,9 +19,12 @@ import SearchComponent from "./components/SearchComponent";
 import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
 import SimpleLoader from "./components/loaders/SimpleLoader";
 import WalletIcon from "./resources/images/wallet_icon.svg";
+import ClickToTop from "./ClickToTop";
+// import PopupView from "./PopupView";
+// import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
 
-const AddressComponent = () => {
+const AddressComponent = ({popup,setPopUp}) => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -139,14 +142,18 @@ const AddressComponent = () => {
 
     return (
         <div>
+            <ClickToTop />
+            {/* <OpenPopup setPopUp={setPopUp}/>
+            {popup && <PopupView setPopUp={setPopUp} />} */}
+            
             {/* <HeaderComponent /> */}
             <div className={styles.background_super}>
 
                 <div className="container pt-2 pb-1">
-                    <SearchComponent />
+                    <SearchComponent popup={popup} setPopUp={setPopUp} />
                 </div>
                 {isLoading &&
-                    <div className="container-lg pt-3">
+                    <div className="container-lg pt-4 pt-md-5 pt-xl-3">
                         <SimpleLoader />
                     </div>
                 }
@@ -182,26 +189,7 @@ const AddressComponent = () => {
                                                         {shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
-                                                {/* <div>
-
-                                                    <Tooltip
-                                                        content={copied}
-                                                        className="myTarget"
-                                                        direction="up"
-                                                        // eventOn="onClick"
-                                                        // eventOff="onMouseLeave"
-                                                        useHover={true}
-                                                        background="#101010"
-                                                        color="#fefefe"
-                                                        arrowSize={5}
-
-                                                    >
-                                                        <button className={styles.copy_button} onClick={() => copyValue(addr)}>
-                                                            <img src={copyIcon} alt="Copy Image" />
-                                                        </button>
-                                                    </Tooltip>
-
-                                                </div> */}
+                                                
                                                 <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
                                                     <Tooltip
                                                             content={copyLink}
@@ -225,9 +213,12 @@ const AddressComponent = () => {
                                     </div>
                                     <div className="col-6 col-lg-6">
                                         <div className="d-flex flex-wrap justify-content-end">
-                                            <div>
+                                            <div 
+                                                //className="border border-light" 
+                                                style={{width:"200px",overflow:"hidden",overflowWrap:"normal"}}
+                                            >
                                                 <div className={styles.wallet_balance_indicator}>
-                                                    {data.balance} SOL
+                                                    {data.balance?.toFixed(8)}&nbsp;SOL
                                                 </div>
                                             </div>
                                             <div className="ps-2">
@@ -257,10 +248,7 @@ const AddressComponent = () => {
                                     </div>
                                 </div>
                             </motion.div>
-                            {/* <div className="pt-5">
-                        <AllTokens tokens={data.tokens} address={addr} network={cluster} />
-                    </div> */}
-                            <div className="pt-4">
+                            <div className={styles.collections_cara_cont}>
                                 <AllNfts collections={data.collections} address={addr} network={cluster} />
                             </div>
 

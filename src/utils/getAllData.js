@@ -7,7 +7,9 @@ const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
 const rpc = process.env.REACT_APP_RPC_MAINNET ?? "";
 const cachingEnabled = process.env.REACT_APP_CACHE_ENABLE ?? "";
-const cacheRefreshAfterMins = Number(process.env.REACT_APP_REFRESH_AFTER_MINS ?? 0);
+const cacheRefreshAfterMins = Number(
+  process.env.REACT_APP_REFRESH_AFTER_MINS ?? 0
+);
 
 export async function getNFTData(network, address) {
   var data = {
@@ -20,10 +22,9 @@ export async function getNFTData(network, address) {
     data = {
       success: true,
       type: "NFT",
-      details: ifCached.details
+      details: ifCached.details,
     };
-  }
-  else {
+  } else {
     await axios({
       url: `${endpoint}nft/read`,
       method: "GET",
@@ -67,8 +68,7 @@ export async function getTokenData(network, address) {
       type: "TOKEN",
       details: ifCached.details,
     };
-  }
-  else {
+  } else {
     await axios({
       url: `${endpoint}token/get_info`,
       method: "GET",
@@ -83,12 +83,21 @@ export async function getTokenData(network, address) {
     })
       .then((res) => {
         if (res.data.success === true) {
+          var detailsToReturn = {};
+          if(res.data.image.includes("ray-initiative.gift"))
+          {
+            detailsToReturn = {...res.data.result,image:""}
+          }
+          else
+          {
+            detailsToReturn = res.data.result;
+          }
           data = {
             success: true,
             type: "TOKEN",
-            details: res.data.result,
+            details: detailsToReturn,
           };
-          pushDatatoCache(network, res.data.result, res.data.result.address);
+          pushDatatoCache(network, detailsToReturn, res.data.result.address);
         }
       })
       .catch((err) => {
@@ -214,15 +223,13 @@ export async function getWalletData(network, address) {
         type: "UNKNOWN",
         details: details,
       };
-    }
-    else {
+    } else {
       data = {
         success: true,
         type: "WALLET",
         details: details,
       };
     }
-
 
     return data;
   } catch (error) {
@@ -260,7 +267,7 @@ export async function getProtocolData(network, address) {
             success: true,
             type: "PROTOCOL",
             details: {
-              balance: res.data.result.balance ?? 0
+              balance: res.data.result.balance ?? 0,
             },
           };
         }
@@ -274,7 +281,6 @@ export async function getProtocolData(network, address) {
         };
       });
 
-    
     // if (Object.keys(details).length === 0) {
     //   data = {
     //     success: false,
@@ -289,7 +295,6 @@ export async function getProtocolData(network, address) {
     //     details: details,
     //   };
     // }
-
 
     return data;
   } catch (error) {
@@ -364,7 +369,6 @@ export async function getIfTokenData(network, address) {
               details: res.data.result,
             };
           }
-
         }
       })
       .catch((err) => {
@@ -379,7 +383,6 @@ export async function getIfTokenData(network, address) {
       details: null,
     };
   }
-
 }
 
 export async function categorizeAddress(network, address) {
@@ -396,8 +399,7 @@ export async function categorizeAddress(network, address) {
         type: "TOKEN",
         details: tokenCheck.details,
       };
-    }
-    else {
+    } else {
       const nftCheck = await getNFTData(network, address);
       if (nftCheck.type === "NFT") {
         data = {
@@ -420,10 +422,8 @@ export async function categorizeAddress(network, address) {
             details: null,
           };
         }
-
       }
     }
-
 
     return data;
   } catch (err) {
@@ -447,42 +447,37 @@ export async function categorizeAddresswithExplorer(network, address) {
       response = {
         success: protocolData.success,
         type: protocolData.type,
-        details: protocolData.details
-      }
-    }
-    else if (data.addressType === "WALLET") {
+        details: protocolData.details,
+      };
+    } else if (data.addressType === "WALLET") {
       const walletData = await getWalletData(network, address);
       response = {
         success: walletData.success,
         type: walletData.type,
         details: walletData.details,
       };
-    }
-    else if (data.addressType === "NFT") {
+    } else if (data.addressType === "NFT") {
       const nftData = await getNFTData(network, address);
       response = {
         success: nftData.success,
         type: nftData.type,
         details: nftData.details,
       };
-    }
-    else if (data.addressType === "TOKEN") {
+    } else if (data.addressType === "TOKEN") {
       const tokenData = await getIfTokenData(network, address);
       response = {
         success: tokenData.success,
         type: tokenData.type,
         details: tokenData.details,
       };
-    }
-    else if (data.addressType === "CHECKCATEGORYOLD") {
-      const categorizedData = await categorizeAddress(network, address)
+    } else if (data.addressType === "CHECKCATEGORYOLD") {
+      const categorizedData = await categorizeAddress(network, address);
       response = {
         success: categorizedData.success,
         type: categorizedData.type,
         details: categorizedData.details,
       };
-    }
-    else {
+    } else {
       response = {
         success: false,
         type: "UNKNOWN",
@@ -501,31 +496,27 @@ export async function knowAddressType(network, address) {
   try {
     let reqUrl = "";
     let typeObj = {
-      addressType: "UNKNOWN"
-    }
+      addressType: "UNKNOWN",
+    };
     if (network === "testnet") {
       reqUrl = "https://explorer-api.testnet.solana.com/";
-    }
-    else if (network === "devnet") {
+    } else if (network === "devnet") {
       reqUrl = "https://explorer-api.devnet.solana.com/";
-    }
-    else {
+    } else {
       reqUrl = rpc;
     }
     let data = JSON.stringify({
-      "method": "getMultipleAccounts",
-      "jsonrpc": "2.0",
-      "params": [
-        [
-          address
-        ],
+      method: "getMultipleAccounts",
+      jsonrpc: "2.0",
+      params: [
+        [address],
         {
-          "encoding": "jsonParsed",
-          "commitment": "confirmed"
-        }
+          encoding: "jsonParsed",
+          commitment: "confirmed",
+        },
       ],
       // "id": "cad88acb-2e1a-4fb4-a40b-cf632fd3c683"
-      "id": ""
+      id: "",
     });
 
     await axios({
@@ -535,83 +526,180 @@ export async function knowAddressType(network, address) {
       headers: {
         "Content-Type": "application/json",
         // "authority": reqUrl,
-        // "origin": "https://explorer.solana.com", 
+        // "origin": "https://explorer.solana.com",
         // "referer": "https://explorer.solana.com/",
       },
-      data: data
+      data: data,
     })
       .then((res) => {
-
         if (Array.isArray(res.data.result.value)) {
           let valueReceived = res.data.result.value[0];
           if (valueReceived === null) {
             typeObj = {
-              addressType: "CHECKCATEGORYOLD"
-            }
-          }
-          else {
+              addressType: "CHECKCATEGORYOLD",
+            };
+          } else {
             if (valueReceived.executable === true) {
               typeObj = {
-                addressType: "PROTOCOL"
-              }
-            }
-            else {
-
+                addressType: "PROTOCOL",
+              };
+            } else {
               if (valueReceived.owner === "11111111111111111111111111111111") {
                 typeObj = {
-                  addressType: "WALLET"
-                }
-              }
-              else if (valueReceived.data.program === "spl-token") {
-
+                  addressType: "WALLET",
+                };
+              } else if (valueReceived.data.program === "spl-token") {
                 if (valueReceived.data.parsed.info.decimals === 0) {
                   typeObj = {
-                    addressType: "NFT"
-                  }
-                }
-                else if (valueReceived.data.parsed.info.decimals > 0) {
+                    addressType: "NFT",
+                  };
+                } else if (valueReceived.data.parsed.info.decimals > 0) {
                   typeObj = {
-                    addressType: "TOKEN"
-                  }
-                }
-                else {
+                    addressType: "TOKEN",
+                  };
+                } else {
                   typeObj = {
-                    addressType: "UNKNOWN"
-                  }
+                    addressType: "UNKNOWN",
+                  };
                 }
-              }
-              else {
+              } else {
                 typeObj = {
-                  addressType: "UNKNOWN"
-                }
+                  addressType: "UNKNOWN",
+                };
               }
             }
           }
-        }
-        else {
+        } else {
           typeObj = {
-            addressType: "UNKNOWN"
-          }
+            addressType: "UNKNOWN",
+          };
         }
-
       })
       .catch((err) => {
         console.warn(err);
         typeObj = {
-          addressType: "UNKNOWN"
-        }
+          addressType: "UNKNOWN",
+        };
       });
 
     return typeObj;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
-      addressType: "UNKNOWN"
+      addressType: "UNKNOWN",
     };
   }
 }
-export async function getAddressfromDomain(domainName) {
+export async function getTxns(network,accountAddress,beforeTxnSignature = "") {
+  var response = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  try {
+    var params = {
+      network: network,
+      account: accountAddress,
+    };
+    if (beforeTxnSignature !== "") {
+      params = {
+        ...params,
+        before_tx_signature: beforeTxnSignature,
+      };
+    }
+    await axios({
+      url: `${endpoint}transaction/history`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: params,
+    })
+      .then((res) => {
+        if (res.data.success === true) {
+          const txnsReceived = res.data.result;
+          response = {
+            success: true,
+            type: "TXNS",
+            details: txnsReceived,
+          };
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+    return response;
+  } catch (error) {
+    console.warn(error);
+    return response;
+  }
+}
 
+export async function getTxnUptoSignature(network, address, uptoSign) {
+  var response = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  try {
+    var txnReceivedComplete = false;
+    var beforeTxSignature = "";
+    var allTxns = [];
+    var counter = 0;
+    while (txnReceivedComplete === false) {
+      
+      const txnsFetch = await getTxns(network, address, beforeTxSignature);
+      
+        if (txnsFetch.success === true) {
+          var txnReceived = txnsFetch.details;
+          beforeTxSignature = txnReceived[txnReceived.length - 1].signatures[0];
+          var txnsToAppend = [];
+
+          for (let index = 0; index < txnReceived.length; index++) {
+            
+            if (txnReceived[index].signatures?.includes(uptoSign)) {
+              txnReceivedComplete = true;
+              console.log("txnMatched At index: ", index, "for", txnReceived[index].signatures[0]);
+              break;
+            } else txnsToAppend.push(txnReceived[index]);
+
+          }
+          allTxns = [...allTxns, ...txnsToAppend];
+        }
+        
+      counter++;
+      if (counter > 5 || txnReceivedComplete === true)
+        break;
+      
+    }
+    
+    response = {
+      success: true,
+      type: "TXNS",
+      details: allTxns
+    }
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    return response;
+  }
+}
+export async function getRawTxn(network, txnAddress) {
+  var response = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  try {
+  } catch (error) {
+    console.warn(error);
+    return response;
+  }
+}
+
+export async function getAddressfromDomain(domainName) {
   try {
     const { pubkey } = await getDomainKeySync(domainName);
     //const rpcUrl = clusterApiUrl(network);
@@ -619,24 +707,24 @@ export async function getAddressfromDomain(domainName) {
     if (!connection) {
       return {
         success: false,
-        wallet_address: ""
-      }
-    }
-    else {
-      const owner = (await NameRegistryState.retrieve(connection, pubkey)).registry.owner.toBase58();
+        wallet_address: "",
+      };
+    } else {
+      const owner = (
+        await NameRegistryState.retrieve(connection, pubkey)
+      ).registry.owner.toBase58();
       return {
         success: true,
-        wallet_address: owner
-      }
+        wallet_address: owner,
+      };
     }
   } catch (error) {
     return {
       success: false,
-      wallet_address: ""
-    }
+      wallet_address: "",
+    };
   }
   // const domainName = "bonfida";
-
 }
 
 export async function pushDatatoCache(network, data, key) {
@@ -645,35 +733,29 @@ export async function pushDatatoCache(network, data, key) {
       let cachedData;
       if (network === "mainnet-beta") {
         cachedData = localStorage.getItem("mainData");
-      }
-      else if (network === "devnet") {
+      } else if (network === "devnet") {
         cachedData = localStorage.getItem("devData");
-      }
-      else {
+      } else {
         cachedData = localStorage.getItem("testData");
       }
 
       if (cachedData) {
-
         let dataSet = new Map(JSON.parse(cachedData));
         dataSet.set(key, JSON.stringify(data));
 
         // console.log(JSON.stringify(Array.from(dataSet.entries())));
-        const valueToStore = JSON.stringify(Array.from(dataSet.entries()))
+        const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
 
         if (network === "mainnet-beta") {
           localStorage.setItem("mainData", valueToStore);
-        }
-        else if (network === "devnet") {
+        } else if (network === "devnet") {
           localStorage.setItem("devData", valueToStore);
-        }
-        else {
+        } else {
           localStorage.setItem("testData", valueToStore);
         }
 
         return true;
-      }
-      else {
+      } else {
         let dataSet = new Map();
         dataSet.set(key, JSON.stringify(data));
         // console.log(":new");
@@ -681,26 +763,21 @@ export async function pushDatatoCache(network, data, key) {
         const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
         if (network === "mainnet-beta") {
           localStorage.setItem("mainData", valueToStore);
-        }
-        else if (network === "devnet") {
+        } else if (network === "devnet") {
           localStorage.setItem("devData", valueToStore);
-        }
-        else {
+        } else {
           localStorage.setItem("testData", valueToStore);
         }
 
         return true;
       }
-    }
-    else {
+    } else {
       return false;
     }
-
   } catch (error) {
     console.log("Could not save NFT data");
     return false;
   }
-
 }
 export async function getCacheData(network, address) {
   var data = {
@@ -712,11 +789,9 @@ export async function getCacheData(network, address) {
       let dataFromMem;
       if (network === "mainnet-beta") {
         dataFromMem = localStorage.getItem("mainData");
-      }
-      else if (network === "devnet") {
+      } else if (network === "devnet") {
         dataFromMem = localStorage.getItem("devData");
-      }
-      else {
+      } else {
         dataFromMem = localStorage.getItem("testData");
       }
 
@@ -726,11 +801,10 @@ export async function getCacheData(network, address) {
         if (token) {
           data = {
             success: true,
-            details: JSON.parse(token)
-          }
+            details: JSON.parse(token),
+          };
         }
-      }
-      else {
+      } else {
         data = {
           success: false,
           details: null,
@@ -745,12 +819,15 @@ export async function getCacheData(network, address) {
 }
 export async function clearIfOutdated() {
   try {
-    if(cachingEnabled === "true" && cacheRefreshAfterMins > 0)
-    {
+    if (cachingEnabled === "true" && cacheRefreshAfterMins > 0) {
       const lastCachedTime = localStorage.getItem("lastcatime");
       const timeNow = new Date().toISOString();
       if (lastCachedTime) {
-        const timeDiff = moment(timeNow).diff(moment(lastCachedTime), 'minutes', true);
+        const timeDiff = moment(timeNow).diff(
+          moment(lastCachedTime),
+          "minutes",
+          true
+        );
         if (timeDiff > cacheRefreshAfterMins) {
           localStorage.setItem("mainData", "");
           localStorage.setItem("devData", "");
@@ -758,23 +835,15 @@ export async function clearIfOutdated() {
           localStorage.setItem("lastcatime", timeNow);
           console.log("All cached data cleared");
           return true;
-        }
-        else
-          return false;
-  
-      }
-      else {
+        } else return false;
+      } else {
         localStorage.setItem("lastcatime", timeNow);
         return false;
       }
-    }
-    else
-    {
+    } else {
       return false;
     }
-    
   } catch (error) {
     return false;
   }
-
 }

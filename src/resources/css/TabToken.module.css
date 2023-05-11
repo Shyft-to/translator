@@ -113,7 +113,7 @@
 {
     font: 300 16px/20px "Poppins",sans-serif;
     color: #FFF3;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     text-align: center;
 }
 @media screen and (max-width:767px) {
@@ -202,19 +202,20 @@
 .sort_button
 {
     background-color: #3C1B67;
-    font: 400 12px/14px "Plus Jakarta Sans",sans-serif;
+    font: 300 12px/14px "Plus Jakarta Sans",sans-serif;
     color: #fff;
     border: none;
     outline:none;
     box-shadow: none;
     border-radius: 25px;
-    padding: 6px 16px;
-    margin-top: 2px;
+    padding: 6px 16px 7px 18px;
+    margin-top: 0px;
 }
 .sort_button span
 {
-    font: 400 16px/14px "Plus Jakarta Sans",sans-serif;
+    font: 400 15px/14px "Plus Jakarta Sans",sans-serif;
     color: #FDF41B;
+    margin-left: 2px;
 }
 @media screen and (max-width:767px) {
     .sort_button

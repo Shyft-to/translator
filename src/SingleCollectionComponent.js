@@ -14,8 +14,11 @@ import SearchComponent from "./components/SearchComponent";
 import CollectionRowSlice from "./components/CollectionRowSlice";
 import SearchTokens from "./components/SearchTokens";
 import SearchEachNft from "./components/SearchedEachNft";
+import ClickToTop from "./ClickToTop";
+import PopupView from "./PopupView";
+import OpenPopup from "./OpenPopup";
 
-const SingleCollectionComponent = () => {
+const SingleCollectionComponent = ({popup,setPopUp}) => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -91,9 +94,13 @@ const SingleCollectionComponent = () => {
 
     return (
         <div>
+            
+            <ClickToTop />
+            {/* <OpenPopup setPopUp={setPopUp}/>
+            {popup && <PopupView setPopUp={setPopUp} />} */}
             <div className="background_super">
                 <div className="container pt-2 pb-1">
-                    <SearchComponent />
+                    <SearchComponent popup={popup} setPopUp={setPopUp} />
                 </div>
                 {isLoading &&
                     <div className="pt-5 mt-3">

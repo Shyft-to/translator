@@ -3,9 +3,15 @@ import { JsonViewer } from "@textea/json-viewer";
 import { useSearchParams, useParams, Link } from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";
-import { FaLink, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import {
+  FaLink,
+  FaChevronDown,
+  FaChevronUp,
+  FaPlusSquare,
+  FaMinusSquare,
+} from "react-icons/fa";
 import Tooltip from "react-tooltip-lite";
-import { motion } from "framer-motion";
+import { animate, motion } from "framer-motion";
 import ReactGA from "react-ga4";
 
 import styles from "./resources/css/SingleTxn.module.css";
@@ -37,6 +43,9 @@ import SimpleLoader from "./components/loaders/SimpleLoader";
 import SubTransactions from "./components/TransactionComponent/SubTransaction";
 import SearchComponent from "./components/SearchComponent";
 import SwapsSubTxn from "./components/TransactionComponent/SwapsSubTxn";
+import OpenPopup from "./OpenPopup";
+import PopupView from "./PopupView";
+import ClickToTop from "./ClickToTop";
 //import SubTransactionsDetails from "./components/TransactionComponent/SubTransactionDetails";
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -62,7 +71,7 @@ export const ocean = {
   base0F: "#FDF41B", //value number color
 };
 
-const TxnComponent = () => {
+const TxnComponent = ({popup,setPopUp}) => {
   let [searchParams, setSearchParams] = useSearchParams();
   const { txn } = useParams();
   const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -71,6 +80,7 @@ const TxnComponent = () => {
   const [data, setData] = useState(null);
   const [rawData, setRawData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [errOcc, setErrOcc] = useState(false);
 
   const [image, setImage] = useState(unknown);
   const [name, setName] = useState("");
@@ -79,8 +89,11 @@ const TxnComponent = () => {
   const [copy, setCopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [shyftMessage, setMessage] = useState("");
+  const [inspectionDepth, setInspectionDepth] = useState(true);
 
   const toggleTxnsSection = () => {
+    const height = $(`#json_txns`).height();
+
     $(`#json_txns`).animate(
       {
         height: "toggle",
@@ -88,8 +101,11 @@ const TxnComponent = () => {
       200,
       "linear"
     );
+    if (height < 90) $(`#json_arrow`).css("transform", "rotate(0deg)");
+    else $(`#json_arrow`).css("transform", "rotate(180deg)");
   };
   const toggleLogsSection = () => {
+    const height = $(`#prog_logs`).height();
     $(`#prog_logs`).animate(
       {
         height: "toggle",
@@ -97,6 +113,8 @@ const TxnComponent = () => {
       200,
       "linear"
     );
+    if (height < 899) $(`#program_arrow`).css("transform", "rotate(180deg)");
+    else $(`#program_arrow`).css("transform", "rotate(0deg)");
   };
   useEffect(() => {
     ReactGA.send({
@@ -153,11 +171,9 @@ const TxnComponent = () => {
           setUnknownCount(unknownCounter);
           // console.log("Data status:",data.status);
         }
+
         setLoading(false);
         setTimeout(() => {
-          // $(`#json_txns`).animate({
-          //     height: "hide",
-          // });
           $(`#prog_logs`).animate({
             height: "hide",
           });
@@ -165,6 +181,7 @@ const TxnComponent = () => {
       })
       .catch((err) => {
         console.log(err);
+        setErrOcc(true);
         setLoading(false);
       });
   }, []);
@@ -226,11 +243,10 @@ const TxnComponent = () => {
           symbol: "",
         };
         setRelField(data.info.token_address ?? "");
-        msg = `${
-          data.info.amount
-        } TOKEN(s) was transferred from ${shortenAddress(
-          data.info.sender
-        )} to ${shortenAddress(data.info.receiver)}`;
+        msg = `${data.info.amount
+          } TOKEN(s) was transferred from ${shortenAddress(
+            data.info.sender
+          )} to ${shortenAddress(data.info.receiver)}`;
         // setCurrencyField(data.info.token_address ?? "");
       } else if (txn_type === "NFT_TRANSFER") {
         type_obj = {
@@ -557,15 +573,31 @@ const TxnComponent = () => {
   };
   return (
     <div>
+      <ClickToTop />
+      {/* <OpenPopup setPopUp={setPopUp}/>
+      {popup && <PopupView setPopUp={setPopUp} />} */}
       {loading && (
         <div className="pt-5">
           <SimpleLoader />
         </div>
       )}
-      {!loading && (
+      {!loading && errOcc && (
+        <div
+          className="container pt-5"
+          style={{
+            height: "100vh",
+            background: "radial-gradient(#1E0C36 8%, #000 75%)",
+          }}
+        >
+          <div className="text-center could_not_text">
+            Failed to parse this transaction
+          </div>
+        </div>
+      )}
+      {!loading && !errOcc && (
         <div className={styles.single_txn_page}>
           <div className="container-lg pt-2 pb-1">
-            <SearchComponent />
+            <SearchComponent popup={popup} setPopUp={setPopUp} />
           </div>
           <div className="container-lg">
             <div className={styles.main_heading}>
@@ -704,38 +736,38 @@ const TxnComponent = () => {
                     >
                       {Array.isArray(data.signers) && data.signers.length > 0
                         ? data.signers.map((signer) => (
-                            <span>
-                              <a
-                                href={
-                                  cluster === "mainnet-beta"
-                                    ? `/address/${signer}`
-                                    : `/address/${signer}?cluster=${cluster}`
-                                }
-                              >
-                                {shortenAddress(signer)}
-                              </a>
-                              <Tooltip
-                                content={copy}
-                                className="inline_tooltip"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={0}
-                              >
-                                <button className={styles.inline_copy}>
-                                  <img
-                                    src={copyBtn}
-                                    alt="Copy"
-                                    onClick={() => copyValue(signer)}
-                                  />
-                                </button>
-                                &nbsp;&nbsp;
-                              </Tooltip>
-                            </span>
-                          ))
+                          <span>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${signer}`
+                                  : `/address/${signer}?cluster=${cluster}`
+                              }
+                            >
+                              {shortenAddress(signer)}
+                            </a>
+                            <Tooltip
+                              content={copy}
+                              className="inline_tooltip"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                            >
+                              <button className={styles.inline_copy}>
+                                <img
+                                  src={copyBtn}
+                                  alt="Copy"
+                                  onClick={() => copyValue(signer)}
+                                />
+                              </button>
+                              &nbsp;&nbsp;
+                            </Tooltip>
+                          </span>
+                        ))
                         : ""}
                     </div>
                   </div>
@@ -928,58 +960,89 @@ const TxnComponent = () => {
                 </div>
                 {data.actions.length > 0
                   ? data.actions.map((action, index) =>
-                      isParsable(action.type) ? (
-                        <div className={styles.each_txn_3}>
-                          <div>
-                            <div className="row">
-                              <div className="col-12">
-                                <div className={styles.fields_container}>
-                                  <div className="d-flex flex-wrap justify-content-start align-content-end">
-                                    <div className="pb-2 pb-md-0">
-                                      <div className={styles.txn_name}>
-                                        {action.type === "UNKNOWN"
-                                          ? "Protocol Interaction"
-                                          : formatNames(action.type) ||
-                                            "Protocol Interaction"}
+                    isParsable(action.type) ? (
+                      <div className={styles.each_txn_3}>
+                        <div>
+                          <div className="row">
+                            <div className="col-12">
+                              <div className={styles.fields_container}>
+                                <div className="d-flex flex-wrap justify-content-start justify-content-md-between align-content-end">
+                                  <div className="pb-2 pb-md-0">
+                                    <div className={styles.txn_name}>
+                                      {action.type === "UNKNOWN"
+                                        ? "Protocol Interaction"
+                                        : formatNames(action.type) ||
+                                        "Protocol Interaction"}
+                                    </div>
+                                  </div>
+                                  {action.type === "SWAP" && (
+                                    <div className={styles.slippage_params}>
+                                      <div className="d-flex flex-wrap justify-content-start justify-content-md-end">
+                                        <div
+                                          className={styles.slippage_param}
+                                        >
+                                          <span>Slippage In: </span>{" "}
+                                          {action.info.slippage_in_percent ??
+                                            "--"}{" "}
+                                          %
+                                        </div>
+                                        <div
+                                          className={styles.slippage_param}
+                                        >
+                                          <span>Quoted Out: </span>{" "}
+                                          {action.info.quoted_out_amount ??
+                                            "--"}
+                                        </div>
+                                        <div
+                                          className={styles.slippage_param}
+                                        >
+                                          <span>Slippage: </span>{" "}
+                                          {action.info.slippage_paid ?? "--"}
+                                        </div>
                                       </div>
                                     </div>
-                                    {/* <div className="">
+                                  )}
+
+                                  {/* <div className="">
                                                                     <div className={styles.txn_subname}>
                                                                         {(action.source_protocol.name != "") ? <div><a href={`/address/${action.source_protocol.address}`}>{formatNames(action.source_protocol.name)}</a></div> : (<a href={`/address/${action.source_protocol.address}`}>{shortenAddress(action.source_protocol.address)}</a>)}
                                                                     </div>
                                                                 </div> */}
-                                  </div>
-                                  <SubTransactions
-                                    styles={styles}
-                                    wallet={123}
-                                    cluster={cluster}
-                                    data={action}
-                                    setTxType={action.type}
-                                    key={index}
-                                  />
-                                  {action.type === "SWAP" &&
-                                    // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
-                                    Array.isArray(action.info.swaps) &&
-                                    action.info.swaps.length > 0 &&
-                                    action.info.swaps.map(
-                                      (swap_action, index) => (
-                                        <SwapsSubTxn
-                                          key={index}
-                                          swap_action={swap_action}
-                                          cluster={cluster}
-                                        />
-                                      )
-                                    )}
-                                  <div className="pb-2"></div>
                                 </div>
+                                <SubTransactions
+                                  styles={styles}
+                                  wallet={123}
+                                  cluster={cluster}
+                                  data={action}
+                                  setTxType={action.type}
+                                  key={index}
+                                />
+                                {action.type === "SWAP" && (
+                                  // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
+                                  <div>
+                                    {Array.isArray(action.info.swaps) &&
+                                      action.info.swaps.length > 0 &&
+                                      action.info.swaps.map(
+                                        (swap_action, index) => (
+                                          <SwapsSubTxn
+                                            key={index}
+                                            swap_action={swap_action}
+                                            cluster={cluster}
+                                          />
+                                        )
+                                      )}
+                                  </div>
+                                )}
+                                <div className="pb-2"></div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      ) : (
-                        ""
-                      )
+                      </div>
+                    ) : (
+                      ""
                     )
+                  )
                   : "-"}
               </div>
             </motion.div>
@@ -1048,10 +1111,10 @@ const TxnComponent = () => {
                       className={styles.hide_button}
                       onClick={toggleTxnsSection}
                     >
-                      Hide Details{" "}
-                      <span>
+                      Details
+                      <div id="json_arrow">
                         <FaChevronUp />
-                      </span>
+                      </div>
                     </button>
                   </div>
                 </div>
@@ -1060,15 +1123,49 @@ const TxnComponent = () => {
               <div id="json_txns">
                 <div className={styles.toggle_section_1}>
                   {panel === "SHYFT" ? (
-                    <div className={styles.txn_raw}>
-                      <JsonViewer
-                        value={data}
-                        theme={ocean}
-                        displayDataTypes={false}
-                        rootName={false}
-                        defaultInspectDepth={1}
-                        displayObjectSize={false}
-                      />
+                    <div>
+                      <div
+                        style={{
+                          position: "relative",
+                          width: "99%",
+                          textAlign: "end",
+                        }}
+                      >
+                        <button
+                          className={styles.expand_button}
+                          onClick={() => setInspectionDepth(!inspectionDepth)}
+                        >
+                          {inspectionDepth ? (
+                            <FaPlusSquare />
+                          ) : (
+                            <FaMinusSquare />
+                          )}
+                        </button>
+                      </div>
+                      {inspectionDepth && (
+                        <div className={styles.txn_raw}>
+                          <JsonViewer
+                            value={data}
+                            theme={ocean}
+                            displayDataTypes={false}
+                            rootName={false}
+                            defaultInspectDepth={1}
+                            displayObjectSize={false}
+                          />
+                        </div>
+                      )}
+                      {!inspectionDepth && (
+                        <div className={styles.txn_raw}>
+                          <JsonViewer
+                            value={data}
+                            theme={ocean}
+                            displayDataTypes={false}
+                            rootName={false}
+                            defaultInspectDepth={4}
+                            displayObjectSize={false}
+                          />
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className={styles.txn_raw}>
@@ -1107,10 +1204,10 @@ const TxnComponent = () => {
                       onClick={toggleLogsSection}
                       style={{ marginTop: "2px" }}
                     >
-                      Show Details{" "}
-                      <span>
+                      Details
+                      <div id="program_arrow">
                         <FaChevronDown />
-                      </span>
+                      </div>
                     </button>
                   </div>
                 </div>
@@ -1119,10 +1216,10 @@ const TxnComponent = () => {
                 <div className={styles.toggle_section_1}>
                   <div className={styles.txn_raw}>
                     {Array.isArray(rawData.meta.logMessages) &&
-                    rawData.meta.logMessages.length > 0
+                      rawData.meta.logMessages.length > 0
                       ? rawData.meta.logMessages.map((log, index) => (
-                          <div key={index}>{JSON.stringify(log)}</div>
-                        ))
+                        <div key={index}>{JSON.stringify(log)}</div>
+                      ))
                       : "No Program Logs found"}
                   </div>
                 </div>

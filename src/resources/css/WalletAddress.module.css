@@ -53,10 +53,14 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .wallet_balance_indicator
 {
+  position: relative;
+  /* overflow-x: hidden !important;
+  overflow-y: hidden !important; */
+  /* width: 150px; */
   font: 500 24px/32px "Montserrat", sans-serif;
   color: #fff;
 }
@@ -91,6 +95,7 @@
   {
     font: 300 18px/18px "Odibee Sans", sans-serif;
     color: #fff;
+    text-align: end;
   }
   
 }
@@ -165,7 +170,7 @@
   box-shadow: none;
   color: #fff;
   font: 400 14px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   width: 100%;
   display: block;
   margin: 0 auto;
@@ -196,7 +201,7 @@
   box-shadow: none;
   color: #fff;
   font: 400 14px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   width: 100%;
   display: block;
   margin: 0 auto;
@@ -211,7 +216,21 @@
 .select_container_2 option {
   background-color: #2a0855;
 }
+.collections_cara_cont
+{
+  padding-top: 40px;
+}
 
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .collections_cara_cont
+  {
+    padding-top: 40px;
+  }
+  .heading_section
+  {
+    padding-top: 60px;
+  }
+}
 @media screen and (max-width: 767px) {
   .select_container {
     display: none !important;
@@ -231,7 +250,7 @@
   .select_container_2 select {
 
     font: 400 12px/16px "Montserrat", sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     /* padding:  6px; */
     display: block;
     margin: 0 auto;

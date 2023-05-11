@@ -10,8 +10,10 @@ import { getAddressfromDomain } from "./utils/getAllData";
 import TxnLoader from "./components/loaders/TxnLoader";
 
 import searchIcon from "./resources/images/uil_search.svg";
+import PopupView from "./PopupView";
+import OpenPopup from "./OpenPopup";
 
-const Home = () => {
+const Home = ({popup, setPopUp}) => {
   const navigate = useNavigate();
   const [wallet, setWallet] = useState('');
   const [network, setNetwork] = useState('mainnet-beta');
@@ -134,6 +136,8 @@ const Home = () => {
   }
   return (
     <div>
+      <OpenPopup setPopUp={setPopUp} />
+      {popup && <PopupView setPopUp={setPopUp} />}
       <div className={styles.background_2}>
         <div className="container-lg">
           <div className={styles.central_area}>
@@ -196,7 +200,7 @@ const Home = () => {
         </div>
 
       </div>
-      <Footer />
+      <Footer setPopUp={setPopUp}/>
     </div>
   );
 };
