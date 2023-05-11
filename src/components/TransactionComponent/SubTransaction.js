@@ -609,6 +609,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
             data.type === "NFT_MINT" ||
             data.type === "TOKEN_MINT" ||
             data.type === "TOKEN_CREATE" ||
+            data.type === "NFT_BURN" ||
+            data.type === "TOKEN_BURN" ||
             data.type === "NFT_SALE" ||
             data.type === "NFT_BID" ||
             data.type === "NFT_BID_CANCEL" ||
@@ -728,6 +730,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "NFT_MINT" ||
                   data.type === "TOKEN_MINT" ||
                   data.type === "TOKEN_CREATE" ||
+                  data.type === "NFT_BURN" ||
+                  data.type === "TOKEN_BURN" ||
                   data.type === "NFT_SALE" ||
                   data.type === "NFT_BID" ||
                   data.type === "NFT_BID_CANCEL" ||

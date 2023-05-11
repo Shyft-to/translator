@@ -36,17 +36,17 @@ const Footer = () => {
                     </div> */}
                     <div style={{padding: "0px 6px"}}>
                         <a href="https://twitter.com/shyft_to" target="_blank" rel="noreferrer">
-                            <img src={twitter} alt="Tweet" style={{width:"32px"}} />
+                            <img src={twitter} alt="Tweet" style={{width:"26px"}} />
                         </a>
                     </div>
                     <div style={{padding: "0px 6px"}}>
                         <a href="https://discord.gg/8JyZCjRPmr" target="_blank" rel='noreferrer'>
-                            <img src={discord} alt="Join Server" style={{width:"32px"}} />
+                            <img src={discord} alt="Join Server" style={{width:"26px"}} />
                         </a>
                     </div>
                     <div style={{padding: "0px 6px"}}>
                         <a href="https://github.com/Shyft-to" target="_blank" rel='noreferrer'>
-                            <img src={github} alt="Clone Our Code" style={{width:"32px"}} />
+                            <img src={github} alt="Clone Our Code" style={{width:"26px"}} />
                         </a>
                     </div>
                 </div>

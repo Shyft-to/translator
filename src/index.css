@@ -323,7 +323,7 @@ body {
   position: absolute;
   z-index: 10;
   width: 100%;
-  background: #f0f0f007;
+  background: transparent;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(5px);
   padding: 15px 5px 5px;
@@ -333,7 +333,7 @@ body {
 }
 
 .white-footer-icons img {
-  width: 70%;
+  width: 60%;
 }
 
 .copy_link {
