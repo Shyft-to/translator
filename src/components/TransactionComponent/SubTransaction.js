@@ -30,7 +30,7 @@ import Raffle_icon from "../../resources/images/txnImages/raffle_icon.svg";
 import raffle_winner from "../../resources/images/txnImages/raffle_winner.png";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
-import { getNFTData, getTokenData } from "../../utils/getAllData";
+import { getMetadata, getNFTData, getTokenData } from "../../utils/getAllData";
 import {
   shortenAddress,
   formatLamports,
@@ -80,7 +80,19 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
             setName(res.details.name);
           }
         }
-      } else {
+      }
+      else if (type === "COMPRESSED_NFT") {
+        const metadata_uri = data.info?.nft_metadata?.uri ?? "";
+        if(metadata_uri !== "")
+        {
+          const nft_name = data.info?.nft_metadata?.name ?? "";
+          if(nft_name !== "")
+            setName(nft_name);
+          const res = getMetadata(metadata_uri);
+            setImage(res.image ?? noImage);
+        }
+      }
+       else {
         const res = await getNFTData(cluster, address);
         if (res.success === true) {
           if (res.details.image_uri)
@@ -188,6 +200,19 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "",
         };
         setRelField(data.info.nft_address ?? "");
+      } else if (data.type === "COMPRESSED_NFT_MINT") {
+        type_obj = {
+          type: "COMPRESSED_NFT_MINT",
+          from: "NFT",
+          to: data.info.owner ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+          merkle_tree: data.info.merkle_tree ?? "--",
+        };
+        setRelField(data.info.nft_address ?? "");
+        setRelType("COMPRESSED_NFT");
       } else if (data.type === "NFT_BURN") {
         type_obj = {
           type: "BURN",
@@ -607,6 +632,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           {(data.type === "NFT_TRANSFER" ||
             data.type === "TOKEN_TRANSFER" ||
             data.type === "NFT_MINT" ||
+            data.type === "COMPRESSED_NFT_MINT" ||
             data.type === "TOKEN_MINT" ||
             data.type === "TOKEN_CREATE" ||
             data.type === "NFT_BURN" ||
@@ -728,6 +754,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 ) : data.type === "NFT_TRANSFER" ||
                   data.type === "TOKEN_TRANSFER" ||
                   data.type === "NFT_MINT" ||
+                  data.type === "COMPRESSED_NFT_MINT" ||
                   data.type === "TOKEN_MINT" ||
                   data.type === "TOKEN_CREATE" ||
                   data.type === "NFT_BURN" ||
@@ -1954,7 +1981,82 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                 </>
               );
-            } else if (varFields.type === "CREATE_RAFFLE") {
+            }
+            else if (varFields.type === "COMPRESSED_NFT_MINT") {
+              return (
+                <div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-6">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Minted to</div>
+                        </div>
+                        <div className="pe-3">
+                          <img
+                            src={mint}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={`/address/${varFields.to}?cluster=${cluster}`}
+                              aria-label={varFields.to}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.to)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        <div className={styles.plus_color}>
+                          + {varFields.value}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row pt-0">
+                  <div className="col-12 col-md-6">
+                    <div className="d-flex">
+                      <div className="pe-2">
+                        <div className={styles.field_sub_1}>Merkel Tree</div>
+                      </div>
+                      <div className="pe-3">
+                        <img
+                          src={mint}
+                          alt=""
+                          style={{ width: "14px", marginTop: "-4px" }}
+                        />
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.field_sub_1}>
+                          {/* <a
+                            href={`/address/${varFields.to}?cluster=${cluster}`}
+                            aria-label={varFields.to}
+                            data-balloon-pos="up"
+                          > */}
+                            {shortenAddress(varFields.merkle_tree)}
+                          {/* </a> */}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className={`text-end ${styles.field_sub_2}`}>
+                      <div className={styles.plus_color}>
+                        + {varFields.value}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              );
+            }
+             else if (varFields.type === "CREATE_RAFFLE") {
               return (
                 <>
                   

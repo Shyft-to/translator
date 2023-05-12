@@ -134,7 +134,7 @@ export function isParsable(action)
         if(action !== "")
         {
             const trimmedAction = action.trim();
-            const actionsWeParse = ["SOL_TRANSFER","TOKEN_TRANSFER","NFT_TRANSFER","NFT_MINT","NFT_BURN","TOKEN_MINT","TOKEN_CREATE","TOKEN_BURN","NFT_SALE","NFT_BID","NFT_BID_CANCEL","NFT_LIST","NFT_LIST_UPDATE","NFT_LIST_CANCEL","MARKETPLACE_WITHDRAW","OFFER_LOAN","CANCEL_LOAN","TAKE_LOAN","REPAY_LOAN","REPAY_ESCROW_LOAN","FORECLOSE_LOAN","MEMO","SWAP","CREATE_RAFFLE","BUY_TICKETS","REVEAL_WINNERS","CLAIM_PRIZE","CLOSE_RAFFLE","CANCEL_RAFFLE"];
+            const actionsWeParse = ["SOL_TRANSFER","TOKEN_TRANSFER","NFT_TRANSFER","NFT_MINT","NFT_BURN","TOKEN_MINT","TOKEN_CREATE","TOKEN_BURN","NFT_SALE","NFT_BID","NFT_BID_CANCEL","NFT_LIST","NFT_LIST_UPDATE","NFT_LIST_CANCEL","MARKETPLACE_WITHDRAW","OFFER_LOAN","CANCEL_LOAN","TAKE_LOAN","REPAY_LOAN","REPAY_ESCROW_LOAN","FORECLOSE_LOAN","MEMO","SWAP","CREATE_RAFFLE","BUY_TICKETS","REVEAL_WINNERS","CLAIM_PRIZE","CLOSE_RAFFLE","CANCEL_RAFFLE","COMPRESSED_NFT_MINT"];
             if(actionsWeParse.includes(trimmedAction) === true)
                 return true;
             else
@@ -149,3 +149,92 @@ export function isParsable(action)
     }
     
 }
+
+export const listOfAddresses = [
+    {
+        domain:"Bubblegum",
+        address:"BGUMAp9Gq7iTEuizy4pqaxsTyUCBK68MDfK752saRPUY", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Drift v2",
+        address:"dRiftyHA39MWEi3m9aunc5MzRF1JYuBsbn6VPcn33UH", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Drip Program",
+        address:"dripTrkvSyQKvkyWg7oi4jmeEGMA5scSYowHArJ9Vwk", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Foxy Raffle",
+        address:"9ehXDD5bnhSpFVRf99veikjgq8VajtRH7e3D9aVPLqYd", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Hyperspace",
+        address:"HYPERfwdTjyJ2SCaKHmpF2MtrXqWxrsotYDsTrshHWq8", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Jupiter Aggregator v4",
+        address:"JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"MagicEden MP",
+        address:"MEisE1HzehtrDpAAT8PnLHjpSSkRYakotTuJRPjTpo8", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"MagicEden v2",
+        address:"M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Mango Market v1",
+        address:"JD3bq9hGdy38PuWQ4h2YJpELmHVGPPfFSuFkpzAd9zfu", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Mango Market v2",
+        address:"5fNfvyp5czQVX77yoACa3JJVEhdRaWjPuazuWgjhTqEH", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Mango Market v3",
+        address:"mv3ekLzLbnVPNxjSKvqBpU3ZeZXPQdEC3bp5MDEBG68", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Mango Market v4",
+        address:"4MangoMjqJ2firMokCjjGgoK8d4MXcrgL7XJaL3w6fVg", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Raydium Liquidity v2",
+        address: "RVKd61ztZW9GUwhRbbLoYVRE5Xf1B2tVscKqwZqXgEr",
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Raydium Liquidity v3",
+        address: "27haf8L6oxUeXrHrgEgsexjSY5hbVUWEmvv9Nyxg8vQv",
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Raydium Liquidity v4",
+        address: "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8",
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Sharky.fi",
+        address:"SHARKobtfF1bHhxD2eqftjHBdVSCbKo9JtgK71FhELP", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Tensor Swap",
+        address:"TSWAPaqyCSx2KABk68Shruf4rp7CxcNi8hAsbdwmHbN", 
+        network:"mainnet-beta"
+    },
+    
+  ];

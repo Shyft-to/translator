@@ -350,6 +350,23 @@ const TxnComponent = ({ popup, setPopUp }) => {
         msg = `${data.info.amount} NFT was minted to ${shortenAddress(
           data.info.owner
         )}`;
+      }
+      else if (data.type === "COMPRESSED_NFT_MINT") {
+        type_obj = {
+          type: "COMPRESSED_NFT_MINT",
+          from: "NFT",
+          to: data.info.owner ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+          merkle_tree: data.info.merkle_tree ?? "--",
+        };
+        msg = `1 NFT was minted to ${shortenAddress(
+          data.info.owner
+        )}`;
+        setRelField(data.info.nft_address ?? "");
+        // setRelType("COMPRESSED_NFT");
       } else if (txn_type === "NFT_BURN") {
         type_obj = {
           type: "BURN",

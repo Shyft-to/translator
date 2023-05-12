@@ -55,6 +55,88 @@ export async function getNFTData(network, address) {
   return data;
 }
 
+export async function getCompressedNFTData(network,address)
+{
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  const ifCached = await getCacheData(network, address);
+  if (ifCached.success === true) {
+    data = {
+      success: true,
+      type: "NFT",
+      details: ifCached.details,
+    };
+  } else {
+    await axios({
+      url: `${endpoint}nft/compressed/read`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: {
+        network: network,
+        nft_address: address,
+      },
+    })
+      .then((res) => {
+        if (res.data.success === true) {
+          data = {
+            success: true,
+            type: "NFT",
+            details: res.data.result,
+          };
+          pushDatatoCache(network, res.data.result, res.data.result.mint);
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  }
+  return data;
+}
+export async function getMetadata(metadata_uri)
+{
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  await axios({
+    url: metadata_uri,
+    method: "GET",
+    // headers: {
+    //   "Content-Type": "application/json",
+    // },
+    
+  })
+    .then((res) => {
+      if (res.name && res.image) {
+        var detailsToReturn = {};
+        if(res.image?.includes("ray-initiative.gift"))
+        {
+          detailsToReturn = {...res,image:""}
+        }
+        else
+        {
+          detailsToReturn = res;
+        }
+        data = {
+          success: true,
+          type: "METADATA",
+          details: detailsToReturn,
+        };
+        
+      }
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+    return data;
+}
 export async function getTokenData(network, address) {
   var data = {
     success: false,
