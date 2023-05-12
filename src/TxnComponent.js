@@ -1088,6 +1088,44 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                           </div>
                                       </div>
                                     )}
+                                    {action.type === "COMPRESSED_NFT_BURN" && (
+                                      <div className={styles.slippage_params}>
+                                        <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Merkle Tree: </span>{" "}
+                                            {<a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.merkle_tree}`
+                                                : `/address/${action.info.merkle_tree}?cluster=${cluster}`}>{shortenAddress(action.info.merkle_tree ??
+                                              "--")}</a>}
+                                          </div>
+                                          
+                                      </div>
+                                    )}
+                                    {action.type === "COMPRESSED_NFT_TRANSFER" && (
+                                      <div className={styles.slippage_params}>
+                                        <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Merkle Tree: </span>{" "}
+                                            {<a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.merkle_tree}`
+                                                : `/address/${action.info.merkle_tree}?cluster=${cluster}`}>{shortenAddress(action.info.merkle_tree ??
+                                              "--")}</a>}
+                                          </div>
+                                      </div>
+                                    )}
+                                    {action.type === "CREATE_TREE" && (
+                                      <div className={styles.slippage_params}>
+                                        <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Buffer Size: </span>{" "}
+                                            {shortenAddress(action.info.max_buffer_size ??
+                                              "--")}
+                                          </div>
+                                      </div>
+                                    )}
 
                                     {/* <div className="">
                                                                     <div className={styles.txn_subname}>
@@ -1214,6 +1252,60 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                             <span>Fee Taken: </span>{" "}
                                             {action.info.fee_taken ??
                                               "--"}{" "}
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    }
+                                    {
+                                      action.type === "COMPRESSED_NFT_MINT" &&
+                                      <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Tree Authority: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.tree_authority}`
+                                                : `/address/${action.info.tree_authority}?cluster=${cluster}`}>{shortenAddress(action.info.tree_authority)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Payer: </span>{" "}
+                                            {<a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.payer}`
+                                                : `/address/${action.info.payer}?cluster=${cluster}`}>{shortenAddress(action.info.payer ??
+                                              "--")}</a>}
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    }
+                                    {
+                                      action.type === "CREATE_TREE" &&
+                                      <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Tree Authority: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.tree_authority}`
+                                                : `/address/${action.info.tree_authority}?cluster=${cluster}`}>{shortenAddress(action.info.tree_authority)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Payer: </span>{" "}
+                                            {<a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.payer}`
+                                                : `/address/${action.info.payer}?cluster=${cluster}`}>{shortenAddress(action.info.payer ??
+                                              "--")}</a>}
                                           </div>
                                         </div>
                                         

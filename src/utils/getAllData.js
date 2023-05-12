@@ -114,15 +114,15 @@ export async function getMetadata(metadata_uri)
     
   })
     .then((res) => {
-      if (res.name && res.image) {
+      if (res.data.name && res.data.image) {
         var detailsToReturn = {};
-        if(res.image?.includes("ray-initiative.gift"))
+        if(res.data.image?.includes("ray-initiative.gift"))
         {
-          detailsToReturn = {...res,image:""}
+          detailsToReturn = {...res.data,image:""}
         }
         else
         {
-          detailsToReturn = res;
+          detailsToReturn = res.data;
         }
         data = {
           success: true,

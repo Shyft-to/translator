@@ -227,7 +227,7 @@ const Home = ({popup, setPopUp}) => {
                           </div>
                       }
                     </div>}
-                    {isFocused && (searchData.length < 1) && <div className={styles.search_area}>
+                    {isFocused && (searchData.length < 1) && (wallet.length < 3) && <div className={styles.search_area}>
                       {staticAddresses.map((result,index) => (<button key={index} className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
                         <div className="d-flex">
                           <div className={`flex-grow-1 ${styles.address_area}`}>
