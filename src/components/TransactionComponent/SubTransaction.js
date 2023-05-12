@@ -461,6 +461,32 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "",
         };
         setRelField(data.info.collateral_mint ?? "");
+      } else if (data.type === "EXTEND_LOAN") {
+        type_obj = {
+          type: "EXTEND_LOAN",
+          old_lender: data.info.old_lender ?? "--",
+          new_lender: data.info.new_lender ?? "--",
+          old_loan: "--",
+          new_loan: data.info.new_loan ?? "--",
+          value: data.info.amount ?? "--",
+          symbol: "",
+          loan_duration_seconds: convertToDays(data.info.loan_duration_seconds) ?? "--"
+        };
+        setRelField(data.info.collateral_mint ?? "");
+        setCurrencyField(data.info.currency ?? "")
+      } else if (data.type === "EXTEND_ESCROW_LOAN") {
+        type_obj = {
+          type: "EXTEND_ESCROW_LOAN",
+          old_lender: data.info.old_lender ?? "--",
+          new_lender: data.info.new_lender ?? "--",
+          old_loan: "--",
+          new_loan: data.info.new_loan ?? "--",
+          value: data.info.amount ?? "--",
+          symbol: "",
+          loan_duration_seconds: convertToDays(data.info.loan_duration_seconds) ?? "--"
+        };
+        setRelField(data.info.collateral_mint ?? "");
+        setCurrencyField(data.info.currency ?? "");
       } else if (data.type === "SWAP") {
         //console.log("Swap inst found");
         type_obj = {
@@ -695,6 +721,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
             data.type === "NFT_LIST" ||
             data.type === "NFT_LIST_CANCEL" ||
             data.type === "TAKE_LOAN" ||
+            data.type === "EXTEND_LOAN" ||
+            data.type === "EXTEND_ESCROW_LOAN" ||
             data.type === "FORECLOSE_LOAN" ||
             data.type === "REPAY_ESCROW_LOAN" ||
             data.type === "REPAY_LOAN" || 
@@ -822,6 +850,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "TAKE_LOAN" ||
                   data.type === "FORECLOSE_LOAN" ||
                   data.type === "REPAY_ESCROW_LOAN" ||
+                  data.type === "EXTEND_LOAN" ||
+                  data.type === "EXTEND_ESCROW_LOAN" ||
                   data.type === "REPAY_LOAN" ||
                   data.type === "CREATE_RAFFLE" ||
                   data.type === "CLAIM_PRIZE" ||
@@ -2126,6 +2156,178 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             {varFields.value ?? "--"}
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            } else if (varFields.type === "EXTEND_LOAN") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.new_loan}`
+                                    : `/address/${varFields.new_loan}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.new_loan}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.new_loan)}
+                              </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Loan extended </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-2 text-end">
+                      <div className={styles.field_sub_3}>
+                        {varFields.value} 
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Lender change</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.old_lender}`
+                                    : `/address/${varFields.old_lender}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.old_lender}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.old_lender)}
+                              </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                              src={arrow}
+                              alt=""
+                              style={{ width: "14px", marginTop: "-2px" }}
+                            />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.new_lender}`
+                                    : `/address/${varFields.new_lender}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.new_lender}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.new_lender)}
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-2 text-end">
+                      <div className={styles.field_sub_3}>
+                        {varFields.loan_duration_seconds ?? ""}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            } else if (varFields.type === "EXTEND_ESCROW_LOAN") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.new_loan}`
+                                    : `/address/${varFields.new_loan}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.new_loan}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.new_loan)}
+                              </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Escrow Loan extended </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-2 text-end">
+                      <div className={styles.field_sub_3}>
+                        {varFields.value} 
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Lender change</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.old_lender}`
+                                    : `/address/${varFields.old_lender}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.old_lender}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.old_lender)}
+                              </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                              src={arrow}
+                              alt=""
+                              style={{ width: "14px", marginTop: "-2px" }}
+                            />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.new_lender}`
+                                    : `/address/${varFields.new_lender}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.new_lender}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.new_lender)}
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-2 text-end">
+                      <div className={styles.field_sub_3}>
+                        {varFields.loan_duration_seconds ?? ""}
                       </div>
                     </div>
                   </div>
