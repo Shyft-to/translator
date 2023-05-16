@@ -2168,7 +2168,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <>
                   <div className="row pt-1">
-                    <div className="col-12 col-md-10">
+                    <div className="col-12 col-md-8">
                       <div className="d-flex">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
@@ -2195,52 +2195,6 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-12 col-md-8">
-                      <div className="d-flex">
-                        <div className="pe-1">
-                          <div className={styles.field_sub_1}>Lender change</div>
-                        </div>
-                        <div className="pe-1">
-                          <div className={styles.field_sub_1}>
-                            <a
-                                href={
-                                  cluster === "mainnet-beta"
-                                    ? `/address/${varFields.old_lender}`
-                                    : `/address/${varFields.old_lender}?cluster=${cluster}`
-                                }
-                                aria-label={varFields.old_lender}
-                                data-balloon-pos="up"
-                              >
-                                {shortenAddress(varFields.old_lender)}
-                              </a>
-                          </div>
-                        </div>
-                        <div className="pe-1">
-                          <img
-                              src={arrow}
-                              alt=""
-                              style={{ width: "14px", marginTop: "-2px" }}
-                            />
-                        </div>
-                        <div className="pe-1">
-                          <div className={styles.field_sub_1}>
-                            <a
-                                href={
-                                  cluster === "mainnet-beta"
-                                    ? `/address/${varFields.new_lender}`
-                                    : `/address/${varFields.new_lender}?cluster=${cluster}`
-                                }
-                                aria-label={varFields.new_lender}
-                                data-balloon-pos="up"
-                              >
-                                {shortenAddress(varFields.new_lender)}
-                              </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <div className="col-12 col-md-4 text-end">
                       <div className={styles.field_sub_3}>
                         {varFields.value} SOL
@@ -2253,7 +2207,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <>
                   <div className="row pt-1">
-                    <div className="col-12 col-md-10">
+                    <div className="col-12 col-md-8">
                       <div className="d-flex">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
@@ -2295,58 +2249,13 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-12 col-md-8">
-                      <div className="d-flex">
-                        <div className="pe-1">
-                          <div className={styles.field_sub_1}>Lender change</div>
-                        </div>
-                        <div className="pe-1">
-                          <div className={styles.field_sub_1}>
-                            <a
-                                href={
-                                  cluster === "mainnet-beta"
-                                    ? `/address/${varFields.old_lender}`
-                                    : `/address/${varFields.old_lender}?cluster=${cluster}`
-                                }
-                                aria-label={varFields.old_lender}
-                                data-balloon-pos="up"
-                              >
-                                {shortenAddress(varFields.old_lender)}
-                              </a>
-                          </div>
-                        </div>
-                        <div className="pe-1">
-                          <img
-                              src={arrow}
-                              alt=""
-                              style={{ width: "14px", marginTop: "-2px" }}
-                            />
-                        </div>
-                        <div className="pe-1">
-                          <div className={styles.field_sub_1}>
-                            <a
-                                href={
-                                  cluster === "mainnet-beta"
-                                    ? `/address/${varFields.new_lender}`
-                                    : `/address/${varFields.new_lender}?cluster=${cluster}`
-                                }
-                                aria-label={varFields.new_lender}
-                                data-balloon-pos="up"
-                              >
-                                {shortenAddress(varFields.new_lender)}
-                              </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <div className="col-12 col-md-4 text-end">
                       <div className={styles.field_sub_3}>
                         {varFields.value} SOL
                       </div>
                     </div>
                   </div>
+                  
                 </>
               );
             } else if (varFields.type === "CANCEL_LOAN") {
@@ -2476,7 +2385,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <div className="col-12 col-md-10">
                       <div className="d-flex">
                         <div className="pe-2">
-                          <div className={styles.field_sub_1}>Merkel Tree</div>
+                          <div className={styles.field_sub_1}>Merkle Tree</div>
                         </div>
                         <div className="pe-3">
                           <img

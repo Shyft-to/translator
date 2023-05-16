@@ -1115,17 +1115,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                           </div>
                                       </div>
                                     )}
-                                    {action.type === "CREATE_TREE" && (
-                                      <div className={styles.slippage_params}>
-                                        <div
-                                            className={styles.slippage_param}
-                                          >
-                                            <span>Buffer Size: </span>{" "}
-                                            {shortenAddress(action.info.max_buffer_size ??
-                                              "--")}
-                                          </div>
-                                      </div>
-                                    )}
+                                    
 
                                     {/* <div className="">
                                                                     <div className={styles.txn_subname}>
@@ -1307,9 +1297,94 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                                 : `/address/${action.info.payer}?cluster=${cluster}`}>{shortenAddress(action.info.payer ??
                                               "--")}</a>}
                                           </div>
+                                          <div className={styles.slippage_params}>
+                                            <div
+                                                className={styles.slippage_param}
+                                              >
+                                                <span>Buffer Size: </span>{" "}
+                                                {action.info.max_buffer_size ??
+                                                  "--"}
+                                              </div>
+                                          </div>
                                         </div>
                                         
                                       </div>
+                                    }
+                                    {
+                                      action.type === "EXTEND_LOAN" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Old Lender: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.old_lender}`
+                                                  : `/address/${action.info.old_lender}?cluster=${cluster}`}>{shortenAddress(action.info.old_lender)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>New Lender: </span>{" "}
+                                              {<a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.new_lender}`
+                                                  : `/address/${action.info.new_lender}?cluster=${cluster}`}>{shortenAddress(action.info.new_lender ??
+                                                "--")}</a>}
+                                            </div>
+                                            
+                                              <div
+                                                  className={styles.slippage_param}
+                                                >
+                                                  <span>New Loan: </span>{" "}
+                                                  {<a href={cluster === "mainnet-beta"
+                                                  ? `/address/${action.info.new_loan}`
+                                                    : `/address/${action.info.new_loan}?cluster=${cluster}`}>{shortenAddress(action.info.new_loan ??
+                                                  "--")}</a>}
+                                                </div>
+                                            
+                                          </div>
+                                          
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "EXTEND_ESCROW_LOAN" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Old Lender: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.old_lender}`
+                                                  : `/address/${action.info.old_lender}?cluster=${cluster}`}>{shortenAddress(action.info.old_lender)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>New Lender: </span>{" "}
+                                              {<a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.new_lender}`
+                                                  : `/address/${action.info.new_lender}?cluster=${cluster}`}>{shortenAddress(action.info.new_lender ??
+                                                "--")}</a>}
+                                            </div>
+                                            
+                                            <div
+                                                className={styles.slippage_param}
+                                              >
+                                                <span>New Loan: </span>{" "}
+                                                {<a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.new_loan}`
+                                                  : `/address/${action.info.new_loan}?cluster=${cluster}`}>{shortenAddress(action.info.new_loan ??
+                                                "--")}</a>}
+                                              </div>
+                                            
+                                          </div>
+                                          
+                                        </div>
                                     }
                                   <div className="pb-2"></div>
                                 </div>
