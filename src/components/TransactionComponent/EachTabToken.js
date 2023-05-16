@@ -49,7 +49,7 @@ const EachTabToken = ({ styles, token, cluster }) => {
                 <div className="row">
                     <div className="col-12 col-md-1">
                         <div className={styles.token_image_container}>
-                            <img src={(token.info.image.includes("ray-initiative.gift"))?(unknown):(token.info.image || unknown)}
+                            <img src={(token.info.image.includes("ray-initiative.gift") || token.info.image.includes("dex-ray.gift"))?(unknown):(token.info.image || unknown)}
                             onError={({ currentTarget }) => {
                                 currentTarget.onerror = null; // prevents looping
                                 currentTarget.src=unknown;

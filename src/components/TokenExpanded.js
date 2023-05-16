@@ -72,7 +72,7 @@ const TokenExpanded = ({token,cluster}) => {
         <motion.div className="col-12 col-lg-4" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className={styles.nft_image_container}>
             <img ref={ref2}
-              src={(token.image === "" || token.image.includes("ray-initiative.gift")) ? unknown : (token.image)}
+              src={(token.image === "" || token.image.includes("ray-initiative.gift") || token.image.includes("dex-ray.gift")) ? unknown : (token.image)}
               className="img-fluid"
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
@@ -133,7 +133,7 @@ const TokenExpanded = ({token,cluster}) => {
             </motion.div>
             <div className={styles.nft_image_container_mob}>
               <motion.img
-                src={(token.image === "" || token.image.includes("ray-initiative.gift")) ? unknown : token.image}
+                src={(token.image === "" || token.image.includes("ray-initiative.gift") || token.image.includes("dex-ray.gift")) ? unknown : token.image}
                 ref={ref3}
                 className="img-fluid"
                 alt="token"

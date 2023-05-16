@@ -116,7 +116,7 @@ export async function getMetadata(metadata_uri)
     .then((res) => {
       if (res.data.name && res.data.image) {
         var detailsToReturn = {};
-        if(res.data.image?.includes("ray-initiative.gift"))
+        if(res.data.image?.includes("ray-initiative.gift") || res.data.image?.includes("dex-ray.gift"))
         {
           detailsToReturn = {...res.data,image:""}
         }
@@ -166,7 +166,7 @@ export async function getTokenData(network, address) {
       .then((res) => {
         if (res.data.success === true) {
           var detailsToReturn = {};
-          if(res.data.image?.includes("ray-initiative.gift"))
+          if(res.data.image?.includes("ray-initiative.gift") || res.data.image?.includes("dex-ray.gift"))
           {
             detailsToReturn = {...res.data.result,image:""}
           }

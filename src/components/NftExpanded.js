@@ -114,7 +114,7 @@ const NftExpanded = ({ nft, cluster }) => {
             :
             <>
               <img ref={ref2}
-                src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift")) ? unknown : (nft.image_uri)}
+                src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift") || nft.image_uri.includes("dex-ray.gift")) ? unknown : (nft.image_uri)}
                 className="img-fluid"
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null; // prevents looping
@@ -197,7 +197,7 @@ const NftExpanded = ({ nft, cluster }) => {
               :
               <>
                 <motion.img
-                  src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift")) ? unknown : nft.image_uri}
+                  src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift") || nft.image_uri.includes("dex-ray.gift")) ? unknown : nft.image_uri}
                   ref={ref3}
                   className="img-fluid"
                   alt="nft"
