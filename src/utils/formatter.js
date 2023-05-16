@@ -152,6 +152,31 @@ export function isParsable(action)
 
 export const listOfAddresses = [
     {
+        domain:"Acumen",
+        address:"C64kTdg1Hzv5KoQmZrQRcm2Qz7PkxtFBgw7EpFhvYn8W", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Bonfida Pool Program",
+        address:"WvmTNLpGMVbwJVYztYL4Hnsy82cJhQorxjnnXcRm3b6", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Break Solana Program",
+        address:"BrEAK7zGZ6dM71zUDACDqJnekihmwF15noTddWTsknjC", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Chainlink OCR2 Oracle Program",
+        address:"cjg3oHmg9uuPsP8D6g29NWvhySJkdYdAo9D25PRbKXJ", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Chainlink Store Program",
+        address:"HEvSKofvBgfaexv23kMabbYqxasxU3mQ4ibBMEmJWHny", 
+        network:"mainnet-beta"
+    },
+    {
         domain:"Bubblegum",
         address:"BGUMAp9Gq7iTEuizy4pqaxsTyUCBK68MDfK752saRPUY", 
         network:"mainnet-beta"
@@ -209,6 +234,31 @@ export const listOfAddresses = [
     {
         domain:"Mango Market v4",
         address:"4MangoMjqJ2firMokCjjGgoK8d4MXcrgL7XJaL3w6fVg", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Marinade Staking Program",
+        address:"MarBmsSgKXdrN1egZf5sqe1TMai9K1rChYNDJgjq7aD", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Mercurial Stable Swap Program",
+        address:"MERLuDFBMmsHnsBPZw2sDQZHvXFMwp8EdjudcU2HKky", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Orca Swap Program v1",
+        address:"DjVE6JNiYqPL2QXyCUUh8rNjHrbz9hXHNYt99MQ59qw1", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Orca Swap Program v2",
+        address:"9W959DqEETiGZocYWCQPaJ6sBmUzgfxXfqGeTEdp3aQP", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Orca Aquafarm Program",
+        address:"82yxjeMsvaURa4MbZZ7WZZHfobirZYkH1zF8fmeGtyaQ", 
         network:"mainnet-beta"
     },
     {

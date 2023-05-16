@@ -123,7 +123,19 @@
         padding-top: 10px;
     }
 }
-
+.nft_model_container
+{
+    padding-bottom: 8px;
+    
+}
+.nft_model_container .nft_model_inner_container
+{
+    background-color: #3C1B67;
+    width: 100%;
+    aspect-ratio: 1.1/1;
+    margin: 0 auto;
+    border-radius: 16px;
+}
 .nft_name
 {
     font: 600 40px/48px "Odibee Sans", sans-serif;
@@ -292,4 +304,37 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+}
+.nft_model_modal
+{
+    display: block;
+    position: fixed;
+    z-index: 99;
+    background-color: #000A;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    overflow: hidden !important;
+}
+.nft_model_modal .nft_modal
+{
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    margin-top: 24px;
+    padding: 16px 4px;
+}
+.nft_model_modal .nft_close_button
+{
+    display: block;
+    margin: 0 auto;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    font: 400 14px/18px "Poppins", sans-serif;
+    color: #FFFa;
+    padding: 16px 4px;
 }

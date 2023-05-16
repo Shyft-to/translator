@@ -29,6 +29,7 @@ import Foxy from "../../resources/images/txnImages/FoxyRaffle.svg";
 import Raffle_ticket from "../../resources/images/txnImages/raffle_ticket.svg";
 // import Raffle_icon from "../../resources/images/txnImages/raffle_icon.svg";
 import raffle_winner from "../../resources/images/txnImages/raffle_winner.png";
+import merkle_tree_outline from "../../resources/images/txnImages/merkle_tree_outline.svg"
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 import { getMetadata, getNFTData, getTokenData } from "../../utils/getAllData";
@@ -469,6 +470,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           old_loan: "--",
           new_loan: data.info.new_loan ?? "--",
           value: data.info.amount ?? "--",
+          borrower: data.info.borrower ?? "--",
           symbol: "",
           loan_duration_seconds: convertToDays(data.info.loan_duration_seconds) ?? "--"
         };
@@ -483,6 +485,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           new_loan: data.info.new_loan ?? "--",
           value: data.info.amount ?? "--",
           symbol: "",
+          borrower: data.info.borrower ?? "--",
           loan_duration_seconds: convertToDays(data.info.loan_duration_seconds) ?? "--"
         };
         setRelField(data.info.collateral_mint ?? "");
@@ -2172,30 +2175,29 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             <a
                                 href={
                                   cluster === "mainnet-beta"
-                                    ? `/address/${varFields.new_loan}`
-                                    : `/address/${varFields.new_loan}?cluster=${cluster}`
+                                    ? `/address/${varFields.borrower}`
+                                    : `/address/${varFields.borrower}?cluster=${cluster}`
                                 }
-                                aria-label={varFields.new_loan}
+                                aria-label={varFields.borrower}
                                 data-balloon-pos="up"
                               >
-                                {shortenAddress(varFields.new_loan)}
+                                {shortenAddress(varFields.borrower)}
                               </a>
                           </div>
                         </div>
                         <div className="pe-1">
-                          <div className={styles.field_sub_1}>Loan extended </div>
+                          <div className={styles.field_sub_1}>extended loan for</div>
                         </div>
-                        
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-2 text-end">
-                      <div className={styles.field_sub_3}>
-                        {varFields.value} 
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            {varFields.loan_duration_seconds ?? ""}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-12 col-md-10">
+                    <div className="col-12 col-md-8">
                       <div className="d-flex">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Lender change</div>
@@ -2239,9 +2241,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-2 text-end">
+                    <div className="col-12 col-md-4 text-end">
                       <div className={styles.field_sub_3}>
-                        {varFields.loan_duration_seconds ?? ""}
+                        {varFields.value} SOL
                       </div>
                     </div>
                   </div>
@@ -2258,6 +2260,21 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             <a
                                 href={
                                   cluster === "mainnet-beta"
+                                    ? `/address/${varFields.borrower}`
+                                    : `/address/${varFields.borrower}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.borrower}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.borrower)}
+                              </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
                                     ? `/address/${varFields.new_loan}`
                                     : `/address/${varFields.new_loan}?cluster=${cluster}`
                                 }
@@ -2269,19 +2286,18 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           </div>
                         </div>
                         <div className="pe-1">
-                          <div className={styles.field_sub_1}>Escrow Loan extended </div>
+                          <div className={styles.field_sub_1}>extended escrow loan for</div>
                         </div>
-                        
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-2 text-end">
-                      <div className={styles.field_sub_3}>
-                        {varFields.value} 
+                        <div className="pe-1">
+                          <div className={styles.field_sub_3}>
+                            {varFields.loan_duration_seconds ?? ""}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-12 col-md-10">
+                    <div className="col-12 col-md-8">
                       <div className="d-flex">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Lender change</div>
@@ -2325,9 +2341,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-2 text-end">
+                    <div className="col-12 col-md-4 text-end">
                       <div className={styles.field_sub_3}>
-                        {varFields.loan_duration_seconds ?? ""}
+                        {varFields.value} SOL
                       </div>
                     </div>
                   </div>
@@ -2464,7 +2480,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                         <div className="pe-3">
                           <img
-                            src={mint}
+                            src={merkle_tree_outline}
                             alt=""
                             style={{ width: "14px", marginTop: "-4px" }}
                           />
