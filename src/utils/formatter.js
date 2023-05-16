@@ -217,6 +217,11 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
+        domain:"Mango ICO",
+        address:"7sPptkymzvayoSbLXzBsXEF8TSf3typNnAWkrKrDizNb", 
+        network:"mainnet-beta"
+    },
+    {
         domain:"Mango Market v1",
         address:"JD3bq9hGdy38PuWQ4h2YJpELmHVGPPfFSuFkpzAd9zfu", 
         network:"mainnet-beta"
@@ -247,6 +252,26 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
+        domain:"Metaplex Program",
+        address:"p1exdMJcjVao65QdewkaZRUnU6VPSXhus9n2GzWfh98", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"NFT Auction",
+        address:"auctxRXPeJoc4817jDhf4HbjnhEcr1cCXenosMhK5R8", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"NFT Candy Machine Program",
+        address:"cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"NFT Candy Machine V2 Program",
+        address:"cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ", 
+        network:"mainnet-beta"
+    },
+    {
         domain:"Orca Swap Program v1",
         address:"DjVE6JNiYqPL2QXyCUUh8rNjHrbz9hXHNYt99MQ59qw1", 
         network:"mainnet-beta"
@@ -259,6 +284,51 @@ export const listOfAddresses = [
     {
         domain:"Orca Aquafarm Program",
         address:"82yxjeMsvaURa4MbZZ7WZZHfobirZYkH1zF8fmeGtyaQ", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Port Finance Program",
+        address:"Port7uDYB3wk6GJAw4KT1WpTeMtSu9bTcChBHkX2LfR", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Pyth Oracle Program",
+        address:"FsJ3A3u2vn5cTVofAjvy6y5kwABJAqYWpe4975bi2epH", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Quarry Merge Mine",
+        address:"QMMD16kjauP5knBwxNUJRZ1Z5o3deBuFrqVjBVmmqto", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Quarry Mine",
+        address:"QMNeHCGYnLVDn1icRAfQZpjPLBNkfGbSKRB83G5d8KB", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Quarry Mint Wrapper",
+        address:"QMWoBmAyJLAsA1Lh9ugMTw2gciTihncciphzdNzdZYV", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Quarry Redeemer",
+        address:"QRDxhMw1P2NEfiw5mYXG79bwfgHTdasY2xNP76XSea9", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Quarry Registry",
+        address:"QREGBnEj9Sa5uR91AV8u3FxThgP5ZCvdZUW2bHAkfNc", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Raydium AMM Program",
+        address: "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8",
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Raydium IDO Program",
+        address: "9HzJyW1qZsEiSfMUf6L2jo3CcTKAyBmSyKdwQeYisHrC",
         network:"mainnet-beta"
     },
     {
@@ -277,8 +347,83 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
+        domain:"Raydium Staking",
+        address: "EhhTKczWMGQt46ynNeRX1WfeagwwJd7ufHvCDjRxjo5Q",
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Saber Router",
+        address:"Crt7UoUR6QgrFrN7j8rmSQpUTNWNSitSwWvsWGf1qZ5t", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Saber Stable Swap",
+        address:"SSwpkEEcbUqx4vtoEByFjSkhKdCT862DNVb52nZg1UZ", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Serum Dex Program v1",
+        address:"BJ3jrUzddfuSrZHXSCxMUUQsjKEyLmuuyZebkcaFp2fg", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Serum Dex Program v2",
+        address:"EUqojwWA2rd19FZrzeBncJsm38Jm1hEhE3zsmX3bRc2o", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Serum Dex Program v3",
+        address:"9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Serum Swap",
+        address:"22Y43yTVxuUkoRKdm9thyRhQ3SdgQS7c7kB6UNCiaczD", 
+        network:"mainnet-beta"
+    },
+    {
         domain:"Sharky.fi",
         address:"SHARKobtfF1bHhxD2eqftjHBdVSCbKo9JtgK71FhELP", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Solend Program",
+        address:"So1endDq2YkqhipRh3WViPa8hdiSpxWy6z3Z6tMCpAo", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Solana Lido",
+        address:"CrX7kMhLC3cSsXJdT7JDgqrRVWGnUpX3gfEfxxU2NVLi", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Solanart",
+        address:"CJsLwbP1iu5DuUikHEJnLfANgKy6stB2uFgvBBHoyxwz", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Solanart Go",
+        address:"5ZfZAwP2m93waazg8DkrrVmsupeiPEvaEHowiUP7UAbJ", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Stepn Dex",
+        address:"Dooar9JkhdZ7J3LHN3A7YCuoGRUggXhQaG4kijfLGU2j", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Step Finance Swap",
+        address:"SSwpMgqNDsyV7mAgN9ady4bDVu5ySjmmXejXvy2vLt1", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Swim Swap",
+        address:"SWiMDJYFUGj6cPrQ6QYYYWZtvXQdRChSVAygDZDsCHC", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Switchboard Oracle Program",
+        address:"DtmE9D2CSB4L5D6A15mraeEjrGMm6auWVzgaD8hK2tZM", 
         network:"mainnet-beta"
     },
     {
@@ -286,5 +431,9 @@ export const listOfAddresses = [
         address:"TSWAPaqyCSx2KABk68Shruf4rp7CxcNi8hAsbdwmHbN", 
         network:"mainnet-beta"
     },
-    
+    {
+        domain:"Wormhole",
+        address:"WormT3McKhFJ2RkiGpdw9GKvNCrB2aB54gb2uV9MfQC", 
+        network:"mainnet-beta"
+    }
   ];

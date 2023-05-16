@@ -389,3 +389,10 @@
     width: 24px;
   }
 }
+.program_search_heading
+{
+  background-color: #400c85;
+  font: 500 10px/12px "Montserrat", sans-serif;
+  color: #fff;
+  padding: 4px 16px;
+}
