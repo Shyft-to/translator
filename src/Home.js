@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Typewriter from 'typewriter-effect';
+// import Typewriter from 'typewriter-effect';
 import styles from "./resources/css/Home.module.css";
 import Footer from "./Footer";
 import { getAddressfromDomain } from "./utils/getAllData";
@@ -136,6 +136,11 @@ const Home = ({popup, setPopUp}) => {
   }
   return (
     <div>
+      
+      <div className="scroll-to-top-3">
+        <a href="https://translator.shyft.to/">Translator</a>
+      </div>
+      
       <OpenPopup setPopUp={setPopUp} />
       {popup && <PopupView setPopUp={setPopUp} />}
       <div className={styles.background_2}>

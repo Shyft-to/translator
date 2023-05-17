@@ -646,6 +646,10 @@
 {
     padding: 12px 0px 16px 2px;
 }
+.slippage_params.only_text
+{
+    padding: 12px 0px 16px 26px;
+}
 .slippage_param
 {
     font: 600 13px/24px "Plus Jakarta Sans",sans-serif;
@@ -661,6 +665,10 @@
     .slippage_params
     {
         padding: 16px 24px 16px;
+    }
+    .slippage_params.only_text
+    {
+        padding: 12px 0px 16px 2px;
     }
 }
 .expand_button

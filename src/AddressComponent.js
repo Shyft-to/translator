@@ -20,6 +20,7 @@ import TabbedTokens from "./components/TransactionComponent/TabbedTokens";
 import SimpleLoader from "./components/loaders/SimpleLoader";
 import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
+import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -42,6 +43,9 @@ const AddressComponent = ({popup,setPopUp}) => {
     const [errOccured, setErrOccured] = useState(false);
 
     const [protocolName,setProtocolName] = useState("");
+
+    const [tokenCount,setTokensCount] = useState(-1);
+    const [domainsCount,setDomainsCount] = useState(-1);
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
@@ -347,7 +351,16 @@ const AddressComponent = ({popup,setPopUp}) => {
                             tabSelected("token","add");
                             }}>
                             Tokens
+                            {(tokenCount > -1) && <div className={styles.count_badge}>{tokenCount}</div>}
                             {(panel === "TKN") ? <div className={styles.underline} /> : ""}
+                        </button>}
+                        {(contentType === "WALLET") && <button className={(panel === "DOM") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                            setPanel("DOM");
+                            //tabSelected("token","add");
+                            }}>
+                            Domains
+                            {(domainsCount > -1) &&<div className={styles.count_badge}>{domainsCount}</div>}
+                            {(panel === "DOM") ? <div className={styles.underline} /> : ""}
                         </button>}
                     </div>
                     <div className={styles.tabbed_section_container}>
@@ -356,7 +369,12 @@ const AddressComponent = ({popup,setPopUp}) => {
                         }
                         {
                             (panel === "TKN") && <div className="text-center could_not_text pt-5">
-                                <TabbedTokens address={addr} cluster={cluster} />
+                                <TabbedTokens address={addr} cluster={cluster} setTokensCount={setTokensCount} />
+                            </div>
+                        }
+                        {
+                            (panel === "DOM") && <div className="text-center pt-5">
+                                <TabbedDomains address={addr} cluster={cluster} setDomainsCount={setDomainsCount} />
                             </div>
                         }
                     </div>

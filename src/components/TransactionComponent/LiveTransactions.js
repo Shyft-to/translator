@@ -14,11 +14,15 @@ import { shortenAddress, getRelativetime, getFullTime, formatNames,isParsable } 
 
 import SubTransactions from "./SubTransaction";
 import SubTxnUnknown from "./SubTxnUnknown";
+import { getNFTData } from "../../utils/getAllData";
 
 const LiveTransactions = ({ styles, id, data, address, cluster }) => {
     const [txType,setTxType] = useState("");
     const [copied, setCopied] = useState("Copy");
     const [unknownCount,setUnknownCount] = useState(0);
+
+    const [saleNftCreators, setNftCreators] = useState([]);
+
     const copyValue = (value) => {
         navigator.clipboard.writeText(value);
         setCopied("Copied");
@@ -64,6 +68,17 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                 }
             });
         }
+        if (data.type === "NFT_SALE") {
+            // data.actions.forEach((txn) => {
+            //     if (txn.type === "") {
+            //         if (address === txn.info.seller)
+            //             setTxType("NFT Sold")
+            //         else if (address === txn.info.buyer)
+            //             setTxType("NFT Purchased")
+            //     }
+            // });
+            getCreators(data.actions);
+        }
         if(data.type === "NFT_LIST_UPDATE")
         {
             setTxType("Listing Price Update")
@@ -88,6 +103,36 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
         
      
     }, [])
+
+    const getCreators = async (actions) => {
+        // console.log("For txn",data.signatures[0]);
+        try {
+          var saleMints = [];
+          if (actions.length > 0) {
+            actions.forEach((action) => {
+              if (action.type === "NFT_SALE") {
+                saleMints = [...saleMints, action.info.nft_address];
+              }
+            });
+            // console.log("Sale Mints:", saleMints);
+            var creatorFromMint = [];
+            for (const mintAddr of saleMints) {
+              const res = await getNFTData(cluster, mintAddr);
+              if (res.success === true) {
+                var creatorsReceived = res.details.creators;
+                // console.log("Received", creatorsReceived);
+                for (const creator of creatorsReceived) {
+                  creatorFromMint = [...creatorFromMint, creator.address];
+                }
+              }
+            }
+            // console.log("Creators:", creatorFromMint);
+            setNftCreators(creatorFromMint);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
     
 
     return (
@@ -210,7 +255,7 @@ const LiveTransactions = ({ styles, id, data, address, cluster }) => {
                                 </div>
                                 {
                                     (data.actions.length > 0) ?
-                                        data.actions.map((action,index) => ((isParsable(action.type))?(<SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index}/>):""))
+                                        data.actions.map((action,index) => ((isParsable(action.type))?(<SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index} showRoyalty={true} saleNftCreators={saleNftCreators} />):""))
                                         : "-"
                                 }
                                 {

@@ -8,7 +8,7 @@ import EachTabToken from "./EachTabToken";
 import SearchTokens from "../SearchTokens";
 
 
-const TabbedTokens = ({address,cluster}) => {
+const TabbedTokens = ({address,cluster,setTokensCount}) => {
     const [tokens,setTokens] = useState([]);
     const [isLoading,setLoading] = useState(false);
     // const [errorOcc,setErrorOcc] = useState(false);
@@ -24,6 +24,8 @@ const TabbedTokens = ({address,cluster}) => {
                     var allTokens = res.details;
                     allTokens.sort((a,b) => b.balance - a.balance);
                     setTokens(allTokens);
+                    if(Array.isArray(res.details))
+                        setTokensCount(res.details.length);
                 } catch (error) {
                     setTokens(res.details);
                 }

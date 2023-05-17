@@ -644,6 +644,18 @@
     height: 38px;
     border-radius: 20px;
 }
+.sub_txns .royalty_badge
+{
+    padding: 5px 2px 2px 8px;
+    background-color: #1E0C36;
+    width: 100%;
+    max-width: 94px;
+    font: 300 10px/12px "Plus Jakarta Sans",sans-serif !important;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    margin-left: 8px;
+}
 .could_not_text
 {
     font: 300 16px/20px "Poppins",sans-serif;

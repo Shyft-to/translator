@@ -71,7 +71,7 @@ export const ocean = {
   base0F: "#FDF41B", //value number color
 };
 
-const TxnComponent = ({popup,setPopUp}) => {
+const TxnComponent = ({ popup, setPopUp }) => {
   let [searchParams, setSearchParams] = useSearchParams();
   const { txn } = useParams();
   const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -90,6 +90,9 @@ const TxnComponent = ({popup,setPopUp}) => {
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [shyftMessage, setMessage] = useState("");
   const [inspectionDepth, setInspectionDepth] = useState(true);
+
+  const [saleNftCreators, setNftCreators] = useState([]);
+  const [royaltyFeeActions, setRoyaltyActions] = useState([]);
 
   const toggleTxnsSection = () => {
     const height = $(`#json_txns`).height();
@@ -156,6 +159,7 @@ const TxnComponent = ({popup,setPopUp}) => {
           var isCategorizationComplete = false;
           var unknownCounter = 0;
           if (Array.isArray(res.data.result.parsed.actions)) {
+            getCreators(res.data.result.parsed.actions);
             res.data.result.parsed.actions.forEach((element) => {
               if (isCategorizationComplete === false) {
                 var categoryDone = categoriseAction(
@@ -186,24 +190,77 @@ const TxnComponent = ({popup,setPopUp}) => {
       });
   }, []);
 
-  const getData = async (cluster, address) => {
-    try {
-      const res = await getNFTData(cluster, address);
-      if (res.success === true) {
-        if (res.details.image_uri)
-          setImage(res.details.cached_image_uri ?? res.details.image_uri);
+  // const getData = async (cluster, address) => {
+  //   try {
+  //     const res = await getNFTData(cluster, address);
+  //     if (res.success === true) {
+  //       if (res.details.image_uri)
+  //         setImage(res.details.cached_image_uri ?? res.details.image_uri);
 
-        setName(res.details.name);
+  //       setName(res.details.name);
+  //     }
+  //     // setDataLoaded(true);
+  //   } catch (error) {
+  //     setName("");
+  //     // setDataLoaded(true);
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (relField !== "") getData(cluster, relField);
+  // }, [relField]);
+
+  const getCreators = async (actions) => {
+    try {
+      var saleMints = [];
+      if (actions.length > 0) {
+        actions.forEach((action) => {
+          if (action.type === "NFT_SALE") {
+            saleMints = [...saleMints, action.info.nft_address];
+          }
+        });
+        // console.log("Sale Mints:", saleMints);
+        var creatorFromMint = [];
+        for (const mintAddr of saleMints) {
+          const res = await getNFTData(cluster, mintAddr);
+          if (res.success === true) {
+            var creatorsReceived = res.details.creators;
+            // console.log("Received", creatorsReceived);
+            for (const creator of creatorsReceived) {
+              creatorFromMint = [...creatorFromMint, creator.address];
+            }
+          }
+        }
+        // console.log("Creators:", creatorFromMint);
+        setNftCreators(creatorFromMint);
       }
-      // setDataLoaded(true);
     } catch (error) {
-      setName("");
-      // setDataLoaded(true);
+      console.log(error);
     }
   };
+
   useEffect(() => {
-    if (relField !== "") getData(cluster, relField);
-  }, [relField]);
+    if (data !== null && saleNftCreators.length > 0) {
+      try {
+        var royaltyActions = [];
+        if (Array.isArray(data.actions)) {
+          for (const action of data.actions) {
+            if (action.type === "TOKEN_TRANSFER") {
+              if (saleNftCreators.includes(action.info.receiver))
+                royaltyActions.push(action);
+            }
+            if (action.type === "SOL_TRANSFER") {
+              if (saleNftCreators.includes(action.info.receiver))
+                royaltyActions.push(action);
+            }
+          }
+          // console.log("Royalty fee ac", royaltyActions);
+          setRoyaltyActions(royaltyActions);
+        }
+      } catch (error) {
+        console.log("Error occ when generating Royalty transfers");
+      }
+    }
+  }, [data, saleNftCreators]);
 
   const categoriseAction = (data, txn_type) => {
     var type_obj = {
@@ -243,10 +300,11 @@ const TxnComponent = ({popup,setPopUp}) => {
           symbol: "",
         };
         setRelField(data.info.token_address ?? "");
-        msg = `${data.info.amount
-          } TOKEN(s) was transferred from ${shortenAddress(
-            data.info.sender
-          )} to ${shortenAddress(data.info.receiver)}`;
+        msg = `${
+          data.info.amount
+        } TOKEN(s) was transferred from ${shortenAddress(
+          data.info.sender
+        )} to ${shortenAddress(data.info.receiver)}`;
         // setCurrencyField(data.info.token_address ?? "");
       } else if (txn_type === "NFT_TRANSFER") {
         type_obj = {
@@ -736,38 +794,38 @@ const TxnComponent = ({popup,setPopUp}) => {
                     >
                       {Array.isArray(data.signers) && data.signers.length > 0
                         ? data.signers.map((signer) => (
-                          <span>
-                            <a
-                              href={
-                                cluster === "mainnet-beta"
-                                  ? `/address/${signer}`
-                                  : `/address/${signer}?cluster=${cluster}`
-                              }
-                            >
-                              {shortenAddress(signer)}
-                            </a>
-                            <Tooltip
-                              content={copy}
-                              className="inline_tooltip"
-                              direction="up"
-                              // eventOn="onClick"
-                              // eventOff="onMouseLeave"
-                              useHover={true}
-                              background="#101010"
-                              color="#fefefe"
-                              arrowSize={0}
-                            >
-                              <button className={styles.inline_copy}>
-                                <img
-                                  src={copyBtn}
-                                  alt="Copy"
-                                  onClick={() => copyValue(signer)}
-                                />
-                              </button>
-                              &nbsp;&nbsp;
-                            </Tooltip>
-                          </span>
-                        ))
+                            <span>
+                              <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${signer}`
+                                    : `/address/${signer}?cluster=${cluster}`
+                                }
+                              >
+                                {shortenAddress(signer)}
+                              </a>
+                              <Tooltip
+                                content={copy}
+                                className="inline_tooltip"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                              >
+                                <button className={styles.inline_copy}>
+                                  <img
+                                    src={copyBtn}
+                                    alt="Copy"
+                                    onClick={() => copyValue(signer)}
+                                  />
+                                </button>
+                                &nbsp;&nbsp;
+                              </Tooltip>
+                            </span>
+                          ))
                         : ""}
                     </div>
                   </div>
@@ -960,92 +1018,273 @@ const TxnComponent = ({popup,setPopUp}) => {
                 </div>
                 {data.actions.length > 0
                   ? data.actions.map((action, index) =>
-                    isParsable(action.type) ? (
-                      <div className={styles.each_txn_3}>
-                        <div>
-                          <div className="row">
-                            <div className="col-12">
-                              <div className={styles.fields_container}>
-                                <div className="d-flex flex-wrap justify-content-start justify-content-md-between align-content-end">
-                                  <div className="pb-2 pb-md-0">
-                                    <div className={styles.txn_name}>
-                                      {action.type === "UNKNOWN"
-                                        ? "Protocol Interaction"
-                                        : formatNames(action.type) ||
-                                        "Protocol Interaction"}
-                                    </div>
-                                  </div>
-                                  {action.type === "SWAP" && (
-                                    <div className={styles.slippage_params}>
-                                      <div className="d-flex flex-wrap justify-content-start justify-content-md-end">
-                                        <div
-                                          className={styles.slippage_param}
-                                        >
-                                          <span>Slippage In: </span>{" "}
-                                          {action.info.slippage_in_percent ??
-                                            "--"}{" "}
-                                          %
-                                        </div>
-                                        <div
-                                          className={styles.slippage_param}
-                                        >
-                                          <span>Quoted Out: </span>{" "}
-                                          {action.info.quoted_out_amount ??
-                                            "--"}
-                                        </div>
-                                        <div
-                                          className={styles.slippage_param}
-                                        >
-                                          <span>Slippage: </span>{" "}
-                                          {action.info.slippage_paid ?? "--"}
-                                        </div>
+                      isParsable(action.type) ? (
+                        <div className={styles.each_txn_3}>
+                          <div>
+                            <div className="row">
+                              <div className="col-12">
+                                <div className={styles.fields_container}>
+                                  <div className="d-flex flex-wrap justify-content-start justify-content-md-between align-content-end">
+                                    <div className="pb-2 pb-md-0">
+                                      <div className={styles.txn_name}>
+                                        {action.type === "UNKNOWN"
+                                          ? "Protocol Interaction"
+                                          : formatNames(action.type) ||
+                                            "Protocol Interaction"}
                                       </div>
                                     </div>
-                                  )}
+                                    {action.type === "SWAP" && (
+                                      <div className={styles.slippage_params}>
+                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-end">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Slippage In: </span>{" "}
+                                            {action.info.slippage_in_percent ??
+                                              "--"}{" "}
+                                            %
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Quoted Out: </span>{" "}
+                                            {action.info.quoted_out_amount ??
+                                              "--"}
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Slippage: </span>{" "}
+                                            {action.info.slippage_paid ?? "--"}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+                                    {action.type === "BUY_TICKETS" && (
+                                      <div className={styles.slippage_params}>
+                                        <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Each Ticket Price: </span>{" "}
+                                            {action.info.ticket_price ??
+                                              "--"}
+                                          </div>
+                                      </div>
+                                    )}
 
-                                  {/* <div className="">
+                                    {/* <div className="">
                                                                     <div className={styles.txn_subname}>
                                                                         {(action.source_protocol.name != "") ? <div><a href={`/address/${action.source_protocol.address}`}>{formatNames(action.source_protocol.name)}</a></div> : (<a href={`/address/${action.source_protocol.address}`}>{shortenAddress(action.source_protocol.address)}</a>)}
                                                                     </div>
                                                                 </div> */}
-                                </div>
-                                <SubTransactions
-                                  styles={styles}
-                                  wallet={123}
-                                  cluster={cluster}
-                                  data={action}
-                                  setTxType={action.type}
-                                  key={index}
-                                />
-                                {action.type === "SWAP" && (
-                                  // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
-                                  <div>
-                                    {Array.isArray(action.info.swaps) &&
-                                      action.info.swaps.length > 0 &&
-                                      action.info.swaps.map(
-                                        (swap_action, index) => (
-                                          <SwapsSubTxn
-                                            key={index}
-                                            swap_action={swap_action}
-                                            cluster={cluster}
-                                          />
-                                        )
-                                      )}
+
                                   </div>
-                                )}
-                                <div className="pb-2"></div>
+                                  <SubTransactions
+                                    styles={styles}
+                                    wallet={123}
+                                    cluster={cluster}
+                                    data={action}
+                                    setTxType={action.type}
+                                    key={index}
+                                  />
+                                  {action.type === "SWAP" && (
+                                    // <div className="text-light"><pre>{JSON.stringify(action)}</pre></div>
+                                    <div>
+                                      {Array.isArray(action.info.swaps) &&
+                                        action.info.swaps.length > 0 &&
+                                        action.info.swaps.map(
+                                          (swap_action, index) => (
+                                            <SwapsSubTxn
+                                              key={index}
+                                              swap_action={swap_action}
+                                              cluster={cluster}
+                                            />
+                                          )
+                                        )}
+                                    </div>
+                                  )}
+                                  {action.type === "CREATE_RAFFLE" && (
+                                      <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                        <div className="d-flex flex-wrap justify-content-start">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Creator: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.raffle_creator}`
+                                                : `/address/${action.info.raffle_creator}?cluster=${cluster}`}>{shortenAddress(action.info.raffle_creator)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Address: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.raffle_address}`
+                                                : `/address/${action.info.raffle_address}?cluster=${cluster}`}>{shortenAddress(action.info.raffle_address)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          {/* <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Total Tickets: </span>{" "}
+                                            {action.info.tickets ??
+                                              "--"}
+                                          </div> */}
+                                          {/* <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Ticket Price: </span>{" "}
+                                            {action.info.ticket_price ??
+                                              "--"}
+                                          </div> */}
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Starts: </span>{" "}
+                                            {getFullTime(action.info.start_date ??
+                                              "--")}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Ends: </span>{" "}
+                                            {getFullTime(action.info.end_date ??
+                                              "--")}{" "}
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    )}
+                                    
+                                    {
+                                      action.type === "CLOSE_RAFFLE" &&
+                                      <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Raffle Creator: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.raffle_creator}`
+                                                : `/address/${action.info.raffle_creator}?cluster=${cluster}`}>{shortenAddress(action.info.raffle_creator)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Closure Amount: </span>{" "}
+                                            {action.info.raffle_closure_amount ??
+                                              "--"}
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Fee Taker: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.fee_taker}`
+                                                : `/address/${action.info.fee_taker}?cluster=${cluster}`}>{shortenAddress(action.info.fee_taker)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Fee Taken: </span>{" "}
+                                            {action.info.fee_taken ??
+                                              "--"}{" "}
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    }
+                                  <div className="pb-2"></div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      ""
+                      ) : (
+                        ""
+                      )
                     )
-                  )
                   : "-"}
               </div>
             </motion.div>
+            {data.type === "NFT_SALE" && (royaltyFeeActions.length > 0) && (
+              <motion.div
+                className="row"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+              >
+                <div className="col-12">
+                  <div className={styles.body_title}>Royalties
+                    <span className={styles.body_title_sub}>
+                      ( {Array.isArray(royaltyFeeActions) ? royaltyFeeActions.length : 0} )
+                    </span>
+                  </div>
+                  {royaltyFeeActions.length > 0
+                    ? royaltyFeeActions.map((action, index) =>
+                        isParsable(action.type) ? (
+                          <div className={styles.each_txn_3}>
+                            <div>
+                              <div className="row">
+                                <div className="col-12">
+                                  <div className={styles.fields_container}>
+                                    <div className="d-flex flex-wrap justify-content-start justify-content-md-between align-content-end">
+                                      <div className="pb-2 pb-md-0">
+                                        <div className={styles.txn_name}>
+                                          {action.type === "UNKNOWN"
+                                            ? "Protocol Interaction"
+                                            : formatNames(action.type) ||
+                                              "Protocol Interaction"}
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+                                    <SubTransactions
+                                      styles={styles}
+                                      wallet={123}
+                                      cluster={cluster}
+                                      data={action}
+                                      setTxType={action.type}
+                                      key={index}
+                                    />
+                                    {/* {action.type === "SWAP" && (
+                                      <div>
+                                        {Array.isArray(action.info.swaps) &&
+                                          action.info.swaps.length > 0 &&
+                                          action.info.swaps.map(
+                                            (swap_action, index) => (
+                                              <SwapsSubTxn
+                                                key={index}
+                                                swap_action={swap_action}
+                                                cluster={cluster}
+                                              />
+                                            )
+                                          )}
+                                      </div>
+                                    )} */}
+                                    <div className="pb-2"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )
+                      )
+                    : "-"}
+                </div>
+              </motion.div>
+            )}
             {unknownCount > 0 ? (
               <motion.div
                 className="row"
@@ -1216,10 +1455,10 @@ const TxnComponent = ({popup,setPopUp}) => {
                 <div className={styles.toggle_section_1}>
                   <div className={styles.txn_raw}>
                     {Array.isArray(rawData.meta.logMessages) &&
-                      rawData.meta.logMessages.length > 0
+                    rawData.meta.logMessages.length > 0
                       ? rawData.meta.logMessages.map((log, index) => (
-                        <div key={index}>{JSON.stringify(log)}</div>
-                      ))
+                          <div key={index}>{JSON.stringify(log)}</div>
+                        ))
                       : "No Program Logs found"}
                   </div>
                 </div>

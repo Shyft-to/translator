@@ -197,6 +197,14 @@
   {
     width: 70%;
   }
+  .central_area .main_title_container
+  {
+    
+    font: 800 56px/64px "Montserrat", sans-serif !important;
+    color: #fff;
+    /* letter-spacing: 1px; */
+    margin-bottom: 20px;
+  }
 }
 
 /* @media screen and (max-width:767px) {
@@ -245,7 +253,20 @@
   letter-spacing: 0px;
   color: #fffc;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (min-width: 1366px) and (max-width: 1450px) {
+  .central_area
+    {
+      padding-top: 10% !important;
+    }
+  }
+@media screen and (min-width: 1000px) and (max-width: 1366px) {
+  .central_area
+    {
+      padding-top: 12% !important;
+    }
+  }
+@media screen and (min-width: 767px) and (max-width: 1000px) {
+  
   .central_area .main_title_container
   {
     font: 700 64px/72px "Montserrat", sans-serif;

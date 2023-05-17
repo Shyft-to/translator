@@ -122,11 +122,11 @@
 .top_tab
 {
   position: relative;
-  width: 50%;
-  max-width: 250px;
+  width: 33%;
+  max-width: 140px;
   text-align: center;
-  padding: 18px 0px;
-  font: 500 16px/16px "Poppins", sans-serif;
+  padding: 12px 0px 10px;
+  font: 500 14px/14px "Poppins", sans-serif;
   color: #fffa;
   outline: none;
   border: none;
@@ -156,6 +156,23 @@
   height: 1px;
   background: #FDF41B;
   transition: all 0.2s ease;
+}
+.top_tab .count_badge
+{
+  display: inline-block;
+  position: absolute;
+  font: 300 10px/16px "Poppins", sans-serif;
+  color: #fff;
+  border: 1px solid white;
+  padding: 2px 5px 1px;
+  border-radius: 12px;
+  margin-left: 4px;
+  margin-top: -4px;
+}
+.top_tab_selected .count_badge
+{
+  color: #FDF41B;
+  border: 1px solid #FDF41B;
 }
 .select_container {
   width: 150px;

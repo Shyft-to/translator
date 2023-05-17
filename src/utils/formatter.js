@@ -24,7 +24,15 @@ export function getRelativetime(ISOString) {
 }
 
 export function getFullTime(ISOString) {
-    return (moment(ISOString).format('lll') + " (UTC)");
+    try {
+        if(ISOString === "" || ISOString === "--")
+            return "--"
+        else
+            return (moment(ISOString).format('lll') + " (UTC)"); 
+    } catch (error) {
+        return ISOString;
+    }
+    
 }
 
 export function formatLamports(value) {
@@ -126,7 +134,7 @@ export function isParsable(action)
         if(action !== "")
         {
             const trimmedAction = action.trim();
-            const actionsWeParse = ["SOL_TRANSFER","TOKEN_TRANSFER","NFT_TRANSFER","NFT_MINT","NFT_BURN","TOKEN_MINT","TOKEN_CREATE","TOKEN_BURN","NFT_SALE","NFT_BID","NFT_BID_CANCEL","NFT_LIST","NFT_LIST_UPDATE","NFT_LIST_CANCEL","MARKETPLACE_WITHDRAW","OFFER_LOAN","CANCEL_LOAN","TAKE_LOAN","REPAY_LOAN","REPAY_ESCROW_LOAN","FORECLOSE_LOAN","MEMO","SWAP"];
+            const actionsWeParse = ["SOL_TRANSFER","TOKEN_TRANSFER","NFT_TRANSFER","NFT_MINT","NFT_BURN","TOKEN_MINT","TOKEN_CREATE","TOKEN_BURN","NFT_SALE","NFT_BID","NFT_BID_CANCEL","NFT_LIST","NFT_LIST_UPDATE","NFT_LIST_CANCEL","MARKETPLACE_WITHDRAW","OFFER_LOAN","CANCEL_LOAN","TAKE_LOAN","REPAY_LOAN","REPAY_ESCROW_LOAN","FORECLOSE_LOAN","MEMO","SWAP","CREATE_RAFFLE","BUY_TICKETS","REVEAL_WINNERS","CLAIM_PRIZE","CLOSE_RAFFLE","CANCEL_RAFFLE"];
             if(actionsWeParse.includes(trimmedAction) === true)
                 return true;
             else
