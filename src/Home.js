@@ -211,7 +211,7 @@ const Home = ({popup, setPopUp}) => {
                         </div>
                       </button>))}
                       {
-                         (wallet.length > 4) && 
+                         (wallet.length > 2 && wallet.length < 35) && 
                          <div>
                           <div className={styles.program_search_heading}>Program Addresses</div>
                           {(listOfAddresses.filter(result => (result.domain.toLowerCase().startsWith(wallet.toLowerCase()) || result.address.startsWith(wallet))).map((result,index) => (<button key={index} className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>

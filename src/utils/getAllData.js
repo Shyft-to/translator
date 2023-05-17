@@ -516,12 +516,26 @@ export async function categorizeAddress(network, address) {
     };
   }
 }
-export async function categorizeAddresswithExplorer(network, address) {
+export async function categorizeAddresswithExplorer(network, address,isCompressed = false) {
+  console.log("compressed",isCompressed);
   var response = {
     success: false,
     type: "UNKNOWN",
     details: null,
   };
+  try {
+    if (isCompressed === true) {
+      const compNftData = await getCompressedNFTData(network,address);
+      response = {
+        success: compNftData.success,
+        type: compNftData.type,
+        details: compNftData.details
+      }
+      return response;
+    }
+  } catch (error) {
+    console.log("Some Error occured while getting compressed NFT data");
+  }
   try {
     const data = await knowAddressType(network, address);
     if (data.addressType === "PROTOCOL") {

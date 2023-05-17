@@ -713,7 +713,6 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           {(data.type === "NFT_TRANSFER" ||
             data.type === "TOKEN_TRANSFER" ||
             data.type === "NFT_MINT" ||
-            data.type === "COMPRESSED_NFT_MINT" ||
             data.type === "TOKEN_MINT" ||
             data.type === "TOKEN_CREATE" ||
             data.type === "NFT_BURN" ||
@@ -742,7 +741,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               }
             >
               <img
-                src={image}
+                src={inView?image:noImage}
                 alt="token"
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null; // prevents looping
@@ -836,14 +835,11 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   )
                 ) : data.type === "NFT_TRANSFER" ||
                   data.type === "TOKEN_TRANSFER" ||
-                  data.type === "COMPRESSED_NFT_TRANSFER" ||
                   data.type === "NFT_MINT" ||
-                  data.type === "COMPRESSED_NFT_MINT" ||
                   data.type === "TOKEN_MINT" ||
                   data.type === "TOKEN_CREATE" ||
                   data.type === "NFT_BURN" ||
                   data.type === "TOKEN_BURN" ||
-                  data.type === "COMPRESSED_NFT_BURN" ||
                   data.type === "NFT_SALE" ||
                   data.type === "NFT_BID" ||
                   data.type === "NFT_BID_CANCEL" ||
@@ -874,7 +870,20 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     "Protocol Interaction"
                   )
                 ) : ((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE")?(<a href={`/address/${name}?cluster=${cluster}`}>{shortenAddress(name)}</a>):
-                  (name || shortenAddress(relField) || "Protocol Interaction")
+                  ((data.type === "COMPRESSED_NFT_TRANSFER" || data.type === "COMPRESSED_NFT_MINT" || data.type === "COMPRESSED_NFT_BURN")?(
+                    relField ? 
+                      ((name === "") ? 
+                        <a href={`/address/${relField}?cluster=${cluster}&compressed=true`}>
+                          {shortenAddress(relField)}
+                        </a>
+                       : 
+                        <a href={`/address/${relField}?cluster=${cluster}&compressed=true`}>
+                          {name}
+                        </a>)
+                      : (
+                        "Protocol Interaction"
+                      )
+                  ):(name || shortenAddress(relField) || "Protocol Interaction"))
                 )}
               </div>
 

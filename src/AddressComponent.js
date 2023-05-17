@@ -30,6 +30,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
     const currentTab = searchParams.get("tab") ?? "TXN";
+    const isCompressedNft = searchParams.get("compressed") ?? "false";
     const navigate = useNavigate();
 
     const [panel, setPanel] = useState("TXN");
@@ -70,7 +71,8 @@ const AddressComponent = ({popup,setPopUp}) => {
     const getClassifiedData = async () => {
 
         try {
-            const res = await categorizeAddresswithExplorer(cluster, addr);
+            var compressed = (isCompressedNft === "true")?true:false;
+            const res = await categorizeAddresswithExplorer(cluster, addr, compressed);
             //console.log(res);
             if (res.success === true) {
                 setData(res.details);
@@ -194,7 +196,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                     </Tooltip>
                                                 </div>
                                                 
-                                                <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
+                                                <div className="px-1" style={{ marginTop: "-3px", color: "#fff" }}>
                                                     <Tooltip
                                                             content={copyLink}
                                                             className="myTarget"
@@ -300,7 +302,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                     </Tooltip>
                                                 </div>
                                                 
-                                                <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
+                                                <div className="px-1" style={{ marginTop: "-3px", color: "#fff" }}>
                                                     <Tooltip
                                                             content={copyLink}
                                                             className="myTarget"

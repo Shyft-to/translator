@@ -89,7 +89,9 @@ const TxnComponent = ({ popup, setPopUp }) => {
   const [copy, setCopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [shyftMessage, setMessage] = useState("");
+
   const [inspectionDepth, setInspectionDepth] = useState(true);
+  const [inspectionDepthRaw,setInspectionDepthRaw] = useState(true);
 
   const [saleNftCreators, setNftCreators] = useState([]);
   const [royaltyFeeActions, setRoyaltyActions] = useState([]);
@@ -1591,14 +1593,43 @@ const TxnComponent = ({ popup, setPopUp }) => {
                       )}
                     </div>
                   ) : (
-                    <div className={styles.txn_raw}>
-                      <JsonViewer
-                        value={rawData}
-                        theme={ocean}
-                        displayDataTypes={false}
-                        rootName={false}
-                        defaultInspectDepth={2}
-                      />
+                    <div>
+                      <div
+                        style={{
+                          position: "relative",
+                          width: "99%",
+                          textAlign: "end",
+                        }}
+                      >
+                        <button
+                          className={styles.expand_button}
+                          onClick={() => setInspectionDepthRaw(!inspectionDepthRaw)}
+                        >
+                          {inspectionDepthRaw ? (
+                            <FaPlusSquare />
+                          ) : (
+                            <FaMinusSquare />
+                          )}
+                        </button>
+                      </div>
+                      {inspectionDepthRaw && <div className={styles.txn_raw}>
+                        <JsonViewer
+                          value={rawData}
+                          theme={ocean}
+                          displayDataTypes={false}
+                          rootName={false}
+                          defaultInspectDepth={2}
+                        />
+                      </div>}
+                      {!inspectionDepthRaw && <div className={styles.txn_raw}>
+                        <JsonViewer
+                          value={rawData}
+                          theme={ocean}
+                          displayDataTypes={false}
+                          rootName={false}
+                          defaultInspectDepth={5}
+                        />
+                      </div>}
                     </div>
                   )}
                 </div>

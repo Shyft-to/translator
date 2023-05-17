@@ -220,7 +220,7 @@ const SearchComponent = ({popup,setPopUp}) => {
                     </button>)
                     ))}
                     {
-                    (wallet.length > 4) &&
+                    (wallet.length > 2 && wallet.length < 35) &&
                       <div>
                         <div className={styles.program_search_heading}>Program Addresses</div>
                         {(listOfAddresses.filter(result => (result.domain.toLowerCase().startsWith(wallet.toLowerCase()) || result.address.startsWith(wallet))).map((result,index) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={index}>

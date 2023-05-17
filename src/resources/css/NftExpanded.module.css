@@ -330,11 +330,13 @@
 .nft_model_modal .nft_close_button
 {
     display: block;
-    margin: 0 auto;
+    position: relative;
+    margin-left: auto;
+    margin-right: 0;
     border: none;
     box-shadow: none;
     background-color: transparent;
-    font: 400 14px/18px "Poppins", sans-serif;
-    color: #FFFa;
+    font: 400 26px/26px "Poppins", sans-serif;
+    color: #F3DD59ee;
     padding: 16px 4px;
 }

@@ -197,6 +197,16 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
+        domain:"Frakt Market",
+        address:"regNrR9XpXkg6VCZXEyTwCGVETwKpZMtQxYx3zResJh", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Frakt Trade",
+        address:"BjrMSDAaEvwCq9vxXKcFMNs2dmMt5xR5JpSXm6HHwJvw", 
+        network:"mainnet-beta"
+    },
+    {
         domain:"Hyperspace",
         address:"HYPERfwdTjyJ2SCaKHmpF2MtrXqWxrsotYDsTrshHWq8", 
         network:"mainnet-beta"

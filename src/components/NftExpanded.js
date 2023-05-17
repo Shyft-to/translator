@@ -70,7 +70,11 @@ const NftExpanded = ({ nft, cluster }) => {
   return (
     <div className={styles.entire_nft_expanded}>
       {showExpObj && <div className={styles.nft_model_modal}>
+        
         <div className={styles.nft_modal}>
+        <button className={styles.nft_close_button} onClick={() => setShowExpObj(false)}>
+          ✖
+        </button>
           {(nft.animation_url !== "") &&
               <model-viewer
               // className="model-viewer"
@@ -84,14 +88,12 @@ const NftExpanded = ({ nft, cluster }) => {
               </model-viewer>
           } 
         </div>
-        <button className={styles.nft_close_button} onClick={() => setShowExpObj(false)}>
-          Close
-        </button>
+        
       </div>}
       <div className="row">
         <motion.div className="col-12 col-lg-4" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className={styles.nft_image_container}>
-            {(nft.animation_url !== "")?
+            {(nft.animation_url !== "" && (nft.animation_url.endsWith("glb") === true || nft.animation_url.endsWith("gltf") === true))?
             <>
               <div className={styles.nft_model_container}>
                 <div className={styles.nft_model_inner_container}>
@@ -174,7 +176,7 @@ const NftExpanded = ({ nft, cluster }) => {
               <p className={styles.section_desc}>{nft.description ?? "--"}</p>
             </motion.div>
             <div className={styles.nft_image_container_mob}>
-            {(nft.animation_url !== "")?
+            {(nft.animation_url !== "" && (nft.animation_url.endsWith("glb") === true || nft.animation_url.endsWith("gltf") === true))?
                 <>
                   <div className={styles.nft_model_container}>
                     <div className={styles.nft_model_inner_container}>
