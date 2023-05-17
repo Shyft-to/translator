@@ -517,7 +517,7 @@ export async function categorizeAddress(network, address) {
   }
 }
 export async function categorizeAddresswithExplorer(network, address,isCompressed = false) {
-  console.log("compressed",isCompressed);
+  // console.log("compressed",isCompressed);
   var response = {
     success: false,
     type: "UNKNOWN",
