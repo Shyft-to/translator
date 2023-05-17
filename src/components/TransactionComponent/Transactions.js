@@ -20,7 +20,7 @@ const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
 const refreshCounter = Number(process.env.REACT_APP_REFRESH_FEED_AFTER_SECS ?? "0")
 
-const Transactions = ({ address, cluster,setProtocolName }) => {
+const Transactions = ({ address, cluster }) => {
   const [loaded, setLoaded] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [errOcc, setErrOcc] = useState(false);
@@ -95,7 +95,7 @@ const Transactions = ({ address, cluster,setProtocolName }) => {
             setTxns(txnReceived);
             setFirstTxn(txnReceived[0].signatures[0]);
             setMoreTxns(true);
-            setProtocolName(txnReceived[0].protocol.name || txnReceived[0].protocol.address);
+            //setProtocolName(txnReceived[0].protocol.name || txnReceived[0].protocol.address);
 
           }
           setLoading(false);

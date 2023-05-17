@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useSearchParams, useParams, useNavigate } from "react-router-dom";
 import { categorizeAddresswithExplorer,clearIfOutdated } from "./utils/getAllData";
-import { shortenAddress,formatNames } from "./utils/formatter";
+import { shortenAddress,formatNames,getProgramNamefromAddr } from "./utils/formatter";
 import { motion } from "framer-motion";
 import { FaLink } from "react-icons/fa";
 import Tooltip from 'react-tooltip-lite';
@@ -298,7 +298,8 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                         arrowSize={5}
 
                                                     >
-                                                        {(protocolName !== "")?formatNames(protocolName):shortenAddress(addr)}
+                                                        
+                                                        {getProgramNamefromAddr(addr) || shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
                                                 
@@ -367,7 +368,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                     </div>
                     <div className={styles.tabbed_section_container}>
                         {
-                            (panel === "TXN") && <Transactions address={addr} cluster={cluster} setProtocolName={setProtocolName} />
+                            (panel === "TXN") && <Transactions address={addr} cluster={cluster}  />
                         }
                         {
                             (panel === "TKN") && <div className="text-center could_not_text pt-5">

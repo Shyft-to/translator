@@ -149,6 +149,18 @@ export function isParsable(action)
     }
     
 }
+export function getProgramNamefromAddr(address)
+{
+    const addressDetails = listOfAddresses.filter(result => result.address.startsWith(address));
+    if(addressDetails.length > 0)
+    {
+        return addressDetails[0].domain;
+    }
+    else
+    {
+        return ""
+    }
+}
 
 export const listOfAddresses = [
     {
