@@ -4,16 +4,55 @@ import styles from "../resources/css/NftExpanded.module.css";
 import unknown from "../resources/images/ok_bear.png";
 import noImage from "../resources/images/no_image.png";
 import copyBtn from "../resources/images/txnImages/copy_icon.svg";
+import verifiedIcon from "../resources/images/verified-1.png";
 import Tooltip from 'react-tooltip-lite';
 // import { Link } from "react-router-dom";
 import { FaLink } from "react-icons/fa";
 import { toPng } from 'html-to-image';
+import { useEffect } from "react";
+import { getNFTData } from "../utils/getAllData";
 
 
 const NftExpanded = ({ nft, cluster }) => {
   const [copied, setcopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [showExpObj,setShowExpObj] = useState(false);
+
+  const [collectionName,setCollectionName] = useState("");
+  
+  useEffect(() => {
+    
+    if(nft.collection.hasOwnProperty('address') && nft.collection?.address !== "")
+    {
+      if(nft.collection.hasOwnProperty('name'))
+      {
+        if(nft.collection.name === "")
+        {
+          getData();
+        }
+      }
+      else
+      {
+        getData();
+      }
+      
+    }
+      
+  }, [nft]);
+
+  const getData = async () => {
+    try {
+      console.log("Getting Collection Name");
+      const collectionNameReceived = await getNFTData(cluster,nft.collection.address);
+      
+      if(collectionNameReceived.details.name !== "")
+        setCollectionName(collectionNameReceived.details.name);
+    } catch (error) {
+      console.log("Error Occured in getting collection name");
+      setCollectionName("");
+    }
+  }
+  
 
   const ref2 = useRef(null);
   const onButtonClick = useCallback(() => {
@@ -294,6 +333,28 @@ const NftExpanded = ({ nft, cluster }) => {
                     </div>
                   </div>
                 </div>
+                <div className={`row ${styles.each_row}`}>
+                  <div className="col-4">
+                    <div className={styles.table_field_name}>Collection</div>
+                  </div>
+                  <div className="col-8">
+                    <div className={styles.table_field_value}>
+                      {/* {(nft.owner !== "") && <Tooltip
+                        content={copied}
+                        className="myTarget"
+                        direction="left"
+                        // eventOn="onClick"
+                        // eventOff="onMouseLeave"
+                        useHover={true}
+                        background="#101010"
+                        color="#fefefe"
+                        styles={{ display: "inline" }}
+                        arrowSize={5}
+                      ><button onClick={() => copyValue(nft.collection?.address)}><img src={copyBtn} /></button></Tooltip>} */}
+                      {(nft.collection.hasOwnProperty('address') && nft.collection?.address !== "") ? <a href={(cluster === "mainnet-beta")?`/address/${nft.collection?.address}`:`/address/${nft.collection?.address}?cluster=${cluster}`}>{nft.collection?.name || collectionName || nft.collection?.family || nft.collection?.address}</a> : (nft.collection?.name || nft.collection?.family || nft.collection?.address || "--")}
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
@@ -342,6 +403,22 @@ const NftExpanded = ({ nft, cluster }) => {
                 </motion.div>
               </div>
             )}
+            {(Array.isArray(nft.creators) && nft.creators.length>0) && <motion.div className={`pt-4 ${styles.nft_section}`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.8 }}>
+              <h6 className={styles.section_heading}>Creators</h6>
+              <div className={`mt-3 ${styles.table_container_creator}`}>
+
+                {nft.creators.map(creator => <div className={`row ${styles.each_row}`}>
+                  <div className="col-10">
+                    <div className={styles.table_field_name}><a href={(cluster === "mainnet-beta")?`/address/${creator.address}`:`/address/${creator.address}?cluster=${cluster}`}>{creator.address ?? "--"} {(creator.verified) && <img src={verifiedIcon} style={{width: "24px", marginTop:"-4px"}}/>}</a></div>
+                  </div>
+                  <div className="col-2">
+                    <div className={styles.table_field_value}>
+                      {creator.share ?? "--"}
+                    </div>
+                  </div>
+                </div>)}
+              </div>
+            </motion.div>}
           </div>
         </div>
       </div>

@@ -565,7 +565,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           value: `${data.info.amount} SOL` ?? "",
           symbol: convertToDays(data.info.loan_duration_seconds) ?? "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         msg = `A loan was taken`;
       } else if (txn_type === "REPAY_LOAN") {
         type_obj = {
@@ -577,7 +577,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           value: `${data.info.amount} SOL` ?? "--",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         msg = `A loan was repaid`;
       } else if (txn_type === "REPAY_ESCROW_LOAN") {
         type_obj = {
@@ -589,7 +589,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           value: "",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         msg = `A loan was repaid`;
       } else if (txn_type === "FORECLOSE_LOAN") {
         type_obj = {
@@ -601,7 +601,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           value: "",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         msg = `A loan was foreclosed`;
       } else {
         type_obj = {

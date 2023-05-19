@@ -215,10 +215,7 @@
     
     color: #0AEEFF;
 }
-/* .nft_section .attributes_section
-{
-    padding-top: px;
-} */
+
 .nft_section .attributes_section .each_attribute
 {
     background-color: #3C1B67;
@@ -242,6 +239,62 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.nft_section .table_container_creator
+{
+    border-radius: 10px;
+    background-color: #3C1B67;
+    padding: 24px 24px;
+    backdrop-filter: blur(10px);
+}
+.nft_section .table_container_creator .each_row
+{
+    padding-top:28px;
+}
+.nft_section .table_container_creator .each_row button
+{
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.nft_section .table_container_creator .each_row button img
+{
+    width: 18px;
+}
+.nft_section .table_container_creator .each_row:first-of-type
+{
+    padding-top:0px;
+}
+.nft_section .table_container_creator .table_field_name
+{
+
+    font: 500 16px/19px "Poppins", sans-serif;
+    color: #fff;
+    
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.nft_section .table_container_creator .table_field_value
+{
+    
+    font: 300 16px/20px "Montserrat", sans-serif;
+    color: #fff;
+    text-align: end;
+}
+.nft_section .table_container_creator .table_field_name a
+{
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.1s ease;
+}
+.nft_section .table_container_creator .table_field_name a:hover
+{
+    
+    color: #0AEEFF;
 }
 
 @media screen and (max-width:767px) {
@@ -284,6 +337,28 @@
         text-align: end;
         
 
+    }
+    .nft_section .table_container_creator
+    {
+        border-radius: 10px;
+        background-color: #3C1B67;
+        padding: 18px 16px;
+    }
+    .nft_section .table_container_creator .each_row
+    {
+        padding-top:17px;
+    }
+    .nft_section .table_container_creator .table_field_name
+    {
+        font: 500 13px/16px "Poppins", sans-serif;
+        color: #fff;
+        
+    }
+    .nft_section .table_container_creator .table_field_value
+    {
+        font: 300 13px/18px "Montserrat", sans-serif;
+        color: #fff;
+        text-align: end;
     }
     .nft_section .attributes_section .each_attribute
     {

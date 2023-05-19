@@ -428,7 +428,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: `${data.info.amount} SOL` ?? "",
           symbol: convertToDays(data.info.loan_duration_seconds) ?? "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
       } else if (data.type === "REPAY_LOAN") {
         type_obj = {
           type: "SHARKYFI_GEN_LOAN",
@@ -439,7 +439,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: `${data.info.amount} SOL` ?? "--",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
       } else if (data.type === "REPAY_ESCROW_LOAN") {
         type_obj = {
           type: "SHARKYFI_GEN_LOAN",
@@ -450,7 +450,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: "",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
       } else if (data.type === "FORECLOSE_LOAN") {
         type_obj = {
           type: "SHARKYFI_GEN_LOAN",
@@ -461,7 +461,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: "",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
       } else if (data.type === "EXTEND_LOAN") {
         type_obj = {
           type: "EXTEND_LOAN",
@@ -474,7 +474,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "",
           loan_duration_seconds: convertToDays(data.info.loan_duration_seconds) ?? "--"
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         setCurrencyField(data.info.currency ?? "")
       } else if (data.type === "EXTEND_ESCROW_LOAN") {
         type_obj = {
@@ -488,7 +488,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           borrower: data.info.borrower ?? "--",
           loan_duration_seconds: convertToDays(data.info.loan_duration_seconds) ?? "--"
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         setCurrencyField(data.info.currency ?? "");
       } else if (data.type === "SWAP") {
         //console.log("Swap inst found");
