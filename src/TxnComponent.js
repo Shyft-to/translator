@@ -1388,6 +1388,32 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                           
                                         </div>
                                     }
+                                    {
+                                      action.type === "CREATE_POOL" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Token Vault One: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.token_vault_one}`
+                                                  : `/address/${action.info.token_vault_one}?cluster=${cluster}`}>{shortenAddress(action.info.token_vault_one)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Token Vault Two: </span>{" "}
+                                              {<a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.token_vault_two}`
+                                                  : `/address/${action.info.token_vault_two}?cluster=${cluster}`}>{shortenAddress(action.info.token_vault_two ??
+                                                "--")}</a>}
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
                                   <div className="pb-2"></div>
                                 </div>
                               </div>

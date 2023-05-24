@@ -149,7 +149,12 @@ const NftExpanded = ({ nft, cluster }) => {
                 </div>
               </div>
               <div className="d-flex justify-content-center">
-                <button className={`text-center ${styles.download_button}`} onClick={() => setShowExpObj(true)}>Preview</button>
+                <div className="px-3">
+                  <button className={`text-center ${styles.download_button}`} onClick={() => setShowExpObj(true)}>Preview</button>
+                </div>
+                <div className="px-3 pt-2">
+                  <a href={nft.animation_url} target="_blank" rel="noreferrer" className={`text-center ${styles.download_button}`} style={{textDecoration: "none", lineHeight: "30px"}}>Download</a>
+                </div>
               </div>
             </>
             :
@@ -232,7 +237,8 @@ const NftExpanded = ({ nft, cluster }) => {
                     </div>
                   </div>
                   <div className="d-flex justify-content-center">
-                    <button className={`text-center ${styles.download_button}`} onClick={() => setShowExpObj(true)}>Preview</button>
+                    <button className={`text-center pe-4 ${styles.download_button}`} onClick={() => setShowExpObj(true)}>Preview</button>
+                    <a href={nft.animation_url} target="_blank" rel="noreferrer" className={`text-center ${styles.download_button}`} style={{textDecoration: "none"}}>Download</a>
                   </div>
                 </>
               :

@@ -586,6 +586,11 @@
     position: relative;
     z-index: 2;
 }
+.sub_txns .field_sub_1 .bolder
+{
+    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    color: #FFFF !important; 
+}
 .sub_txns .field_sub_2
 {
     font: 500 13px/26px "Poppins",sans-serif;
