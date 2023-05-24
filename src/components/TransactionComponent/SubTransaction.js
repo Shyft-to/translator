@@ -886,6 +886,235 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         </div>
         <div className={styles.txn_details}>
           <div className={styles.subtxn_token}>
+            {() => {
+                if(data.type === "ADD_LIQUIDITY" || data.type === "REMOVE_LIQUIDITY")
+                {
+                  return (
+                    <>
+                      <div className="d-flex flex-wrap">
+                        <div className="pe-2">
+                            <Tooltip
+                              content={varFields.to}
+                              className="generic"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.to}`
+                                    : `/address/${varFields.to}?cluster=${cluster}`
+                                }
+                              >
+                                {shortenAddress(varFields.to) ?? "--"}
+                              </a>
+                            </Tooltip>
+                        </div>
+                        <div className="pe-2">
+                          {data.type === "ADD_LIQUIDITY"?`added Liquidity to`:`removed Liquidity from`}  
+                        </div>
+                        
+                        <div className="pe-2">
+                          {varFields.liquidity_details?.length > 1 ? (
+                                  <a
+                                    href={
+                                      cluster === "mainnet-beta"
+                                        ? `/address/${relField}`
+                                        : `/address/${relField}?cluster=${cluster}`
+                                    }
+                                  >
+                                    {varFields.liquidity_details[0].symbol ||
+                                      shortenAddress(
+                                        varFields.liquidity_details[0].token_address
+                                      )} : {varFields.liquidity_details[1].symbol ||
+                                        shortenAddress(
+                                          varFields.liquidity_details[1].token_address
+                                        )}
+                                  </a>
+                                ):
+                                <a
+                                    href={
+                                      cluster === "mainnet-beta"
+                                        ? `/address/${relField}`
+                                        : `/address/${relField}?cluster=${cluster}`
+                                    }
+                                  >
+                                    { shortenAddress(relField)}
+                                  </a>
+                          }
+                        </div>
+                      </div>
+                    </>
+                  )
+                }
+                else if(data.type === "SWAP")
+                {
+                  return (
+                    <>
+                      <div className="d-flex flex-wrap">
+                        <div className="pe-2">
+                          <div>
+                            {varFields.from_amount}{" "}
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.from}`
+                                  : `/address/${varFields.from}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.from}
+                              data-balloon-pos="up"
+                            >
+                              {varFields.from_name ||
+                                shortenAddress(varFields.from)}
+                            </a>
+                          </div>
+                        </div>
+                        <div className="px-3">
+                          <img
+                            src={arrow_swap}
+                            alt=""
+                            style={{ width: "18px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-2 pt-3 pt-md-0">
+                          <div className={styles.second_token_field}>
+                            <div className={styles.second_token_image}>
+                              <img
+                                className="img-fluid"
+                                src={varFields.to_image || noImage}
+                                onError={({ currentTarget }) => {
+                                  currentTarget.onerror = null; // prevents looping
+                                  currentTarget.src = noImage;
+                                }}
+                                alt="token"
+                              />
+                            </div>
+                            <div>
+                              {varFields.to_amount}{" "}
+                              <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.to}`
+                                    : `/address/${varFields.to}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.to}
+                                data-balloon-pos="up"
+                              >
+                                {varFields.to_name ||
+                                  shortenAddress(varFields.to)}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )
+                }
+                else if(data.type === "OFFER_LOAN" || data.type === "CANCEL_LOAN")
+                {
+                  return (
+                    <>
+                    {
+                      data.info.lender ? (
+                        <a href={`/address/${data.info.lender}?cluster=${cluster}`}>
+                          {shortenAddress(data.info.lender)}
+                        </a>
+                      ) : (
+                        "--"
+                      )
+                    }
+                    </>
+                  )
+                }
+                else if(data.type === "NFT_TRANSFER" ||
+                data.type === "TOKEN_TRANSFER" ||
+                data.type === "NFT_MINT" ||
+                data.type === "TOKEN_MINT" ||
+                data.type === "TOKEN_CREATE" ||
+                data.type === "NFT_BURN" ||
+                data.type === "TOKEN_BURN" ||
+                data.type === "NFT_SALE" ||
+                data.type === "NFT_BID" ||
+                data.type === "NFT_BID_CANCEL" ||
+                data.type === "NFT_LIST_UPDATE" ||
+                data.type === "NFT_LIST" ||
+                data.type === "NFT_LIST_CANCEL" ||
+                data.type === "TAKE_LOAN" ||
+                data.type === "FORECLOSE_LOAN" ||
+                data.type === "REPAY_ESCROW_LOAN" ||
+                data.type === "EXTEND_LOAN" ||
+                data.type === "EXTEND_ESCROW_LOAN" ||
+                data.type === "REPAY_LOAN" ||
+                data.type === "CREATE_RAFFLE" ||
+                data.type === "CLAIM_PRIZE" ||
+                data.type === "CANCEL_RAFFLE" ||
+                data.type === "CREATE_TREE" ||
+                data.type === "CREATE_POOL")
+                {
+                    return (
+                      <>
+                        {relField ? (
+                          name === "" ? (
+                            <a href={`/address/${relField}?cluster=${cluster}`}>
+                              {shortenAddress(relField)}
+                            </a>
+                          ) : (
+                            <a href={`/address/${relField}?cluster=${cluster}`}>
+                              {name}
+                            </a>
+                          )
+                        ) : (
+                          "Protocol Interaction"
+                        )}
+                      </>
+                    )
+                }
+                else if(data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE") {
+                    return(
+                      <>
+                        <a href={`/address/${name}?cluster=${cluster}`}>{shortenAddress(name)}</a>
+                      </>
+                    )
+                }
+                else if(data.type === "COMPRESSED_NFT_TRANSFER" || data.type === "COMPRESSED_NFT_MINT" || data.type === "COMPRESSED_NFT_BURN")
+                {
+                  return (
+                    <>
+                    {
+                      relField ? 
+                        ((name === "") ? 
+                          <a href={`/address/${relField}?cluster=${cluster}&compressed=true`}>
+                            {shortenAddress(relField)}
+                          </a>
+                        : 
+                          <a href={`/address/${relField}?cluster=${cluster}&compressed=true`}>
+                            {name}
+                          </a>)
+                        : (
+                          "Protocol Interaction"
+                      )
+                    }
+                  </>
+                  )
+                }
+                else
+                {
+                  return(
+                  <>
+                    {
+                      (name || shortenAddress(relField) || "Protocol Interaction")
+                    }
+                  </>
+                  )
+                }
+              }
+            }
             <div className="d-flex">
               {(data.type === "ADD_LIQUIDITY" || data.type === "REMOVE_LIQUIDITY") ? 
               <div>
