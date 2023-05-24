@@ -692,7 +692,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         setRelType("NONE");
         setCurrencyField(data.info.token_mint_one ?? "");
         setCurrencyFieldTwo(data.info.token_mint_two ?? "");
-        setImage(liquidity_pools);
+        setImage(single_drop);
       }
       else if(data.type === "ADD_LIQUIDITY") {
         // var liquidity_details = data.info.liquidity_added;
@@ -887,7 +887,43 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         <div className={styles.txn_details}>
           <div className={styles.subtxn_token}>
             <div className="d-flex">
-              {(data.type === "ADD_LIQUIDITY" || data.type === "REMOVE_LIQUIDITY") ? 
+              {(data.type === "CREATE_POOL")?
+                <div>
+                    <div className="d-flex flex-wrap">
+                      <div className="pe-2">
+                        New Liquidity Pool
+                      </div>
+                      <div className="pe-1">
+                        <img
+                          src={liquidity_pools}
+                          alt=""
+                          style={{ width: "14px", marginTop: "-2px" }}
+                        />
+                      </div>
+                      <div>
+                        {
+                          (currency !== "" && currencyTwo !== "")?
+                          <a href={
+                            cluster === "mainnet-beta"
+                              ? `/address/${relField}`
+                              : `/address/${relField}?cluster=${cluster}`
+                          }>
+                            {currency} : {currencyTwo}
+                          </a>
+                          :
+                          <a href={
+                            cluster === "mainnet-beta"
+                              ? `/address/${relField}`
+                              : `/address/${relField}?cluster=${cluster}`
+                          }>
+                            {shortenAddress(relField)}
+                          </a>
+
+                        }
+                      </div>
+                    </div>
+                </div>
+              :((data.type === "ADD_LIQUIDITY" || data.type === "REMOVE_LIQUIDITY") ? 
               <div>
                 <div className="d-flex flex-wrap">
                   <div className="pe-2">
@@ -1055,8 +1091,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "CREATE_RAFFLE" ||
                   data.type === "CLAIM_PRIZE" ||
                   data.type === "CANCEL_RAFFLE" ||
-                  data.type === "CREATE_TREE" ||
-                  data.type === "CREATE_POOL"
+                  data.type === "CREATE_TREE"
                    ? (
                   relField ? (
                     name === "" ? (
@@ -1087,7 +1122,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       )
                   ):(name || shortenAddress(relField) || "Protocol Interaction"))
                 )}
-              </div>}
+              </div>)}
 
               {((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE") && name !== "")?(
                 <div className={styles.copy_bt}>
@@ -3118,7 +3153,14 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       <div className="col-12 col-md-10">
                         <div className="d-flex">
                           <div className="pe-1">
-                            <div className={styles.field_sub_1}>This Liquidity Pool was created by </div>
+                            <div className={styles.field_sub_1}>Creator </div>
+                          </div>
+                          <div className="pe-1">
+                            <img
+                              src={arrow}
+                              alt=""
+                              style={{ width: "14px", marginTop: "-2px" }}
+                            />
                           </div>
                           <div className="">
                             <div className={styles.field_sub_1}>
@@ -3144,65 +3186,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           </div>
                         </div>
                       </div>
-                      {/* <div className="col-12 col-md-4 text-end">
-                        <div className={styles.field_sub_2}>
-                          Max Depth: {varFields.depth}
-                        </div>
-                      </div> */}
+                      
                     </div>
-                    <div className="row">
-                      <div className="col-12 col-md-12">
-                        <div className="d-flex">
-                          <div className="pe-2">
-                            <div className={styles.field_sub_1}>Tokens Involved: </div>
-                          </div>
-                          <div className="pe-2">
-                            <div className={styles.field_sub_1}>
-                              <Tooltip
-                                  content={currencyField}
-                                  className="generic"
-                                  direction="up"
-                                  // eventOn="onClick"
-                                  // eventOff="onMouseLeave"
-                                  useHover={true}
-                                  background="#101010"
-                                  color="#fefefe"
-                                  arrowSize={0}
-                                  styles={{ display: "inline" }}
-                                >
-                              <a href={(cluster === "mainnet-beta"
-                                ? `/address/${currencyField}`
-                                : `/address/${currencyField}?cluster=${cluster}`)}>
-                                {currency ?? currencyField}
-                              </a>
-                              </Tooltip>
-                            </div>
-                          </div>
-                          <div className="">
-                            <div className={styles.field_sub_1}>
-                              <Tooltip
-                                  content={currencyFieldTwo}
-                                  className="generic"
-                                  direction="up"
-                                  // eventOn="onClick"
-                                  // eventOff="onMouseLeave"
-                                  useHover={true}
-                                  background="#101010"
-                                  color="#fefefe"
-                                  arrowSize={0}
-                                  styles={{ display: "inline" }}
-                                >
-                              <a href={(cluster === "mainnet-beta"
-                                ? `/address/${currencyFieldTwo}`
-                                : `/address/${currencyFieldTwo}?cluster=${cluster}`)}>
-                                {currencyTwo ?? currencyFieldTwo}
-                              </a>
-                              </Tooltip>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    
                 </>
               )
             }
