@@ -342,7 +342,7 @@ const SubTransactionsDetails = ({ styles, data, cluster }) => {
                     value: `${data.info.amount} SOL` ?? "",
                     symbol: convertToDays(data.info.loan_duration_seconds) ?? ""
                 }
-                setRelField(data.info.collateral_mint ?? "");
+                setRelField(data.info.nft_address ?? "");
             }
             else if (data.type === "REPAY_LOAN") {
                 type_obj = {
@@ -354,7 +354,7 @@ const SubTransactionsDetails = ({ styles, data, cluster }) => {
                     value: `${data.info.amount} SOL` ?? "--",
                     symbol: ""
                 }
-                setRelField(data.info.collateral_mint ?? "");
+                setRelField(data.info.nft_address ?? "");
             }
             else if (data.type === "REPAY_ESCROW_LOAN") {
                 type_obj = {
@@ -366,7 +366,7 @@ const SubTransactionsDetails = ({ styles, data, cluster }) => {
                     value: "",
                     symbol: ""
                 }
-                setRelField(data.info.collateral_mint ?? "");
+                setRelField(data.info.nft_address ?? "");
             }
             else if (data.type === "FORECLOSE_LOAN") {
                 type_obj = {
@@ -378,7 +378,7 @@ const SubTransactionsDetails = ({ styles, data, cluster }) => {
                     value: "",
                     symbol: ""
                 }
-                setRelField(data.info.collateral_mint ?? "");
+                setRelField(data.info.nft_address ?? "");
             }
             else {
                 type_obj = {

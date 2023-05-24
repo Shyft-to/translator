@@ -11,6 +11,8 @@ import OpenPopup from "../OpenPopup";
 
 import infoIcon from "../resources/images/info.svg";
 
+import { listOfAddresses } from "../utils/formatter";
+
 const SearchComponent = ({popup,setPopUp}) => {
   // const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
@@ -217,6 +219,23 @@ const SearchComponent = ({popup,setPopUp}) => {
                       </div>
                     </button>)
                     ))}
+                    {
+                    (wallet.length > 2 && wallet.length < 35) &&
+                      <div>
+                        <div className={styles.program_search_heading}>Program Addresses</div>
+                        {(listOfAddresses.filter(result => (result.domain.toLowerCase().startsWith(wallet.toLowerCase()) || result.address.startsWith(wallet))).map((result,index) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={index}>
+                          <div className="d-flex">
+                            <div className={styles.network_area}>
+                              {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
+                            </div>
+                            <div className={`flex-grow-1 ${styles.address_area}`}>
+                              {result.domain || result.address}
+                            </div>
+                          </div>
+                        </button>)
+                        ))}
+                    </div>
+                    }
                   </motion.div>
                   }
 

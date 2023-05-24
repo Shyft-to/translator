@@ -123,7 +123,19 @@
         padding-top: 10px;
     }
 }
-
+.nft_model_container
+{
+    padding-bottom: 8px;
+    
+}
+.nft_model_container .nft_model_inner_container
+{
+    background-color: #3C1B67;
+    width: 100%;
+    aspect-ratio: 1.1/1;
+    margin: 0 auto;
+    border-radius: 16px;
+}
 .nft_name
 {
     font: 600 40px/48px "Odibee Sans", sans-serif;
@@ -203,10 +215,7 @@
     
     color: #0AEEFF;
 }
-/* .nft_section .attributes_section
-{
-    padding-top: px;
-} */
+
 .nft_section .attributes_section .each_attribute
 {
     background-color: #3C1B67;
@@ -230,6 +239,62 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.nft_section .table_container_creator
+{
+    border-radius: 10px;
+    background-color: #3C1B67;
+    padding: 24px 24px;
+    backdrop-filter: blur(10px);
+}
+.nft_section .table_container_creator .each_row
+{
+    padding-top:28px;
+}
+.nft_section .table_container_creator .each_row button
+{
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.nft_section .table_container_creator .each_row button img
+{
+    width: 18px;
+}
+.nft_section .table_container_creator .each_row:first-of-type
+{
+    padding-top:0px;
+}
+.nft_section .table_container_creator .table_field_name
+{
+
+    font: 500 16px/19px "Poppins", sans-serif;
+    color: #fff;
+    
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.nft_section .table_container_creator .table_field_value
+{
+    
+    font: 300 16px/20px "Montserrat", sans-serif;
+    color: #fff;
+    text-align: end;
+}
+.nft_section .table_container_creator .table_field_name a
+{
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.1s ease;
+}
+.nft_section .table_container_creator .table_field_name a:hover
+{
+    
+    color: #0AEEFF;
 }
 
 @media screen and (max-width:767px) {
@@ -273,6 +338,28 @@
         
 
     }
+    .nft_section .table_container_creator
+    {
+        border-radius: 10px;
+        background-color: #3C1B67;
+        padding: 18px 16px;
+    }
+    .nft_section .table_container_creator .each_row
+    {
+        padding-top:17px;
+    }
+    .nft_section .table_container_creator .table_field_name
+    {
+        font: 500 13px/16px "Poppins", sans-serif;
+        color: #fff;
+        
+    }
+    .nft_section .table_container_creator .table_field_value
+    {
+        font: 300 13px/18px "Montserrat", sans-serif;
+        color: #fff;
+        text-align: end;
+    }
     .nft_section .attributes_section .each_attribute
     {
         padding: 16px;
@@ -292,4 +379,39 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+}
+.nft_model_modal
+{
+    display: block;
+    position: fixed;
+    z-index: 99;
+    background-color: #000A;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    overflow: hidden !important;
+}
+.nft_model_modal .nft_modal
+{
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    margin-top: 24px;
+    padding: 16px 4px;
+}
+.nft_model_modal .nft_close_button
+{
+    display: block;
+    position: relative;
+    margin-left: auto;
+    margin-right: 0;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    font: 400 26px/26px "Poppins", sans-serif;
+    color: #F3DD59ee;
+    padding: 16px 4px;
 }

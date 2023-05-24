@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useSearchParams, useParams, useNavigate } from "react-router-dom";
 import { categorizeAddresswithExplorer,clearIfOutdated } from "./utils/getAllData";
-import { shortenAddress,formatNames } from "./utils/formatter";
+import { shortenAddress,formatNames,getProgramNamefromAddr } from "./utils/formatter";
 import { motion } from "framer-motion";
 import { FaLink } from "react-icons/fa";
 import Tooltip from 'react-tooltip-lite';
@@ -30,6 +30,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
     const currentTab = searchParams.get("tab") ?? "TXN";
+    const isCompressedNft = searchParams.get("compressed") ?? "false";
     const navigate = useNavigate();
 
     const [panel, setPanel] = useState("TXN");
@@ -70,7 +71,8 @@ const AddressComponent = ({popup,setPopUp}) => {
     const getClassifiedData = async () => {
 
         try {
-            const res = await categorizeAddresswithExplorer(cluster, addr);
+            var compressed = (isCompressedNft === "true")?true:false;
+            const res = await categorizeAddresswithExplorer(cluster, addr, compressed);
             //console.log(res);
             if (res.success === true) {
                 setData(res.details);
@@ -194,7 +196,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                     </Tooltip>
                                                 </div>
                                                 
-                                                <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
+                                                <div className="px-1" style={{ marginTop: "-3px", color: "#fff" }}>
                                                     <Tooltip
                                                             content={copyLink}
                                                             className="myTarget"
@@ -296,11 +298,12 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                         arrowSize={5}
 
                                                     >
-                                                        {(protocolName !== "")?formatNames(protocolName):shortenAddress(addr)}
+                                                        
+                                                        {getProgramNamefromAddr(addr) || shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
                                                 
-                                                <div className="px-1" style={{ marginTop: "-1px", color: "#fff" }}>
+                                                <div className="px-1" style={{ marginTop: "-3px", color: "#fff" }}>
                                                     <Tooltip
                                                             content={copyLink}
                                                             className="myTarget"
@@ -365,7 +368,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                     </div>
                     <div className={styles.tabbed_section_container}>
                         {
-                            (panel === "TXN") && <Transactions address={addr} cluster={cluster} setProtocolName={setProtocolName} />
+                            (panel === "TXN") && <Transactions address={addr} cluster={cluster}  />
                         }
                         {
                             (panel === "TKN") && <div className="text-center could_not_text pt-5">

@@ -4,15 +4,55 @@ import styles from "../resources/css/NftExpanded.module.css";
 import unknown from "../resources/images/ok_bear.png";
 import noImage from "../resources/images/no_image.png";
 import copyBtn from "../resources/images/txnImages/copy_icon.svg";
+import verifiedIcon from "../resources/images/verified-1.png";
 import Tooltip from 'react-tooltip-lite';
 // import { Link } from "react-router-dom";
 import { FaLink } from "react-icons/fa";
 import { toPng } from 'html-to-image';
+import { useEffect } from "react";
+import { getNFTData } from "../utils/getAllData";
 
 
 const NftExpanded = ({ nft, cluster }) => {
   const [copied, setcopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
+  const [showExpObj,setShowExpObj] = useState(false);
+
+  const [collectionName,setCollectionName] = useState("");
+  
+  useEffect(() => {
+    
+    if(nft.collection.hasOwnProperty('address') && nft.collection?.address !== "")
+    {
+      if(nft.collection.hasOwnProperty('name'))
+      {
+        if(nft.collection.name === "")
+        {
+          getData();
+        }
+      }
+      else
+      {
+        getData();
+      }
+      
+    }
+      
+  }, [nft]);
+
+  const getData = async () => {
+    try {
+      console.log("Getting Collection Name");
+      const collectionNameReceived = await getNFTData(cluster,nft.collection.address);
+      
+      if(collectionNameReceived.details.name !== "")
+        setCollectionName(collectionNameReceived.details.name);
+    } catch (error) {
+      console.log("Error Occured in getting collection name");
+      setCollectionName("");
+    }
+  }
+  
 
   const ref2 = useRef(null);
   const onButtonClick = useCallback(() => {
@@ -68,36 +108,79 @@ const NftExpanded = ({ nft, cluster }) => {
   }
   return (
     <div className={styles.entire_nft_expanded}>
+      {showExpObj && <div className={styles.nft_model_modal}>
+        
+        <div className={styles.nft_modal}>
+        <button className={styles.nft_close_button} onClick={() => setShowExpObj(false)}>
+          ✖
+        </button>
+          {(nft.animation_url !== "") &&
+              <model-viewer
+              // className="model-viewer"
+              style={{width: "100%",height:"100%"}}
+              src={nft.animation_url}
+              alt="NFT 3d model"
+              exposure="1"
+              scale="1.4 1.4 1.4"
+              camera-controls
+              >
+              </model-viewer>
+          } 
+        </div>
+        
+      </div>}
       <div className="row">
         <motion.div className="col-12 col-lg-4" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className={styles.nft_image_container}>
-            <img ref={ref2}
-              src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift")) ? unknown : (nft.image_uri)}
-              className="img-fluid"
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null; // prevents looping
-                currentTarget.src=noImage;
-              }}
-              alt="nft"
-            />
-            <div className="d-flex justify-content-center">
-              <div className="px-3">
-                <div className={styles.view_original_button}>
-                  {(nft.image_uri !== "") ? <a href={nft.image_uri} target="_blank" rel="noreferrer">
-                    View Original
-                  </a> : ""}
+            {(nft.animation_url !== "" && (nft.animation_url.endsWith("glb") === true || nft.animation_url.endsWith("gltf") === true))?
+            <>
+              <div className={styles.nft_model_container}>
+                <div className={styles.nft_model_inner_container}>
+                  <model-viewer
+                  // className="model-viewer"
+                  style={{width: "100%",height:"100%"}}
+                  src={nft.animation_url}
+                  alt="NFT 3d model"
+                  exposure="1"
+                  scale="1.1 1.1 1.1"
+                  camera-controls
+                  >
+                  </model-viewer>
                 </div>
               </div>
-              <div className="px-3">
-                <div>
-                  {(nft.image_uri !== "") ? <button className={`text-center ${styles.download_button}`} onClick={onButtonClick}>Download</button>: ""}
+              <div className="d-flex justify-content-center">
+                <button className={`text-center ${styles.download_button}`} onClick={() => setShowExpObj(true)}>Preview</button>
+              </div>
+            </>
+            :
+            <>
+              <img ref={ref2}
+                src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift") || nft.image_uri.includes("dex-ray.gift")) ? unknown : (nft.image_uri)}
+                className="img-fluid"
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src=noImage;
+                }}
+                alt="nft"
+              />
+              <div className="d-flex justify-content-center">
+                <div className="px-3">
+                  <div className={styles.view_original_button}>
+                    {(nft.image_uri !== "") ? <a href={nft.image_uri} target="_blank" rel="noreferrer">
+                      View Original
+                    </a> : ""}
+                  </div>
+                </div>
+                <div className="px-3">
+                  <div>
+                    {(nft.image_uri !== "") ? <button className={`text-center ${styles.download_button}`} onClick={onButtonClick}>Download</button>: ""}
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            
+            </>
+          }
           </div>
-          
+ 
         </motion.div>
         <div className="col-12 col-lg-8">
           <div className={styles.nft_desc_section}>
@@ -132,32 +215,58 @@ const NftExpanded = ({ nft, cluster }) => {
               <p className={styles.section_desc}>{nft.description ?? "--"}</p>
             </motion.div>
             <div className={styles.nft_image_container_mob}>
-              <motion.img
-                src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift")) ? unknown : nft.image_uri}
-                ref={ref3}
-                className="img-fluid"
-                alt="nft"
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null; // prevents looping
-                  // currentTarget.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5QUWaw3pkrAkI5OiokGFHvcvSWynIabHycdj_iwr4SLlOYw_1mL2ZpKe6db3puUZLp_s&usqp=CAU";
-                  currentTarget.src=noImage;
-                }}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}
-              />
-              <div className="d-flex justify-content-center">
-                <div className="px-3 pt-2">
-                  <div className={styles.view_original_button}>
-                    {(nft.image_uri !== "") ? <a href={nft.image_uri} target="_blank" rel="noreferrer">
-                      View Original
-                    </a> : ""}
+            {(nft.animation_url !== "" && (nft.animation_url.endsWith("glb") === true || nft.animation_url.endsWith("gltf") === true))?
+                <>
+                  <div className={styles.nft_model_container}>
+                    <div className={styles.nft_model_inner_container}>
+                      <model-viewer
+                      // className="model-viewer"
+                      style={{width: "100%",height:"100%"}}
+                      src={nft.animation_url}
+                      alt="NFT 3d model"
+                      exposure="1"
+                      scale="1.1 1.1 1.1"
+                      camera-controls
+                      >
+                      </model-viewer>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <button className={`text-center ${styles.download_button}`} onClick={() => setShowExpObj(true)}>Preview</button>
+                  </div>
+                </>
+              :
+              <>
+                <motion.img
+                  src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift") || nft.image_uri.includes("dex-ray.gift")) ? unknown : nft.image_uri}
+                  ref={ref3}
+                  className="img-fluid"
+                  alt="nft"
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    // currentTarget.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5QUWaw3pkrAkI5OiokGFHvcvSWynIabHycdj_iwr4SLlOYw_1mL2ZpKe6db3puUZLp_s&usqp=CAU";
+                    currentTarget.src=noImage;
+                  }}
+                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}
+                />
+                <div className="d-flex justify-content-center">
+                  <div className="px-3 pt-2">
+                    <div className={styles.view_original_button}>
+                      {(nft.image_uri !== "") ? <a href={nft.image_uri} target="_blank" rel="noreferrer">
+                        View Original
+                      </a> : ""}
+                    </div>
+                  </div>
+                  <div className="px-3 pt-2">
+                    <div>
+                      {(nft.image_uri !== "") ? <button className={`text-center ${styles.download_button}`} onClick={onButtonClickMobile}>Download</button>: ""}
+                    </div>
                   </div>
                 </div>
-                <div className="px-3 pt-2">
-                  <div>
-                    {(nft.image_uri !== "") ? <button className={`text-center ${styles.download_button}`} onClick={onButtonClickMobile}>Download</button>: ""}
-                  </div>
-                </div>
-              </div>
+              </>
+              }
+            
+              
             </div>
             <motion.div className={styles.nft_section} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.8 }}>
               <h6 className={styles.section_heading}>Details</h6>
@@ -224,6 +333,28 @@ const NftExpanded = ({ nft, cluster }) => {
                     </div>
                   </div>
                 </div>
+                <div className={`row ${styles.each_row}`}>
+                  <div className="col-4">
+                    <div className={styles.table_field_name}>Collection</div>
+                  </div>
+                  <div className="col-8">
+                    <div className={styles.table_field_value}>
+                      {/* {(nft.owner !== "") && <Tooltip
+                        content={copied}
+                        className="myTarget"
+                        direction="left"
+                        // eventOn="onClick"
+                        // eventOff="onMouseLeave"
+                        useHover={true}
+                        background="#101010"
+                        color="#fefefe"
+                        styles={{ display: "inline" }}
+                        arrowSize={5}
+                      ><button onClick={() => copyValue(nft.collection?.address)}><img src={copyBtn} /></button></Tooltip>} */}
+                      {(nft.collection.hasOwnProperty('address') && nft.collection?.address !== "") ? <a href={(cluster === "mainnet-beta")?`/address/${nft.collection?.address}`:`/address/${nft.collection?.address}?cluster=${cluster}`}>{nft.collection?.name || collectionName || nft.collection?.family || nft.collection?.address}</a> : (nft.collection?.name || nft.collection?.family || nft.collection?.address || "--")}
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
@@ -272,6 +403,22 @@ const NftExpanded = ({ nft, cluster }) => {
                 </motion.div>
               </div>
             )}
+            {(Array.isArray(nft.creators) && nft.creators.length>0) && <motion.div className={`pt-4 ${styles.nft_section}`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.8 }}>
+              <h6 className={styles.section_heading}>Creators</h6>
+              <div className={`mt-3 ${styles.table_container_creator}`}>
+
+                {nft.creators.map(creator => <div className={`row ${styles.each_row}`}>
+                  <div className="col-10">
+                    <div className={styles.table_field_name}><a href={(cluster === "mainnet-beta")?`/address/${creator.address}`:`/address/${creator.address}?cluster=${cluster}`}>{creator.address ?? "--"} {(creator.verified) && <img src={verifiedIcon} style={{width: "24px", marginTop:"-4px"}}/>}</a></div>
+                  </div>
+                  <div className="col-2">
+                    <div className={styles.table_field_value}>
+                      {creator.share ?? "--"}
+                    </div>
+                  </div>
+                </div>)}
+              </div>
+            </motion.div>}
           </div>
         </div>
       </div>

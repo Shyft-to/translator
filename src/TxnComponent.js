@@ -89,7 +89,9 @@ const TxnComponent = ({ popup, setPopUp }) => {
   const [copy, setCopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [shyftMessage, setMessage] = useState("");
+
   const [inspectionDepth, setInspectionDepth] = useState(true);
+  const [inspectionDepthRaw,setInspectionDepthRaw] = useState(true);
 
   const [saleNftCreators, setNftCreators] = useState([]);
   const [royaltyFeeActions, setRoyaltyActions] = useState([]);
@@ -350,6 +352,23 @@ const TxnComponent = ({ popup, setPopUp }) => {
         msg = `${data.info.amount} NFT was minted to ${shortenAddress(
           data.info.owner
         )}`;
+      }
+      else if (data.type === "COMPRESSED_NFT_MINT") {
+        type_obj = {
+          type: "COMPRESSED_NFT_MINT",
+          from: "NFT",
+          to: data.info.owner ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+          merkle_tree: data.info.merkle_tree ?? "--",
+        };
+        msg = `1 NFT was minted to ${shortenAddress(
+          data.info.owner
+        )}`;
+        setRelField(data.info.nft_address ?? "");
+        // setRelType("COMPRESSED_NFT");
       } else if (txn_type === "NFT_BURN") {
         type_obj = {
           type: "BURN",
@@ -546,7 +565,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           value: `${data.info.amount} SOL` ?? "",
           symbol: convertToDays(data.info.loan_duration_seconds) ?? "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         msg = `A loan was taken`;
       } else if (txn_type === "REPAY_LOAN") {
         type_obj = {
@@ -558,7 +577,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           value: `${data.info.amount} SOL` ?? "--",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         msg = `A loan was repaid`;
       } else if (txn_type === "REPAY_ESCROW_LOAN") {
         type_obj = {
@@ -570,7 +589,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           value: "",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         msg = `A loan was repaid`;
       } else if (txn_type === "FORECLOSE_LOAN") {
         type_obj = {
@@ -582,7 +601,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           value: "",
           symbol: "",
         };
-        setRelField(data.info.collateral_mint ?? "");
+        setRelField(data.info.nft_address ?? "");
         msg = `A loan was foreclosed`;
       } else {
         type_obj = {
@@ -1071,6 +1090,34 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                           </div>
                                       </div>
                                     )}
+                                    {action.type === "COMPRESSED_NFT_BURN" && (
+                                      <div className={styles.slippage_params}>
+                                        <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Merkle Tree: </span>{" "}
+                                            {<a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.merkle_tree}`
+                                                : `/address/${action.info.merkle_tree}?cluster=${cluster}`}>{shortenAddress(action.info.merkle_tree ??
+                                              "--")}</a>}
+                                          </div>
+                                          
+                                      </div>
+                                    )}
+                                    {action.type === "COMPRESSED_NFT_TRANSFER" && (
+                                      <div className={styles.slippage_params}>
+                                        <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Merkle Tree: </span>{" "}
+                                            {<a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.merkle_tree}`
+                                                : `/address/${action.info.merkle_tree}?cluster=${cluster}`}>{shortenAddress(action.info.merkle_tree ??
+                                              "--")}</a>}
+                                          </div>
+                                      </div>
+                                    )}
+                                    
 
                                     {/* <div className="">
                                                                     <div className={styles.txn_subname}>
@@ -1201,6 +1248,145 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                         </div>
                                         
                                       </div>
+                                    }
+                                    {
+                                      action.type === "COMPRESSED_NFT_MINT" &&
+                                      <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Tree Authority: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.tree_authority}`
+                                                : `/address/${action.info.tree_authority}?cluster=${cluster}`}>{shortenAddress(action.info.tree_authority)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Payer: </span>{" "}
+                                            {<a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.payer}`
+                                                : `/address/${action.info.payer}?cluster=${cluster}`}>{shortenAddress(action.info.payer ??
+                                              "--")}</a>}
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    }
+                                    {
+                                      action.type === "CREATE_TREE" &&
+                                      <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                        <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Tree Authority: </span>{" "}
+                                            { <a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.tree_authority}`
+                                                : `/address/${action.info.tree_authority}?cluster=${cluster}`}>{shortenAddress(action.info.tree_authority)}</a> ??
+                                              "--"}{" "}
+                                            
+                                          </div>
+                                          <div
+                                            className={styles.slippage_param}
+                                          >
+                                            <span>Payer: </span>{" "}
+                                            {<a href={cluster === "mainnet-beta"
+                                              ? `/address/${action.info.payer}`
+                                                : `/address/${action.info.payer}?cluster=${cluster}`}>{shortenAddress(action.info.payer ??
+                                              "--")}</a>}
+                                          </div>
+                                          <div className={styles.slippage_params}>
+                                            <div
+                                                className={styles.slippage_param}
+                                              >
+                                                <span>Buffer Size: </span>{" "}
+                                                {action.info.max_buffer_size ??
+                                                  "--"}
+                                              </div>
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+                                    }
+                                    {
+                                      action.type === "EXTEND_LOAN" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Old Lender: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.old_lender}`
+                                                  : `/address/${action.info.old_lender}?cluster=${cluster}`}>{shortenAddress(action.info.old_lender)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>New Lender: </span>{" "}
+                                              {<a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.new_lender}`
+                                                  : `/address/${action.info.new_lender}?cluster=${cluster}`}>{shortenAddress(action.info.new_lender ??
+                                                "--")}</a>}
+                                            </div>
+                                            
+                                              <div
+                                                  className={styles.slippage_param}
+                                                >
+                                                  <span>New Loan: </span>{" "}
+                                                  {<a href={cluster === "mainnet-beta"
+                                                  ? `/address/${action.info.new_loan}`
+                                                    : `/address/${action.info.new_loan}?cluster=${cluster}`}>{shortenAddress(action.info.new_loan ??
+                                                  "--")}</a>}
+                                                </div>
+                                            
+                                          </div>
+                                          
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "EXTEND_ESCROW_LOAN" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Old Lender: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.old_lender}`
+                                                  : `/address/${action.info.old_lender}?cluster=${cluster}`}>{shortenAddress(action.info.old_lender)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>New Lender: </span>{" "}
+                                              {<a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.new_lender}`
+                                                  : `/address/${action.info.new_lender}?cluster=${cluster}`}>{shortenAddress(action.info.new_lender ??
+                                                "--")}</a>}
+                                            </div>
+                                            
+                                            <div
+                                                className={styles.slippage_param}
+                                              >
+                                                <span>New Loan: </span>{" "}
+                                                {<a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.new_loan}`
+                                                  : `/address/${action.info.new_loan}?cluster=${cluster}`}>{shortenAddress(action.info.new_loan ??
+                                                "--")}</a>}
+                                              </div>
+                                            
+                                          </div>
+                                          
+                                        </div>
                                     }
                                   <div className="pb-2"></div>
                                 </div>
@@ -1407,14 +1593,43 @@ const TxnComponent = ({ popup, setPopUp }) => {
                       )}
                     </div>
                   ) : (
-                    <div className={styles.txn_raw}>
-                      <JsonViewer
-                        value={rawData}
-                        theme={ocean}
-                        displayDataTypes={false}
-                        rootName={false}
-                        defaultInspectDepth={2}
-                      />
+                    <div>
+                      <div
+                        style={{
+                          position: "relative",
+                          width: "99%",
+                          textAlign: "end",
+                        }}
+                      >
+                        <button
+                          className={styles.expand_button}
+                          onClick={() => setInspectionDepthRaw(!inspectionDepthRaw)}
+                        >
+                          {inspectionDepthRaw ? (
+                            <FaPlusSquare />
+                          ) : (
+                            <FaMinusSquare />
+                          )}
+                        </button>
+                      </div>
+                      {inspectionDepthRaw && <div className={styles.txn_raw}>
+                        <JsonViewer
+                          value={rawData}
+                          theme={ocean}
+                          displayDataTypes={false}
+                          rootName={false}
+                          defaultInspectDepth={2}
+                        />
+                      </div>}
+                      {!inspectionDepthRaw && <div className={styles.txn_raw}>
+                        <JsonViewer
+                          value={rawData}
+                          theme={ocean}
+                          displayDataTypes={false}
+                          rootName={false}
+                          defaultInspectDepth={5}
+                        />
+                      </div>}
                     </div>
                   )}
                 </div>

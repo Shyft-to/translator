@@ -55,6 +55,88 @@ export async function getNFTData(network, address) {
   return data;
 }
 
+export async function getCompressedNFTData(network,address)
+{
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  const ifCached = await getCacheData(network, address);
+  if (ifCached.success === true) {
+    data = {
+      success: true,
+      type: "NFT",
+      details: ifCached.details,
+    };
+  } else {
+    await axios({
+      url: `${endpoint}nft/compressed/read`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: {
+        network: network,
+        nft_address: address,
+      },
+    })
+      .then((res) => {
+        if (res.data.success === true) {
+          data = {
+            success: true,
+            type: "NFT",
+            details: res.data.result,
+          };
+          pushDatatoCache(network, res.data.result, res.data.result.mint);
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  }
+  return data;
+}
+export async function getMetadata(metadata_uri)
+{
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: null,
+  };
+  await axios({
+    url: metadata_uri,
+    method: "GET",
+    // headers: {
+    //   "Content-Type": "application/json",
+    // },
+    
+  })
+    .then((res) => {
+      if (res.data.name && res.data.image) {
+        var detailsToReturn = {};
+        if(res.data.image?.includes("ray-initiative.gift") || res.data.image?.includes("dex-ray.gift"))
+        {
+          detailsToReturn = {...res.data,image:""}
+        }
+        else
+        {
+          detailsToReturn = res.data;
+        }
+        data = {
+          success: true,
+          type: "METADATA",
+          details: detailsToReturn,
+        };
+        
+      }
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+    return data;
+}
 export async function getTokenData(network, address) {
   var data = {
     success: false,
@@ -84,7 +166,7 @@ export async function getTokenData(network, address) {
       .then((res) => {
         if (res.data.success === true) {
           var detailsToReturn = {};
-          if(res.data.image?.includes("ray-initiative.gift"))
+          if(res.data.image?.includes("ray-initiative.gift") || res.data.image?.includes("dex-ray.gift"))
           {
             detailsToReturn = {...res.data.result,image:""}
           }
@@ -434,12 +516,26 @@ export async function categorizeAddress(network, address) {
     };
   }
 }
-export async function categorizeAddresswithExplorer(network, address) {
+export async function categorizeAddresswithExplorer(network, address,isCompressed = false) {
+  // console.log("compressed",isCompressed);
   var response = {
     success: false,
     type: "UNKNOWN",
     details: null,
   };
+  try {
+    if (isCompressed === true) {
+      const compNftData = await getCompressedNFTData(network,address);
+      response = {
+        success: compNftData.success,
+        type: compNftData.type,
+        details: compNftData.details
+      }
+      return response;
+    }
+  } catch (error) {
+    console.log("Some Error occured while getting compressed NFT data");
+  }
   try {
     const data = await knowAddressType(network, address);
     if (data.addressType === "PROTOCOL") {

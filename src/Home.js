@@ -12,6 +12,30 @@ import TxnLoader from "./components/loaders/TxnLoader";
 import searchIcon from "./resources/images/uil_search.svg";
 import PopupView from "./PopupView";
 import OpenPopup from "./OpenPopup";
+import { listOfAddresses } from "./utils/formatter";
+
+const staticAddresses = [
+  {
+    domain:"Sharky.fi",
+    address:"SHARKobtfF1bHhxD2eqftjHBdVSCbKo9JtgK71FhELP", 
+    network:"mainnet-beta"
+  },
+  {
+    domain:"Jupiter Aggregator v4",
+    address:"JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB", 
+    network:"mainnet-beta"
+  },
+  {
+    domain:"Tensor Swap",
+    address:"TSWAPaqyCSx2KABk68Shruf4rp7CxcNi8hAsbdwmHbN", 
+    network:"mainnet-beta"
+  },
+  {
+    domain:"Foxy Raffle",
+    address:"9ehXDD5bnhSpFVRf99veikjgq8VajtRH7e3D9aVPLqYd", 
+    network:"mainnet-beta"
+  }
+];
 
 const Home = ({popup, setPopUp}) => {
   const navigate = useNavigate();
@@ -134,6 +158,17 @@ const Home = ({popup, setPopUp}) => {
     }
 
   }
+  // useEffect(() => {
+  //   console.log("current wallet value",wallet.length);
+  //   if(wallet.length > 4)
+  //   {
+  //     const programDetails = listOfAddresses.filter(result => result.domain.toLowerCase.startsWith(wallet));
+  //     console.log(programDetails.length)
+  //     setSearchPrograms(programDetails);
+  //   }
+  
+  // }, [wallet])
+  
   return (
     <div>
       
@@ -176,7 +211,34 @@ const Home = ({popup, setPopUp}) => {
                           </div>
                         </div>
                       </button>))}
-
+                      {
+                         (wallet.length > 2 && wallet.length < 35) && 
+                         <div>
+                          <div className={styles.program_search_heading}>Program Addresses</div>
+                          {(listOfAddresses.filter(result => (result.domain.toLowerCase().startsWith(wallet.toLowerCase()) || result.address.startsWith(wallet))).map((result,index) => (<button key={index} className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
+                          <div className="d-flex">
+                            <div className={`flex-grow-1 ${styles.address_area}`}>
+                              {result.domain || result.address}
+                            </div>
+                            <div className={styles.network_area}>
+                              {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
+                            </div>
+                          </div>
+                          </button>)))}
+                          </div>
+                      }
+                    </div>}
+                    {isFocused && (searchData.length < 1) && (wallet.length < 3) && <div className={styles.search_area}>
+                      {staticAddresses.map((result,index) => (<button key={index} className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
+                        <div className="d-flex">
+                          <div className={`flex-grow-1 ${styles.address_area}`}>
+                            {result.domain || result.address}
+                          </div>
+                          <div className={styles.network_area}>
+                            {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
+                          </div>
+                        </div>
+                      </button>))}
                     </div>}
                   </div>
                 </div>
