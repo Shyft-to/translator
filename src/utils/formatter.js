@@ -294,6 +294,11 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
+        domain:"Orca Aquafarm Program",
+        address:"82yxjeMsvaURa4MbZZ7WZZHfobirZYkH1zF8fmeGtyaQ", 
+        network:"mainnet-beta"
+    },
+    {
         domain:"Orca Swap Program v1",
         address:"DjVE6JNiYqPL2QXyCUUh8rNjHrbz9hXHNYt99MQ59qw1", 
         network:"mainnet-beta"
@@ -304,8 +309,8 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
-        domain:"Orca Aquafarm Program",
-        address:"82yxjeMsvaURa4MbZZ7WZZHfobirZYkH1zF8fmeGtyaQ", 
+        domain:"Orca Whirlpools",
+        address:"whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc", 
         network:"mainnet-beta"
     },
     {
@@ -346,6 +351,11 @@ export const listOfAddresses = [
     {
         domain:"Raydium AMM Program",
         address: "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8",
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Raydium CLMM",
+        address: "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
         network:"mainnet-beta"
     },
     {

@@ -546,7 +546,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           swapper: data.info.swapper ?? "--",
           from_image: data.info.tokens_swapped.in.image_uri ?? "",
           to_image: data.info.tokens_swapped.out.image_uri ?? "",
-          slippage_paid: formatNumbers(data.info.slippage_paid.toFixed(7)) ?? "",
+          slippage_paid: formatNumbers(data.info.slippage_paid?.toFixed(7)) ?? "",
           token: "--",
           action: "--",
           value: "",

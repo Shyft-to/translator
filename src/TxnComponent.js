@@ -679,7 +679,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
           <div className="container-lg">
             <div className={styles.main_heading}>
               <div className="d-flex align-items-center">
-                <div onClick={() => copyValue(txn)}>
+                <div onClick={() => copyValue(txn)} style={{cursor:"pointer"}}>
                   <Tooltip
                     content={copy}
                     className="myTarget"
