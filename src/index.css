@@ -335,6 +335,12 @@ body {
 .white-footer-icons img {
   width: 60%;
 }
+@media screen and (max-width: 768px) {
+  .footer-white {
+    position: relative;
+  }
+  
+}
 
 .copy_link {
   background-color: transparent;

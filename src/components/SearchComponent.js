@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import styles from "../resources/css/SearchComponent.module.css";
 import { getAddressfromDomain } from "../utils/getAllData";
 import PopupView from "../PopupView";
-import OpenPopup from "../OpenPopup";
+// import OpenPopup from "../OpenPopup";
 
 import infoIcon from "../resources/images/info.svg";
 
@@ -153,95 +153,103 @@ const SearchComponent = ({popup,setPopUp}) => {
             
           </div>
           
-          <div className="flex-fill">
-            <motion.div className={styles.form_container}>
-              <div className={styles.search_n_suggestions} >
-                <div className={styles.form_field_outer}>
-                  <div className={styles.form_field_inner}>
-                    <form onSubmit={(e) => {
-                      e.preventDefault();
-                      addDataNavigate(wallet, network)
-                    }
-                    }>
-                      <div className="d-flex justify-content-start">
+          <div className="flex-fill bg-primary">
+            <div className="d-flex flex-wrap justify-content-between">
+                <div className="flex-fill">
+                  <motion.div className={styles.form_container}>
+                    <div className={styles.search_n_suggestions} >
+                      <div className={styles.form_field_outer}>
+                        <div className={styles.form_field_inner}>
+                          <form onSubmit={(e) => {
+                            e.preventDefault();
+                            addDataNavigate(wallet, network)
+                          }
+                          }>
+                            <div className="d-flex justify-content-start">
 
-                        <select
-                          className="me-4"
-                          value={network}
-                          onChange={(e) => setNetwork(e.target.value)}
-                        >
-                          <option value="mainnet-beta">Mainnet</option>
-                          <option value="devnet">Devnet</option>
-                          <option value="testnet">Testnet</option>
-                        </select>
-                        <div className="flex-grow-1">
+                              <select
+                                className="me-4"
+                                value={network}
+                                onChange={(e) => setNetwork(e.target.value)}
+                              >
+                                <option value="mainnet-beta">Mainnet</option>
+                                <option value="devnet">Devnet</option>
+                                <option value="testnet">Testnet</option>
+                              </select>
+                              <div className="flex-grow-1">
 
-                          <div className="d-flex justify-content-between">
-                            <div className="flex-grow-1">
-                              <input
-                                type="text"
-                                placeholder="Search any wallet, token, .sol domains or transaction"
-                                value={wallet}
-                                onChange={(e) => setWallet(e.target.value)}
-                                onFocus={() => setFocused(true)}
-                                onBlur={BlurAfterTime}
-                              />
+                                <div className="d-flex justify-content-between">
+                                  <div className="flex-grow-1">
+                                    <input
+                                      type="text"
+                                      placeholder="Search any wallet, token, .sol domains or transaction"
+                                      value={wallet}
+                                      onChange={(e) => setWallet(e.target.value)}
+                                      onFocus={() => setFocused(true)}
+                                      onBlur={BlurAfterTime}
+                                    />
+                                  </div>
+                                  <div>
+                                    {/* <Link to={`/address/${wallet}?cluster=${network}`} className={styles.search_icon}>
+                                      <FaSearch />
+                                  </Link> */}
+                                    <button type="submit" id="start_search" style={{ backgroundColor: "transparent", border: "none", outline: "none" }} className={styles.search_icon}>
+                                      <FaSearch />
+                                    </button>
+                                  </div>
+
+                                </div>
+
+                              </div>
+
                             </div>
+                          </form>
+                        </div>
+                      </div>
+
+                      {isFocused && <div className={styles.suggestions_area_outer}>
+
+                        {<motion.div className={styles.suggestions_area} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
+                          {(searchData.length > 0) && (searchData.filter(result => result.address.startsWith(wallet)).map((result,index) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={index}>
+                            <div className="d-flex">
+                              <div className={styles.network_area}>
+                                {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
+                              </div>
+                              <div className={`flex-grow-1 ${styles.address_area}`}>
+                                {result.domain || result.address}
+                              </div>
+                            </div>
+                          </button>)
+                          ))}
+                          {
+                          (wallet.length > 2 && wallet.length < 35) &&
                             <div>
-                              {/* <Link to={`/address/${wallet}?cluster=${network}`} className={styles.search_icon}>
-                                <FaSearch />
-                            </Link> */}
-                              <button type="submit" id="start_search" style={{ backgroundColor: "transparent", border: "none", outline: "none" }} className={styles.search_icon}>
-                                <FaSearch />
-                              </button>
-                            </div>
-
+                              <div className={styles.program_search_heading}>Program Addresses</div>
+                              {(listOfAddresses.filter(result => (result.domain.toLowerCase().startsWith(wallet.toLowerCase()) || result.address.startsWith(wallet))).map((result,index) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={index}>
+                                <div className="d-flex">
+                                  <div className={styles.network_area}>
+                                    {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
+                                  </div>
+                                  <div className={`flex-grow-1 ${styles.address_area}`}>
+                                    {result.domain || result.address}
+                                  </div>
+                                </div>
+                              </button>)
+                              ))}
                           </div>
+                          }
+                        </motion.div>
+                        }
 
-                        </div>
-
-                      </div>
-                    </form>
-                  </div>
-                </div>
-
-                {isFocused && <div className={styles.suggestions_area_outer}>
-
-                  {<motion.div className={styles.suggestions_area} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
-                    {(searchData.length > 0) && (searchData.filter(result => result.address.startsWith(wallet)).map((result,index) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={index}>
-                      <div className="d-flex">
-                        <div className={styles.network_area}>
-                          {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
-                        </div>
-                        <div className={`flex-grow-1 ${styles.address_area}`}>
-                          {result.domain || result.address}
-                        </div>
-                      </div>
-                    </button>)
-                    ))}
-                    {
-                    (wallet.length > 2 && wallet.length < 35) &&
-                      <div>
-                        <div className={styles.program_search_heading}>Program Addresses</div>
-                        {(listOfAddresses.filter(result => (result.domain.toLowerCase().startsWith(wallet.toLowerCase()) || result.address.startsWith(wallet))).map((result,index) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={index}>
-                          <div className="d-flex">
-                            <div className={styles.network_area}>
-                              {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
-                            </div>
-                            <div className={`flex-grow-1 ${styles.address_area}`}>
-                              {result.domain || result.address}
-                            </div>
-                          </div>
-                        </button>)
-                        ))}
+                      </div>}
                     </div>
-                    }
                   </motion.div>
-                  }
-
-                </div>}
-              </div>
-            </motion.div>
+                </div>
+                <div className={styles.connect_button_container}>
+                  <button>Connect Wallet</button>
+                </div>
+            </div>
+            
           </div>
           <div className="logo_area">
               <button className={styles.about_shyft_button} onClick={() => setPopUp(true)}>

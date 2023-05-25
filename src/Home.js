@@ -181,14 +181,14 @@ const Home = ({popup, setPopUp}) => {
         <div className="container-lg">
           <div className={styles.central_area}>
             <div className={styles.main_title_container}>
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>Solana Translator</motion.div>
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className={styles.small_title}>A simple to read, human-friendly Solana explorer</motion.div>
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className={styles.small_title}>A simple to read, human-friendly Solana explorer</motion.div>
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>Solana Translator</motion.div>
             </div>
             <form onSubmit={(e) => {
               e.preventDefault();
               addDataNavigate(wallet, network)}
               }>
-              <motion.div className="row py-5" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+              <motion.div className="row pt-5" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
                 <div className="col-12 col-md-9 p-2">
                   <div className={styles.simple_input_container}>
                     <div className="d-flex">
@@ -251,17 +251,23 @@ const Home = ({popup, setPopUp}) => {
                   </div>
                 </div>
               </motion.div>
-              <div className="text-center">
-                <motion.div className={styles.button_container} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
-                  <button id="start_search" type="submit" className={styles.btn_solid_grad}>
-                    Translate
-                  </button>
-                </motion.div>
-              </div>
+
               {loadingAddr && <div className="text-center pt-3">
                 <TxnLoader />
               </div>}
             </form>
+            <motion.div className="row" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+                <div className="col-12 col-md-9 p-2 pt-4">
+                  <button id="start_search" className={styles.btn_solid_grad} onClick={(e) => {
+                    addDataNavigate(wallet, network)}
+                  }>
+                    Translate
+                  </button>
+                </div>
+                <div className="col-12 col-md-3 p-2 pt-4">
+                  <button>Connect Wallet</button>
+                </div>
+            </motion.div>
           </div>
         </div>
 

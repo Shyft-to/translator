@@ -396,3 +396,13 @@
   color: #fff;
   padding: 4px 16px;
 }
+.connect_button_container
+{
+  width: 180px;
+}
+@media screen and (max-width: 569px) {
+  .connect_button_container
+  {
+    width: 100%;
+  }
+}

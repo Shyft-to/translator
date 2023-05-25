@@ -159,7 +159,8 @@
   /* padding: 0.8rem 2.5rem 0.8rem 2.5rem; */
   padding-top: 0.7rem;
   padding-bottom: 0.7rem;
-  min-width: 220px;
+  width: 100%;
+  /* min-width: 220px; */
   border: none;
   border-radius: 2.5rem;
   background-color: rgba(89, 101, 243, 0.29);
@@ -185,7 +186,7 @@
 {
   opacity: 0.7;
 }
-@media screen and (max-width: 767px)
+@media screen and (max-width: 768px)
 {
   .middle_layer .rocket_container
   {
@@ -197,14 +198,13 @@
   {
     width: 70%;
   }
-  .central_area .main_title_container
+  /* .central_area .main_title_container
   {
     
     font: 800 56px/64px "Montserrat", sans-serif !important;
     color: #fff;
-    /* letter-spacing: 1px; */
     margin-bottom: 20px;
-  }
+  } */
 }
 
 /* @media screen and (max-width:767px) {
@@ -245,13 +245,13 @@
   font: 800 72px/88px "Montserrat", sans-serif;
   color: #fff;
   /* letter-spacing: 1px; */
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .central_area .main_title_container .small_title
 {
-  font: 400 16px/32px "Montserrat", sans-serif;
-  letter-spacing: 0px;
-  color: #fffc;
+  font: 500 18px/32px "Montserrat", sans-serif;
+  color: #fff;
+  padding-bottom: 20px;
 }
 @media screen and (min-width: 1366px) and (max-width: 1450px) {
   .central_area
@@ -265,7 +265,7 @@
       padding-top: 12% !important;
     }
   }
-@media screen and (min-width: 767px) and (max-width: 1000px) {
+@media screen and (min-width: 769px) and (max-width: 1000px) {
   
   .central_area .main_title_container
   {
@@ -277,6 +277,30 @@
   {
     font: 400 16px/40px "Montserrat", sans-serif;
 
+  }
+}
+@media screen and (max-width: 768px)
+{
+  
+  .central_area .main_title_container
+  {
+    font: 700 40px/48px "Montserrat", sans-serif;
+    word-wrap: break-word;
+    /* height: 150px; */
+  }
+  .central_area .main_title_container .small_title
+  {
+    font: 400 14px/18px "Montserrat", sans-serif;
+  }
+}
+@media screen and (max-width:600px) {
+  .central_area
+  {
+    padding-top: 28% !important;
+  }
+  .central_area .main_title_container .small_title
+  {
+    padding-bottom: 16px;
   }
 }
 .simple_input_container
@@ -372,4 +396,29 @@
   font: 500 10px/12px "Montserrat", sans-serif;
   color: #fff;
   padding: 4px 16px;
+}
+
+@media screen and (max-width:600px) {
+  .simple_input_container
+  {
+    padding: 8px 12px;
+  }
+  .simple_input_container input::placeholder
+  {
+    font-size: 14px !important;
+  }
+  .simple_select_container
+  {
+    padding: 8px 12px;
+  }
+  .simple_select_container select
+  {
+    padding: 2px 4px;
+    font: 500 12px/12px "Montserrat", sans-serif;
+  }
+  .btn_solid_grad
+  {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
 }
