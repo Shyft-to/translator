@@ -36,6 +36,16 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
         }, 1000);
     }
     useEffect(() => {
+        if (data.type === "SOL_TRANSFER") {
+            data.actions.forEach((txn) => {
+                if (data.type === txn.type) {
+                    if (address === txn.info.sender)
+                        setTxType("SOL Sent")
+                    else if (address === txn.info.receiver)
+                        setTxType("SOL Received")
+                }
+            });
+        }
         if (data.type === "TOKEN_TRANSFER") {
             data.actions.forEach((txn) => {
                 if (data.type === txn.type) {
