@@ -4,6 +4,9 @@
 .heading_section
 {
   padding-top: 40px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 .background
 {
@@ -41,10 +44,8 @@
 {
   font: 600 24px/24px "Montserrat", sans-serif;
   color: #fff;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   cursor: pointer;
+  padding-top: 6px;
 }
 .main_heading span
 {
@@ -61,8 +62,9 @@
   /* overflow-x: hidden !important;
   overflow-y: hidden !important; */
   /* width: 150px; */
-  font: 500 24px/32px "Montserrat", sans-serif;
+  font: 500 18px/24px "Montserrat", sans-serif;
   color: #fff;
+  padding-top: 6px;
 }
 .copy_button
 {
@@ -236,6 +238,17 @@
 .collections_cara_cont
 {
   padding-top: 40px;
+}
+.follow_button
+{
+  background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
+  padding: 8px 30px;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  border-radius: 16px;
+  color: #fff;
+  font: 400 16px/18px "Montserrat", sans-serif;
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {

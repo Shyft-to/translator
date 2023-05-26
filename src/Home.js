@@ -13,6 +13,7 @@ import searchIcon from "./resources/images/uil_search.svg";
 import PopupView from "./PopupView";
 import OpenPopup from "./OpenPopup";
 import { listOfAddresses } from "./utils/formatter";
+import { userLogon } from "./utils/dboperations";
 
 const staticAddresses = [
   {
@@ -157,6 +158,11 @@ const Home = ({popup, setPopUp}) => {
     }
 
   }
+  const connectWallet = async () => {
+    const isUser = await userLogon("7wh12hjhb11bv3gh13h1b31hj3b1hy3b1h3");
+    
+
+  }
   // useEffect(() => {
   //   console.log("current wallet value",wallet.length);
   //   if(wallet.length > 4)
@@ -265,7 +271,7 @@ const Home = ({popup, setPopUp}) => {
                   </button>
                 </div>
                 <div className="col-12 col-md-3 p-2 pt-4">
-                  <button>Connect Wallet</button>
+                  <button onClick={connectWallet}>Connect Wallet</button>
                 </div>
             </motion.div>
           </div>

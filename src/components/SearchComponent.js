@@ -153,7 +153,7 @@ const SearchComponent = ({popup,setPopUp}) => {
             
           </div>
           
-          <div className="flex-fill bg-primary">
+          <div className="flex-fill">
             <div className="d-flex flex-wrap justify-content-between">
                 <div className="flex-fill">
                   <motion.div className={styles.form_container}>

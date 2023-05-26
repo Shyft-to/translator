@@ -217,43 +217,28 @@ const AddressComponent = ({popup,setPopUp}) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-6 col-lg-6">
-                                        <div className="d-flex flex-wrap justify-content-end">
-                                            <div 
-                                                //className="border border-light" 
-                                                style={{width:"200px",overflow:"hidden",overflowWrap:"normal"}}
-                                            >
-                                                <div className={styles.wallet_balance_indicator}>
-                                                    {data.balance?.toFixed(8)}&nbsp;SOL
-                                                </div>
-                                            </div>
-                                            <div className="ps-2">
-                                                <div className={styles.select_container}>
-                                                    <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
-                                                        <option value="mainnet-beta">Mainnet</option>
-                                                        <option value="devnet">Devnet</option>
-                                                        <option value="testnet">Testnet</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
+                                    <div className="col-6 col-lg-6 text-end">
+                                        <button className={styles.follow_button}>Follow</button>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="pt-1">
-                                                <div className={styles.select_container_2}>
-                                                    <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
-                                                        <option value="mainnet-beta">Mainnet</option>
-                                                        <option value="devnet">Devnet</option>
-                                                        <option value="testnet">Testnet</option>
-                                                    </select>
-                                                </div>
+                                <div className="row pt-4">
+                                    <div className="col-6 col-lg-6">
+                                        <div>
+                                            <div className={styles.wallet_balance_indicator}>
+                                                {data.balance?.toFixed(8)}&nbsp;SOL
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-6 col-lg-6 text-end">
+                                        <div>
+                                            <div className={styles.wallet_balance_indicator}>
+                                                130 Followers &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 130 Following
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
+                            
                             <div className={styles.collections_cara_cont}>
                                 <AllNfts collections={data.collections} address={addr} network={cluster} />
                             </div>
