@@ -15,6 +15,8 @@ import OpenPopup from "./OpenPopup";
 import { listOfAddresses } from "./utils/formatter";
 import { userLogon } from "./utils/dboperations";
 
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
 const staticAddresses = [
   {
     domain:"Sharky.fi",
@@ -270,8 +272,8 @@ const Home = ({popup, setPopUp}) => {
                     Translate
                   </button>
                 </div>
-                <div className="col-12 col-md-3 p-2 pt-4">
-                  <button onClick={connectWallet}>Connect Wallet</button>
+                <div className="col-12 col-md-3 p-2 pt-2 pt-md-4">
+                  <WalletMultiButton className="wallet-button"/>
                 </div>
             </motion.div>
           </div>

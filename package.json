@@ -5,6 +5,10 @@
   "dependencies": {
     "@bonfida/spl-name-service": "^0.1.67",
     "@solana/spl-token": "^0.3.7",
+    "@solana/wallet-adapter-base": "^0.9.22",
+    "@solana/wallet-adapter-react": "^0.15.32",
+    "@solana/wallet-adapter-react-ui": "^0.9.31",
+    "@solana/wallet-adapter-wallets": "^0.19.16",
     "@solana/web3.js": "^1.73.3",
     "@supabase/supabase-js": "^2.22.0",
     "@testing-library/jest-dom": "^5.16.5",

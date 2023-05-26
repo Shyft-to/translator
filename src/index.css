@@ -771,3 +771,29 @@ body {
     padding-bottom: 20px;
   }
 }
+
+.wallet-button{
+  color: black !important;
+  background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
+  width: 100% !important;
+  justify-content: center !important;
+  padding: 0px !important;
+  height: auto !important;
+  font: 500 0.9rem/1.2rem "Montserrat", sans-serif !important;
+  color: #fff !important;
+  padding: 0.7rem 0rem !important;
+  border-radius: 2.5rem !important;
+  transition: all 0.2s;
+}
+
+.wallet-button:hover {
+  transform: scale(1.05);
+}
+.wallet-adapter-dropdown
+{
+  width: 100%;
+}
+.wallet-adapter-dropdown .wallet-button
+{
+  padding: 0.62rem 0rem !important;
+}

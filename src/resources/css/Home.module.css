@@ -178,7 +178,7 @@
 }
 .btn_solid_grad:hover
 {
-  transform: scale(1.05);
+  transform: scale(1.03);
   color: #fff;
 }
 .btn_solid_grad:disabled,
