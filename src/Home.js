@@ -16,6 +16,7 @@ import { listOfAddresses } from "./utils/formatter";
 import { userLogon } from "./utils/dboperations";
 
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 const staticAddresses = [
   {
@@ -42,6 +43,7 @@ const staticAddresses = [
 
 const Home = ({popup, setPopUp}) => {
   const navigate = useNavigate();
+  const { publicKey } = useWallet();
   const [wallet, setWallet] = useState('');
   const [network, setNetwork] = useState('mainnet-beta');
   const [loadingAddr,setLoadingAddr] = useState(false);
@@ -67,6 +69,12 @@ const Home = ({popup, setPopUp}) => {
     
 
   }, [])
+
+  useEffect(() => {
+    if(publicKey)
+      connectWallet(publicKey?.toBase58())
+  }, [publicKey])
+  
 
   const BlurAfterTime = () => {
     setTimeout(() => {
@@ -160,9 +168,13 @@ const Home = ({popup, setPopUp}) => {
     }
 
   }
-  const connectWallet = async () => {
-    const isUser = await userLogon("7wh12hjhb11bv3gh13h1b31hj3b1hy3b1h3");
-    
+  const connectWallet = async (wallet_address) => {
+    const isUser = await userLogon(wallet_address);
+    if(isUser.success)
+    {
+      localStorage.setItem("reac_wid",wallet_address);
+      navigate(`/address/${wallet_address}?cluster=${network}`)
+    }
 
   }
   // useEffect(() => {

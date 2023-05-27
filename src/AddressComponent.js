@@ -21,6 +21,7 @@ import SimpleLoader from "./components/loaders/SimpleLoader";
 import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
 import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
+import { followUser } from "./utils/dboperations";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -145,6 +146,12 @@ const AddressComponent = ({popup,setPopUp}) => {
             window.history.replaceState(null, null, addToUrl);
         }
     }
+    const followuser = async () => {
+        
+        const wallet_address = localStorage.getItem("reac_wid");
+        const followed_user = addr;
+        const resp = await followUser(wallet_address,followed_user);
+    }
 
     return (
         <div>
@@ -218,7 +225,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         </div>
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
-                                        <button className={styles.follow_button}>Follow</button>
+                                        <button className={styles.follow_button} onClick={followuser}>Follow</button>
                                     </div>
                                 </div>
                                 <div className="row pt-4">

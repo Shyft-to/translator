@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { ConnectionProvider, WalletProvider, useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 
@@ -45,12 +45,12 @@ const Parent = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [network]
     );
-    const { connection } = useConnection();
-    const { signTransaction, signAllTransactions } = useWallet();
+    // const { connection } = useConnection();
+    
     return (
         <div>
             <ConnectionProvider endpoint={endpoint}>
-                <WalletProvider wallets={wallets} autoConnect>
+                <WalletProvider wallets={wallets}>
                     <WalletModalProvider>
                         <Router>
                             <ScrollToTop />
