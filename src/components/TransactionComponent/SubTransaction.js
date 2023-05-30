@@ -832,6 +832,101 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         setRelField(data.info.governance_address ?? "");
         setRelType("NONE");
       }
+      else if(data.type === "CREATE_PROPOSAL") {
+        type_obj = {
+          type: "CREATE_PROPOSAL",
+          from: data.info.create_authority ?? "--",
+          to: data.info.realm_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+          description: data.info.proposal_description ?? "--", 
+        };
+        setRelField(data.info.proposal_address ?? "");
+        setName(data.info.proposal_name ?? "")
+        setRelType("NONE");
+      }
+      else if(data.type === "CANCEL_PROPOSAL") {
+        type_obj = {
+          type: "CANCEL_PROPOSAL",
+          from: data.info.proposal_owner_record ?? "--",
+          to: data.info.realm_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.proposal ?? "");
+        // setName(data.info.proposal ?? "")
+        setRelType("NONE");
+      }
+      else if(data.type === "SIGN_OFF_PROPOSAL") {
+        type_obj = {
+          type: "SIGN_OFF_PROPOSAL",
+          from: data.info.signatory ?? "--",
+          to: data.info.realm_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.proposal ?? "");
+        // setName(data.info.proposal ?? "")
+        setRelType("NONE");
+      }
+      else if(data.type === "ADD_SIGNATORY") {
+        type_obj = {
+          type: "ADD_SIGNATORY",
+          from: data.info.proposal ?? "--",
+          to: "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.signatory ?? "");
+        setRelType("NONE");
+      }
+      else if(data.type === "REMOVE_SIGNATORY") {
+        type_obj = {
+          type: "REMOVE_SIGNATORY",
+          from: data.info.proposal ?? "--",
+          to: "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.beneficiary ?? "");
+        setRelType("NONE");
+      }
+      else if(data.type === "INSERT_TRANSACTION") {
+        type_obj = {
+          type: "INSERT_TRANSACTION",
+          from: data.info.proposal ?? "--",
+          to: "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.proposal_transaction ?? "");
+        setRelType("NONE");
+      }
+      else if(data.type === "REMOVE_TRANSACTION") {
+        type_obj = {
+          type: "REMOVE_TRANSACTION",
+          from: data.info.proposal ?? "--",
+          to: "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.proposal_transaction ?? "");
+        setRelType("NONE");
+      }
       else {
         type_obj = {
           type: "",
@@ -1139,7 +1234,14 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "WITHDRAW_GOVERNING_TOKENS" || 
                   data.type === "SET_GOVERNANCE_DELEGATE" ||
                   data.type === "CREATE_GOVERNANCE" ||
-                  data.type === "CREATE_PROGRAM_GOVERNANCE"
+                  data.type === "CREATE_PROGRAM_GOVERNANCE" ||
+                  data.type === "CREATE_PROPOSAL" ||
+                  data.type === "ADD_SIGNATORY" ||
+                  data.type === "REMOVE_SIGNATORY" ||
+                  data.type === "CANCEL_PROPOSAL" ||
+                  data.type === "SIGN_OFF_PROPOSAL" ||
+                  data.type === "INSERT_TRANSACTION" ||
+                  data.type === "REMOVE_TRANSACTION"
                   ) {
                   return (
                     <>
@@ -3699,6 +3801,236 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       </div>
                     </div>
                     
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "CREATE_PROPOSAL") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <img
+                            src={memo_small}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>{varFields.description ?? "--"}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "CANCEL_PROPOSAL") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Proposal cancelled</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={cancel}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "SIGN_OFF_PROPOSAL") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Proposal signed off by</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "ADD_SIGNATORY") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Signatory added to proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "REMOVE_SIGNATORY") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Signatory removed from proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "INSERT_TRANSACTION") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Transaction inserted to proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "REMOVE_TRANSACTION") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Transaction removed from proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </>
               )
