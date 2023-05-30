@@ -927,6 +927,58 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         setRelField(data.info.proposal_transaction ?? "");
         setRelType("NONE");
       }
+      else if(data.type === "CAST_VOTE") {
+        type_obj = {
+          type: "CAST_VOTE",
+          from: data.info.proposal ?? "--",
+          to: data.info.realm_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: data.info.vote_type ?? "--",
+        };
+        setRelField(data.info.vote_governing_token ?? "");
+        setRelType("TOKEN");
+      }
+      else if(data.type === "FINALIZE_VOTE") {
+        type_obj = {
+          type: "FINALIZE_VOTE",
+          from: data.info.proposal ?? "--",
+          to: data.info.realm_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "--",
+        };
+        setRelField(data.info.governing_token ?? "");
+        setRelType("TOKEN");
+      }
+      else if(data.type === "RELINQUISH_VOTE") {
+        type_obj = {
+          type: "RELINQUISH_VOTE",
+          from: data.info.proposal ?? "--",
+          to: data.info.realm_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "--",
+        };
+        setRelField(data.info.vote_governing_token ?? "");
+        setRelType("TOKEN");
+      }
+      else if(data.type === "EXECUTE_TRANSACTION") {
+        type_obj = {
+          type: "EXECUTE_TRANSACTION",
+          from: data.info.proposal ?? "--",
+          to: data.info.governance ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "--",
+        };
+        setRelField(data.info.proposal ?? "");
+        setRelType("NONE");
+      }
       else {
         type_obj = {
           type: "",
@@ -1241,7 +1293,11 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "CANCEL_PROPOSAL" ||
                   data.type === "SIGN_OFF_PROPOSAL" ||
                   data.type === "INSERT_TRANSACTION" ||
-                  data.type === "REMOVE_TRANSACTION"
+                  data.type === "REMOVE_TRANSACTION" ||
+                  data.type === "CAST_VOTE" ||
+                  data.type === "FINALIZE_VOTE" ||
+                  data.type === "RELINQUISH_VOTE" ||
+                  data.type === "EXECUTE_TRANSACTION"
                   ) {
                   return (
                     <>
@@ -4028,6 +4084,137 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </a>
                             </Tooltip>
                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "CAST_VOTE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-9">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Vote cast for proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-3 text-end">
+                      <div className={styles.field_sub_3}>
+                        Vote: {varFields.symbol ?? "--"}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "FINALIZE_VOTE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Vote finalized for proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "RELINQUISH_VOTE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Vote reliquished for proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "EXECUTE_TRANSACTION") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Transaction Executed</div>
                         </div>
                       </div>
                     </div>

@@ -141,7 +141,8 @@ export function isParsable(action)
                                     "CANCEL_RAFFLE","COMPRESSED_NFT_MINT","CREATE_TREE","COMPRESSED_NFT_TRANSFER","COMPRESSED_NFT_BURN","CREATE_POOL",
                                     "ADD_LIQUIDITY","REMOVE_LIQUIDITY","CREATE_REALM","DEPOSIT_GOVERNING_TOKENS","WITHDRAW_GOVERNING_TOKENS",
                                     "SET_GOVERNANCE_DELEGATE","CREATE_GOVERNANCE","CREATE_PROGRAM_GOVERNANCE","CREATE_PROPOSAL","ADD_SIGNATORY",
-                                    "REMOVE_SIGNATORY","CANCEL_PROPOSAL","SIGN_OFF_PROPOSAL","INSERT_TRANSACTION","REMOVE_TRANSACTION"];
+                                    "REMOVE_SIGNATORY","CANCEL_PROPOSAL","SIGN_OFF_PROPOSAL","INSERT_TRANSACTION","REMOVE_TRANSACTION","CAST_VOTE",
+                                    "FINALIZE_VOTE","RELINQUISH_VOTE","EXECUTE_TRANSACTION"];
             if(actionsWeParse.includes(trimmedAction) === true)
                 return true;
             else
