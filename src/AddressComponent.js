@@ -338,8 +338,68 @@ const AddressComponent = ({popup,setPopUp}) => {
                             </motion.div>
                         </div>
                     }
+                    {
+                        (contentType === "GENERAL") &&
+                        <div className="container pb-1 pt-1">
+                            <motion.div className={styles.heading_section} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                                <div className="row">
+                                    <div className="col-6 col-lg-6">
+                                        <div className={styles.main_heading}>
+                                            <div className="d-flex">
+                                                <div className="pe-2" onClick={() => copyValue(addr)}>
+                                                    <Tooltip
+                                                        content={copied}
+                                                        className="myTarget"
+                                                        direction="up"
+                                                        // eventOn="onClick"
+                                                        // eventOff="onMouseLeave"
+                                                        useHover={true}
+                                                        background="#101010"
+                                                        color="#fefefe"
+                                                        arrowSize={5}
+
+                                                    >
+                                                        
+                                                        {shortenAddress(addr)}
+                                                    </Tooltip>
+                                                </div>
+                                                
+                                                <div className="px-1" style={{ marginTop: "-3px", color: "#fff" }}>
+                                                    <Tooltip
+                                                            content={copyLink}
+                                                            className="myTarget"
+                                                            direction="up"
+                                                            // eventOn="onClick"
+                                                            // eventOff="onMouseLeave"
+                                                            useHover={true}
+                                                            background="#101010"
+                                                            color="#fefefe"
+                                                            arrowSize={5}
+
+                                                        >
+                                                        <button className="copy_link" onClick={() => copyValue((cluster==='mainnet-beta')?`https://translator.shyft.to/address/${addr}`:`https://translator.shyft.to/address/${addr}?cluster=${cluster}`, true)}>
+                                                            <FaLink />
+                                                        </button>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-6 col-lg-6 text-end">
+                                        <div className={styles.wallet_balance_indicator}>
+                                            {data.balance} SOL 
+                                            <img src={WalletIcon} alt="Wallet Icon" style={{width:"22px", marginTop:"-4px",marginLeft:"8px"}}/>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    }
 
                 </div>}
+                
+                
                 <div className="container-lg">
                     <div className={styles.tab_container}>
                         <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {

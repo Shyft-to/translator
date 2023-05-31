@@ -538,6 +538,7 @@ export async function categorizeAddresswithExplorer(network, address,isCompresse
   }
   try {
     const data = await knowAddressType(network, address);
+    console.log(data);
     if (data.addressType === "PROTOCOL") {
       const protocolData = await getProtocolData(network, address);
       response = {
@@ -572,6 +573,13 @@ export async function categorizeAddresswithExplorer(network, address,isCompresse
         success: categorizedData.success,
         type: categorizedData.type,
         details: categorizedData.details,
+      };
+    } else if (data.addressType === "GENERAL") {
+      const protocolData = await getProtocolData(network, address);
+      response = {
+        success: protocolData.success,
+        type: "GENERAL",
+        details: protocolData.details,
       };
     } else {
       response = {
@@ -655,19 +663,19 @@ export async function knowAddressType(network, address) {
                   };
                 } else {
                   typeObj = {
-                    addressType: "UNKNOWN",
+                    addressType: "GENERAL",
                   };
                 }
               } else {
                 typeObj = {
-                  addressType: "UNKNOWN",
+                  addressType: "GENERAL",
                 };
               }
             }
           }
         } else {
           typeObj = {
-            addressType: "UNKNOWN",
+            addressType: "GENERAL",
           };
         }
       })

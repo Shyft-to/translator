@@ -1414,6 +1414,252 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                           </div>
                                         </div>
                                     }
+                                    {
+                                      action.type === "CREATE_REALM" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Realm Authority: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.realm_authority}`
+                                                  : `/address/${action.info.realm_authority}?cluster=${cluster}`}>{shortenAddress(action.info.realm_authority)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Tokens to create Governance: </span>{" "}
+                                              {shortenAddress(action.info.min_community_tokens_to_create_governance ??
+                                                "--")}
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "DEPOSIT_GOVERNING_TOKENS" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Token Owner: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governing_token_owner}`
+                                                  : `/address/${action.info.governing_token_owner}?cluster=${cluster}`}>{shortenAddress(action.info.governing_token_owner)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Token Source: </span>{" "}
+                                              {shortenAddress(action.info.governing_token_source ??
+                                                "--")}
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "WITHDRAW_GOVERNING_TOKENS" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Token Owner: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governing_token_owner}`
+                                                  : `/address/${action.info.governing_token_owner}?cluster=${cluster}`}>{shortenAddress(action.info.governing_token_owner)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Token Source: </span>{" "}
+                                              {shortenAddress(action.info.governing_token_destination ??
+                                                "--")}
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "CREATE_GOVERNANCE" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance Address: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance_address}`
+                                                  : `/address/${action.info.governance_address}?cluster=${cluster}`}>{shortenAddress(action.info.governance_address)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance Address: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance_address}`
+                                                  : `/address/${action.info.governance_address}?cluster=${cluster}`}>{shortenAddress(action.info.governance_address)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governed Account: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governed_account_address}`
+                                                  : `/address/${action.info.governed_account_address}?cluster=${cluster}`}>{shortenAddress(action.info.governed_account_address)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "INSERT_TRANSACTION" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance}`
+                                                  : `/address/${action.info.governance}?cluster=${cluster}`}>{shortenAddress(action.info.governance)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance Authority: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance_authority}`
+                                                  : `/address/${action.info.governance_authority}?cluster=${cluster}`}>{shortenAddress(action.info.governance_authority)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "REMOVE_TRANSACTION" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance Authority: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance_authority}`
+                                                  : `/address/${action.info.governance_authority}?cluster=${cluster}`}>{shortenAddress(action.info.governance_authority)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "CAST_VOTE" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance}`
+                                                  : `/address/${action.info.governance}?cluster=${cluster}`}>{shortenAddress(action.info.governance)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Rank: {action.info.rank ?? "--"}</span>{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Weight: {action.info.weight_percentage ?? "--"}</span>{" "}
+                                              
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "CREATE_MINT_GOVERNANCE" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Min Tokens for Proposal: {action.info.min_community_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Base Voting Time: {action.info.base_voting_time ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "CREATE_TOKEN_GOVERNANCE" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Min Tokens for Proposal: {action.info.min_community_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Base Voting Time: {action.info.base_voting_time ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "SET_GOVERNANCE_CONFIG" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Min Comm Tokens for Proposal: {action.info.min_community_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Min Council Tokens for Proposal: {action.info.min_council_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Base Voting Time: {action.info.base_voting_time ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
                                   <div className="pb-2"></div>
                                 </div>
                               </div>

@@ -24,14 +24,16 @@ import duration from "../../resources/images/txnImages/duration.png";
 import memo from "../../resources/images/txnImages/memo.png";
 import memo_small from "../../resources/images/txnImages/memo_small.png";
 import royalty_crown from "../../resources/images/txnImages/royaltyCrown.png";
-import tokenSwap from "../../resources/images/txnImages/token_swap.png";
+// import tokenSwap from "../../resources/images/txnImages/token_swap.png";
 import Foxy from "../../resources/images/txnImages/FoxyRaffle.svg";
 import Raffle_ticket from "../../resources/images/txnImages/raffle_ticket.svg";
 // import Raffle_icon from "../../resources/images/txnImages/raffle_icon.svg";
 import raffle_winner from "../../resources/images/txnImages/raffle_winner.png";
 import merkle_tree_outline from "../../resources/images/txnImages/merkle_tree_outline.svg";
-import liquidity_pools from "../../resources/images/txnImages/liquidity_pool.png";
+// import liquidity_pools from "../../resources/images/txnImages/liquidity_pool.png";
 import single_drop from "../../resources/images/txnImages/single_drop.png";
+
+import general_token from "../../resources/images/txnImages/token_create.png";
 // import liquidity_pool_outline from "../../resources/images/txnImages/liquidity_pool_outline.svg";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
@@ -770,11 +772,11 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
       else if(data.type === "DEPOSIT_GOVERNING_TOKENS") {
         type_obj = {
           type: "DEPOSIT_GOVERNING_TOKENS",
-          from: data.info.payer ?? "--",
+          from: data.info.realm_address ?? "--",
           to: "--",
           token: "--",
           action: "--",
-          value: data.info.amount ?? "--",
+          value: "--",
           symbol: ""
         };
         setRelField(data.info.governing_token ?? "");
@@ -962,6 +964,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           action: "--",
           value: "--",
           symbol: "--",
+          vote_record_address: data.info.vote_record_address ?? "--"
         };
         setRelField(data.info.vote_governing_token ?? "");
         setRelType("TOKEN");
@@ -977,6 +980,58 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "--",
         };
         setRelField(data.info.proposal ?? "");
+        setRelType("NONE");
+      }
+      else if(data.type === "CREATE_MINT_GOVERNANCE") {
+        type_obj = {
+          type: "CREATE_MINT_GOVERNANCE",
+          from: data.info.create_authority ?? "--",
+          to: data.info.realm_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "--",
+        };
+        setRelField(data.info.governed_mint ?? "");
+        setRelType("NONE");
+      }
+      else if(data.type === "CREATE_TOKEN_GOVERNANCE") {
+        type_obj = {
+          type: "CREATE_TOKEN_GOVERNANCE",
+          from: data.info.create_authority ?? "--",
+          to: data.info.realm_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "--",
+        };
+        setRelField(data.info.governed_token ?? "");
+        setRelType("NONE");
+      }
+      else if(data.type === "SET_GOVERNANCE_CONFIG") {
+        type_obj = {
+          type: "SET_GOVERNANCE_CONFIG",
+          from: data.info.min_community_tokens_to_create_proposal ?? "--",
+          to: "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "--",
+        };
+        setRelField(data.info.governance_address ?? "");
+        setRelType("NONE");
+      }
+      else if(data.type === "SET_REALM_AUTHORITY") {
+        type_obj = {
+          type: "SET_REALM_AUTHORITY",
+          from: data.info.action ?? "--",
+          to: "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "--",
+        };
+        setRelField(data.info.realm_address ?? "");
         setRelType("NONE");
       }
       else {
@@ -1297,7 +1352,10 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "CAST_VOTE" ||
                   data.type === "FINALIZE_VOTE" ||
                   data.type === "RELINQUISH_VOTE" ||
-                  data.type === "EXECUTE_TRANSACTION"
+                  data.type === "EXECUTE_TRANSACTION" ||
+                  data.type === "CREATE_MINT_GOVERNANCE" ||
+                  data.type === "CREATE_TOKEN_GOVERNANCE" ||
+                  data.type === "SET_REALM_AUTHORITY" 
                   ) {
                   return (
                     <>
@@ -1329,6 +1387,14 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   return (
                     <>
                       <a href={`/address/${varFields.to}?cluster=${cluster}`}>{varFields.value}</a>
+                    </>
+                  )
+                }
+                else if (data.type === "SET_GOVERNANCE_CONFIG")
+                {
+                  return (
+                    <>
+                      Governance Config Set for <a href={`/address/${relField}?cluster=${cluster}`}>{shortenAddress(varFields.value)}</a>
                     </>
                   )
                 }
@@ -3602,18 +3668,18 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <>
                   <div className="row pt-1">
-                    <div className="col-12 col-md-10">
+                    <div className="col-12 col-md-12">
                       <div className="d-flex">
                         <div className="pe-1">
-                          <div className={styles.field_sub_1}>Paid by </div>
+                          <img
+                            src={general_token}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
                         </div>
                         <div className="pe-1">
-                            <img
-                              src={arrow}
-                              alt=""
-                              style={{ width: "14px", marginTop: "-2px" }}
-                            />
-                          </div>
+                          <div className={styles.field_sub_1}>Tokens Deposited to Realm </div>
+                        </div>
                         <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
@@ -3638,9 +3704,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-2 text-end">
+                    {/* <div className="col-12 col-md-2 text-end">
                       <div className={styles.field_sub_2}>{varFields.value}</div>
-                    </div>
+                    </div> */}
                   </div>
                 </>
               )
@@ -3649,18 +3715,18 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <>
                   <div className="row pt-1">
-                    <div className="col-12 col-md-10">
+                    <div className="col-12 col-md-12">
                       <div className="d-flex">
                         <div className="pe-1">
-                          <div className={styles.field_sub_1}>Realm </div>
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
                         </div>
                         <div className="pe-1">
-                            <img
-                              src={arrow}
-                              alt=""
-                              style={{ width: "14px", marginTop: "-2px" }}
-                            />
-                          </div>
+                          <div className={styles.field_sub_1}>Tokens withdrawn from Realm </div>
+                        </div>
                         <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
@@ -3685,9 +3751,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-2">
+                    {/* <div className="col-12 col-md-2">
                       <div className={styles.field_sub_2}></div>
-                    </div>
+                    </div> */}
                   </div>
                 </>
               )
@@ -4177,7 +4243,32 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <div className="col-12 col-md-12">
                       <div className="d-flex">
                         <div className="pe-1">
-                          <div className={styles.field_sub_1}>Vote reliquished for proposal</div>
+                          <div className={styles.field_sub_1}>Vote</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.vote_record_address}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.vote_record_address}`
+                              : `/address/${varFields.vote_record_address}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.vote_record_address))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>removed for proposal</div>
                         </div>
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
@@ -4214,7 +4305,162 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <div className="col-12 col-md-12">
                       <div className="d-flex">
                         <div className="pe-1">
-                          <div className={styles.field_sub_1}>Transaction Executed</div>
+                          <div className={styles.field_sub_1}>Proposal successfully executed</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "CREATE_MINT_GOVERNANCE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Mint Govenance created by</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "CREATE_TOKEN_GOVERNANCE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Token Govenance created by</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "SET_GOVERNANCE_CONFIG") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Min Tokens for proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "SET_REALM_AUTHORITY") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Action</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.from}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.from}`
+                              : `/address/${varFields.from}?cluster=${cluster}`)}>
+                              {(shortenAddress(varFields.from))}
+                            </a>
+                            </Tooltip>
+                          </div>
                         </div>
                       </div>
                     </div>
