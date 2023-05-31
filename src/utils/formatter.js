@@ -488,6 +488,11 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
+        domain:"Realms Gov",
+        address: "GovER5Lthms3bLBqWub97yVrMmEogzX7xNjdXpPPCVZw",
+        network:"mainnet-beta"
+    },
+    {
         domain:"Saber Router",
         address:"Crt7UoUR6QgrFrN7j8rmSQpUTNWNSitSwWvsWGf1qZ5t", 
         network:"mainnet-beta"

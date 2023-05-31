@@ -619,6 +619,11 @@
     color: #FF5454 !important; 
     font-weight: 500;
 }
+.sub_txns .approve_color
+{
+    color: #4cfc86 !important; 
+    font-weight: 500;
+}
 .sub_txns a
 {
     text-decoration: none;

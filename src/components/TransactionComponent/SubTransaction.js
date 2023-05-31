@@ -35,6 +35,18 @@ import single_drop from "../../resources/images/txnImages/single_drop.png";
 
 import general_token from "../../resources/images/txnImages/token_create.png";
 // import liquidity_pool_outline from "../../resources/images/txnImages/liquidity_pool_outline.svg";
+import gov_building from "../../resources/images/txnImages/governance.svg";
+import proposal from "../../resources/images/txnImages/proposal.svg";
+import signature from "../../resources/images/txnImages/signature.svg";
+import signer from "../../resources/images/txnImages/signer.svg";
+import realm_transaction from "../../resources/images/txnImages/transaction.svg";
+import vote_abstain from "../../resources/images/txnImages/vote-abstain.svg";
+import vote_approve from "../../resources/images/txnImages/vote-approve.svg";
+import vote_denied from "../../resources/images/txnImages/vote-denied.svg";
+import vote_veto from "../../resources/images/txnImages/vote-veto2.svg";
+import vote from "../../resources/images/txnImages/vote.svg";
+import realm from "../../resources/images/txnImages/realm.svg";
+
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 import { getMetadata, getNFTData, getTokenData } from "../../utils/getAllData";
@@ -793,6 +805,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: ""
         };
         setRelField(data.info.governing_token ?? "");
+        // setImage(gov_building);
         setRelType("TOKEN");
       }
       else if(data.type === "SET_GOVERNANCE_DELEGATE") {
@@ -806,6 +819,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: ""
         };
         setRelField(data.info.new_governance_delegate ?? "");
+        setImage(gov_building);
         setRelType("NONE");
       }
       else if(data.type === "CREATE_GOVERNANCE") {
@@ -819,6 +833,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: ""
         };
         setRelField(data.info.governance_address ?? "");
+        setImage(gov_building);
         setRelType("NONE");
       }
       else if(data.type === "CREATE_PROGRAM_GOVERNANCE") {
@@ -832,6 +847,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: ""
         };
         setRelField(data.info.governance_address ?? "");
+        setImage(gov_building);
         setRelType("NONE");
       }
       else if(data.type === "CREATE_PROPOSAL") {
@@ -846,7 +862,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           description: data.info.proposal_description ?? "--", 
         };
         setRelField(data.info.proposal_address ?? "");
-        setName(data.info.proposal_name ?? "")
+        setName(data.info.proposal_name ?? "");
+        setImage(proposal);
         setRelType("NONE");
       }
       else if(data.type === "CANCEL_PROPOSAL") {
@@ -860,6 +877,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "",
         };
         setRelField(data.info.proposal ?? "");
+        setImage(proposal);
         // setName(data.info.proposal ?? "")
         setRelType("NONE");
       }
@@ -875,6 +893,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         };
         setRelField(data.info.proposal ?? "");
         // setName(data.info.proposal ?? "")
+        setImage(proposal);
         setRelType("NONE");
       }
       else if(data.type === "ADD_SIGNATORY") {
@@ -888,6 +907,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "",
         };
         setRelField(data.info.signatory ?? "");
+        setImage(signer);
         setRelType("NONE");
       }
       else if(data.type === "REMOVE_SIGNATORY") {
@@ -901,6 +921,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "",
         };
         setRelField(data.info.beneficiary ?? "");
+        setImage(signer);
         setRelType("NONE");
       }
       else if(data.type === "INSERT_TRANSACTION") {
@@ -915,6 +936,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         };
         setRelField(data.info.proposal_transaction ?? "");
         setRelType("NONE");
+        setImage(realm_transaction);
       }
       else if(data.type === "REMOVE_TRANSACTION") {
         type_obj = {
@@ -928,6 +950,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         };
         setRelField(data.info.proposal_transaction ?? "");
         setRelType("NONE");
+        setImage(realm_transaction);
       }
       else if(data.type === "CAST_VOTE") {
         type_obj = {
@@ -980,6 +1003,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "--",
         };
         setRelField(data.info.proposal ?? "");
+        setImage(proposal);
         setRelType("NONE");
       }
       else if(data.type === "CREATE_MINT_GOVERNANCE") {
@@ -994,6 +1018,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         };
         setRelField(data.info.governed_mint ?? "");
         setRelType("NONE");
+        setImage(gov_building);
       }
       else if(data.type === "CREATE_TOKEN_GOVERNANCE") {
         type_obj = {
@@ -1007,6 +1032,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         };
         setRelField(data.info.governed_token ?? "");
         setRelType("NONE");
+        setImage(gov_building);
       }
       else if(data.type === "SET_GOVERNANCE_CONFIG") {
         type_obj = {
@@ -1020,6 +1046,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         };
         setRelField(data.info.governance_address ?? "");
         setRelType("NONE");
+        setImage(gov_building);
       }
       else if(data.type === "SET_REALM_AUTHORITY") {
         type_obj = {
@@ -1032,6 +1059,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           symbol: "--",
         };
         setRelField(data.info.realm_address ?? "");
+        setImage(realm);
         setRelType("NONE");
       }
       else {
@@ -1114,7 +1142,67 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
     <div className={styles.sub_txns} ref={ref}>
       <div className="d-flex">
         <div className={styles.thumb_container}>
-          {(data.type === "NFT_TRANSFER" ||
+          {
+          (data.type === "CAST_VOTE")?
+          (
+            (() => {
+              try {
+                if(data.info.vote_type === "Approve")
+                return <img
+                src={vote_approve}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = noImage;
+                }}
+                style={{borderRadius: "0px"}}
+                  alt="token"
+                />
+              else if(data.info.vote_type === "Deny")
+                return <img
+                src={vote_denied}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = noImage;
+                }}
+                style={{borderRadius: "0px"}}
+                  alt="token"
+                />
+              else if(data.info.vote_type === "Abstain")
+                return <img
+                src={vote_abstain}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = noImage;
+                }}
+                style={{borderRadius: "0px"}}
+                  alt="token"
+                />
+              else
+                return <img
+                src={vote_veto}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = noImage;
+                }}
+                style={{borderRadius: "0px"}}
+                  alt="token"
+                />
+              } catch (error) {
+                return <img
+                src={vote}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = noImage;
+                }}
+                style={{borderRadius: "0px"}}
+                  alt="token"
+                />
+              }
+              
+              
+            })()
+          )
+          :((data.type === "NFT_TRANSFER" ||
             data.type === "TOKEN_TRANSFER" ||
             data.type === "NFT_MINT" ||
             data.type === "TOKEN_MINT" ||
@@ -1164,7 +1252,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               }}
               alt="token"
             />
-          )}
+          ))}
         </div>
         <div className={styles.txn_details}>
           <div className={styles.subtxn_token}>
@@ -1349,7 +1437,6 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "SIGN_OFF_PROPOSAL" ||
                   data.type === "INSERT_TRANSACTION" ||
                   data.type === "REMOVE_TRANSACTION" ||
-                  data.type === "CAST_VOTE" ||
                   data.type === "FINALIZE_VOTE" ||
                   data.type === "RELINQUISH_VOTE" ||
                   data.type === "EXECUTE_TRANSACTION" ||
@@ -1374,6 +1461,41 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       )}
                     </>
                   )
+                }
+                else if (data.type === "CAST_VOTE") {
+                  try {
+                    if(data.info.vote_type === "Approve")
+                    return (
+                      <>
+                        <span className={styles.approve_color}>Approve</span>&nbsp;Proposal
+                      </>
+                    )
+                  else if(data.info.vote_type === "Deny")
+                    return (
+                      <>
+                        <span className={styles.minus_color}>Deny</span>&nbsp;Proposal
+                      </>
+                    )
+                  else if(data.info.vote_type === "Abstain")
+                    return (
+                      <>
+                        <span className={styles.plus_color}>Abstain</span>
+                      </>
+                    )
+                  else
+                    return (
+                      <>
+                        <span className={styles.plus_color}>Veto</span>
+                      </>
+                    )
+                  } catch (error) {
+                    return (
+                      <>
+                        <span>{varFields.value}</span>
+                      </>
+                    )
+                  }
+                  
                 }
                 else if (data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE") {
                   return (
@@ -1430,7 +1552,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               })()
               }
 
-              {((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE") && name !== "")?(
+              {(data.type === "CAST_VOTE")?(<div className={styles.copy_bt}></div>)
+              :((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE") && name !== "")?(
                 <div className={styles.copy_bt}>
                 <Tooltip
                   content={copy}
@@ -3670,7 +3793,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
                       <div className="d-flex">
-                        <div className="pe-1">
+                        <div className="pe-2">
                           <img
                             src={general_token}
                             alt=""
@@ -3717,9 +3840,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
                       <div className="d-flex">
-                        <div className="pe-1">
+                        <div className="pe-2">
                           <img
-                            src={arrow}
+                            src={general_token}
                             alt=""
                             style={{ width: "14px", marginTop: "-2px" }}
                           />
@@ -3765,15 +3888,15 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <div className="col-12 col-md-10">
                       <div className="d-flex">
                         <div className="pe-1">
-                          <div className={styles.field_sub_1}>Set by </div>
+                          <div className={styles.field_sub_1}>Governance Delegate set by </div>
                         </div>
-                        <div className="pe-1">
+                        {/* <div className="pe-1">
                             <img
                               src={arrow}
                               alt=""
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
-                          </div>
+                          </div> */}
                         <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
@@ -4161,7 +4284,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <>
                   <div className="row pt-1">
-                    <div className="col-12 col-md-9">
+                    <div className="col-12 col-md-12">
                       <div className="d-flex">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Vote cast for proposal</div>
@@ -4190,9 +4313,42 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                       </div>
                     </div>
-                    <div className="col-12 col-md-3 text-end">
-                      <div className={styles.field_sub_3}>
-                        Vote: {varFields.symbol ?? "--"}
+                  </div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Governing Token </div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={image}
+                            alt=""
+                            style={{ width: "20px", marginTop: "-2px", borderRadius: "10px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={relField}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${relField}`
+                              : `/address/${relField}?cluster=${cluster}`)}>
+                              {name || (shortenAddress(relField))}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

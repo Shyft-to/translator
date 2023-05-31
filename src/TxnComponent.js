@@ -1435,6 +1435,13 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                               {shortenAddress(action.info.min_community_tokens_to_create_governance ??
                                                 "--")}
                                             </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Comm Max Vote Weight: </span>{" "}
+                                              {shortenAddress(action.info.community_mint_max_vote_weight_source ??
+                                                "--")}
+                                            </div>
                                           </div>
                                         </div>
                                     }
@@ -1456,8 +1463,19 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                               className={styles.slippage_param}
                                             >
                                               <span>Token Source: </span>{" "}
-                                              {shortenAddress(action.info.governing_token_source ??
-                                                "--")}
+                                                { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governing_token_source}`
+                                                  : `/address/${action.info.governing_token_source}?cluster=${cluster}`}>{shortenAddress(action.info.governing_token_source)}</a> ??
+                                                "--"}{" "}
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Token Owner Record: </span>{" "}
+                                                { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.token_owner_record_address}`
+                                                  : `/address/${action.info.token_owner_record_address}?cluster=${cluster}`}>{shortenAddress(action.info.token_owner_record_address)}</a> ??
+                                                "--"}{" "}
                                             </div>
                                           </div>
                                         </div>
@@ -1479,9 +1497,18 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                             <div
                                               className={styles.slippage_param}
                                             >
-                                              <span>Token Source: </span>{" "}
+                                              <span>Token Destination: </span>{" "}
                                               {shortenAddress(action.info.governing_token_destination ??
                                                 "--")}
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Token Owner Record: </span>{" "}
+                                                { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.token_owner_record_address}`
+                                                  : `/address/${action.info.token_owner_record_address}?cluster=${cluster}`}>{shortenAddress(action.info.token_owner_record_address)}</a> ??
+                                                "--"}{" "}
                                             </div>
                                           </div>
                                         </div>
@@ -1503,10 +1530,10 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                             <div
                                               className={styles.slippage_param}
                                             >
-                                              <span>Governance Address: </span>{" "}
+                                              <span>Create Authority: </span>{" "}
                                               { <a href={cluster === "mainnet-beta"
-                                                ? `/address/${action.info.governance_address}`
-                                                  : `/address/${action.info.governance_address}?cluster=${cluster}`}>{shortenAddress(action.info.governance_address)}</a> ??
+                                                ? `/address/${action.info.create_authority}`
+                                                  : `/address/${action.info.create_authority}?cluster=${cluster}`}>{shortenAddress(action.info.create_authority)}</a> ??
                                                 "--"}{" "}
                                               
                                             </div>
@@ -1520,7 +1547,65 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                                 "--"}{" "}
                                               
                                             </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Base Voting Time: {action.info.base_voting_time ?? "--"}</span>{" "}
+                                              {" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Min Comm Tokens to create Proposal: {action.info.min_community_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                              {" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Min Council Tokens to create Proposal: {action.info.min_council_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                              {" "}
+                                              
+                                            </div>
                                             
+                                          </div>
+                                        </div>
+                                    }
+                                    {
+                                      action.type === "CREATE_PROPOSAL" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Realm: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.realm_address}`
+                                                  : `/address/${action.info.realm_address}?cluster=${cluster}`}>{shortenAddress(action.info.realm_address)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance}`
+                                                  : `/address/${action.info.governance}?cluster=${cluster}`}>{shortenAddress(action.info.governance)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Proposal Owner Record: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.proposal_owner_record}`
+                                                  : `/address/${action.info.proposal_owner_record}?cluster=${cluster}`}>{shortenAddress(action.info.proposal_owner_record)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
                                           </div>
                                         </div>
                                     }
@@ -1637,6 +1722,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                     }
                                     {
                                       action.type === "SET_GOVERNANCE_CONFIG" && 
+                                      <>
                                         <div className={`${styles.only_text} ${styles.slippage_params}`}>
                                           <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
                                             <div
@@ -1659,6 +1745,29 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                             </div>
                                           </div>
                                         </div>
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Comm Vote Tipping: {action.info.community_vote_tipping ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Council Vote Tipping: {action.info.council_vote_tipping ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Voting Cool Off Time: {action.info.voting_cool_off_time ?? "--"}</span>{" "}
+                                            
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </>
                                     }
                                   <div className="pb-2"></div>
                                 </div>

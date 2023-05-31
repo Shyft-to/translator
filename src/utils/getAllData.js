@@ -538,7 +538,7 @@ export async function categorizeAddresswithExplorer(network, address,isCompresse
   }
   try {
     const data = await knowAddressType(network, address);
-    console.log(data);
+    //console.log(data);
     if (data.addressType === "PROTOCOL") {
       const protocolData = await getProtocolData(network, address);
       response = {
