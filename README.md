@@ -1,6 +1,28 @@
-# Getting Started with Create React App
+# Translator
+
+A simple to read, [human-friendly Solana explorer](https://translator.shyft.to) powered by SHYFT APIs.
+
+SHYFT's very own Solana Translator: [https://translator.shyft.to](https://translator.shyft.to)
+
+SHYFT Official Documentation: [docs.shyft.to](https://docs.shyft.to)
+
+Get your own API KEY from [SHYFT](https://shyft.to/): [https://shyft.to/get-api-key](https://shyft.to/get-api-key) 
+
+## Getting Started with the project
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+To run this project create your own `.env` file, with SHYFT's API endpoint, and [your own API key](https://shyft.to/get-api-key).
+```
+REACT_APP_API_EP=https://api.shyft.to/sol/v1/
+REACT_APP_API_KEY=YOUR-API-KEY from SHYFT
+REACT_APP_GA_ID=123
+REACT_APP_RPC_MAINNET=Your rpc or random string, used for searching sol domains, not mandatory 
+```
+or you can simply rename `example.env` to `.env`, add your API key and get started.
+
+To start this project on local environment, use command `npm run start`
+
 
 ## Available Scripts
 
@@ -38,33 +60,3 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

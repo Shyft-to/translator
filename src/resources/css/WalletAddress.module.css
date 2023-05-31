@@ -34,7 +34,7 @@
   background-repeat: no-repeat;
   background-position: 100% 100%;
   background-attachment: fixed;
-  padding: 80px 0px 40px;
+  padding: 60px 0px 40px;
 
 }
 .main_heading
@@ -44,6 +44,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 .main_heading span
 {
@@ -52,11 +53,15 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .wallet_balance_indicator
 {
-  font: 400 40px/48px "Odibee Sans", sans-serif;
+  position: relative;
+  /* overflow-x: hidden !important;
+  overflow-y: hidden !important; */
+  /* width: 150px; */
+  font: 500 24px/32px "Montserrat", sans-serif;
   color: #fff;
 }
 .copy_button
@@ -90,6 +95,7 @@
   {
     font: 300 18px/18px "Odibee Sans", sans-serif;
     color: #fff;
+    text-align: end;
   }
   
 }
@@ -107,7 +113,7 @@
 {
   position: relative;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
   max-width: 900px;
   display: flex;
@@ -116,11 +122,11 @@
 .top_tab
 {
   position: relative;
-  width: 50%;
-  max-width: 250px;
+  width: 33%;
+  max-width: 140px;
   text-align: center;
-  padding: 18px 0px;
-  font: 500 16px/16px "Poppins", sans-serif;
+  padding: 12px 0px 10px;
+  font: 500 14px/14px "Poppins", sans-serif;
   color: #fffa;
   outline: none;
   border: none;
@@ -150,4 +156,131 @@
   height: 1px;
   background: #FDF41B;
   transition: all 0.2s ease;
+}
+.top_tab .count_badge
+{
+  display: inline-block;
+  position: absolute;
+  font: 300 10px/16px "Poppins", sans-serif;
+  color: #fff;
+  border: 1px solid white;
+  padding: 2px 5px 1px;
+  border-radius: 12px;
+  margin-left: 4px;
+  margin-top: -4px;
+}
+.top_tab_selected .count_badge
+{
+  color: #FDF41B;
+  border: 1px solid #FDF41B;
+}
+.select_container {
+  width: 150px;
+  background-color: #8254b066;
+  border-radius: 26px;
+  padding: 6px 16px;
+}
+
+.select_container select {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #fff;
+  font: 400 14px/18px "Montserrat", sans-serif;
+  /* letter-spacing: 1px; */
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.select_container select:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.select_container option {
+  background-color: #2a0855;
+}
+
+.select_container_2 {
+  display: none;
+  width: 150px;
+  background-color: #8254b066;
+  border-radius: 26px;
+  padding: 6px 16px;
+}
+
+.select_container_2 select {
+  display: none;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #fff;
+  font: 400 14px/18px "Montserrat", sans-serif;
+  /* letter-spacing: 1px; */
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.select_container_2 select:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.select_container_2 option {
+  background-color: #2a0855;
+}
+.collections_cara_cont
+{
+  padding-top: 40px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .collections_cara_cont
+  {
+    padding-top: 40px;
+  }
+  .heading_section
+  {
+    padding-top: 60px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .select_container {
+    display: none !important;
+    width: 100%;
+    border-radius: 26px;
+    margin-top: 16px;
+    padding: 8px 12px;
+  }
+  .select_container_2 {
+    display: block;
+    width: 100%;
+    border-radius: 26px;
+    margin-top: 16px;
+    padding: 8px 12px;
+  }
+
+  .select_container_2 select {
+
+    font: 400 12px/16px "Montserrat", sans-serif;
+    /* letter-spacing: 1px; */
+    /* padding:  6px; */
+    display: block;
+    margin: 0 auto;
+    /* width: 93%; */
+  }
+
+  .select_container_2 select:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .select_container_2 option {
+    background-color: #2a0855;
+  }
 }

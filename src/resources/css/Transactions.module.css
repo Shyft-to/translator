@@ -220,7 +220,7 @@
 .each_txn_2 .dynamic_field
 {
     font: 400 14px/14px "Montserrat",sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     padding: 4px 0px;
     color: #FFFA;
 }
@@ -232,7 +232,7 @@
 .each_txn_2 .dynamic_field_2
 {
     font: 400 16px/16px "Montserrat",sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     padding: 14px 0px;
     color: #FFFFFF;
 }
@@ -291,13 +291,23 @@
     backdrop-filter: blur(10px);
     border-radius: 14px;
     border: 2px solid transparent;
-    padding: 16px 24px;
+    padding: 8px 24px;
     margin-bottom: 20px;
     transition: all 0.05s ease;
 }
 .each_txn_3:hover
 {
     border: 2px solid #01b4e0;
+}
+.each_txn_3 .clickable_section
+{
+    position: absolute;
+    top: 0;
+    right: 4px;
+    z-index: 1;
+    width: 99%;
+    height: 100%;
+    /* background-color: pink; */
 }
 .each_txn_3 .toggle_button
 {
@@ -306,6 +316,7 @@
     right: 20px;
     display: flex;
     justify-content: end;
+    z-index: 2;
 }
 
 .each_txn_3 .toggle_button .sol_icon img
@@ -318,11 +329,25 @@
     width: 24px;
     height: 24px;
 }
-
+.each_txn_3 .open_in_new
+{
+    font: 300 16px/16px "Poppins",sans-serif;
+    color: #FDF41B;
+    /* border: 2px solid white; */
+    /* background-color: #FDF41B; */
+    /* border-radius: 12px; */
+    /* margin-left: 2px; */
+    margin-top: -1px;
+    padding: 6px 10px 6px;
+}
+.each_txn_3 .toggle_button .copyTxnSig
+{
+    margin-top: -2px;
+}
 .each_txn_3 .toggle_button .copyTxnSig img
 {
-    width: 23px;
-    height: 23px;
+    width: 22px;
+    height: 22px;
 }
 @media screen and (max-width: 767px) {
     .each_txn_3 .toggle_button
@@ -347,17 +372,47 @@
         display:none;
     }
 }
+/* .each_txn_3 .txn_name_section
+{
+    background-color: #01b4e0;
+    position: relative;
+    z-index: 1;
+} */
 .each_txn_3 .txn_name
 {
     font: 500 18px/24px "Montserrat",sans-serif;
     padding: 10px 20px 10px 0px;
     color: #FDF41B;
+    position: relative;
+    z-index: 2;
+}
+.each_txn_3 .txn_status
+{
+    padding: 2px 2px 0px 2px;
+    position: relative;
+    z-index: 2;
+    margin-top: -3px;
+}
+.each_txn_3 .txn_status img
+{
+    width: 18px;
 }
 .each_txn_3 .txn_subname
 {
     font: 300 11px/28px "Montserrat",sans-serif;
     padding: 10px 20px 10px 0px;
     color: #FFFFFF99;
+    position: relative;
+    z-index: 2;
+}
+.each_txn_3 .txn_signature
+{
+    font: 300 10px/24px "Montserrat",sans-serif;
+    padding: 10px 10px 10px 0px;
+    color: #FFFFFF99;
+    position: relative;
+    z-index: 2;
+    margin-top: -8px;
 }
 .each_txn_3 .interacted_with
 {
@@ -386,6 +441,17 @@
         padding: 6px 20px 20px 0px;
         color: #FFFFFF99;
     }
+    .each_txn_3 .txn_signature
+    {
+        font: 300 11px/14px "Montserrat",sans-serif;
+        padding: 6px 20px 20px 0px;
+        color: #FFFFFF99;
+    }
+    .each_txn_3 .txn_signature
+    {
+        
+        margin-top: 0px;
+    }
 }
 .each_txn_3 .dynamic_field
 {
@@ -407,7 +473,7 @@
 .each_txn_3 .dynamic_field_2
 {
     font: 400 16px/16px "Montserrat",sans-serif;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
     padding: 14px 0px;
     color: #FFFFFF;
 }
@@ -481,6 +547,8 @@
 .sub_txns .thumb_container
 {
     padding-right: 8px;
+    position: relative;
+    z-index: 2;
 }
 .sub_txns .thumb_container img
 {
@@ -500,18 +568,46 @@
 {
     font: 400 15px/24px "Poppins",sans-serif;
     color: #FFFFFF;
+    position: relative;
+    z-index: 2;
+    display: inline-block;
 }
+.sub_txns .push_to_top
+{
+    background-color: #01b4e0;
+    position: relative;
+    z-index: 5;
+} 
 .sub_txns .field_sub_1
 {
     font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
     color: #FFFa;
     width: 100%;
+    position: relative;
+    z-index: 2;
+}
+.sub_txns .field_sub_1 .bolder
+{
+    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    color: #FFFF !important; 
 }
 .sub_txns .field_sub_2
 {
     font: 500 13px/26px "Poppins",sans-serif;
     color: #FFFFFF;
+    /* width: 200px; */
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+    float: right;
+}
+.sub_txns .field_sub_3
+{
+    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    color: #FFFFFF;
     width: 100%;
+    position: relative;
+    z-index: 2;
 }
 .sub_txns .plus_color
 {
@@ -521,6 +617,11 @@
 .sub_txns .minus_color
 {
     color: #FF5454 !important; 
+    font-weight: 500;
+}
+.sub_txns .approve_color
+{
+    color: #4cfc86 !important; 
     font-weight: 500;
 }
 .sub_txns a
@@ -538,12 +639,38 @@
     display: block;
     margin-top: -2px;
 }
-
+.sub_txns .second_token_field
+{
+    display: flex;
+}
+.sub_txns .second_token_field .second_token_image
+{
+    margin-top: -8px;
+    padding: 0px 12px 0px 10px;
+}
+.sub_txns .second_token_field .second_token_image img
+{
+    width: 38px;
+    height: 38px;
+    border-radius: 20px;
+}
+.sub_txns .royalty_badge
+{
+    padding: 5px 2px 2px 8px;
+    background-color: #1E0C36;
+    width: 100%;
+    max-width: 94px;
+    font: 300 10px/12px "Plus Jakarta Sans",sans-serif !important;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    margin-left: 8px;
+}
 .could_not_text
 {
     font: 300 16px/20px "Poppins",sans-serif;
     color: #FFF3;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 @media screen and (max-width: 767px) {
     .sub_txns .thumb_container
@@ -566,7 +693,6 @@
     }
     .sub_txns .txn_details .subtxn_token
     {
-        
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -583,5 +709,40 @@
         display: none;
         /* margin-top: -2px; */
     }
+    .sub_txns .second_token_field .second_token_image
+    {
+        margin-top: -8px;
+        padding: 0px 12px 0px 10px;
+    }
+    .sub_txns .second_token_field .second_token_image img
+    {
+        width: 24px;
+        height: 24px;
+        border-radius: 20px;
+    }
 }
 
+.refresh_section
+{
+    background-color: #080012bb;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    font: 300 14px/14px "Plus Jakarta Sans",sans-serif;
+    color: #FFF;
+    position: relative;
+}
+.refresh_section .loading_image
+{
+    display: inline;
+    width: 22px;
+    margin-right: 8px;
+}
+.refresh_section .duration_image
+{
+    display: inline;
+    width: 12px;
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: -2px;
+}

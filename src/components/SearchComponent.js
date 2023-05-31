@@ -6,8 +6,14 @@ import { motion } from "framer-motion";
 
 import styles from "../resources/css/SearchComponent.module.css";
 import { getAddressfromDomain } from "../utils/getAllData";
+import PopupView from "../PopupView";
+import OpenPopup from "../OpenPopup";
 
-const SearchComponent = () => {
+import infoIcon from "../resources/images/info.svg";
+
+import { listOfAddresses } from "../utils/formatter";
+
+const SearchComponent = ({popup,setPopUp}) => {
   // const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState("mainnet-beta");
@@ -91,16 +97,31 @@ const SearchComponent = () => {
             setSearchData(newResults);
             localStorage.setItem('shshis2', JSON.stringify(newResults));
         }
-        if(network === "mainnet-beta")
+        if(searchParam.length > 55)
         {
-          // navigate(`/address/${wallet}`);
-          window.location.href = `/address/${wallet}`;
+          if(network === "mainnet-beta")
+          {
+            window.location.href = `/tx/${wallet}`;
+          }
+          else
+          {
+            window.location.href = `/tx/${wallet}?cluster=${network}`;
+          }
         }
         else
         {
-          // navigate(`/address/${wallet}?cluster=${network}`);
-          window.location.href = `/address/${wallet}?cluster=${network}`;
+          if(network === "mainnet-beta")
+          {
+            // navigate(`/address/${wallet}`);
+            window.location.href = `/address/${wallet}`;
+          }
+          else
+          {
+            // navigate(`/address/${wallet}?cluster=${network}`);
+            window.location.href = `/address/${wallet}?cluster=${network}`;
+          }
         }
+        
         
 
       }
@@ -113,15 +134,26 @@ const SearchComponent = () => {
   }
   return (
     <motion.div className={styles.header_search_area} initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }}>
+      {/* <OpenPopup setPopUp={setPopUp}/> */}
+      {popup && <PopupView setPopUp={setPopUp} />}
+      
       <div className={styles.header_search_area_inner}>
-        <div className="container-xl">
-        <div className="row p-1" >
-          <div className="col-12 col-lg-2">
-            <div className="logo_container pt-3 text-center text-lg-start">
-              <a href={`/`}>Translator</a>
+        <div className="container-fluid">
+        <div className="d-flex flex-wrap justify-content-between p-0">
+          <div className="px-2">
+            <div className="d-flex justify-content-start">
+              <div className="logo_container pt-3 text-center text-lg-start">
+                <a href={`/`}>Translator</a>
+                <button className={styles.about_shyft_button_mobile} onClick={() => setPopUp(true)}>
+                  <img src={infoIcon} />
+                </button>
+              </div>
+              
             </div>
+            
           </div>
-          <div className="col-12 col-lg-8">
+          
+          <div className="flex-fill">
             <motion.div className={styles.form_container}>
               <div className={styles.search_n_suggestions} >
                 <div className={styles.form_field_outer}>
@@ -148,7 +180,7 @@ const SearchComponent = () => {
                             <div className="flex-grow-1">
                               <input
                                 type="text"
-                                placeholder="Explore Solana"
+                                placeholder="Search any wallet, token, .sol domains or transaction"
                                 value={wallet}
                                 onChange={(e) => setWallet(e.target.value)}
                                 onFocus={() => setFocused(true)}
@@ -187,6 +219,23 @@ const SearchComponent = () => {
                       </div>
                     </button>)
                     ))}
+                    {
+                    (wallet.length > 2 && wallet.length < 35) &&
+                      <div>
+                        <div className={styles.program_search_heading}>Program Addresses</div>
+                        {(listOfAddresses.filter(result => (result.domain.toLowerCase().startsWith(wallet.toLowerCase()) || result.address.startsWith(wallet))).map((result,index) => (<button className={styles.each_search} onClick={() => addDataNavigate(result.address, result.network)} key={index}>
+                          <div className="d-flex">
+                            <div className={styles.network_area}>
+                              {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
+                            </div>
+                            <div className={`flex-grow-1 ${styles.address_area}`}>
+                              {result.domain || result.address}
+                            </div>
+                          </div>
+                        </button>)
+                        ))}
+                    </div>
+                    }
                   </motion.div>
                   }
 
@@ -194,7 +243,11 @@ const SearchComponent = () => {
               </div>
             </motion.div>
           </div>
-          <div className="col-12 col-lg-2"></div>
+          <div className="logo_area">
+              <button className={styles.about_shyft_button} onClick={() => setPopUp(true)}>
+                <img src={infoIcon} />
+              </button>
+          </div>
         </div>
         </div>
       </div>

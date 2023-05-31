@@ -1,17 +1,43 @@
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Typewriter from 'typewriter-effect';
+// import Typewriter from 'typewriter-effect';
 import styles from "./resources/css/Home.module.css";
 import Footer from "./Footer";
 import { getAddressfromDomain } from "./utils/getAllData";
 import TxnLoader from "./components/loaders/TxnLoader";
 
 import searchIcon from "./resources/images/uil_search.svg";
+import PopupView from "./PopupView";
+import OpenPopup from "./OpenPopup";
+import { listOfAddresses } from "./utils/formatter";
 
-const Home = () => {
+const staticAddresses = [
+  {
+    domain:"Sharky.fi",
+    address:"SHARKobtfF1bHhxD2eqftjHBdVSCbKo9JtgK71FhELP", 
+    network:"mainnet-beta"
+  },
+  {
+    domain:"Jupiter Aggregator v4",
+    address:"JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB", 
+    network:"mainnet-beta"
+  },
+  {
+    domain:"Tensor Swap",
+    address:"TSWAPaqyCSx2KABk68Shruf4rp7CxcNi8hAsbdwmHbN", 
+    network:"mainnet-beta"
+  },
+  {
+    domain:"Foxy Raffle",
+    address:"9ehXDD5bnhSpFVRf99veikjgq8VajtRH7e3D9aVPLqYd", 
+    network:"mainnet-beta"
+  }
+];
+
+const Home = ({popup, setPopUp}) => {
   const navigate = useNavigate();
   const [wallet, setWallet] = useState('');
   const [network, setNetwork] = useState('mainnet-beta');
@@ -100,14 +126,27 @@ const Home = () => {
           setSearchData(newResults);
           localStorage.setItem('shshis2', JSON.stringify(newResults));
         }
-        
-        if(network === "mainnet-beta")
+        if(searchParam.length > 55)
         {
-          navigate(`/address/${wallet}`);
+          if(network === "mainnet-beta")
+          {
+            navigate(`/tx/${wallet}`);
+          }
+          else
+          {
+            navigate(`/tx/${wallet}?cluster=${network}`);
+          }
         }
         else
         {
-          navigate(`/address/${wallet}?cluster=${network}`);
+          if(network === "mainnet-beta")
+          {
+            navigate(`/address/${wallet}`);
+          }
+          else
+          {
+            navigate(`/address/${wallet}?cluster=${network}`);
+          }
         }
         //navigate(`/address/${wallet}?cluster=${network}`);
 
@@ -118,8 +157,26 @@ const Home = () => {
     }
 
   }
+  // useEffect(() => {
+  //   console.log("current wallet value",wallet.length);
+  //   if(wallet.length > 4)
+  //   {
+  //     const programDetails = listOfAddresses.filter(result => result.domain.toLowerCase.startsWith(wallet));
+  //     console.log(programDetails.length)
+  //     setSearchPrograms(programDetails);
+  //   }
+  
+  // }, [wallet])
+  
   return (
     <div>
+      
+      <div className="scroll-to-top-3">
+        <a href="https://translator.shyft.to/">Translator</a>
+      </div>
+      
+      <OpenPopup setPopUp={setPopUp} />
+      {popup && <PopupView setPopUp={setPopUp} />}
       <div className={styles.background_2}>
         <div className="container-lg">
           <div className={styles.central_area}>
@@ -136,7 +193,7 @@ const Home = () => {
                   <div className={styles.simple_input_container}>
                     <div className="d-flex">
                       <div className="flex-grow-1">
-                        <input type="text" placeholder="Search any wallet, token, NFT or .sol domains" value={wallet} onChange={(e) => setWallet(e.target.value)} onFocus={() => setFocused(true)} onBlur={BlurAfterTime} />
+                        <input type="text" placeholder="Search any wallet, token, .sol domains or transaction" value={wallet} onChange={(e) => setWallet(e.target.value)} onFocus={() => setFocused(true)} onBlur={BlurAfterTime} />
                       </div>
                       <div style={{ marginTop: "-1px", color: "#fff" }}>
                         <img src={searchIcon} alt="Search Box" />
@@ -153,7 +210,34 @@ const Home = () => {
                           </div>
                         </div>
                       </button>))}
-
+                      {
+                         (wallet.length > 2 && wallet.length < 35) && 
+                         <div>
+                          <div className={styles.program_search_heading}>Program Addresses</div>
+                          {(listOfAddresses.filter(result => (result.domain.toLowerCase().startsWith(wallet.toLowerCase()) || result.address.startsWith(wallet))).map((result,index) => (<button key={index} className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
+                          <div className="d-flex">
+                            <div className={`flex-grow-1 ${styles.address_area}`}>
+                              {result.domain || result.address}
+                            </div>
+                            <div className={styles.network_area}>
+                              {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
+                            </div>
+                          </div>
+                          </button>)))}
+                          </div>
+                      }
+                    </div>}
+                    {isFocused && (searchData.length < 1) && (wallet.length < 3) && <div className={styles.search_area}>
+                      {staticAddresses.map((result,index) => (<button key={index} className={styles.each_item} onClick={() => addDataNavigate(result.address, result.network)}>
+                        <div className="d-flex">
+                          <div className={`flex-grow-1 ${styles.address_area}`}>
+                            {result.domain || result.address}
+                          </div>
+                          <div className={styles.network_area}>
+                            {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
+                          </div>
+                        </div>
+                      </button>))}
                     </div>}
                   </div>
                 </div>
@@ -182,7 +266,7 @@ const Home = () => {
         </div>
 
       </div>
-      <Footer />
+      <Footer setPopUp={setPopUp}/>
     </div>
   );
 };

@@ -90,7 +90,7 @@
 {
   font: 300 16px/24px "Montserrat", sans-serif;
   color: #fff;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .form_container
 {
@@ -100,7 +100,7 @@
 {
   font: 500 16px/24px "Montserrat", sans-serif;
   color: #fff;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   margin-bottom: 8px;
 }
 .form_field_outer
@@ -125,7 +125,7 @@
   width: 90%;
   color: #fff;
   font: 500 16px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .form_field_outer .form_field_inner input:focus
 {
@@ -141,7 +141,7 @@
   box-shadow: none;
   color: #fff;
   font: 500 16px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .form_field_outer .form_field_inner select:focus
 {
@@ -170,7 +170,7 @@
   );
   color: #fff;
   font: 500 0.9rem/1.2rem "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   text-align: center;
   text-decoration: none !important;
   transition: all 0.2s;
@@ -196,6 +196,14 @@
   .middle_layer .rocket_container img
   {
     width: 70%;
+  }
+  .central_area .main_title_container
+  {
+    
+    font: 800 56px/64px "Montserrat", sans-serif !important;
+    color: #fff;
+    /* letter-spacing: 1px; */
+    margin-bottom: 20px;
   }
 }
 
@@ -236,7 +244,7 @@
   text-align: center;
   font: 800 72px/88px "Montserrat", sans-serif;
   color: #fff;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   margin-bottom: 20px;
 }
 .central_area .main_title_container .small_title
@@ -245,7 +253,20 @@
   letter-spacing: 0px;
   color: #fffc;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (min-width: 1366px) and (max-width: 1450px) {
+  .central_area
+    {
+      padding-top: 10% !important;
+    }
+  }
+@media screen and (min-width: 1000px) and (max-width: 1366px) {
+  .central_area
+    {
+      padding-top: 12% !important;
+    }
+  }
+@media screen and (min-width: 767px) and (max-width: 1000px) {
+  
   .central_area .main_title_container
   {
     font: 700 64px/72px "Montserrat", sans-serif;
@@ -266,7 +287,7 @@
   padding: 10px 20px;
   border-radius: 25px;
   margin: 0 auto;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .simple_input_container .search_area
 {
@@ -332,7 +353,7 @@
   box-shadow: none;
   color: #fff;
   font: 500 16px/18px "Montserrat", sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 .simple_select_container select:focus
 {
@@ -343,4 +364,12 @@
 .simple_select_container option
 {
   background-color: #2a0855;
+}
+
+.program_search_heading
+{
+  background-color: #400c85;
+  font: 500 10px/12px "Montserrat", sans-serif;
+  color: #fff;
+  padding: 4px 16px;
 }
