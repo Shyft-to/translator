@@ -29,7 +29,10 @@ import Foxy from "../../resources/images/txnImages/FoxyRaffle.svg";
 import Raffle_ticket from "../../resources/images/txnImages/raffle_ticket.svg";
 // import Raffle_icon from "../../resources/images/txnImages/raffle_icon.svg";
 import raffle_winner from "../../resources/images/txnImages/raffle_winner.png";
-import merkle_tree_outline from "../../resources/images/txnImages/merkle_tree_outline.svg"
+import merkle_tree_outline from "../../resources/images/txnImages/merkle_tree_outline.svg";
+import liquidity_pools from "../../resources/images/txnImages/liquidity_pool.png";
+import single_drop from "../../resources/images/txnImages/single_drop.png";
+// import liquidity_pool_outline from "../../resources/images/txnImages/liquidity_pool_outline.svg";
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
 import { getMetadata, getNFTData, getTokenData } from "../../utils/getAllData";
@@ -51,6 +54,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
   //const [relType,setRelType] = useState("");
   const [currency, setCurrency] = useState("");
   const [currencyField, setCurrencyField] = useState("");
+
+  const [currencyTwo,setCurrencyTwo] = useState("");
+  const [currencyFieldTwo, setCurrencyFieldTwo] = useState("");
   const [varFields, setVarFields] = useState({
     type: "",
     from: "",
@@ -60,10 +66,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
     value: "",
     symbol: "",
   });
+   
   const [dataLoaded, setDataLoaded] = useState(false);
   const [copy, setCopied] = useState("Copy");
 
   const [isRoyalty,setIsRoyalty] = useState(false);
+
+  // const [liquidityDetails,setLiquidityDetails] = useState([]);
+  // const [getLiquidityFor,setLiquidityFor] = useState([]);
+
+  // const getLiquidityDetails = async (cluster,liquidityArray) => {
+  //   const liquidityDetailsFromAPI = [];
+  //   await liquidityArray.forEach(async (element) => {
+  //     const tokenSymbol = await getTokenData(cluster,element.token_address);
+  //     liquidityDetailsFromAPI.push({...element,symbol:tokenSymbol.details.symbol});
+  //   })
+  //   setLiquidityDetails(liquidityDetailsFromAPI);
+  //   //console.log("liquidity: ",liquidityDetailsFromAPI);
+  // }
+
+  // useEffect(() => {
+  //   if(Array.isArray(getLiquidityFor) && getLiquidityFor.length > 0)
+  //     getLiquidityDetails(cluster,getLiquidityFor)
+  // }, [getLiquidityFor])
+  
 
   const getData = async (cluster, address, type = "") => {
     try {
@@ -133,8 +159,25 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
       setDataLoaded(true);
     }
   };
+  const getCurrencyTwo = async (cluster, address) => {
+    try {
+      if (address === "So11111111111111111111111111111111111111112") {
+        setCurrencyTwo("SOL");
+        setDataLoaded(true);
+      } else {
+        const res = await getTokenData(cluster, address);
+        if (res.success === true) {
+          setCurrencyTwo(res.details.symbol ?? res.details.name ?? "");
+        }
+        setDataLoaded(true);
+      }
+    } catch (error) {
+      setCurrencyFieldTwo(address);
+      setDataLoaded(true);
+    }
+  };
 
-  const categoriseAction = () => {
+  const categoriseAction = async () => {
     var type_obj = {
       type: "",
       from: "",
@@ -503,7 +546,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           swapper: data.info.swapper ?? "--",
           from_image: data.info.tokens_swapped.in.image_uri ?? "",
           to_image: data.info.tokens_swapped.out.image_uri ?? "",
-          slippage_paid: formatNumbers(data.info.slippage_paid.toFixed(7)) ?? "",
+          slippage_paid: formatNumbers(data.info.slippage_paid?.toFixed(7)) ?? "",
           token: "--",
           action: "--",
           value: "",
@@ -635,6 +678,82 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         setRelType("NONE");
         setImage(Merkle_tree);
       }
+      else if(data.type === "CREATE_POOL") {
+        type_obj = {
+          type: "CREATE_POOL",
+          from: data.info.liquidity_pool_address ?? "--",
+          to: data.info.pool_creator ?? "--",
+          token: "--",
+          action: "--",
+          value: "",
+          symbol: ""
+        };
+        setRelField(data.info.liquidity_pool_address ?? "");
+        setRelType("NONE");
+        setCurrencyField(data.info.token_mint_one ?? "");
+        setCurrencyFieldTwo(data.info.token_mint_two ?? "");
+        setImage(single_drop);
+      }
+      else if(data.type === "ADD_LIQUIDITY") {
+        // var liquidity_details = data.info.liquidity_added;
+        // liquidity_details.forEach(async (element) => {
+        //   const tokenSymbol = await getTokenData(cluster,element.token_address);
+        //   liquidity_details = {
+        //     ...liquidity_details,symbol: tokenSymbol.details.symbol ?? element.token_address
+        //   }
+        // });
+        // console.log("liquidity:",liquidity_details);
+        type_obj = {
+          type: "ADD_LIQUIDITY",
+          from: data.info.liquidity_pool_address ?? "--",
+          to: data.info.liquidity_provider_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "",
+          symbol: "",
+          liquidity_details: data.info.liquidity_added ?? []
+        };
+        // if(data.info.liquidity_added.length > 0)
+        //   setLiquidityFor(data.info.liquidity_added)
+        if(data.info.nft_address !== "")
+        {
+          setRelField(data.info.nft_address ?? "");
+          setRelType("NFT");
+        }
+        else
+        {
+          setRelField(data.info.liquidity_pool_address ?? "");
+          setRelType("NONE");
+          setImage(single_drop);
+        }
+        
+      }
+      else if(data.type === "REMOVE_LIQUIDITY") {
+        type_obj = {
+          type: "REMOVE_LIQUIDITY",
+          from: data.info.liquidity_pool_address ?? "--",
+          to: data.info.liquidity_provider_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "",
+          symbol: "",
+          liquidity_details: data.info.liquidity_removed ?? []
+        };
+        // if(data.info.liquidity_removed.length > 0)
+        //   setLiquidityFor(data.info.liquidity_removed)
+
+        if(data.info.nft_address !== "")
+        {
+          setRelField(data.info.nft_address ?? "");
+          setRelType("NFT");
+        }
+        else
+        {
+          setRelField(data.info.liquidity_pool_address ?? "");
+          setRelType("NONE");
+          setImage(single_drop);
+        }
+      }
       else {
         type_obj = {
           type: "",
@@ -689,6 +808,11 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
   useEffect(() => {
     if (inView === true && dataLoaded === false) {
       if (currencyField !== "") getCurrency(cluster, currencyField);
+    }
+  }, [inView]);
+  useEffect(() => {
+    if (inView === true) {
+      if (currencyFieldTwo !== "") getCurrencyTwo(cluster, currencyFieldTwo);
     }
   }, [inView]);
 
@@ -763,6 +887,118 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         <div className={styles.txn_details}>
           <div className={styles.subtxn_token}>
             <div className="d-flex">
+              {(data.type === "CREATE_POOL")?
+                <div>
+                    <div className="d-flex flex-wrap">
+                      <div className="pe-2">
+                        New Liquidity Pool
+                      </div>
+                      <div className="pe-1">
+                        <img
+                          src={liquidity_pools}
+                          alt=""
+                          style={{ width: "14px", marginTop: "-2px" }}
+                        />
+                      </div>
+                      <div>
+                        {
+                          (currency !== "" && currencyTwo !== "")?
+                          <a href={
+                            cluster === "mainnet-beta"
+                              ? `/address/${relField}`
+                              : `/address/${relField}?cluster=${cluster}`
+                          }>
+                            {currency} : {currencyTwo}
+                          </a>
+                          :
+                          <a href={
+                            cluster === "mainnet-beta"
+                              ? `/address/${relField}`
+                              : `/address/${relField}?cluster=${cluster}`
+                          }>
+                            {shortenAddress(relField)}
+                          </a>
+
+                        }
+                      </div>
+                    </div>
+                </div>
+              :((data.type === "ADD_LIQUIDITY" || data.type === "REMOVE_LIQUIDITY") ? 
+              <div>
+                <div className="d-flex flex-wrap">
+                  <div className="pe-2">
+                      <Tooltip
+                        content={varFields.to}
+                        className="generic"
+                        direction="up"
+                        // eventOn="onClick"
+                        // eventOff="onMouseLeave"
+                        useHover={true}
+                        background="#101010"
+                        color="#fefefe"
+                        arrowSize={0}
+                        styles={{ display: "inline" }}
+                      >
+                        <a
+                          href={
+                            cluster === "mainnet-beta"
+                              ? `/address/${varFields.to}`
+                              : `/address/${varFields.to}?cluster=${cluster}`
+                          }
+                        >
+                          {shortenAddress(varFields.to) ?? "--"}
+                        </a>
+                      </Tooltip>
+                  </div>
+                  <div className="pe-2">
+                     {data.type === "ADD_LIQUIDITY"?`added Liquidity to`:`removed Liquidity from`}  
+                  </div>
+                  
+                  <div className="pe-2">
+                    {varFields.liquidity_details?.length > 1 ? (
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${relField}`
+                                  : `/address/${relField}?cluster=${cluster}`
+                              }
+                            >
+                              {varFields.liquidity_details[0].symbol ||
+                                shortenAddress(
+                                  varFields.liquidity_details[0].token_address
+                                )} : {varFields.liquidity_details[1].symbol ||
+                                  shortenAddress(
+                                    varFields.liquidity_details[1].token_address
+                                  )}
+                            </a>
+                          ):
+                          <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${relField}`
+                                  : `/address/${relField}?cluster=${cluster}`
+                              }
+                            >
+                              { shortenAddress(relField)}
+                            </a>
+                    }
+                    {/* {relField ? (
+                      name === "" ? (
+                        <a href={`/address/${relField}?cluster=${cluster}`}>
+                          {shortenAddress(relField)}
+                        </a>
+                      ) : (
+                        <a href={`/address/${relField}?cluster=${cluster}`}>
+                          {name}
+                        </a>
+                      )
+                    ) : (
+                      "Protocol Interaction"
+                    )} */}
+                  </div>
+                </div>
+              </div>
+              :
               <div>
                 
                 {data.type === "SWAP" ? (
@@ -855,7 +1091,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "CREATE_RAFFLE" ||
                   data.type === "CLAIM_PRIZE" ||
                   data.type === "CANCEL_RAFFLE" ||
-                  data.type === "CREATE_TREE" ? (
+                  data.type === "CREATE_TREE"
+                   ? (
                   relField ? (
                     name === "" ? (
                       <a href={`/address/${relField}?cluster=${cluster}`}>
@@ -885,7 +1122,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       )
                   ):(name || shortenAddress(relField) || "Protocol Interaction"))
                 )}
-              </div>
+              </div>)}
 
               {((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE") && name !== "")?(
                 <div className={styles.copy_bt}>
@@ -2908,6 +3145,174 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div> */}
                 </>
               );
+            }
+            else if (varFields.type === "CREATE_POOL") {
+              return (
+                <>
+                    <div className="row pt-1">
+                      <div className="col-12 col-md-10">
+                        <div className="d-flex">
+                          <div className="pe-1">
+                            <div className={styles.field_sub_1}>Creator </div>
+                          </div>
+                          <div className="pe-1">
+                            <img
+                              src={arrow}
+                              alt=""
+                              style={{ width: "14px", marginTop: "-2px" }}
+                            />
+                          </div>
+                          <div className="">
+                            <div className={styles.field_sub_1}>
+                              <Tooltip
+                                  content={varFields.to}
+                                  className="generic"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                              <a href={(cluster === "mainnet-beta"
+                                ? `/address/${varFields.to}`
+                                : `/address/${varFields.to}?cluster=${cluster}`)}>
+                                {shortenAddress(varFields.to) ?? "--"}
+                              </a>
+                              </Tooltip>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
+                </>
+              )
+            }
+            else if (varFields.type === "ADD_LIQUIDITY") {
+              return (
+                <>
+                  
+                  {varFields.liquidity_details.length > 0 &&
+                    varFields.liquidity_details.map((liquidity) => (
+                      <div className="row pt-2">
+                        <div className="col-12 col-md-10">
+                          <div className="d-flex">
+                            <div className="pe-2">
+                              <img
+                                src={liquidity.symbol === "SOL"?solanaIcon:((liquidity.image_uri.includes("ray-initiative.gift") || liquidity.image_uri.includes("dex-ray.gift"))?noImage : (liquidity.image_uri || noImage))}
+                                onError={({ currentTarget }) => {
+                                  currentTarget.onerror = null; // prevents looping
+                                  currentTarget.src = noImage;
+                                }}
+                                alt="liquidity icon"
+                                style={{ width: "22px", marginTop: "-2px" }}
+                              />
+                            </div>
+                            <div className="pe-2">
+                              <div className={styles.field_sub_1}>
+                                
+                                <span className={styles.bolder}>
+                                  {liquidity.symbol ||
+                                    shortenAddress(liquidity.token_address)}
+                                </span>
+                              </div>
+                            </div>
+                            <div>
+                              <div
+                                className={`${styles.field_sub_1} ${styles.plus_color}`}
+                              >
+                                + {liquidity.amount}
+                              </div>
+                            </div>
+                            
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-2 text-end">
+                          
+                        </div>
+                      </div>
+                    ))}
+                </>
+              );
+            }
+            else if (varFields.type === "REMOVE_LIQUIDITY") {
+              return (
+                <>
+                  {/* <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Liquidity removed by </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                content={varFields.to}
+                                className="generic"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                            <a href={(cluster === "mainnet-beta"
+                              ? `/address/${varFields.to}`
+                              : `/address/${varFields.to}?cluster=${cluster}`)}>
+                              {shortenAddress(varFields.to) ?? "--"}
+                            </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> */}
+                  
+                    {(varFields.liquidity_details.length > 0) && varFields.liquidity_details.map((liquidity) => <div className="row pt-2">
+                      <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                            <div className="pe-2">
+                              <img
+                                src={liquidity.symbol === "SOL"?solanaIcon:((liquidity.image_uri.includes("ray-initiative.gift") || liquidity.image_uri.includes("dex-ray.gift"))?noImage : (liquidity.image_uri || noImage))}
+                                onError={({ currentTarget }) => {
+                                  currentTarget.onerror = null; // prevents looping
+                                  currentTarget.src = noImage;
+                                }}
+                                alt="liquidity icon"
+                                style={{ width: "22px", marginTop: "-2px" }}
+                              />
+                            </div>
+                            <div className="pe-2">
+                              <div className={styles.field_sub_1}>
+                                
+                                <span className={styles.bolder}>
+                                  {liquidity.symbol ||
+                                    shortenAddress(liquidity.token_address)}
+                                </span>
+                              </div>
+                            </div>
+                            <div>
+                              <div
+                                className={`${styles.field_sub_1} ${styles.minus_color}`}
+                              >
+                                - {liquidity.amount}
+                              </div>
+                            </div>
+                            
+                          </div>
+                      </div>
+                      
+                    </div>)}
+                    
+                  
+                </>
+              )
             }
              else {
               return (
