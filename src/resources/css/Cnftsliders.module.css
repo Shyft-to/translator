@@ -53,11 +53,12 @@
 {
     position: relative;
     background-color: #3C1B67;
-    width: 180px;
+    width: 200px;
     /* min-height: 180px; */
     padding: 10px 10px 0px;
     border-radius: 20px;
     z-index: 2;
+    margin: 0 auto;
     /* box-shadow: 10px -10px #7640b2; */
 }
 .nft_container .image_container img

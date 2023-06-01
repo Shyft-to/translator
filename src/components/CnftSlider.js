@@ -72,7 +72,7 @@ const CnftSlider = ({ cluster, addr }) => {
                             <div className="pt-4 px-2 pb-5">
                                 <div>
                                     <div className={styles.nft_container}>
-                                        <a href={((cluster === "")?`/address/${cNFT.mint}?compressed=true`:`/address/${cNFT.mint}?cluster=${cluster}&compressed=true`)}
+                                        <a href={((!cluster)?`/address/${cNFT.mint}?compressed=true`:`/address/${cNFT.mint}?cluster=${cluster}&compressed=true`)}
                                         >
 
                                             <div className={styles.image_container}>

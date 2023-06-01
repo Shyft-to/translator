@@ -1034,6 +1034,7 @@ export async function clearIfOutdated() {
           localStorage.setItem("mainData", "");
           localStorage.setItem("devData", "");
           localStorage.setItem("testData", "");
+          localStorage.setItem("cNdata", "");
           localStorage.setItem("lastcatime", timeNow);
           console.log("All cached data cleared");
           return true;
