@@ -54,7 +54,71 @@ export async function getNFTData(network, address) {
 
   return data;
 }
+export async function getCompressedNFTsFromWallet(network,address)
+{
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: [],
+  };
 
+  let dataFromMem = localStorage.getItem("cNdata");
+
+  if (dataFromMem) {
+    const cachedData = new Map(JSON.parse(dataFromMem));
+    const tokens = cachedData.get(address);
+    if (tokens) {
+      data = {
+        success: true,
+        type: "CNFTS",
+        details: JSON.parse(tokens),
+      };
+      return data;
+    }
+  }
+  
+  await axios({
+    url: `${endpoint}nft/compressed/read_all`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": xKey,
+    },
+    params: {
+      network: network,
+      wallet_address: address,
+    },
+  })
+    .then(async (res) => {
+      if (res.data.success === true) {
+        const allCompressedNfts = res.data.result.nfts;
+        if(Array.isArray(allCompressedNfts) && allCompressedNfts.length>0)
+        {
+          for (let index = 0; index < allCompressedNfts.length; index++) {
+            const nft = allCompressedNfts[index];
+            pushDatatoCache(network, nft, nft.mint);
+          }
+        }
+        let dataSet = new Map();
+        dataSet.set(address, JSON.stringify(allCompressedNfts));
+        // console.log(":new");
+        // console.log(JSON.stringify(Array.from(dataSet.entries())));
+        const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
+        localStorage.setItem("cNdata", valueToStore);
+
+        data = {
+          success: true,
+          type: "CNFTS",
+          details: allCompressedNfts,
+        };
+      }
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+
+  return data;
+}
 export async function getCompressedNFTData(network,address)
 {
   var data = {

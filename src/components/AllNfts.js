@@ -27,29 +27,23 @@ const AllNfts = ({ collections, address, network }) => {
       {
         <div className={styles.nft_all_section}>
         <div className="d-flex flex-wrap justify-content-between">
-          <div>
-              <div className="d-flex flex-wrap justify-content-between justify-content-md-start">
-                <div className="pe-2">
-                  <div className={styles.main_heading}>
-                    NFT Collections ({collections.length})
-                  </div>
-                </div>
-                <div className="pe-2">
-                  <a
-                    className="no_underline"
-                    href={
-                      network === "mainnet-beta"
-                        ? `/collections/${address}`
-                        : `/collections/${address}?cluster=${network}`
-                    }
-                  >
-                    <div className={styles.view_all_text}>View All</div>
-                  </a>
-                </div>
-              </div>
-          </div>
+          
           <div className={`${styles.test_margin}`}>
             <SearchTokensHome searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder={"Search NFTs"} highlight={true}/>
+          </div>
+          <div>
+            <div className="pe-2">
+              <a
+                className="no_underline"
+                href={
+                  network === "mainnet-beta"
+                    ? `/collections/${address}`
+                    : `/collections/${address}?cluster=${network}`
+                }
+              >
+                <div className={styles.view_all_text}>View All</div>
+              </a>
+            </div>
           </div>
         </div>
           
