@@ -791,8 +791,18 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: "--",
           symbol: ""
         };
-        setRelField(data.info.governing_token ?? "");
-        setRelType("TOKEN");
+        if(data.info.governing_token !== "")
+        {
+          setRelField(data.info.governing_token ?? "");
+          setRelType("TOKEN");
+        }
+        else
+        {
+          setName("Deposit Tokens");
+          setImage(gov_building);
+          setRelType("NONE");
+        }
+          
       }
       else if(data.type === "WITHDRAW_GOVERNING_TOKENS") {
         type_obj = {
@@ -804,9 +814,17 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: "--",
           symbol: ""
         };
-        setRelField(data.info.governing_token ?? "");
-        // setImage(gov_building);
-        setRelType("TOKEN");
+        if(data.info.governing_token !== "")
+        {
+          setRelField(data.info.governing_token ?? "");
+          setRelType("TOKEN");
+        }
+        else{
+          setName("Deposit Tokens");
+          setImage(gov_building);
+          setRelType("NONE");
+        }
+        
       }
       else if(data.type === "SET_GOVERNANCE_DELEGATE") {
         type_obj = {
@@ -1552,7 +1570,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               })()
               }
 
-              {(data.type === "CAST_VOTE")?(<div className={styles.copy_bt}></div>)
+              {(data.type === "CAST_VOTE" || data.type === "CREATE_REALM" || data.type === "CREATE_MINT_GOVERNANCE" || data.type === "CREATE_TOKEN_GOVERNANCE")?(<div className={styles.copy_bt}></div>)
               :((data.type === "BUY_TICKETS" || data.type === "REVEAL_WINNERS" || data.type === "CLOSE_RAFFLE") && name !== "")?(
                 <div className={styles.copy_bt}>
                 <Tooltip
@@ -4598,24 +4616,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
-                            <Tooltip
-                                content={varFields.from}
-                                className="generic"
-                                direction="up"
-                                // eventOn="onClick"
-                                // eventOff="onMouseLeave"
-                                useHover={true}
-                                background="#101010"
-                                color="#fefefe"
-                                arrowSize={0}
-                                styles={{ display: "inline" }}
-                              >
-                            <a href={(cluster === "mainnet-beta"
-                              ? `/address/${varFields.from}`
-                              : `/address/${varFields.from}?cluster=${cluster}`)}>
-                              {(shortenAddress(varFields.from))}
-                            </a>
-                            </Tooltip>
+                            {varFields.from}
                           </div>
                         </div>
                       </div>

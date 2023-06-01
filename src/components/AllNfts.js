@@ -59,7 +59,7 @@ const AllNfts = ({ collections, address, network }) => {
                 ))}
                 {
                   (allNfts.filter(nft => nft.name?.toLowerCase().startsWith(searchTerm.toLowerCase())).length < 1) && 
-                  <div className="pt-2 not_found_text">No Collections Found</div>
+                  <div className="pt-2 pb-4 not_found_text">No Collections Found</div>
                 }
               </div>   
             </div>:

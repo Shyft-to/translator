@@ -1432,14 +1432,14 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                               className={styles.slippage_param}
                                             >
                                               <span>Tokens to create Governance: </span>{" "}
-                                              {shortenAddress(action.info.min_community_tokens_to_create_governance ??
+                                              {formatNumbers(action.info.min_community_tokens_to_create_governance ??
                                                 "--")}
                                             </div>
                                             <div
                                               className={styles.slippage_param}
                                             >
                                               <span>Comm Max Vote Weight: </span>{" "}
-                                              {shortenAddress(action.info.community_mint_max_vote_weight_source ??
+                                              {formatNumbers(action.info.community_mint_max_vote_weight_source ??
                                                 "--")}
                                             </div>
                                           </div>
@@ -1557,14 +1557,14 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                             <div
                                               className={styles.slippage_param}
                                             >
-                                              <span>Min Comm Tokens to create Proposal: {action.info.min_community_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                              <span>Min Comm Tokens to create Proposal: {formatNumbers(action.info.min_community_tokens_to_create_proposal ?? "--")}</span>{" "}
                                               {" "}
                                               
                                             </div>
                                             <div
                                               className={styles.slippage_param}
                                             >
-                                              <span>Min Council Tokens to create Proposal: {action.info.min_council_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                              <span>Min Council Tokens to create Proposal: {formatNumbers(action.info.min_council_tokens_to_create_proposal ?? "--")}</span>{" "}
                                               {" "}
                                               
                                             </div>
@@ -1683,13 +1683,39 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                         </div>
                                     }
                                     {
+                                      action.type === "FINALIZE_VOTE" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Realm: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.realm_address}`
+                                                  : `/address/${action.info.realm_address}?cluster=${cluster}`}>{shortenAddress(action.info.realm_address)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance}`
+                                                  : `/address/${action.info.governance}?cluster=${cluster}`}>{shortenAddress(action.info.governance)}</a> ??
+                                                "--"}{" "}
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
+                                    {
                                       action.type === "CREATE_MINT_GOVERNANCE" && 
                                         <div className={`${styles.only_text} ${styles.slippage_params}`}>
                                           <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
                                             <div
                                               className={styles.slippage_param}
                                             >
-                                              <span>Min Tokens for Proposal: {action.info.min_community_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                              <span>Min Tokens for Proposal: {formatNumbers(action.info.min_community_tokens_to_create_proposal ?? "--")}</span>{" "}
                                             
                                             </div>
                                             <div
@@ -1708,7 +1734,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                             <div
                                               className={styles.slippage_param}
                                             >
-                                              <span>Min Tokens for Proposal: {action.info.min_community_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                              <span>Min Tokens for Proposal: {formatNumbers(action.info.min_community_tokens_to_create_proposal ?? "--")}</span>{" "}
                                             
                                             </div>
                                             <div
@@ -1728,13 +1754,13 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                             <div
                                               className={styles.slippage_param}
                                             >
-                                              <span>Min Comm Tokens for Proposal: {action.info.min_community_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                              <span>Min Comm Tokens for Proposal: {formatNumbers(action.info.min_community_tokens_to_create_proposal ?? "--")}</span>{" "}
                                             
                                             </div>
                                             <div
                                               className={styles.slippage_param}
                                             >
-                                              <span>Min Council Tokens for Proposal: {action.info.min_council_tokens_to_create_proposal ?? "--"}</span>{" "}
+                                              <span>Min Council Tokens for Proposal: {formatNumbers(action.info.min_council_tokens_to_create_proposal ?? "--")}</span>{" "}
                                             
                                             </div>
                                             <div
