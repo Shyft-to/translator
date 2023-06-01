@@ -1080,6 +1080,23 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         setImage(realm);
         setRelType("NONE");
       }
+      else if(data.type === "POST_MESSAGE") {
+        type_obj = {
+          type: "POST_MESSAGE",
+          from: data.info.proposal ?? "--",
+          to: "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "--",
+          message: data.info.message ?? "--"
+        };
+        setRelField(data.info.chat_message_address ?? "");
+        const messg = `${(data.info.isReply)?"Reply to ":"" } ${data.info.chatType}`
+        setImage(memo);
+        setName(messg);
+        setRelType("NONE");
+      }
       else {
         type_obj = {
           type: "",
@@ -1460,7 +1477,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "EXECUTE_TRANSACTION" ||
                   data.type === "CREATE_MINT_GOVERNANCE" ||
                   data.type === "CREATE_TOKEN_GOVERNANCE" ||
-                  data.type === "SET_REALM_AUTHORITY" 
+                  data.type === "SET_REALM_AUTHORITY" ||
+                  data.type === "POST_MESSAGE" 
                   ) {
                   return (
                     <>
@@ -4617,6 +4635,71 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             {varFields.from}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+            else if (varFields.type === "POST_MESSAGE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Message</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={memo_small}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            {varFields.message}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Proposal</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <Tooltip
+                                  content={varFields.from}
+                                  className="generic"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                              <a href={(cluster === "mainnet-beta"
+                                ? `/address/${varFields.from}`
+                                : `/address/${varFields.from}?cluster=${cluster}`)}>
+                                {(shortenAddress(varFields.from))}
+                              </a>
+                              </Tooltip>
                           </div>
                         </div>
                       </div>

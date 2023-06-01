@@ -143,7 +143,7 @@ export function isParsable(action)
                                     "SET_GOVERNANCE_DELEGATE","CREATE_GOVERNANCE","CREATE_PROGRAM_GOVERNANCE","CREATE_PROPOSAL","ADD_SIGNATORY",
                                     "REMOVE_SIGNATORY","CANCEL_PROPOSAL","SIGN_OFF_PROPOSAL","INSERT_TRANSACTION","REMOVE_TRANSACTION","CAST_VOTE",
                                     "FINALIZE_VOTE","RELINQUISH_VOTE","EXECUTE_TRANSACTION","CREATE_MINT_GOVERNANCE","CREATE_TOKEN_GOVERNANCE",
-                                    "SET_GOVERNANCE_CONFIG","SET_REALM_AUTHORITY"];
+                                    "SET_GOVERNANCE_CONFIG","SET_REALM_AUTHORITY","POST_MESSAGE"];
             if(actionsWeParse.includes(trimmedAction) === true)
                 return true;
             else

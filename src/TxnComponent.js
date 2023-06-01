@@ -1795,6 +1795,41 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                         </div>
                                       </>
                                     }
+                                    {
+                                      action.type === "POST_MESSAGE" && 
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Realm: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.realm_address}`
+                                                  : `/address/${action.info.realm_address}?cluster=${cluster}`}>{shortenAddress(action.info.realm_address)}</a> ??
+                                                "--"}{" "}
+                                              
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Governance: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.governance}`
+                                                  : `/address/${action.info.governance}?cluster=${cluster}`}>{shortenAddress(action.info.governance)}</a> ??
+                                                "--"}{" "}
+                                            </div>
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Payer: </span>{" "}
+                                              { <a href={cluster === "mainnet-beta"
+                                                ? `/address/${action.info.payer}`
+                                                  : `/address/${action.info.payer}?cluster=${cluster}`}>{shortenAddress(action.info.payer)}</a> ??
+                                                "--"}{" "}
+                                            </div>
+                                          </div>
+                                        </div>
+                                    }
                                   <div className="pb-2"></div>
                                 </div>
                               </div>
