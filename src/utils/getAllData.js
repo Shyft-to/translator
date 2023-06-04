@@ -54,7 +54,77 @@ export async function getNFTData(network, address) {
 
   return data;
 }
+export async function getCompressedNFTsFromWallet(network,address)
+{
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: [],
+  };
 
+  let dataFromMem = localStorage.getItem("cNdata");
+
+  if (dataFromMem) {
+    const cachedData = new Map(JSON.parse(dataFromMem));
+    const tokens = cachedData.get(address);
+    if (tokens) {
+      data = {
+        success: true,
+        type: "CNFTS",
+        details: JSON.parse(tokens),
+      };
+      return data;
+    }
+  }
+  
+  await axios({
+    url: `${endpoint}nft/compressed/read_all`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": xKey,
+    },
+    params: {
+      network: network,
+      wallet_address: address,
+    },
+  })
+    .then(async (res) => {
+      if (res.data.success === true) {
+        const allCompressedNfts = res.data.result.nfts;
+        try {
+          if(Array.isArray(allCompressedNfts) && allCompressedNfts.length > 0 && allCompressedNfts.length < 100)
+          {
+            for (let index = 0; index < allCompressedNfts.length; index++) {
+              const nft = allCompressedNfts[index];
+              pushDatatoCache(network, nft, nft.mint);
+            }
+          }
+          if(allCompressedNfts.length > 0)
+          {
+            let dataSet = new Map();
+            dataSet.set(address, JSON.stringify(allCompressedNfts));
+            
+            const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
+            localStorage.setItem("cNdata", valueToStore);
+          }
+        } catch (error) {
+          console.log("too large dataset");
+        }
+        
+        data = {
+          success: true,
+          type: "CNFTS",
+          details: allCompressedNfts,
+        };
+      }
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+
+  return data;
+}
 export async function getCompressedNFTData(network,address)
 {
   var data = {
@@ -538,6 +608,7 @@ export async function categorizeAddresswithExplorer(network, address,isCompresse
   }
   try {
     const data = await knowAddressType(network, address);
+    //console.log(data);
     if (data.addressType === "PROTOCOL") {
       const protocolData = await getProtocolData(network, address);
       response = {
@@ -572,6 +643,13 @@ export async function categorizeAddresswithExplorer(network, address,isCompresse
         success: categorizedData.success,
         type: categorizedData.type,
         details: categorizedData.details,
+      };
+    } else if (data.addressType === "GENERAL") {
+      const protocolData = await getProtocolData(network, address);
+      response = {
+        success: protocolData.success,
+        type: "GENERAL",
+        details: protocolData.details,
       };
     } else {
       response = {
@@ -655,19 +733,19 @@ export async function knowAddressType(network, address) {
                   };
                 } else {
                   typeObj = {
-                    addressType: "UNKNOWN",
+                    addressType: "GENERAL",
                   };
                 }
               } else {
                 typeObj = {
-                  addressType: "UNKNOWN",
+                  addressType: "GENERAL",
                 };
               }
             }
           }
         } else {
           typeObj = {
-            addressType: "UNKNOWN",
+            addressType: "GENERAL",
           };
         }
       })
@@ -962,6 +1040,7 @@ export async function clearIfOutdated() {
           localStorage.setItem("mainData", "");
           localStorage.setItem("devData", "");
           localStorage.setItem("testData", "");
+          localStorage.setItem("cNdata", "");
           localStorage.setItem("lastcatime", timeNow);
           console.log("All cached data cleared");
           return true;
