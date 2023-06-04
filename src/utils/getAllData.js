@@ -92,20 +92,26 @@ export async function getCompressedNFTsFromWallet(network,address)
     .then(async (res) => {
       if (res.data.success === true) {
         const allCompressedNfts = res.data.result.nfts;
-        if(Array.isArray(allCompressedNfts) && allCompressedNfts.length>0)
-        {
-          for (let index = 0; index < allCompressedNfts.length; index++) {
-            const nft = allCompressedNfts[index];
-            pushDatatoCache(network, nft, nft.mint);
+        try {
+          if(Array.isArray(allCompressedNfts) && allCompressedNfts.length > 0 && allCompressedNfts.length < 100)
+          {
+            for (let index = 0; index < allCompressedNfts.length; index++) {
+              const nft = allCompressedNfts[index];
+              pushDatatoCache(network, nft, nft.mint);
+            }
           }
+          if(allCompressedNfts.length > 0)
+          {
+            let dataSet = new Map();
+            dataSet.set(address, JSON.stringify(allCompressedNfts));
+            
+            const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
+            localStorage.setItem("cNdata", valueToStore);
+          }
+        } catch (error) {
+          console.log("too large dataset");
         }
-        let dataSet = new Map();
-        dataSet.set(address, JSON.stringify(allCompressedNfts));
-        // console.log(":new");
-        // console.log(JSON.stringify(Array.from(dataSet.entries())));
-        const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
-        localStorage.setItem("cNdata", valueToStore);
-
+        
         data = {
           success: true,
           type: "CNFTS",
