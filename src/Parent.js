@@ -17,6 +17,7 @@ import DomainSearchComponent from "./DomainSearchComponent";
 import TxnComponent from "./TxnComponent";
 
 import '@solana/wallet-adapter-react-ui/styles.css';
+import FeedComponent from "./FeedComponent";
 
 
 const Parent = () => {
@@ -62,6 +63,7 @@ const Parent = () => {
                                 <Route exact path="/tx/:txn" element={<TxnComponent popup={popup} setPopUp={setPopUp} />} />
                                 <Route exact path="/collections/:addr" element={<CollectionsComponent popup={popup} setPopUp={setPopUp} />} />
                                 <Route exact path="/collection/:addr" element={<SingleCollectionComponent popup={popup} setPopUp={setPopUp} />} />
+                                <Route exact path="/feed/:addr" element={<FeedComponent />} />
                                 {/* <Route exact path="/:type/:addr" element={<TokenComponent />} /> */}
                                 <Route exact path="*" element={<Four04 />} />
                             </Routes>
