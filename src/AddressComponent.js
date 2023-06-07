@@ -22,7 +22,7 @@ import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
 import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
 import CnftSlider from "./components/CnftSlider";
-import { followUser } from "./utils/dboperations";
+import { followUser,isUserFollowed, unFollowUser } from "./utils/dboperations";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -33,6 +33,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
     const currentTab = searchParams.get("tab") ?? "TXN";
     const isCompressedNft = searchParams.get("compressed") ?? "false";
+    const currentWallet = localStorage.getItem("reac_wid");
     const navigate = useNavigate();
 
     const [panel, setPanel] = useState("TXN");
@@ -50,11 +51,12 @@ const AddressComponent = ({popup,setPopUp}) => {
 
     const [tokenCount,setTokensCount] = useState(-1);
     const [domainsCount,setDomainsCount] = useState(-1);
+
+     const [isFollowed,setIsFollowed] = useState(false);
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
     }, []);
-    
     useEffect(() => {
         ReactGA.event({
             category: "SEARCH",
@@ -69,6 +71,22 @@ const AddressComponent = ({popup,setPopUp}) => {
         if(currentTab === "token")
             setPanel("TKN");
     }, [addr, cluster]);
+
+    // useEffect(() => {
+    //     console.log("is user followed");
+    //     // const currentWallet = localStorage.getItem("reac_wid");
+    //   if(currentWallet)
+    //     isUserFollowed(currentWallet,addr,cluster)
+    //         .then(res => {
+    //             console.log(res);
+    //             if(res.success === true)
+    //             {
+    //                 setIsFollowed(true);
+    //             }
+    //         })
+    //         .catch(err => console.log(err));
+    // }, [])
+    
     
 
     const getClassifiedData = async () => {
@@ -150,9 +168,16 @@ const AddressComponent = ({popup,setPopUp}) => {
     }
     const followuser = async () => {
         
-        const wallet_address = localStorage.getItem("reac_wid");
-        const followed_user = addr;
-        const resp = await followUser(wallet_address,followed_user);
+        //const wallet_address = localStorage.getItem("reac_wid");
+        console.log("clicked follow");
+        if(currentWallet)
+        {
+            const followed_user = addr;
+            const resp = await followUser(currentWallet,followed_user,cluster);
+            if(resp.success === true)
+                setIsFollowed(true);
+        }
+        
     }
 
     return (
@@ -165,7 +190,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             <div className={styles.background_super}>
 
                 <div className="container pt-2 pb-1">
-                    <SearchComponent popup={popup} setPopUp={setPopUp} />
+                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet}/>
                 </div>
                 {isLoading &&
                     <div className="container-lg pt-4 pt-md-5 pt-xl-3">
@@ -227,7 +252,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         </div>
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
-                                        <button className={styles.follow_button} onClick={followuser}>Follow</button>
+                                        {!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unFollowUser}>Unfollow</button>}
                                     </div>
                                 </div>
                                 <div className="row pt-4">

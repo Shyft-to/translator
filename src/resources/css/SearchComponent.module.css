@@ -406,3 +406,21 @@
     width: 100%;
   }
 }
+.connect_button_container .links_list
+{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.connect_button_container .links_list a
+{
+  font: 400 16px/32px "Montserrat", sans-serif;
+  color: #FFF;
+  padding: 12px 12px;
+  text-decoration: none;
+}
+.connect_button_container .links_list a:hover
+{
+  color: #FDF41B;
+}

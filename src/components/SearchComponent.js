@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
-
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useWallet } from '@solana/wallet-adapter-react';
 
 import styles from "../resources/css/SearchComponent.module.css";
 import { getAddressfromDomain } from "../utils/getAllData";
@@ -17,8 +17,12 @@ const SearchComponent = ({popup,setPopUp}) => {
   // const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState("mainnet-beta");
+  const currentWallet = localStorage.getItem("reac_wid");
+    
+    // const currentTab = searchParams.get("tab") ?? "TXN";
+    // const navigate = useNavigate();
+  
   const [isFocused, setFocused] = useState(false);
-
   const [searchData, setSearchData] = useState([]);
 
   useEffect(() => {
@@ -246,7 +250,14 @@ const SearchComponent = ({popup,setPopUp}) => {
                   </motion.div>
                 </div>
                 <div className={styles.connect_button_container}>
-                  <button>Connect Wallet</button>
+                  {
+                    currentWallet?
+                    <div className={styles.links_list}>
+                      <a href={`/feed`}>Feed</a>
+                      <a href={`/address/${currentWallet}`}>Profile</a>
+                    </div>:
+                    <button>Connect Wallet</button>
+                  }
                 </div>
             </div>
             

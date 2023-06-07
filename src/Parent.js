@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo,useEffect } from "react";
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
@@ -23,6 +23,15 @@ import FeedComponent from "./FeedComponent";
 const Parent = () => {
     const [popup, setPopUp] = useState(false);
     const network = WalletAdapterNetwork.Devnet;
+    const [currentWallet,setConnectedWallet] = useState("");
+    const pubKeyFromSession = localStorage.getItem("reac_wid");
+    
+    useEffect(() => {
+        console.log("pubkey:",pubKeyFromSession)
+        console.log(currentWallet);
+      if(pubKeyFromSession)
+        setConnectedWallet(pubKeyFromSession)
+    }, [])
 
     // You can also provide a custom RPC endpoint.
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
@@ -58,12 +67,12 @@ const Parent = () => {
 
                             <Routes>
                                 <Route exact path="/" element={<Home popup={popup} setPopUp={setPopUp} />} />
-                                <Route exact path="/address/:addr" element={<AddressComponent popup={popup} setPopUp={setPopUp} />} />
+                                <Route exact path="/address/:addr" element={<AddressComponent popup={popup} setPopUp={setPopUp} />} currentWallet={currentWallet} />
                                 <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp} />} />
                                 <Route exact path="/tx/:txn" element={<TxnComponent popup={popup} setPopUp={setPopUp} />} />
                                 <Route exact path="/collections/:addr" element={<CollectionsComponent popup={popup} setPopUp={setPopUp} />} />
                                 <Route exact path="/collection/:addr" element={<SingleCollectionComponent popup={popup} setPopUp={setPopUp} />} />
-                                <Route exact path="/feed/:addr" element={<FeedComponent />} />
+                                <Route exact path="/feed" element={<FeedComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />} />
                                 {/* <Route exact path="/:type/:addr" element={<TokenComponent />} /> */}
                                 <Route exact path="*" element={<Four04 />} />
                             </Routes>

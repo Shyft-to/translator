@@ -30,7 +30,7 @@ const FeedTransactions = ({ address, cluster }) => {
 
   const [txns, setTxns] = useState([]);
 
-  const [moreTxns, setMoreTxns] = useState(false);
+  const [moreTxns, setMoreTxns] = useState(true);
 
   const [firstTxn, setFirstTxn] = useState("");
   const [recall, setRecall] = useState(false);
@@ -39,21 +39,25 @@ const FeedTransactions = ({ address, cluster }) => {
   const [pauseTimer,setPauseTimer] = useState(false);
   const [chatFocus, setChatFocus] = useState(true);
 
+  const [page,setPage] = useState(1);
+
   const { ref, inView } = useInView();
 
   // const loadMoreArea = useRef(null);
   // const isInViewLoadMore = useInView(loadMoreArea,{ margin: "20%" });
-  // useEffect(() => {
-  //   // console.log("End of screen reach:",inView,txns.length)
-  //   if (isLoading === false) {
-  //     if (inView === true) {
-  //       if (moreTxns === true && txns.length > 0) {
-  //         console.log("Getting more txns");
-  //         getPrevNext("next");
-  //       }
-  //     }
-  //   }
-  // }, [inView])
+  useEffect(() => {
+    // console.log("End of screen reach:",inView,txns.length)
+    console.log("current page value",page)
+    if (isLoading === false) {
+      if (inView === true) {
+        console.log("Red square in view",inView);
+        if (moreTxns === true && page > 1 && txns.length > 0) {
+          console.log("Getting more txns");
+          getPrevNext(page);
+        }
+      }
+    }
+  }, [inView])
 
 
   useEffect(() => {
@@ -73,7 +77,7 @@ const FeedTransactions = ({ address, cluster }) => {
       //     }
       //   }
       axios({
-        url: `http://localhost:4000/getTransactions/${address}`,
+        url: `http://localhost:4000/getTransactions/${address}/1`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -91,6 +95,10 @@ const FeedTransactions = ({ address, cluster }) => {
               setTxns([...txns, ...txnReceived]);
               // setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
               // setTxnOne(txnReceived[0].signatures[0]);
+              setTimeout(() => {
+                setPage(2);
+              }, 1000);
+              
             }
             else {
               setMoreTxns(false);
@@ -127,7 +135,7 @@ const FeedTransactions = ({ address, cluster }) => {
     //   };
     // }
     axios({
-      url: `https://localhost:4000/getTransactions/${address}`,
+      url: `http://localhost:4000/getTransactions/${address}/${value}`,
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -141,6 +149,8 @@ const FeedTransactions = ({ address, cluster }) => {
           const txnReceived = res.data.txns;
           if (txnReceived.length === 0)
             setMoreTxns(false);
+          else
+            setPage(value+1);
           setTxns([...txns, ...txnReceived]);
           // setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
           // setTxnOne(txnReceived[0].signatures[0]);

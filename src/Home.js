@@ -169,11 +169,12 @@ const Home = ({popup, setPopUp}) => {
 
   }
   const connectWallet = async (wallet_address) => {
+    localStorage.setItem("reac_wid","");
     const isUser = await userLogon(wallet_address);
     if(isUser.success)
     {
       localStorage.setItem("reac_wid",wallet_address);
-      navigate(`/address/${wallet_address}?cluster=${network}`)
+      navigate(`/feed`)
     }
 
   }
