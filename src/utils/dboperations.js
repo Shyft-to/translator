@@ -226,11 +226,11 @@ export async function isUserFollowed(wallet_address, followed_address,cluster)
       cluster:cluster
     });
 
-    if(data)
+    if(!error && data.length === 1)
     {
       return {
         success:true,
-        message: "user has been followed"
+        message: "user is followed"
       }
     }
     else
@@ -242,19 +242,19 @@ export async function isUserFollowed(wallet_address, followed_address,cluster)
     }
 }
 
-export async function unFollowUser(wallet_address,followed_address)
+export async function unFollowUser(wallet_address,followed_address,cluster)
 {
-  var alreadyExisting = false;
   const database = createClient(supabaseUrl, supabaseKey);
   console.log("wal:",wallet_address);
   console.log("fol:",followed_address);
-
+  var flag = 0;
   const response = await database
     .from('user_follow')
     .select()
     .eq("wallet_address",wallet_address)
     .match({
-      followed_address: followed_address
+      followed_address: followed_address,
+      cluster: cluster
     });
 
     console.log(response.data);
@@ -262,35 +262,47 @@ export async function unFollowUser(wallet_address,followed_address)
   {
     const { error } = await database
       .from('user_follow')
-      .delete
+      .delete()
       .eq("wallet_address",wallet_address)
       .match({
-        followed_address: followed_address
+        followed_address: followed_address,
+        cluster:cluster
       });
     //create callback or modify
     console.log("unfollowed")
+    if(!error)
+      flag++;
     const currentUserCallback = await database
     .from('user_details')
     .select()
     .eq("wallet_address",wallet_address);
 
-    if(currentUserCallback.data.callback_id !== null)
+    var callbackToBeModified;
+    if(cluster === "devnet")
+      callbackToBeModified = currentUserCallback.data[0].callback_devnet;
+    else if(cluster === "testnet")
+      callbackToBeModified = currentUserCallback.data[0].callback_testnet;
+    else
+      callbackToBeModified = currentUserCallback.data[0].callback_mainnet;
+    
+    console.log("callback to be modified",callbackToBeModified)
+    if(callbackToBeModified)
     {
 
-      const callbackIdmModify = currentUserCallback.data.callback_id;
+      const callbackIdmModify = callbackToBeModified;
       const currentUserfollowed = await database
         .from('user_follow')
         .select()
         .eq("wallet_address",wallet_address);
       if(currentUserfollowed.data.length < 1)
       {
-        const endpoint = process.env.SHYFT_API_KEY;
+        const endpoint = process.env.REACT_APP_MAINCALLBACK_EP;
         await axios({
-          url: `${endpoint}callback/update`,
-          method: "POST",
+          url: `${endpoint}callback/remove`,
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": process.env.SHYFT_API_KEY,
+            "x-api-key": process.env.REACT_APP_MAINCALLBACK_KEY,
           },
           data : {
             id :callbackIdmModify
@@ -299,6 +311,8 @@ export async function unFollowUser(wallet_address,followed_address)
           .then(async (res) => {
             if (res.data.success === true) {
               console.log(res.data.result);
+              //remove callback address from database
+              flag++;
             }
           })
           .catch((err) => {
@@ -314,28 +328,39 @@ export async function unFollowUser(wallet_address,followed_address)
         let data = JSON.stringify({
           id: callbackIdmModify,
           addresses: [
-            ...followAddresses,followed_address
+            ...followAddresses
           ]
         });
   
-        const endpoint = process.env.SHYFT_API_KEY;
+        const endpoint = process.env.REACT_APP_MAINCALLBACK_EP;
         await axios({
           url: `${endpoint}callback/update`,
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": process.env.SHYFT_API_KEY,
+            "x-api-key": process.env.REACT_APP_MAINCALLBACK_KEY,
           },
           data : data
         })
           .then(async (res) => {
             if (res.data.success === true) {
               console.log(res.data.result);
+              flag ++;
             }
           })
           .catch((err) => {
             console.warn(err);
           });
+      }
+      if(flag === 2)
+      return {
+        success:true,
+        message:"User Unfollowed"
+      }
+    else
+      return {
+        success:false,
+        message:"user stil followed"
       }
       //new callback to create
     }
@@ -343,5 +368,9 @@ export async function unFollowUser(wallet_address,followed_address)
   else
   {
     console.log("Already Unfollowed");
+    return {
+      success:true,
+      message:"Already Unfollowed"
+    }
   }
 }

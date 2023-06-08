@@ -72,20 +72,20 @@ const AddressComponent = ({popup,setPopUp}) => {
             setPanel("TKN");
     }, [addr, cluster]);
 
-    // useEffect(() => {
-    //     console.log("is user followed");
-    //     // const currentWallet = localStorage.getItem("reac_wid");
-    //   if(currentWallet)
-    //     isUserFollowed(currentWallet,addr,cluster)
-    //         .then(res => {
-    //             console.log(res);
-    //             if(res.success === true)
-    //             {
-    //                 setIsFollowed(true);
-    //             }
-    //         })
-    //         .catch(err => console.log(err));
-    // }, [])
+    useEffect(() => {
+        console.log("is user followed");
+        // const currentWallet = localStorage.getItem("reac_wid");
+      if(currentWallet)
+        isUserFollowed(currentWallet,addr,cluster)
+            .then(res => {
+                console.log(res);
+                if(res.success === true)
+                {
+                    setIsFollowed(true);
+                }
+            })
+            .catch(err => console.log(err));
+    }, [])
     
     
 
@@ -179,6 +179,19 @@ const AddressComponent = ({popup,setPopUp}) => {
         }
         
     }
+    const unfollowuser = async () => {
+        
+        //const wallet_address = localStorage.getItem("reac_wid");
+        console.log("clicked unfollow");
+        if(currentWallet)
+        {
+            const unfollowed_user = addr;
+            const resp = await unFollowUser(currentWallet,unfollowed_user,cluster);
+            if(resp.success === true)
+                setIsFollowed(false);
+        }
+        
+    }
 
     return (
         <div>
@@ -252,7 +265,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         </div>
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
-                                        {!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unFollowUser}>Unfollow</button>}
+                                        {!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>}
                                     </div>
                                 </div>
                                 <div className="row pt-4">
