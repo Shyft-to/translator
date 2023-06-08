@@ -374,3 +374,82 @@ export async function unFollowUser(wallet_address,followed_address,cluster)
     }
   }
 }
+
+export async function getFollowData(wallet_address,network)
+{
+  var response = {
+    success: false,
+    message: "unable to get followers",
+    followers: 0,
+    following: 0
+  }
+  var followers = 0;
+  var following = 0;
+  try {
+    const database = createClient(supabaseUrl, supabaseKey);
+    const { data,error } = await database
+      .from('user_follow')
+      .select()
+      .eq("followed_address",wallet_address)
+      .match({
+        cluster: network
+      });
+    if(!error && data.length > 0)
+    {
+      followers = data.length;
+    }
+    console.log("followers im here");
+    const followingData = await getFollowing(wallet_address,network);
+    console.log("following im here",followingData);
+    if(followingData.success === true)
+    {
+      following = followingData.following ?? 0;
+    }
+    response = {
+      success: true,
+      message: "Follower Data",
+      followers: followers,
+      following: following
+    }
+     
+    return response;
+    
+  } catch (error) {
+    console.log("Error Occured while getting Followers: ",error.message);
+    return response;
+  }
+  
+}
+export async function getFollowing(address,network)
+{
+  var response = {
+    success: false,
+    message: "unable to get followers",
+    following: 0
+  }
+  try {
+    const database = createClient(supabaseUrl, supabaseKey);
+    console.log("im here follow get address", address, network);
+    const { data,error } = await database
+      .from('user_follow')
+      .select()
+      .eq("wallet_address",address)
+      .match({
+        cluster: network
+      });
+    console.log("im here follow get", data);
+    if(!error && data.length > 0)
+    {
+      response = {
+        success: true,
+        message: "following wallets",
+        following: data.length
+      }
+      console.log("Follow response",response);
+    }
+    return response;
+  } catch (error) {
+    console.log("Error Occured while getting Followers: ",error.message);
+    return response;
+  }
+}

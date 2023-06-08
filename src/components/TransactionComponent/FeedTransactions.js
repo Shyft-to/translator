@@ -77,7 +77,7 @@ const FeedTransactions = ({ address, cluster }) => {
       //     }
       //   }
       axios({
-        url: `http://localhost:4000/getTransactions/${address}/1`,
+        url: `http://localhost:4000/getTransactions/${address}/${cluster}/1`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +135,7 @@ const FeedTransactions = ({ address, cluster }) => {
     //   };
     // }
     axios({
-      url: `http://localhost:4000/getTransactions/${address}/${value}`,
+      url: `http://localhost:4000/getTransactions/${address}/${cluster}/${value}`,
       method: "GET",
       headers: {
         "Content-Type": "application/json",

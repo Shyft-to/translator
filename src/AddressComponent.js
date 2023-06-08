@@ -22,7 +22,7 @@ import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
 import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
 import CnftSlider from "./components/CnftSlider";
-import { followUser,isUserFollowed, unFollowUser } from "./utils/dboperations";
+import { followUser,getFollowData,isUserFollowed, unFollowUser } from "./utils/dboperations";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -53,6 +53,9 @@ const AddressComponent = ({popup,setPopUp}) => {
     const [domainsCount,setDomainsCount] = useState(-1);
 
      const [isFollowed,setIsFollowed] = useState(false);
+     const [followers,setFollowers] = useState(0);
+     const [following,setFollowing] = useState(0);
+
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
@@ -86,6 +89,20 @@ const AddressComponent = ({popup,setPopUp}) => {
             })
             .catch(err => console.log(err));
     }, [])
+
+    useEffect(() => {
+      if(addr)
+        getFollowData(addr,cluster)
+        .then(res => {
+            if(res.success === true)
+            {
+                setFollowing(res.following);
+                setFollowers(res.followers);
+            }
+        })
+    
+    }, [isFollowed]);
+    
     
     
 
@@ -203,7 +220,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             <div className={styles.background_super}>
 
                 <div className="container pt-2 pb-1">
-                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet}/>
+                    {/* <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet}/> */}
                 </div>
                 {isLoading &&
                     <div className="container-lg pt-4 pt-md-5 pt-xl-3">
@@ -279,7 +296,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     <div className="col-6 col-lg-6 text-end">
                                         <div>
                                             <div className={styles.wallet_balance_indicator}>
-                                                130 Followers &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 130 Following
+                                                {followers} Followers &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {following} Following
                                             </div>
                                         </div>
                                     </div>

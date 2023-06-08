@@ -2,7 +2,17 @@ import { useState, useMemo,useEffect } from "react";
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { 
+    UnsafeBurnerWalletAdapter,
+    GlowWalletAdapter,
+    LedgerWalletAdapter,
+    PhantomWalletAdapter,
+    SlopeWalletAdapter,
+    SolflareWalletAdapter,
+    SolletExtensionWalletAdapter,
+    SolletWalletAdapter,
+    TorusWalletAdapter 
+} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 
 
@@ -18,6 +28,7 @@ import TxnComponent from "./TxnComponent";
 
 import '@solana/wallet-adapter-react-ui/styles.css';
 import FeedComponent from "./FeedComponent";
+import SearchComponent from "./components/SearchComponent";
 
 
 const Parent = () => {
@@ -50,7 +61,15 @@ const Parent = () => {
              * instantiate its legacy wallet adapter here. Common legacy adapters can be found
              * in the npm package `@solana/wallet-adapter-wallets`.
              */
-            new UnsafeBurnerWalletAdapter(),
+            new PhantomWalletAdapter(),
+            new GlowWalletAdapter(),
+            new SlopeWalletAdapter(),
+            new SolflareWalletAdapter({ network }),
+            new TorusWalletAdapter(),
+            new LedgerWalletAdapter(),
+            new SolletExtensionWalletAdapter(),
+            new SolletWalletAdapter(),
+            new UnsafeBurnerWalletAdapter()
         ],
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [network]
@@ -60,25 +79,53 @@ const Parent = () => {
     return (
         <div>
             <ConnectionProvider endpoint={endpoint}>
-                <WalletProvider wallets={wallets}>
-                    <WalletModalProvider>
+                
                         <Router>
                             <ScrollToTop />
-
+                            
                             <Routes>
-                                <Route exact path="/" element={<Home popup={popup} setPopUp={setPopUp} />} />
-                                <Route exact path="/address/:addr" element={<AddressComponent popup={popup} setPopUp={setPopUp} />} currentWallet={currentWallet} />
+                                
+                                        <Route exact path="/" element={
+                                        <WalletProvider wallets={wallets}>
+                                            <WalletModalProvider>
+                                                <Home popup={popup} setPopUp={setPopUp} />
+                                            </WalletModalProvider>
+                                        </WalletProvider>
+                                        } />
+                                    
+                                <Route exact path="/address/:addr" element={
+                                    <>
+                                        <WalletProvider wallets={wallets} autoConnect>
+                                            <WalletModalProvider>
+                                                <div className="container pt-2 pb-1">
+                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                                </div>
+                                            </WalletModalProvider>
+                                        </WalletProvider>
+                                        <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                    </>
+                                } />
                                 <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp} />} />
                                 <Route exact path="/tx/:txn" element={<TxnComponent popup={popup} setPopUp={setPopUp} />} />
                                 <Route exact path="/collections/:addr" element={<CollectionsComponent popup={popup} setPopUp={setPopUp} />} />
                                 <Route exact path="/collection/:addr" element={<SingleCollectionComponent popup={popup} setPopUp={setPopUp} />} />
-                                <Route exact path="/feed" element={<FeedComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />} />
+                                <Route exact path="/feed" element={
+                                    <>
+                                        <WalletProvider wallets={wallets} autoConnect>
+                                            <WalletModalProvider>
+                                                <div className="container pt-2 pb-1">
+                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                                </div>
+                                            </WalletModalProvider>
+                                        </WalletProvider>
+                                        <FeedComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                    </>
+                                } />
                                 {/* <Route exact path="/:type/:addr" element={<TokenComponent />} /> */}
                                 <Route exact path="*" element={<Four04 />} />
                             </Routes>
                         </Router>
-                    </WalletModalProvider>
-                </WalletProvider>
+                    
             </ConnectionProvider>
         </div>
     );

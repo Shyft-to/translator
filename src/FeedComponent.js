@@ -13,7 +13,7 @@ const FeedComponent = ({popup,setPopUp,currentWallet}) => {
         <div>
             <div className={styles.background_super}>
                 <div className="container pt-2 pb-1">
-                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                    {/* <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} /> */}
                     
                 </div>
                 <div className="container-lg pt-4">

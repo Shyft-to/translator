@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+// import { Link,useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -21,6 +21,7 @@ const SearchComponent = ({popup,setPopUp}) => {
     
     // const currentTab = searchParams.get("tab") ?? "TXN";
     // const navigate = useNavigate();
+    const { publicKey } = useWallet();
   
   const [isFocused, setFocused] = useState(false);
   const [searchData, setSearchData] = useState([]);
@@ -258,6 +259,10 @@ const SearchComponent = ({popup,setPopUp}) => {
                     </div>:
                     <button>Connect Wallet</button>
                   }
+                  <span className="text-warning">
+                    {(publicKey)?JSON.stringify(publicKey?.toBase58()):"Not connected"}
+                  </span>
+                  
                 </div>
             </div>
             
