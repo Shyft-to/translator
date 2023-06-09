@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// import { Link,useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -14,7 +14,7 @@ import infoIcon from "../resources/images/info.svg";
 import { listOfAddresses } from "../utils/formatter";
 
 const SearchComponent = ({popup,setPopUp}) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState("mainnet-beta");
   const currentWallet = localStorage.getItem("reac_wid");
@@ -117,13 +117,13 @@ const SearchComponent = ({popup,setPopUp}) => {
         {
           if(network === "mainnet-beta")
           {
-            // navigate(`/address/${wallet}`);
-            window.location.href = `/address/${wallet}`;
+            navigate(`/address/${wallet}`);
+            // window.location.href = `/address/${wallet}`;
           }
           else
           {
-            // navigate(`/address/${wallet}?cluster=${network}`);
-            window.location.href = `/address/${wallet}?cluster=${network}`;
+            navigate(`/address/${wallet}?cluster=${network}`);
+            // window.location.href = `/address/${wallet}?cluster=${network}`;
           }
         }
         
