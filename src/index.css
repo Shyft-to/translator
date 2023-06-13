@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
 
 html,
 body {
@@ -319,28 +322,6 @@ body {
     text-align: center;
 }
 
-.footer-white {
-  position: absolute;
-  z-index: 10;
-  width: 100%;
-  background: transparent;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(5px);
-  padding: 15px 5px 5px;
-  /* border-top: 1px solid #ffffffcc; */
-  min-height: 10vh;
-  bottom: 0;
-}
-
-.white-footer-icons img {
-  width: 60%;
-}
-@media screen and (max-width: 768px) {
-  .footer-white {
-    position: relative;
-  }
-  
-}
 
 .copy_link {
   background-color: transparent;
@@ -774,14 +755,15 @@ body {
 
 .wallet-button{
   color: black !important;
-  background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
+  background-color: #000 !important;
   width: 100% !important;
   justify-content: center !important;
   padding: 0px !important;
   height: auto !important;
-  font: 500 0.9rem/1.2rem "Montserrat", sans-serif !important;
+  font: 500 0.9rem/1.2rem "Geologica", sans-serif !important;
   color: #fff !important;
   padding: 0.7rem 0rem !important;
+  border: 2px solid #BAFC08 !important;
   border-radius: 2.5rem !important;
   transition: all 0.2s;
 }
