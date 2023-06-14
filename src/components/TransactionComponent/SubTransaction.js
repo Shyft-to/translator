@@ -475,7 +475,20 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         };
         // setRelField(data.info.lender ?? "");
         setImage(loan);
-      } else if (data.type === "TAKE_LOAN") {
+      } else if (data.type === "CANCEL_REQUEST_LOAN") {
+        type_obj = {
+          type: "CANCEL_REQUEST_LOAN",
+          from: data.info.borrower ?? "--",
+          to: "",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.nft_address ?? "");
+        // setImage(loan);
+      }
+      else if (data.type === "TAKE_LOAN") {
         type_obj = {
           type: "TAKE_LOAN",
           from: data.info.lender ?? "--",
@@ -551,7 +564,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         type_obj = {
           type: "REQUEST_LOAN",
           from: data.info.loan ?? "--",
-          to: data.info.lender ?? "--",
+          to: data.info.borrower ?? "--",
           token: "--",
           action: "--",
           value: data.info.amount ?? "--",
@@ -1481,6 +1494,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "EXTEND_LOAN" ||
                   data.type === "EXTEND_ESCROW_LOAN" ||
                   data.type === "REPAY_LOAN" ||
+                  data.type === "REQUEST_LOAN" ||
+                  data.type === "BUY_NOW_PAY_LATER" ||
+                  data.type === "CANCEL_REQUEST_LOAN" ||
                   data.type === "CREATE_RAFFLE" ||
                   data.type === "CLAIM_PRIZE" ||
                   data.type === "CANCEL_RAFFLE" ||
@@ -3159,6 +3175,46 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <div className="col-12 col-md-4 text-end">
                       <div className={styles.field_sub_3}>
                         {varFields.value} SOL
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+            else if (varFields.type === "CANCEL_REQUEST_LOAN") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Loan request cancelled</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={cancel}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>by </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.from}`
+                                    : `/address/${varFields.from}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.from}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.from)}
+                              </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

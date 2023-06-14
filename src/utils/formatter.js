@@ -274,6 +274,11 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
+        domain:"Foxy Citrus",
+        address:"JCFRaPv7852ESRwJJGRy2mysUMydXZgVVhrMLmExvmVp", 
+        network:"mainnet-beta"
+    },
+    {
         domain:"Foxy Raffle",
         address:"9ehXDD5bnhSpFVRf99veikjgq8VajtRH7e3D9aVPLqYd", 
         network:"mainnet-beta"
