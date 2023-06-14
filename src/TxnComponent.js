@@ -1383,10 +1383,32 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                                   : `/address/${action.info.new_loan}?cluster=${cluster}`}>{shortenAddress(action.info.new_loan ??
                                                 "--")}</a>}
                                               </div>
+                                              {(action.info.hasOwnProperty("apy") && action.info.apy !== 0) && <div
+                                                  className={styles.slippage_param}
+                                                >
+                                                  <span>Annual % Return: </span>{" "}
+                                                  {action.info.apy ?? "--"}
+                                                  
+                                                </div>}
                                             
                                           </div>
                                           
                                         </div>
+                                    }
+                                    {
+                                      (action.type === "OFFER_LOAN" || action.type === "TAKE_LOAN" || action.type === "REQUEST_LOAN" || action.type === "BUY_NOW_PAY_LATER") && (action.info.hasOwnProperty("apy")) && (action.info.apy !== 0) && 
+                                          
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Annual % Return: </span>{" "}
+                                              {action.info.apy ?? "--"}
+                                              
+                                            </div>
+                                          </div>
+                                        </div>      
                                     }
                                     {
                                       action.type === "CREATE_POOL" && 
