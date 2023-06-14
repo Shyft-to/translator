@@ -29,6 +29,7 @@ import TxnComponent from "./TxnComponent";
 import '@solana/wallet-adapter-react-ui/styles.css';
 import FeedComponent from "./FeedComponent";
 import SearchComponent from "./components/SearchComponent";
+import MainLayoutMaster from "./MainLayoutMaster";
 
 
 const Parent = () => {
@@ -119,7 +120,7 @@ const Parent = () => {
                                 <FeedComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
                             </>
                         } />
-                        {/* <Route exact path="/:type/:addr" element={<TokenComponent />} /> */}
+                        <Route exact path="/layouttest" element={<MainLayoutMaster />} />
                         <Route exact path="*" element={<Four04 />} />
                     </Routes>
                 </Router>
