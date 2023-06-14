@@ -10,6 +10,7 @@
     margin: 0 auto;
     width: 100%;
     max-width: 1500px;
+    padding-top: 80px;
 }
 
 .main_col_1 {
@@ -38,9 +39,11 @@
 
 .token_grid_container .main_col_1 {
     flex-grow: 1;
+    background-color: aqua;
 }
 .token_grid_container .main_col_2 {
-    flex-grow: 2;
+    flex-grow: 3;
+    background-color: red;
 }
 .token_grid_container .main_col_3 {
     flex-grow: 0;
@@ -203,6 +206,7 @@
 {
     width: 40px;
     aspect-ratio: 1/1;
+    border-radius: 20px;
 }
 .homepage_tokens_container .each_token .token_details
 {

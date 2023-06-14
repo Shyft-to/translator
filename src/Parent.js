@@ -101,7 +101,8 @@ const Parent = () => {
                                         </div>
                                     </WalletModalProvider>
                                 </WalletProvider>
-                                <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                {/* <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} /> */}
+                                <MainLayoutMaster popup={popup} setPopUp={setPopUp} currentWallet={currentWallet}/>
                             </>
                         } />
                         <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp} />} />

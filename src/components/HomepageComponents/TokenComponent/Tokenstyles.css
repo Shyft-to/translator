@@ -1,0 +1,15 @@
+.homepage_token_image
+{
+    display: block;
+    padding: 15px;
+    width: 100%;
+    
+}
+.homepage_token_image img
+{
+    width: 90%;
+    max-width: 350px;
+    aspect-ratio: 1/1;
+    margin: 0 auto;
+    border-radius: 30px;
+}

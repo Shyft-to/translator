@@ -1,26 +1,29 @@
 import avatar from "../../resources/images/txnImages/raffle_winner.png";
 
-const HomepageCollections = () => {
+const HomepageCollections = ({collections}) => {
     return ( 
         <div>
             <div className="homepage_nft_collections_container">
                 <div className="nft_collections_heading">NFT Collections in your wallet</div>
                 <div className="nft_collections_subname">
-                    <div>20 Collections</div>
+                    <div>{collections.length} Collections</div>
                 </div>
-                <div className="each_collection">
+                {collections.map((coll) => 
+                    <div className="each_collection">
                     <div className="nft_collection_details">
                         <div className="collection_image">
                             <img src={avatar} alt="collection_img" />
                         </div>
                         <div className="collection_name">
-                            Famous Fox Federation
+                            {coll.name}
                         </div>
                     </div>
                     <div className="number_of_nfts">
-                        22
+                        {coll.nft_count}
                     </div>
                 </div>
+                )}
+                
                 <div className="each_collection">
                     <div className="nft_collection_details">
                         <div className="collection_image">
@@ -45,32 +48,6 @@ const HomepageCollections = () => {
                     </div>
                     <div className="number_of_nfts">
                         22
-                    </div>
-                </div>
-                <div className="each_collection">
-                    <div className="nft_collection_details">
-                        <div className="collection_image">
-                            <img src={avatar} alt="collection_img" />
-                        </div>
-                        <div className="collection_name">
-                            Y00ts
-                        </div>
-                    </div>
-                    <div className="number_of_nfts">
-                        15
-                    </div>
-                </div>
-                <div className="each_collection">
-                    <div className="nft_collection_details">
-                        <div className="collection_image">
-                            <img src={avatar} alt="collection_img" />
-                        </div>
-                        <div className="collection_name">
-                            Y00ts
-                        </div>
-                    </div>
-                    <div className="number_of_nfts">
-                        15
                     </div>
                 </div>
             </div>

@@ -326,27 +326,49 @@ export async function getWalletData(network, address) {
         errorOccured = true;
       });
 
-    // await axios({
-    //   url: `${endpoint}wallet/all_tokens`,
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "x-api-key": xKey,
-    //   },
-    //   params: {
-    //     network: network,
-    //     wallet: address,
-    //   },
-    // })
-    //   .then((res) => {
-    //     if (res.data.success === true) {
-    //       details = { ...details, tokens: res.data.result };
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.warn(err);
-    //     errorOccured = true;
-    //   });
+    await axios({
+      url: `${endpoint}wallet/all_tokens`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": xKey,
+      },
+      params: {
+        network: network,
+        wallet: address,
+      },
+    })
+      .then((res) => {
+        if (res.data.success === true) {
+          details = { ...details, tokens: res.data.result };
+        }
+      })
+      .catch((err) => {
+        console.warn(err);
+        errorOccured = true;
+      });
+
+      await axios({
+        url: `${endpoint}wallet/get_domains`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": xKey,
+        },
+        params: {
+          network: network,
+          wallet: address,
+        },
+      })
+        .then((res) => {
+          if (res.data.success === true) {
+            details = { ...details, domains: res.data.result };
+          }
+        })
+        .catch((err) => {
+          console.warn(err);
+          errorOccured = true;
+        });
 
     await axios({
       url: `${endpoint}wallet/collections`,
