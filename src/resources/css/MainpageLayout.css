@@ -290,7 +290,11 @@
     justify-content: space-between;
     padding: 10px 0px;
 }
-.homepage_nft_collections_container .each_collection .nft_collection_details > div
+.homepage_nft_collections_container .each_collection .nft_collection_details
+{
+    flex-grow: 1;
+}
+.homepage_nft_collections_container .each_collection .nft_collection_details div
 {
     display: inline-block;
 }
@@ -298,6 +302,7 @@
 {
     width: 40px;
     aspect-ratio: 1/1;
+    border-radius: 20px;
     margin-right: 10px;
 }
 .homepage_nft_collections_container .each_collection .collection_name

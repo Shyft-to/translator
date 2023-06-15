@@ -187,7 +187,7 @@ const MainLayoutMaster = ({popup,setPopUp}) => {
                                 {(contentType === "WALLET") && <HomepageDomains domains={data.domains}/> }
                             </div>
                             <div className="item_collections_tab_onwards">
-                                {(contentType === "WALLET") && <HomepageCollections collections={data.collections} />}
+                                {(contentType === "WALLET") && <HomepageCollections collections={data.collections} address={addr} network={cluster} />}
                             </div>
                         </div>
                         <div className="main_col_2">
@@ -201,7 +201,7 @@ const MainLayoutMaster = ({popup,setPopUp}) => {
                                 {(contentType === "WALLET") && <HomepageDomains domains={data.domains}/>}
                             </div>
                             <div className="item_collections">
-                                {(contentType === "WALLET") && <HomepageCollections collections={data.collections}/>}
+                                {(contentType === "WALLET") && <HomepageCollections collections={data.collections} address={addr} network={cluster}/>}
                             </div>
                         </div>
 

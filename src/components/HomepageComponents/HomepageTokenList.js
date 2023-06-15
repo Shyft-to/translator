@@ -1,4 +1,4 @@
-import avatar from "../../resources/images/txnImages/raffle_winner.png";
+import unknown from "../../resources/images/unknown_token.svg";
 import { shortenAddress } from "../../utils/formatter";
 
 const HomepageTokenList = ({tokens}) => {
@@ -12,7 +12,12 @@ const HomepageTokenList = ({tokens}) => {
                 {tokens.map((token) =>
                     <div className="each_token">
                         <div className="token_image">
-                            <img src={token.info.image ?? ""} alt="token_img" />
+                            <img src={token.info.image ?? unknown} 
+                            onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src=unknown;
+                              }}
+                            alt="token_img" />
                         </div>
                         <div className="token_details">
                             <div className="token_name">{token.info.name ?? ""}</div>
@@ -26,7 +31,7 @@ const HomepageTokenList = ({tokens}) => {
                 
                 <div className="each_token">
                     <div className="token_image">
-                        <img src={avatar} alt="token_img" />
+                        <img src={unknown} alt="token_img" />
                     </div>
                     <div className="token_details">
                         <div className="token_name">Cope</div>

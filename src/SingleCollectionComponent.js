@@ -173,6 +173,7 @@ const SingleCollectionComponent = ({popup,setPopUp}) => {
                                 <div className={styles.nft_collections_heading}>NFT Collections in your wallet</div>
                                 <div className={styles.nft_collections_subname}>
                                     <div>{data.length} Collections</div>
+                                    <div className={styles.view_all_collections} onClick={viewAll}>View All</div>
                                 </div>
                                 {data.map((coll) => 
                                     <div className={styles.each_collection} onClick={() => tabSelected(coll.name)}>
