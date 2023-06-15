@@ -1,7 +1,7 @@
 .background_homepage
 {
     position: relative;
-    background: radial-gradient(64.72% 54.82% at 50% 48.13%, #2F2F2F 0%, #050505 100%);
+    background: radial-gradient(50% 50% at 50% 50%, #313131 0%, #1F1F1F 0.01%, #111111 100%);
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: 100% 100%;
@@ -43,11 +43,9 @@
 
 .token_grid_container .main_col_1 {
     flex-grow: 1;
-    background-color: aqua;
 }
 .token_grid_container .main_col_2 {
-    flex-grow: 3;
-    background-color: red;
+    flex-grow: 2;
 }
 .token_grid_container .main_col_3 {
     flex-grow: 0;

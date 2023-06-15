@@ -178,7 +178,7 @@ const MainLayoutMaster = ({popup,setPopUp}) => {
                         <div className="main_col_1">
                             <div className="item_profile">
                                 {(contentType === "WALLET") && <HomepageProfile balance={data.balance} address={addr}/>}
-                                {(contentType === "NFT" || contentType === "TOKEN") && <TokenImageHome />}
+                                {(contentType === "NFT" || contentType === "TOKEN") && <TokenImageHome nft={data} cluster={cluster} />}
                             </div>
                             <div className="item_tokens">
                                 {(contentType === "WALLET") && <HomepageTokenList tokens={data.tokens} />}

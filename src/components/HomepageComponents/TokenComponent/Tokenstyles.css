@@ -8,8 +8,41 @@
 .homepage_token_image img
 {
     width: 90%;
-    max-width: 350px;
+    max-width: 500px;
     aspect-ratio: 1/1;
     margin: 0 auto;
     border-radius: 30px;
+}
+
+.view_original_button
+{
+ padding-top: 14px;
+ font: 400 12px/18px "Poppins", sans-serif;
+ text-align: center;
+ /* padding-right: 10px; */
+}
+.view_original_button a
+{
+    text-decoration: none;
+    color: #fffc;
+}
+.view_original_button a:hover
+{
+    text-decoration: none;
+    color: #0AEEFF;
+}
+.download_button
+{
+    padding-top: 14px;
+    font: 400 12px/18px "Poppins", sans-serif;
+    text-align: center;
+    color: #fffc;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.download_button:hover
+{
+    color: #0AEEFF;
 }
