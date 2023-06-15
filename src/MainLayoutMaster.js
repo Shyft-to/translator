@@ -177,31 +177,31 @@ const MainLayoutMaster = ({popup,setPopUp}) => {
                     <div className={`main_grid_container ${(contentType === "NFT" || contentType === "TOKEN") ? "token_grid_container" : ""}`}>
                         <div className="main_col_1">
                             <div className="item_profile">
-                                <HomepageProfile balance={data.balance} address={addr}/>
-                                {/* <TokenImageHome /> */}
+                                {(contentType === "WALLET") && <HomepageProfile balance={data.balance} address={addr}/>}
+                                {(contentType === "NFT" || contentType === "TOKEN") && <TokenImageHome />}
                             </div>
                             <div className="item_tokens">
-                                <HomepageTokenList tokens={data.tokens} />
+                                {(contentType === "WALLET") && <HomepageTokenList tokens={data.tokens} />}
                             </div>
                             <div className="item_domains_tab_onwards">
-                                <HomepageDomains domains={data.domains}/>
+                                {(contentType === "WALLET") && <HomepageDomains domains={data.domains}/> }
                             </div>
                             <div className="item_collections_tab_onwards">
-                                <HomepageCollections collections={data.collections} />
+                                {(contentType === "WALLET") && <HomepageCollections collections={data.collections} />}
                             </div>
                         </div>
                         <div className="main_col_2">
                             <div className="item_transactions">
-                                
+                                {(contentType === "NFT" || contentType === "TOKEN") && <TokenDetailsHome nft={data} cluster={cluster} />}
                                 <Transactions address={addr} cluster={cluster}  />
                             </div>
                         </div>
                         <div className="main_col_3">
                             <div className="item_domains">
-                                <HomepageDomains domains={data.domains}/>
+                                {(contentType === "WALLET") && <HomepageDomains domains={data.domains}/>}
                             </div>
                             <div className="item_collections">
-                                <HomepageCollections collections={data.collections}/>
+                                {(contentType === "WALLET") && <HomepageCollections collections={data.collections}/>}
                             </div>
                         </div>
 
