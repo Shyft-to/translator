@@ -2,6 +2,10 @@
 {
     position: relative;
     background: radial-gradient(64.72% 54.82% at 50% 48.13%, #2F2F2F 0%, #050505 100%);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+    background-attachment: fixed;
     z-index: 0;
 }
 ._master_container
