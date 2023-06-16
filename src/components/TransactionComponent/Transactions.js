@@ -285,13 +285,31 @@ const Transactions = ({ address, cluster }) => {
         {
           (refreshCounter)?((timer === 0) ?
             <div className={styles.refresh_section}>
-              <img src={rotateRefresh} className={styles.loading_image} alt="loading" /> Refreshing
+              <div className={styles.refresh_text_one}>
+                Live Activity
+              </div>
+              <div>
+                <img src={rotateRefresh} className={styles.loading_image} alt="loading" /> Refreshing
+              </div>
             </div>
             :
             <div className={styles.refresh_section}>
-              <img src={staticRefresh} className={styles.loading_image} alt="loading" /> Refreshing in <img src={duration} className={styles.duration_image} alt="duration" /> {timer} secs
+              <div className={styles.refresh_text_one}>
+                Live Activity
+              </div>
+              <div>
+                <img src={staticRefresh} className={styles.loading_image} alt="loading" /> Refreshing in <img src={duration} className={styles.duration_image} alt="duration" /> {timer} secs
+              </div>
             </div>):(<div></div>)
         }
+        <div className={styles.refresh_section}>
+          <div className={styles.refresh_text_one}>
+            Live Activity
+          </div>
+          <div>
+            <img src={staticRefresh} className={styles.loading_image} alt="loading" /> Refreshing in <img src={duration} className={styles.duration_image} alt="duration" /> {timer} secs
+          </div>
+        </div>
 
 
 

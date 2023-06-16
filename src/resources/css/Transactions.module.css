@@ -121,7 +121,7 @@
 }
 .each_txn .tx_field_sub_2 .tx_top
 {
-    font: 300 14px/20px "Montserrat",sans-serif;
+    font: 300 18px/20px "Montserrat",sans-serif;
     color: #fff;
     overflow: hidden;
     white-space: nowrap;
@@ -286,13 +286,13 @@
 {
     position: relative;
     min-height: 100px;
-    background-color: #3C1B67;
+    background-color: #2f2f2f;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 14px;
     border: 2px solid transparent;
-    padding: 8px 24px;
-    margin-bottom: 20px;
+    padding: 16px 32px;
+    margin-bottom: 48px;
     transition: all 0.05s ease;
 }
 .each_txn_3:hover
@@ -380,9 +380,9 @@
 } */
 .each_txn_3 .txn_name
 {
-    font: 500 18px/24px "Montserrat",sans-serif;
-    padding: 10px 20px 10px 0px;
-    color: #FDF41B;
+    font: 600 22px/24px "Geologica",sans-serif;
+    padding: 10px 20px 24px 0px;
+    color: #BAFC08;
     position: relative;
     z-index: 2;
 }
@@ -399,7 +399,7 @@
 }
 .each_txn_3 .txn_subname
 {
-    font: 300 11px/28px "Montserrat",sans-serif;
+    font: 300 11px/28px "Jost",sans-serif;
     padding: 10px 20px 10px 0px;
     color: #FFFFFF99;
     position: relative;
@@ -407,7 +407,7 @@
 }
 .each_txn_3 .txn_signature
 {
-    font: 300 10px/24px "Montserrat",sans-serif;
+    font: 300 10px/24px "Jost",sans-serif;
     padding: 10px 10px 10px 0px;
     color: #FFFFFF99;
     position: relative;
@@ -416,7 +416,7 @@
 }
 .each_txn_3 .interacted_with
 {
-    font: 500 16px/20px "Montserrat",sans-serif;
+    font: 500 16px/20px "Jost",sans-serif;
     padding: 4px 0px;
     color: #fff;
 }
@@ -490,7 +490,7 @@
 }
 .each_txn_3 .plus_color
 {
-    color: #FDF41B !important; 
+    color: #BAFC08 !important; 
 }
 .each_txn_3 .minus_color
 {
@@ -525,9 +525,9 @@
 .sub_txns
 {
     position: relative;
-    width: 95%;
+    width: 91%;
     margin: 0 auto;
-    padding-bottom: 10px;
+    padding-bottom: 14px;
 }
 /* .sub_txns::before
 {
@@ -566,7 +566,7 @@
 
 .sub_txns .txn_details .subtxn_token
 {
-    font: 400 15px/24px "Poppins",sans-serif;
+    font: 400 15px/24px "Geologica",sans-serif;
     color: #FFFFFF;
     position: relative;
     z-index: 2;
@@ -580,20 +580,20 @@
 } 
 .sub_txns .field_sub_1
 {
-    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
-    color: #FFFa;
+    font: 400 14px/26px "Jost",sans-serif;
+    color: #FFF6;
     width: 100%;
     position: relative;
     z-index: 2;
 }
 .sub_txns .field_sub_1 .bolder
 {
-    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    font: 300 14px/26px "Jost",sans-serif;
     color: #FFFF !important; 
 }
 .sub_txns .field_sub_2
 {
-    font: 500 13px/26px "Poppins",sans-serif;
+    font: 400 16px/26px "Jost",sans-serif;
     color: #FFFFFF;
     /* width: 200px; */
     display: inline-block;
@@ -603,7 +603,7 @@
 }
 .sub_txns .field_sub_3
 {
-    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    font: 300 14px/26px "Jost",sans-serif;
     color: #FFFFFF;
     width: 100%;
     position: relative;
@@ -611,13 +611,12 @@
 }
 .sub_txns .plus_color
 {
-    color: #FDF41B !important; 
-    font-weight: 500;
+    color: #BAFC08 !important; 
+    /* font-weight: 500; */
 }
 .sub_txns .minus_color
 {
     color: #FF5454 !important; 
-    font-weight: 500;
 }
 .sub_txns .approve_color
 {
@@ -660,7 +659,7 @@
     background-color: #1E0C36;
     width: 100%;
     max-width: 94px;
-    font: 300 10px/12px "Plus Jakarta Sans",sans-serif !important;
+    font: 300 10px/12px "Jost",sans-serif !important;
     color: #fff;
     text-align: center;
     border-radius: 4px;
@@ -699,7 +698,7 @@
     }
     .sub_txns .field_sub_1
     {
-        font: 400 12px/26px "Poppins",sans-serif;
+        font: 400 14px/26px "Jost",sans-serif;
         color: #FFF;
         width: 100%;
         
@@ -724,18 +723,21 @@
 
 .refresh_section
 {
-    background-color: #080012bb;
+    background-color: #1C1C1C;
     padding: 16px 20px;
-    margin-bottom: 16px;
+    margin-top: 14px;
+    margin-bottom: 34px;
     border-radius: 8px;
-    font: 300 14px/14px "Plus Jakarta Sans",sans-serif;
+    font: 300 16px/16px "Jost",sans-serif;
     color: #FFF;
     position: relative;
+    display: flex;
+    justify-content: space-between;
 }
 .refresh_section .loading_image
 {
     display: inline;
-    width: 22px;
+    width: 16px;
     margin-right: 8px;
 }
 .refresh_section .duration_image
@@ -745,4 +747,9 @@
     margin-right: 4px;
     margin-left: 4px;
     margin-top: -2px;
+}
+.refresh_text_one
+{
+    font: 300 16px/16px "Geologica",sans-serif;
+    padding-top: 2px;
 }

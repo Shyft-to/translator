@@ -2151,14 +2151,14 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Sold By</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="pe-2">
                           <img
                             src={arrow}
                             alt=""
                             style={{ width: "14px", marginTop: "-2px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="pe-2">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -2187,7 +2187,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Sold To</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="pe-2">
                           <img
                             src={arrow}
                             alt=""

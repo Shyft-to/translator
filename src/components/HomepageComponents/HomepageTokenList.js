@@ -5,7 +5,7 @@ const HomepageTokenList = ({tokens}) => {
     return ( 
         <div>
             <div className="homepage_tokens_container">
-                <div className="token_heading">Tokens in your wallet</div>
+                <div className="token_heading">Tokens</div>
                 <div className="token_subname">
                     <div>{tokens.length} Tokens</div>
                 </div>
@@ -23,7 +23,7 @@ const HomepageTokenList = ({tokens}) => {
                             <div className="token_name">{token.info.name ?? ""}</div>
                             <div className="token_values">
                                 <div>{shortenAddress(token.address ?? "")}</div>
-                                <div className="text-end">{token.balance}</div>
+                                <div className="text-end">{(typeof token.balance === "number")?token.balance.toFixed(2):"--" }</div>
                             </div>
                         </div>
                     </div>

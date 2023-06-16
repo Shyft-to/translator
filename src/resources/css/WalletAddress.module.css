@@ -32,7 +32,7 @@
 {
   position: relative;
   min-height: 100vh;
-  background: radial-gradient(#1E0C36 8%, #000 75%);
+  background: radial-gradient(50% 50% at 50% 50%, #313131 0%, #1F1F1F 0.01%, #111111 100%);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: 100% 100%;

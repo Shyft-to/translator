@@ -13,18 +13,18 @@
     display: block;
     margin: 0 auto;
     width: 100%;
-    max-width: 1500px;
+    max-width: 1550px;
     padding-top: 80px;
 }
 
 .main_col_1 {
-    padding: 4px 8px;        
+    padding: 4px 16px;        
 }
 .main_col_2 {
-    padding: 4px 8px;    
+    padding: 4px 16px;    
 }
 .main_col_3 {
-    padding: 4px 8px;
+    padding: 4px 16px;
 }
 .main_grid_container {
     display: flex;
@@ -32,13 +32,16 @@
 }
 
 .main_grid_container .main_col_1 {
-    flex-grow: 0.8;
+    /* width: 22%; */
+    
+    flex-grow: 1;
 }
 .main_grid_container .main_col_2 {
-    flex-grow: 4;
+    width: 55%;
 }
 .main_grid_container .main_col_3 {
-    flex-grow: 0.6;
+    /* width: 22%; */
+    flex-grow: 1;
 }
 
 .token_grid_container .main_col_1 {
@@ -55,11 +58,16 @@
 .profile_container
 {
     display: block;
-    padding: 15px;
+    padding: 52px 15px 24px;
+    
 }
+
 .profile_container .background_cover
 {
-    background-color: grey;
+    background-color: #1a1a1a;
+    background: url("../images/star-image.png");
+    background-size: 160%;
+    background-position: 0% 0%;
     width: 100%;
     height: 120px;
     border-top-left-radius: 15px;
@@ -68,21 +76,29 @@
 .profile_container .background_profile_info_container
 {
     display: block;
-    background-color: #2F2F2F;
+    background-color: #1F1F1F;
     padding: 15px 0px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    transition: background-color 0.3s ease;
+}
+.profile_container:hover .background_profile_info_container
+{
+    background-color: #2F2F2F;
+    
 }
 .profile_container .background_profile_info_container .image
 {
     position: relative;
     display: block;
-    width: 64px;
+    width: 80px;
     height: 20px;
     margin: 0 auto;
 }
 .profile_container .background_profile_info_container .image img
 {
     position: absolute;
-    width: 64px;
+    width: 80px;
     aspect-ratio: 1/1;
     object-fit: fill;
     display: block;
@@ -92,9 +108,15 @@
 .profile_container .background_profile_info_container .wallet_name
 {
     text-align: center;
-    font: 600 20px/24px "Geologica",sans-serif;
-    color: #fff;
-    padding: 15px 0px 5px;
+    font: 600 16px/22px "Geologica",sans-serif;
+    color: #fff7;
+    padding: 32px 0px 10px;
+    transition: color 0.3s ease;
+
+}
+.profile_container:hover .background_profile_info_container .wallet_name
+{
+    color: #ffff;
 }
 .profile_container .background_profile_info_container .wallet_name button
 {
@@ -118,16 +140,21 @@
 .profile_container .background_profile_info_container .sol_balanc
 {
     text-align: center;
-    font: 500 18px/24px "Geologica",sans-serif;
-    color: #fff;
-    padding: 2px 0px 15px;
+    font: 500 15px/18px "Geologica",sans-serif;
+    color: #fff7;
+    padding: 2px 0px 8px;
+    transition: color 0.3s ease;
+}
+.profile_container:hover .background_profile_info_container .sol_balanc
+{
+    color: #ffff;
 }
 
 .profile_container .follow_section {
     display: flex;
     flex-direction: row;
     padding: 15px 0px;
-    background-color: #1c1c1c;
+    background-color: #121212;
 }
 .profile_container .follow_section .following
 {
@@ -144,60 +171,82 @@
 }
 .profile_container .follow_section .fol_title
 {
-    font: 500 18px/24px "Geologica",sans-serif;
+    font: 500 15px/24px "Geologica",sans-serif;
     color: #fff;
     letter-spacing: 0.04em;
 }
 .profile_container .follow_section .fol_subtitle
 {
-    font: 300 14px/18px "Plus Jakarta Sans",sans-serif;
+    font: 300 13px/16px "Plus Jakarta Sans",sans-serif;
     color: #fff7;
     letter-spacing: 0.04em;
 }
 .profile_container .disconnect_section
 {
-    background-color: #2F2F2F;
+    background-color: #1F1F1F;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    height: 60px;
-    padding-top: 10px;
+    height: 90px;
+    padding-top: 26px;
+    transition: background-color 0.3s ease;
+}
+.profile_container:hover .disconnect_section
+{
+    background-color: #2F2F2F;
 }
 .profile_container .disconnect_section button
 {
     display: block;
     margin: 0 auto;
-    width: 160px;
-    padding: 10px 5px;
+    width: 120px;
+    padding: 8px 5px;
     border-radius: 20px;
     background-color: transparent;
     box-shadow: none;
     border: none;
-    font: 600 14px/18px "Plus Jakarta Sans",sans-serif;
-    background-color: #BAFC08;
-    color: #050505;
+    font: 500 14px/14px "Plus Jakarta Sans",sans-serif;
+    background-color: #1f1f1f;
+    color: #BAFC08;
+    border: 1px solid #BAFC08;
 }
 
 
 .item_tokens {
-    padding: 15px;
+    padding: 24px 15px;
+    transition: all 0.7s ease;
 }
+
 .homepage_tokens_container {
-    background-color: #2F2F2F;
+    background-color: #1d1d1d;
     border-radius: 15px;
     padding: 15px 20px;
+    transition: all 0.3s ease;
+}
+.homepage_tokens_container:hover {
+    background-color: #2f2f2f;
 }
 .homepage_tokens_container .token_heading
 {
     font: 400 18px/22px "Geologica",sans-serif;
-    color: #fff;
+    color: #fff7;
     padding: 8px 0px;
+    transition: all 0.3s ease;
+}
+.homepage_tokens_container:hover .token_heading
+{
+    color: #ffff;
 }
 .homepage_tokens_container .token_subname
 {
     display: flex;
     font: 400 13px/16px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    color: #fff7;
     padding: 5px 0px 20px;
+    transition: all 0.3s ease;
+}
+.homepage_tokens_container:hover .token_subname
+{
+    color: #ffff;
 }
 .homepage_tokens_container .each_token
 {
@@ -206,9 +255,10 @@
 }
 .homepage_tokens_container .each_token img
 {
-    width: 40px;
+    width: 30px;
     aspect-ratio: 1/1;
     border-radius: 20px;
+    margin-right: 6px;
 }
 .homepage_tokens_container .each_token .token_details
 {
@@ -217,70 +267,115 @@
 }
 .homepage_tokens_container .each_token .token_name
 {
-    font: 500 16px/18px "Plus Jakarta Sans",sans-serif;
+    font: 500 14px/16px "Plus Jakarta Sans",sans-serif;
+    color: #fff7;
+    transition: all 0.3s ease;
+}
+.homepage_tokens_container:hover .each_token .token_name
+{
     color: #fff;
 }
 .homepage_tokens_container .each_token .token_values
 {
-    font: 300 13px/16px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    font: 300 10px/18px "Plus Jakarta Sans",sans-serif;
+    color: #fff6;
     display: flex;
     justify-content: space-between;
-    padding: 5px 0px;
+    padding: 8px 0px 5px;
+    transition: all 0.3s ease;
+}
+.homepage_tokens_container:hover .each_token .token_values
+{
+    color: #ffff;
 }
 
 .item_domains
 {
-    padding: 15px;
+    padding: 24px 15px;
 }
 .homepage_domains_container
 {
-    background-color: #2F2F2F;
+    background-color: #1d1d1d;
     border-radius: 15px;
     padding: 15px 20px;
+    transition: all 0.5s ease;
+}
+.homepage_domains_container:hover
+{
+    background-color: #2f2f2f;
 }
 .homepage_domains_container .domain_heading
 {
     font: 400 18px/22px "Geologica",sans-serif;
-    color: #fff;
+    color: #fff7;
     padding: 8px 0px;
+    transition: all 0.3s ease;
+}
+.homepage_domains_container:hover .domain_heading
+{
+    color: #ffff;
 }
 .homepage_domains_container .domain_subname
 {
     display: flex;
     font: 400 13px/16px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    color: #fff7;
     padding: 5px 0px 20px;
+    transition: all 0.3s ease;
+}
+.homepage_domains_container:hover .domain_subname
+{
+    color: #ffff;
 }
 .homepage_domains_container .each_domain
 {
     font: 500 13px/16px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    color: #fff7;
     padding: 5px 0px;
+    transition: all 0.3s ease;
+}
+.homepage_domains_container:hover .each_domain
+{
+    color: #ffff;
 }
 
 .item_collections
 {
-    padding: 15px;
+    padding: 24px 15px;
 }
 .homepage_nft_collections_container
 {
-    background-color: #2F2F2F;
+    background-color: #1d1d1d;
     border-radius: 15px;
     padding: 15px 20px;
+    transition: all 0.5s ease;
+}
+.homepage_nft_collections_container:hover
+{
+    background-color: #2f2f2f;
 }
 .homepage_nft_collections_container .nft_collections_heading
 {
     font: 400 18px/22px "Geologica",sans-serif;
-    color: #fff;
+    color: #fff8;
     padding: 8px 0px;
+    transition: color 0.3s ease;
+}
+.homepage_nft_collections_container:hover .nft_collections_heading
+{
+    color: #ffff;
 }
 .homepage_nft_collections_container .nft_collections_subname
 {
     display: flex;
     font: 400 13px/16px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    color: #fff7;
     padding: 5px 0px 20px;
+    transition: color 0.3s ease;
+}
+.homepage_nft_collections_container:hover .nft_collections_subname
+{
+    color: #ffff;
 }
 .homepage_nft_collections_container .each_collection
 {
@@ -290,7 +385,10 @@
 }
 .homepage_nft_collections_container .each_collection .nft_collection_details
 {
-    flex-grow: 1;
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .homepage_nft_collections_container .each_collection .nft_collection_details div
 {
@@ -298,28 +396,41 @@
 }
 .homepage_nft_collections_container .each_collection .collection_image img
 {
-    width: 40px;
+    width: 30px;
     aspect-ratio: 1/1;
     border-radius: 20px;
-    margin-right: 10px;
+    margin-right: 12px;
 }
 .homepage_nft_collections_container .each_collection .collection_name
 {
     font: 500 13px/16px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    color: #fff8;
     letter-spacing: 0.04em;
+    transition: all 0.3s ease;
+}
+/* .homepage_nft_collections_container:hover .each_collection .collection_name
+{
+    color: #ffff;
+} */
+.homepage_nft_collections_container .each_collection .collection_name:hover
+{
+    color: #ffff;
 }
 .homepage_nft_collections_container .each_collection .number_of_nfts {
     font: 500 13px/16px "Plus Jakarta Sans",sans-serif;
-    color: #fff;
+    color: #fff7;
     border-radius: 50%;
     width: 40px;
     height: 40px;
     text-align: center;
     padding: 10px 0px;
     border: 1px solid #fff7;
+    transition: all 0.3s ease;
 }
-
+.homepage_nft_collections_container:hover .each_collection .number_of_nfts
+{
+    color: #ffff;
+}
 .item_domains_tab_onwards
 {
     display: none;

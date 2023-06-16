@@ -6,7 +6,7 @@ const HomepageCollections = ({collections,address,network}) => {
     return ( 
         <div>
             <div className="homepage_nft_collections_container">
-                <div className="nft_collections_heading">NFT Collections in your wallet</div>
+                <div className="nft_collections_heading">NFT Collections</div>
                 <div className="nft_collections_subname">
                     <div>{collections.length} Collections</div>
                 </div>

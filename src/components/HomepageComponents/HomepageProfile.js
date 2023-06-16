@@ -7,7 +7,7 @@ const HomepageProfile = ({balance,address}) => {
     return ( 
         <div>
             <div className="profile_container">
-                <div className="background_cover"></div>
+                {/* <div className="background_cover"></div> */}
                 <div className="background_profile_info_container">
                     <div className="image">
                         <img src={avatar} alt="avatar" />

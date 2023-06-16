@@ -8,7 +8,7 @@
 {
     position: relative;
     /* background: radial-gradient(#1E0C36 8%, #1E0C36 75%); */
-    background: radial-gradient(#190a2c 8%, #190a2c 75%);
+    background: radial-gradient(50% 50% at 50% 50%, #313131 0%, #1F1F1F 0.01%, #111111 100%);
     z-index: 0;
     min-height: 100vh;
     padding: 120px 0px 40px;
@@ -16,7 +16,7 @@
 .single_txn_page .main_heading
 {
     padding-bottom: 30px;
-    font: 700 32px "Montserrat",sans-serif;
+    font: 700 32px "Geologica",sans-serif;
     color: #fff;
     /* letter-spacing: 1px; */
 }
@@ -24,7 +24,7 @@
     .single_txn_page .main_heading
     {
         padding-bottom: 30px;
-        font: 700 22px "Montserrat",sans-serif;
+        font: 700 22px "Geologica",sans-serif;
         color: #fff;
         /* letter-spacing: 0px; */
     }
@@ -32,12 +32,12 @@
 .single_txn_page .token_name
 {
     padding: 10px 0px;
-    font: 400 18px/24px "Montserrat",sans-serif;
+    font: 400 18px/24px "Geologica",sans-serif;
     color: #fff;
 }
 .single_txn_page .overview_text
 {
-    font: 500 20px/26px "Montserrat",sans-serif;
+    font: 500 20px/26px "Geologica",sans-serif;
     color: #fff;
     padding: 20px 0px;
 }
@@ -150,7 +150,7 @@
 .single_txn_page .body_detail_card
 {
     padding: 20px;
-    background-color: #3C1B67;
+    background-color: #2f2f2f;
     border-radius: 12px;
     font: 200 16px "Plus Jakarta Sans",sans-serif;
     color: #fff;
@@ -193,7 +193,7 @@
   /* background-color: #8254b066 !important; */
   border-top-right-radius: 2px;
   border-top-left-radius: 2px;
-  color: #FDF41B !important;
+  color: #BAFC08 !important;
 }
 .underline
 {
@@ -202,7 +202,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: #E0499B;
+  background: #BAFC08;
   transition: all 0.2s ease;
 }
 .single_txn_page .toggle_section_1
@@ -215,7 +215,7 @@
 .single_txn_page .txn_raw
 {
     padding: 20px;
-    background-color: #3C1B67;
+    background-color: #2f2f2f;
     border-radius: 12px;
     font: 200 14px "Plus Jakarta Sans",sans-serif;
     color: #fff;
@@ -235,7 +235,7 @@
 {
     display: inline-block;
     font-size: 16px;
-    color: #FDF41B;
+    color: #BAFC08;
     padding: 0px 2px 6px 2px;
     transition: all 0.3s ease;
 }
@@ -252,7 +252,7 @@
 {
     position: relative;
     min-height: 100px;
-    background-color: #3C1B67;
+    background-color: #2f2f2f;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 14px;
@@ -317,7 +317,7 @@
 {
     font: 500 18px/24px "Montserrat",sans-serif;
     padding: 10px 20px 10px 0px;
-    color: #FDF41B;
+    color: #BAFC08;
 }
 .each_txn_3 .txn_subname
 {
@@ -681,7 +681,7 @@
     padding: 0px 0px;
     line-height: 10px;
     color: #3C1B67;
-    background-color: #E0499B;
+    background-color: #BAFC08;
     border: none;
     outline: none;
     box-shadow: none;
