@@ -32,7 +32,7 @@
 {
   position: relative;
   min-height: 100vh;
-  background: radial-gradient(#1E0C36 8%, #000 75%);
+  background: radial-gradient(50% 50% at 50% 50%, #313131 0%, #1F1F1F 0.01%, #111111 100%);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: 100% 100%;
@@ -152,7 +152,7 @@
   /* background-color: #8254b066 !important; */
   border-top-right-radius: 2px;
   border-top-left-radius: 2px;
-  color: #FDF41B !important;
+  color: #BAFC08 !important;
 }
 .underline
 {
@@ -161,7 +161,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: #FDF41B;
+  background: #BAFC08;
   transition: all 0.2s ease;
 }
 .top_tab .count_badge
@@ -178,8 +178,8 @@
 }
 .top_tab_selected .count_badge
 {
-  color: #FDF41B;
-  border: 1px solid #FDF41B;
+  color: #BAFC08;
+  border: 1px solid #BAFC08;
 }
 .select_container {
   width: 150px;
@@ -246,12 +246,12 @@
 }
 .follow_button
 {
-  background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
+  background: linear-gradient(90.22deg, #111111 1.13%, #111 131.77%);
   padding: 8px 30px;
-  border: none;
+  border: 2px solid #BAFC08;
   box-shadow: none;
   outline: none;
-  border-radius: 16px;
+  border-radius: 18px;
   color: #fff;
   font: 400 16px/18px "Montserrat", sans-serif;
 }

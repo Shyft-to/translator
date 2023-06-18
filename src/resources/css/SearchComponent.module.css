@@ -281,15 +281,15 @@
 }
 .token_search_container_highlight
 {
-  border: 1px solid #9650E5;
-  background-color: #0c0217 !important;
+  border: 1px solid #BAFC08;
+  background-color: #111 !important;
   padding: 4px 8px 8px 16px;
 }
 
 .token_search_container_2
 {
   border-radius: 25px;
-  background-color: #280C4C;
+  background-color: #111;
   padding: 4px 8px 6px 16px;
 }
 .token_search_container_2 input {
@@ -315,7 +315,7 @@
 }
 .token_search_container_2 .token_search_icon
 {
-    color: #FDF41B;
+    color: #BAFC08;
     transition: all 0.2s ease-in;
     background-color: transparent;
     border: none;
@@ -325,7 +325,7 @@
 }
 .token_search_container_2 .token_search_icon_reverse
 {
-    color: #FDF41B;
+    color: #BAFC08;
     transition: all 0.2s ease-in;
     background-color: transparent;
     border: none;

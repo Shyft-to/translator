@@ -30,7 +30,7 @@
 {
     text-align: end;
     font: 700 16px/26px "Montserrat", sans-serif !important;
-    background: -webkit-linear-gradient(280deg, #FF008A 2%, #F3DD59 92%);
+    background: -webkit-linear-gradient(280deg, #00C2FF 2%, #00C2FF 92%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -65,11 +65,12 @@
 .nft_container
 {
     position: relative;
-    background-color: #3C1B67;
+    background-color: #000;
     width: 180px;
     /* min-height: 180px; */
     padding: 10px 10px 0px;
     border-radius: 20px;
+    /* border: 2px solid #BAFC08; */
     z-index: 2;
     transform: rotate(8deg);
     /* box-shadow: 10px -10px #7640b2; */
@@ -80,7 +81,7 @@
     z-index: 1;
     width: 180px;
     border-radius: 20px;
-    background-color: #7640b2;
+    background-color: #555;
     transform: rotate(-8deg) !important;
     
 }
@@ -199,7 +200,7 @@
     border-radius: 20px;
     font-size: 50px;
     line-height: 25px;
-    color: #FDF41B;
+    color: #BAFC08;
     padding: 0px 0px 20px;
     border: none;
 }
@@ -214,7 +215,7 @@
     border-radius: 20px;
     font-size: 50px;
     line-height: 25px;
-    color: #FDF41B;
+    color: #BAFC08;
     padding: 0px 0px 20px;
     border: none;
 }

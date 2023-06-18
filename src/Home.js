@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-// import Typewriter from 'typewriter-effect';
+
 import styles from "./resources/css/Home.module.css";
 import Footer from "./Footer";
-import { getAddressfromDomain } from "./utils/getAllData";
 import TxnLoader from "./components/loaders/TxnLoader";
 
-import searchIcon from "./resources/images/uil_search.svg";
-import PopupView from "./PopupView";
-import OpenPopup from "./OpenPopup";
+import { getAddressfromDomain } from "./utils/getAllData";
 import { listOfAddresses } from "./utils/formatter";
 import { userLogon } from "./utils/dboperations";
 
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
+
+import searchIcon from "./resources/images/uil_search.svg";
+import PopupView from "./PopupView";
+import OpenPopup from "./OpenPopup";
+
 
 const staticAddresses = [
   {
@@ -198,7 +199,7 @@ const Home = ({popup, setPopUp}) => {
       
       <OpenPopup setPopUp={setPopUp} />
       {popup && <PopupView setPopUp={setPopUp} />}
-      <div className={styles.background_2}>
+      <div className={styles.background}>
         <div className="container-lg">
           <div className={styles.central_area}>
             <div className={styles.main_title_container}>
@@ -216,7 +217,7 @@ const Home = ({popup, setPopUp}) => {
                       <div className="flex-grow-1">
                         <input type="text" placeholder="Search any wallet, token, .sol domains or transaction" value={wallet} onChange={(e) => setWallet(e.target.value)} onFocus={() => setFocused(true)} onBlur={BlurAfterTime} />
                       </div>
-                      <div style={{ marginTop: "-1px", color: "#fff" }}>
+                      <div style={{ marginTop: "-1px", color: "#BAFC08" }}>
                         <img src={searchIcon} alt="Search Box" />
                       </div>
                     </div>

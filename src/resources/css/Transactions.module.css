@@ -286,7 +286,7 @@
 {
     position: relative;
     min-height: 100px;
-    background-color: #3C1B67;
+    background-color: #2f2f2f;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 14px;
@@ -382,7 +382,7 @@
 {
     font: 600 22px/24px "Geologica",sans-serif;
     padding: 10px 20px 24px 0px;
-    color: #FDF41B;
+    color: #BAFC08;
     position: relative;
     z-index: 2;
 }
@@ -490,7 +490,7 @@
 }
 .each_txn_3 .plus_color
 {
-    color: #FDF41B !important; 
+    color: #BAFC08 !important; 
 }
 .each_txn_3 .minus_color
 {
@@ -611,7 +611,7 @@
 }
 .sub_txns .plus_color
 {
-    color: #FDF41B !important; 
+    color: #BAFC08 !important; 
     /* font-weight: 500; */
 }
 .sub_txns .minus_color

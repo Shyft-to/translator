@@ -5,172 +5,22 @@
 .background
 {
   position: relative;
-  background: radial-gradient(#2a0855 8%, #0a0215 75%);
+  background: radial-gradient(64.72% 54.82% at 50% 48.13%, #2F2F2F 0%, #050505 100%);
   z-index: 0;
-  min-height: 88.5vh;
-}
-.background_2
-{
-  position: relative;
-  background: radial-gradient(#1E0C36 8%, #000 75%);
-  z-index: 0;
-  min-height: 88.5vh;
-}
-.middle_layer
-{
-  position: absolute;
-  z-index:2;
-  min-height: 88.5vh;
-  top: 0;
-  width: 100vw;
-  background: url("../images/waves.png"),url("../images/stars-and-planet.png");
-  background-size: 90%,70%;
-  background-repeat: no-repeat,no-repeat;
-  background-position: 60% 70%,50% 50%;
-}
-.middle_layer .dotted_top
-{
-  position: absolute;
-}
-.middle_layer .blue_planet
-{
-  position: absolute;
-  bottom: 0;
-}
-.middle_layer .red_planet
-{
-  position: absolute;
-  right:0;
-}
-.middle_layer .dotted_bottom
-{
-  position: absolute;
-  right:0;
-  bottom: 0;
-}
-.middle_layer .rocket_container
-{
-  position: absolute;
-  left:15%;
-  bottom: 0;
-}
-/* .middle_layer .rocket_container img
-{
-  width: 50%;
-} */
-.top_layer
-{
-  position: absolute;
-  z-index: 4;
-  top: 0;
-  width: 100vw;
-
-}
-.content_area
-{
-  position: relative;
-  z-index: 5;
-  width: 100vw;
-  padding: 40px 0px;
-}
-.text_and_form
-{
-  padding-top: 25%;
-}
-.main_heading
-{
-  font: 600 64px/72px "Odibee Sans", sans-serif;
-  background: -webkit-linear-gradient(280deg, #FF008A 3%, #F3DD59 75%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 6px;
-}
-.description_text
-{
-  font: 300 16px/24px "Montserrat", sans-serif;
-  color: #fff;
-  /* letter-spacing: 1px; */
-}
-.form_container
-{
-  padding-top: 20px;
-}
-.form_container label
-{
-  font: 500 16px/24px "Montserrat", sans-serif;
-  color: #fff;
-  /* letter-spacing: 1px; */
-  margin-bottom: 8px;
-}
-.form_field_outer
-{
-  position: relative;
-  padding: 2px;
-  border-radius: 25px;
-  background: linear-gradient(90deg,#E0499B 12%, #FDF41B 70%);
-
-}
-.form_field_outer .form_field_inner
-{
-  background-color: #2a0855;
-  border-radius: 25px;
-  padding: 8px 16px;
-}
-.form_field_outer .form_field_inner input
-{
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  width: 90%;
-  color: #fff;
-  font: 500 16px/18px "Montserrat", sans-serif;
-  /* letter-spacing: 1px; */
-}
-.form_field_outer .form_field_inner input:focus
-{
-  border: none;
-  box-shadow: none;
-  outline: none;
-}
-
-.form_field_outer .form_field_inner select
-{
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  color: #fff;
-  font: 500 16px/18px "Montserrat", sans-serif;
-  /* letter-spacing: 1px; */
-}
-.form_field_outer .form_field_inner select:focus
-{
-  border: none;
-  box-shadow: none;
-  outline: none;
-}
-.form_field_outer .form_field_inner option
-{
-  background-color: #2a0855;
 }
 .btn_solid_grad
 {
   display: inline-block;
   /* padding: 0.8rem 2.5rem 0.8rem 2.5rem; */
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
   width: 100%;
   /* min-width: 220px; */
   border: none;
   border-radius: 2.5rem;
-  background-color: rgba(89, 101, 243, 0.29);
-  background: linear-gradient(
-    90.8deg,
-    #E0499B -30.34%,
-    #571DA3 85%
-  );
-  color: #fff;
-  font: 500 0.9rem/1.2rem "Montserrat", sans-serif;
+  background-color: #BAFC08;
+  color: #000;
+  font: 500 0.9rem/1.2rem "Geologica", sans-serif;
   /* letter-spacing: 1px; */
   text-align: center;
   text-decoration: none !important;
@@ -179,61 +29,16 @@
 .btn_solid_grad:hover
 {
   transform: scale(1.03);
-  color: #fff;
+  color: #000;
 }
 .btn_solid_grad:disabled,
 .btn_solid_grad[disabled]
 {
   opacity: 0.7;
 }
-@media screen and (max-width: 768px)
-{
-  .middle_layer .rocket_container
-  {
-    position: absolute;
-    left:15%;
-    bottom: 0;
-  }
-  .middle_layer .rocket_container img
-  {
-    width: 70%;
-  }
-  /* .central_area .main_title_container
-  {
-    
-    font: 800 56px/64px "Montserrat", sans-serif !important;
-    color: #fff;
-    margin-bottom: 20px;
-  } */
-}
-
-/* @media screen and (max-width:767px) {
-  .middle_layer .dotted_top img
-  {
-    width: 50%;
-  }
-  .middle_layer .blue_planet
-  {
-    width: 50%;
-  }
-  .middle_layer .red_planet
-  {
-    width: 50%;
-  }
-  .middle_layer .dotted_bottom
-  {
-    width: 50%;
-    position: absolute;
-    right:-80px;
-    bottom: 0;
-  }
-  
-} */
-
 .central_area 
 {
-  /* background-color: #E0499B; */
-  min-height: 100vh;
+  min-height: 87.2vh;
   padding-top: 18%;
   width: 100%;
   max-width: 900px;
@@ -242,14 +47,14 @@
 .central_area .main_title_container
 {
   text-align: center;
-  font: 800 72px/88px "Montserrat", sans-serif;
+  font: 800 72px/88px "Geologica", sans-serif;
   color: #fff;
-  /* letter-spacing: 1px; */
+  letter-spacing: 0.04rem;
   margin-bottom: 16px;
 }
 .central_area .main_title_container .small_title
 {
-  font: 500 18px/32px "Montserrat", sans-serif;
+  font: 500 18px/32px "Plus Jakarta Sans", sans-serif;
   color: #fff;
   padding-bottom: 20px;
 }
@@ -269,13 +74,13 @@
   
   .central_area .main_title_container
   {
-    font: 700 64px/72px "Montserrat", sans-serif;
+    font: 700 64px/72px "Geologica", sans-serif;
     word-wrap: break-word;
     height: 150px;
   }
   .central_area .main_title_container .small_title
   {
-    font: 400 16px/40px "Montserrat", sans-serif;
+    font: 400 16px/40px "Plus Jakarta Sans", sans-serif;
 
   }
 }
@@ -284,13 +89,13 @@
   
   .central_area .main_title_container
   {
-    font: 700 40px/48px "Montserrat", sans-serif;
+    font: 700 40px/48px "Geologica", sans-serif;
     word-wrap: break-word;
     /* height: 150px; */
   }
   .central_area .main_title_container .small_title
   {
-    font: 400 14px/18px "Montserrat", sans-serif;
+    font: 400 14px/18px "Plus Jakarta Sans", sans-serif;
   }
 }
 @media screen and (max-width:600px) {
@@ -306,8 +111,8 @@
 .simple_input_container
 {
   position: relative;
-  background-color: transparent;
-  border: 2px solid #9650E5;
+  background-color: black;
+  border: 2px solid black;
   padding: 10px 20px;
   border-radius: 25px;
   margin: 0 auto;
@@ -321,7 +126,7 @@
 }
 .simple_input_container .search_area .each_item
 {
-  background: #3C1B6755;
+  background: #2f2f2f55;
   /* border-radius: 6px; */
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
@@ -335,7 +140,7 @@
 {
   color: #fff;
   font: 300 12px/14px "Poppins",sans-serif;
-  background-color: #2a0855;
+  background-color: #000;
   padding: 5px 10px 2px;
   width: 80px;
   text-align: center;
@@ -358,18 +163,20 @@
   outline: none;
   width: 100%;
   color: #fff;
-  font: 500 16px/18px "Montserrat", sans-serif;
+  font: 500 16px/18px "Plus Jakarta Sans", sans-serif;
 }
 
 .simple_select_container
 {
-  background-color: #280C4C;
+  background-color: #000;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   padding: 10px 20px;
   border-radius: 25px;
 }
 .simple_select_container select
 {
-  background-color: #280C4C;
+  background-color: #000;
   border: none;
   border-radius: 25px;
   width: 100%;
@@ -377,7 +184,6 @@
   box-shadow: none;
   color: #fff;
   font: 500 16px/18px "Montserrat", sans-serif;
-  /* letter-spacing: 1px; */
 }
 .simple_select_container select:focus
 {
@@ -387,12 +193,12 @@
 }
 .simple_select_container option
 {
-  background-color: #2a0855;
+  background-color: #2F2F2Faa;
 }
 
 .program_search_heading
 {
-  background-color: #400c85;
+  background-color: #000;
   font: 500 10px/12px "Montserrat", sans-serif;
   color: #fff;
   padding: 4px 16px;

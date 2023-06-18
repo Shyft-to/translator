@@ -369,7 +369,7 @@ body {
   min-width: 12px !important;
   height: 12px !important;
   border-radius: 15px;
-  background-color: #FDF41B;
+  background-color: #BAFC08;
   position: absolute;
   margin-top: 2px;
 }
@@ -777,14 +777,15 @@ body {
 
 .wallet-button{
   color: black !important;
-  background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
+  background-color: #000 !important;
   width: 100% !important;
   justify-content: center !important;
   padding: 0px !important;
   height: auto !important;
-  font: 500 0.9rem/1.2rem "Montserrat", sans-serif !important;
+  font: 500 0.9rem/1.2rem "Geologica", sans-serif !important;
   color: #fff !important;
   padding: 0.7rem 0rem !important;
+  border: 2px solid #BAFC08 !important;
   border-radius: 2.5rem !important;
   transition: all 0.2s;
 }
