@@ -1,4 +1,17 @@
+import { useEffect } from "react";
+import $ from "jquery";
 const HomepageDomains = ({domains}) => {
+    useEffect(() => {
+        $('#coll_togg').animate({
+            height: "hide",
+        });
+    }, [])
+
+    const toggle_section = () => {
+        $('#coll_togg').animate({
+            height: "toggle",
+        });
+    }
     return ( 
         <div>
             <div className="homepage_domains_container">

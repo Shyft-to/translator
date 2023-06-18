@@ -277,7 +277,7 @@
 }
 .homepage_tokens_container .each_token .token_values
 {
-    font: 300 10px/18px "Plus Jakarta Sans",sans-serif;
+    font: 300 10px/18px "Jost",sans-serif;
     color: #fff6;
     display: flex;
     justify-content: space-between;
@@ -287,6 +287,23 @@
 .homepage_tokens_container:hover .each_token .token_values
 {
     color: #ffff;
+}
+
+.token_toggler
+{
+    overflow: hidden;
+}
+.show_more_button
+{
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font: 300 14px/18px "Jost",sans-serif;
+    color: #00C2FF;
+    display: block;
+    margin-right: 0;
+    margin-left: auto;
+    margin-top: 10px;
 }
 
 .item_domains

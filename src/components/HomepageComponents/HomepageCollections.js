@@ -1,8 +1,21 @@
+import { useEffect } from "react";
+import $ from "jquery";
 import avatar from "../../resources/images/txnImages/raffle_winner.png";
 import EachCollection from "./EachCollection";
 
 
 const HomepageCollections = ({collections,address,network}) => {
+    useEffect(() => {
+        $('#coll_togg').animate({
+            height: "hide",
+        });
+    }, [])
+
+    const toggle_section = () => {
+        $('#coll_togg').animate({
+            height: "toggle",
+        });
+    }
     return ( 
         <div>
             <div className="homepage_nft_collections_container">
@@ -10,51 +23,30 @@ const HomepageCollections = ({collections,address,network}) => {
                 <div className="nft_collections_subname">
                     <div>{collections.length} Collections</div>
                 </div>
-                {collections.map((coll) => 
+                {collections.slice(0, 4).map((coll) => 
                     <a
                         href={(coll.name)?((network === "mainnet-beta")?`/collection/${address}?collName=${coll.name}`:`/collection/${address}?cluster=${network}&collName=${coll.name}`):`/collections/${address}?cluster=${network}`}
                     >
                         <EachCollection collection={coll} network={network}/>
-                        {/* <div className="nft_collection_details">
-                            <div className="collection_image">
-                                <img src={avatar} alt="collection_img" />
-                            </div>
-                            <div className="collection_name">
-                                {coll.name}
-                            </div>
-                        </div>
-                        <div className="number_of_nfts">
-                            {coll.nft_count}
-                        </div> */}
+                        
                     </a>
                 )}
+                {
+                    (collections.length > 4) && <>
+                        <div id="coll_togg" className="token_toggler">
+                            {collections.slice(4).map((coll) =>
+                                <a
+                                    href={(coll.name)?((network === "mainnet-beta")?`/collection/${address}?collName=${coll.name}`:`/collection/${address}?cluster=${network}&collName=${coll.name}`):`/collections/${address}?cluster=${network}`}
+                                >
+                                    <EachCollection collection={coll} network={network}/>
+                                    
+                                </a>
+                            )}
+                        </div>
+                        <button className="show_more_button" onClick={toggle_section}>Show More</button>
+                    </>
+                }
                 
-                <div className="each_collection">
-                    <div className="nft_collection_details">
-                        <div className="collection_image">
-                            <img src={avatar} alt="collection_img" />
-                        </div>
-                        <div className="collection_name">
-                            Y00ts
-                        </div>
-                    </div>
-                    <div className="number_of_nfts">
-                        15
-                    </div>
-                </div>
-                <div className="each_collection">
-                    <div className="nft_collection_details">
-                        <div className="collection_image">
-                            <img src={avatar} alt="collection_img" />
-                        </div>
-                        <div className="collection_name">
-                            Sharkx
-                        </div>
-                    </div>
-                    <div className="number_of_nfts">
-                        22
-                    </div>
-                </div>
             </div>
         </div>
      );

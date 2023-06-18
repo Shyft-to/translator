@@ -753,3 +753,7 @@
     font: 300 16px/16px "Geologica",sans-serif;
     padding-top: 2px;
 }
+.collapsible_area
+{
+    overflow: hidden;
+}

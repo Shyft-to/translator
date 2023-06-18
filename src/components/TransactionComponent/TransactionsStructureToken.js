@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import $ from "jquery";
 import { motion } from "framer-motion";
 import Tooltip from 'react-tooltip-lite';
 // import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
@@ -25,6 +25,8 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
     const [txType, setTxType] = useState("");
     const [copied, setCopied] = useState("Copy");
     const [unknownCount, setUnknownCount] = useState(0);
+    const [actionIndex,setActionIndex] = useState(0);
+    const [mainAction,setMainAction] = useState(null);
 
     const [saleNftCreators, setNftCreators] = useState([]);
 
@@ -36,6 +38,18 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
         }, 1000);
     }
     useEffect(() => {
+        for (var index = 0; index < data.actions.length; index++) {
+            var action = data.actions[index];
+            if (data.type === action.type) {
+                setMainAction(action)
+                console.log(data.type);
+                console.log("ac",action.type);
+                setActionIndex(index)
+                break;
+            }
+        }
+        console.log("The index",actionIndex);
+        console.log("The action:",data.actions[actionIndex])
         if (data.type === "SOL_TRANSFER") {
             data.actions.forEach((txn) => {
                 if (data.type === txn.type) {
@@ -105,9 +119,11 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
         } catch (error) {
             console.log("Actions not Found");
         }
+        // $(`#${id}`).animate({
+        //     height: "hide",
+        // });
 
-
-    }, [])
+    }, []);
     const getCreators = async (actions) => {
         // console.log("For txn",data.signatures[0]);
         try {
@@ -138,6 +154,12 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
         }
       };
 
+    const toggle_section = () => {
+        $(`#${id}`).animate({
+            height: "toggle",
+          });
+    }
+
     return (
         <div>
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={styles.each_txn_3}>
@@ -147,6 +169,25 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                     </div>
                 </Link>
                 <div className={styles.toggle_button}>
+                    <div className="">
+                        <div className={styles.txn_signature}>
+                            <div>
+                                <Tooltip
+                                    content={`Expand`}
+                                    className="generic"
+                                    direction="up"
+                                    // eventOn="onClick"
+                                    // eventOff="onMouseLeave"
+                                    useHover={true}
+                                    background="#101010"
+                                    color="#fefefe"
+                                    arrowSize={0}
+                                >
+                                    <button onClick={toggle_section}>V</button>
+                                </Tooltip>
+                            </div>
+                        </div>
+                    </div>
                     <div className="">
                         <div className={styles.txn_signature}>
                             <div>
@@ -253,7 +294,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                                 color="#fefefe"
                                                 arrowSize={0}
                                             >
-                                                {(data.protocol.name != "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
+                                                {(data.protocol.name !== "") ? <div><a href={`/address/${data.protocol.address}`}>{formatNames(data.protocol.name)}</a></div> : (<a href={`/address/${data.protocol.address}`}>{shortenAddress(data.protocol.address)}</a>)}
                                             </Tooltip>
                                         </div>
                                     </div>
@@ -261,7 +302,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                     <div className="">
                                         <div className={styles.txn_subname} style={{ cursor: "pointer" }}>
                                             <Tooltip
-                                                content={(data.timestamp != "") ? getFullTime(data.timestamp) : ""}
+                                                content={(data.timestamp !== "") ? getFullTime(data.timestamp) : ""}
                                                 className="generic"
                                                 direction="up"
                                                 // eventOn="onClick"
@@ -271,21 +312,27 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                                 color="#fefefe"
                                                 arrowSize={0}
                                             >
-                                                {(data.timestamp != "") ? getRelativetime(data.timestamp) : ""}
+                                                {(data.timestamp !== "") ? getRelativetime(data.timestamp) : ""}
                                             </Tooltip>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             {
-                                (data.actions.length > 0) ?
-                                    data.actions.map((action, index) => ((isParsable(action.type)) ? (<SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index} showRoyalty={true} saleNftCreators={saleNftCreators} />) : ""))
-                                    : "-"
+                                (data.actions.length > 0 && mainAction !== null) ?
+                                    <SubTransactions styles={styles} wallet={address} cluster={cluster} data={mainAction} setTxType={setTxType} showRoyalty={true} saleNftCreators={saleNftCreators} />:""
                             }
-                            {
-                                (data.actions.length > 0 && data.actions.length === unknownCount) && <SubTxnUnknown styles={styles} unknownCount={unknownCount} />
-                            }
+                            <div id={id} className={styles.collapsible_area}>
+                                {
+                                    (data.actions.length > 1) ?
+                                        data.actions.map((action, index) => ((isParsable(action.type) && index !== actionIndex) ? (<SubTransactions styles={styles} wallet={address} cluster={cluster} data={action} setTxType={setTxType} key={index} showRoyalty={true} saleNftCreators={saleNftCreators} />) : ""))
+                                        : "-"
+                                }
+                                {
+                                    (data.actions.length > 1 && data.actions.length === unknownCount) && <SubTxnUnknown styles={styles} unknownCount={unknownCount} />
+                                }
+                            </div>
+                            
                             {/* <SubTransactions styles={styles} wallet={address} cluster={cluster}/> */}
 
                         </div>
