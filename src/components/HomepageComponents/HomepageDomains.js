@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import $ from "jquery";
 const HomepageDomains = ({domains}) => {
-    useEffect(() => {
-        $('#coll_togg').animate({
-            height: "hide",
-        });
-    }, [])
+    // useEffect(() => {
+    //     $('#coll_togg').animate({
+    //         height: "hide",
+    //     });
+    // }, [])
 
-    const toggle_section = () => {
-        $('#coll_togg').animate({
-            height: "toggle",
-        });
-    }
+    // const toggle_section = () => {
+    //     $('#coll_togg').animate({
+    //         height: "toggle",
+    //     });
+    // }
     return ( 
         <div>
             <div className="homepage_domains_container">
@@ -19,7 +19,7 @@ const HomepageDomains = ({domains}) => {
                 <div className="domain_subname">
                     <div>{domains.length} Domains</div>
                 </div>
-                {domains.map((domain) => 
+                {domains.slice(0,5).map((domain) => 
                 <div className="each_domain">
                     {domain.name}
                 </div>)}

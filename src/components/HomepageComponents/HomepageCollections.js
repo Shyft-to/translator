@@ -6,12 +6,14 @@ import EachCollection from "./EachCollection";
 
 const HomepageCollections = ({collections,address,network}) => {
     useEffect(() => {
+        console.log("This is executing");
         $('#coll_togg').animate({
             height: "hide",
         });
     }, [])
 
     const toggle_section = () => {
+        console.log("Im here");
         $('#coll_togg').animate({
             height: "toggle",
         });
@@ -31,21 +33,24 @@ const HomepageCollections = ({collections,address,network}) => {
                         
                     </a>
                 )}
-                {
-                    (collections.length > 4) && <>
-                        <div id="coll_togg" className="token_toggler">
-                            {collections.slice(4).map((coll) =>
-                                <a
-                                    href={(coll.name)?((network === "mainnet-beta")?`/collection/${address}?collName=${coll.name}`:`/collection/${address}?cluster=${network}&collName=${coll.name}`):`/collections/${address}?cluster=${network}`}
-                                >
-                                    <EachCollection collection={coll} network={network}/>
-                                    
-                                </a>
-                            )}
-                        </div>
-                        <button className="show_more_button" onClick={toggle_section}>Show More</button>
+                {/* {<>
+                    <div id="coll_togg" className="token_toggler" style={{borderTop:"2px solid white"}}>
+                        
+                        {(collections.length > 4) && <>
+                                {collections.slice(4).map((coll) =>
+                                    <a
+                                        href={(coll.name)?((network === "mainnet-beta")?`/collection/${address}?collName=${coll.name}`:`/collection/${address}?cluster=${network}&collName=${coll.name}`):`/collections/${address}?cluster=${network}`}
+                                    >
+                                        <EachCollection collection={coll} network={network}/>
+                                        
+                                    </a>
+                                )}
+                        </>}
+                        
+                    </div>
+                    <button className="show_more_button" onClick={toggle_section}>Show More</button>
                     </>
-                }
+                } */}
                 
             </div>
         </div>
