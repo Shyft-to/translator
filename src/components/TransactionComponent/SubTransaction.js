@@ -586,6 +586,19 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         };
         setRelField(data.info.nft_address ?? "");
       }
+      else if (data.type === "LIQUIDATE_LOAN") {
+        type_obj = {
+          type: "LIQUIDATE_LOAN",
+          from: data.info.loan ?? "--",
+          to: data.info.borrower ?? "--",
+          token: "--",
+          action: "--",
+          value: data.info.amount ?? "--",
+          symbol: "",
+          grace_period_seconds: convertToDays(data.info.grace_period_seconds) ?? "--"
+        };
+        setRelField(data.info.nft_address ?? "");
+      }
        else if (data.type === "SWAP") {
         //console.log("Swap inst found");
         type_obj = {
@@ -1497,6 +1510,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   data.type === "REQUEST_LOAN" ||
                   data.type === "BUY_NOW_PAY_LATER" ||
                   data.type === "CANCEL_REQUEST_LOAN" ||
+                  data.type === "LIQUIDATE_LOAN" ||
                   data.type === "CREATE_RAFFLE" ||
                   data.type === "CLAIM_PRIZE" ||
                   data.type === "CANCEL_RAFFLE" ||
@@ -3218,6 +3232,67 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       </div>
                     </div>
                   </div>
+                </>
+              );
+            }
+            else if (varFields.type === "LIQUIDATE_LOAN") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-9">
+                      <div className="d-flex">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Loan liquidated by </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                                href={
+                                  cluster === "mainnet-beta"
+                                    ? `/address/${varFields.to}`
+                                    : `/address/${varFields.to}?cluster=${cluster}`
+                                }
+                                aria-label={varFields.to}
+                                data-balloon-pos="up"
+                              >
+                                {shortenAddress(varFields.to)}
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-3 text-end">
+                      <div className={styles.field_sub_3}>
+                        {varFields.value} SOL
+                      </div>
+                    </div>
+                  </div>
+                  {varFields.loan_duration_seconds ? (
+                    <div className="row">
+                      <div className="col-12 col-md-12">
+                        <div className="d-flex">
+                          <div className="pe-1">
+                            <div className={styles.field_sub_1}>Grace Period</div>
+                          </div>
+                          <div className="ps-1 pe-2">
+                            <img
+                              src={duration}
+                              alt=""
+                              style={{ width: "13px", marginTop: "-1px" }}
+                            />
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.field_sub_1}>
+                              {varFields.grace_period_seconds}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  
                 </>
               );
             }
