@@ -65,7 +65,7 @@
 .nft_container
 {
     position: relative;
-    background-color: #000;
+    background-color: #2f2f2f;
     width: 180px;
     /* min-height: 180px; */
     padding: 10px 10px 0px;
@@ -81,7 +81,7 @@
     z-index: 1;
     width: 180px;
     border-radius: 20px;
-    background-color: #555;
+    background-color: #636363;
     transform: rotate(-8deg) !important;
     
 }

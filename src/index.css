@@ -801,3 +801,168 @@ body {
 {
   padding: 0.62rem 0rem !important;
 }
+
+
+/* new area */
+
+.profile_container
+{
+    display: block;
+    padding: 52px 15px 24px;
+    
+}
+
+.profile_container .background_cover
+{
+    background-color: #1a1a1a;
+    background-size: 160%;
+    background-position: 0% 0%;
+    width: 100%;
+    height: 120px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.profile_container .background_profile_info_container
+{
+    display: block;
+    background-color: #1F1F1F;
+    padding: 15px 0px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    transition: background-color 0.3s ease;
+}
+.profile_container:hover .background_profile_info_container
+{
+    background-color: #2F2F2F;
+    
+}
+.profile_container .background_profile_info_container .image
+{
+    position: relative;
+    display: block;
+    width: 80px;
+    height: 20px;
+    margin: 0 auto;
+}
+.profile_container .background_profile_info_container .image img
+{
+    position: absolute;
+    width: 80px;
+    aspect-ratio: 1/1;
+    object-fit: fill;
+    display: block;
+    margin-top: -40px;    
+}
+
+.profile_container .background_profile_info_container .wallet_name
+{
+    text-align: center;
+    font: 600 16px/22px "Geologica",sans-serif;
+    color: #fff7;
+    padding: 32px 0px 10px;
+    transition: color 0.3s ease;
+
+}
+.profile_container:hover .background_profile_info_container .wallet_name
+{
+    color: #ffff;
+}
+.profile_container .background_profile_info_container .wallet_name button
+{
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    outline:none;
+    padding: 2px 0px;
+    
+}
+.profile_container .background_profile_info_container .wallet_name button img
+{
+    width: 22px;
+    margin-top: -2px;
+}
+.profile_container .background_profile_info_container .wallet_name button:first-of-type
+{
+    padding-left: 10px;
+}
+
+.profile_container .background_profile_info_container .sol_balanc
+{
+    text-align: center;
+    font: 500 15px/18px "Geologica",sans-serif;
+    color: #fff7;
+    padding: 2px 0px 8px;
+    transition: color 0.3s ease;
+}
+.profile_container:hover .background_profile_info_container .sol_balanc
+{
+    color: #ffff;
+}
+
+.profile_container .follow_section {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 0px;
+    background-color: #121212;
+}
+.profile_container .follow_section .following
+{
+    padding: 4px;
+    flex-grow: 1;
+    text-align: center;
+    border-right: 1px solid grey;
+}
+.profile_container .follow_section .follower
+{
+    padding: 4px;
+    flex-grow: 1;
+    text-align: center;
+}
+.profile_container .follow_section .fol_title
+{
+    font: 500 15px/24px "Geologica",sans-serif;
+    color: #fff;
+    letter-spacing: 0.04em;
+}
+.profile_container .follow_section .fol_subtitle
+{
+    font: 300 13px/16px "Plus Jakarta Sans",sans-serif;
+    color: #fff7;
+    letter-spacing: 0.04em;
+}
+.profile_container .disconnect_section
+{
+    background-color: #1F1F1F;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    height: 90px;
+    padding-top: 26px;
+    transition: background-color 0.3s ease;
+}
+.profile_container:hover .disconnect_section
+{
+    background-color: #2F2F2F;
+}
+.profile_container .disconnect_section button
+{
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+    padding: 8px 5px;
+    border-radius: 20px;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    font: 500 14px/14px "Plus Jakarta Sans",sans-serif;
+    background-color: #1f1f1f;
+    color: #BAFC08;
+    border: 1px solid #BAFC08;
+}
+._master_container
+{
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1350px;
+    padding-top: 80px;
+}

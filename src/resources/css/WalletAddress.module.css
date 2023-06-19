@@ -119,7 +119,10 @@
   width: 100%;
   max-width: 900px;
   display: flex;
-  border-bottom: 1px solid #fff2;
+  background-color: #1c1c1c;
+  padding: 8px 0px;
+  border-radius: 10px;
+  /* border-bottom: 1px solid #fff2; */
 }
 .top_tab
 {
@@ -161,7 +164,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: #BAFC08;
+  /* background: #BAFC08; */
   transition: all 0.2s ease;
 }
 .top_tab .count_badge
