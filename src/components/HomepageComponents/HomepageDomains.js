@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import $ from "jquery";
+import search_icon_1 from "../../resources/images/search_icon_1.svg";
+
 const HomepageDomains = ({domains}) => {
     // useEffect(() => {
     //     $('#coll_togg').animate({
@@ -18,6 +20,7 @@ const HomepageDomains = ({domains}) => {
                 <div className="domain_heading">Domains</div>
                 <div className="domain_subname">
                     <div>{domains.length} Domains</div>
+                    <div className="search_icon_area"><img src={search_icon_1} /></div>
                 </div>
                 {domains.slice(0,5).map((domain) => 
                 <div className="each_domain">

@@ -302,14 +302,14 @@ const Transactions = ({ address, cluster }) => {
               </div>
             </div>):(<div></div>)
         }
-        <div className={styles.refresh_section}>
+        {/* <div className={styles.refresh_section}>
           <div className={styles.refresh_text_one}>
             Live Activity
           </div>
           <div>
             <img src={staticRefresh} className={styles.loading_image} alt="loading" /> Refreshing in <img src={duration} className={styles.duration_image} alt="duration" /> {timer} secs
           </div>
-        </div>
+        </div> */}
 
 
 

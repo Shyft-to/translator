@@ -1,7 +1,9 @@
 import $ from "jquery";
 import unknown from "../../resources/images/unknown_token.svg";
+import copy_icon from "../../resources/images/txnImages/copy_icon.svg";
 import { shortenAddress } from "../../utils/formatter";
 import { useEffect } from "react";
+import search_icon_1 from "../../resources/images/search_icon_1.svg";
 
 const HomepageTokenList = ({tokens}) => {
         useEffect(() => {
@@ -23,6 +25,7 @@ const HomepageTokenList = ({tokens}) => {
                 <div className="token_heading">Tokens</div>
                 <div className="token_subname">
                     <div>{tokens.length} Tokens</div>
+                    <div className="search_icon_area"><img src={search_icon_1} /></div>
                 </div>
                 {tokens.slice(0, 4).map((token) =>
                     <div className="each_token">
@@ -37,7 +40,10 @@ const HomepageTokenList = ({tokens}) => {
                         <div className="token_details">
                             <div className="token_name">{token.info.name ?? ""}</div>
                             <div className="token_values">
-                                <div>{shortenAddress(token.address ?? "")}</div>
+                                <div>
+                                    {shortenAddress(token.address ?? "")}
+                                    <img src={copy_icon} style={{width: "14px", marginTop: "-2px", marginLeft: "4px"}} alt="copy"/>
+                                </div>
                                 <div className="text-end">{(typeof token.balance === "number")?token.balance.toFixed(2):"--" }</div>
                             </div>
                         </div>

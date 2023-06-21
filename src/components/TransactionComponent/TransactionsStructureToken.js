@@ -119,9 +119,9 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
         } catch (error) {
             console.log("Actions not Found");
         }
-        // $(`#${id}`).animate({
-        //     height: "hide",
-        // });
+        $(`#${id}`).animate({
+            height: "hide",
+        });
 
     }, []);
     const getCreators = async (actions) => {

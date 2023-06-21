@@ -1,7 +1,7 @@
 .background_homepage
 {
     position: relative;
-    background: radial-gradient(50% 50% at 50% 50%, #313131 0%, #1F1F1F 0.01%, #111111 100%);
+    background: radial-gradient(50% 50% at 50% 50%, #101010 0%, #1F1F1F 0.01%, #101010 100%);
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: 100% 100%;
@@ -32,16 +32,16 @@
 }
 
 .main_grid_container .main_col_1 {
-    /* width: 22%; */
+    width: 23%;
     
-    flex-grow: 1;
+    /* flex-grow: 1; */
 }
 .main_grid_container .main_col_2 {
     width: 55%;
 }
 .main_grid_container .main_col_3 {
-    /* width: 22%; */
-    flex-grow: 1;
+    width: 22%;
+    /* flex-grow: 1; */
 }
 
 .token_grid_container .main_col_1 {
@@ -239,10 +239,16 @@
 .homepage_tokens_container .token_subname
 {
     display: flex;
+    justify-content: space-between;
     font: 400 13px/16px "Plus Jakarta Sans",sans-serif;
     color: #fff7;
     padding: 5px 0px 20px;
     transition: all 0.3s ease;
+}
+.homepage_tokens_container .token_subname .search_icon_area img
+{
+    width: 22px;
+    margin-top: -4px;
 }
 .homepage_tokens_container:hover .token_subname
 {
@@ -277,7 +283,7 @@
 }
 .homepage_tokens_container .each_token .token_values
 {
-    font: 300 10px/18px "Jost",sans-serif;
+    font: 300 11px/18px "Jost",sans-serif;
     color: #fff6;
     display: flex;
     justify-content: space-between;
@@ -332,9 +338,11 @@
 {
     color: #ffff;
 }
+
 .homepage_domains_container .domain_subname
 {
     display: flex;
+    justify-content: space-between;
     font: 400 13px/16px "Plus Jakarta Sans",sans-serif;
     color: #fff7;
     padding: 5px 0px 20px;
@@ -343,6 +351,11 @@
 .homepage_domains_container:hover .domain_subname
 {
     color: #ffff;
+}
+.homepage_domains_container .domain_subname .search_icon_area img
+{
+    width: 22px;
+    margin-top: -4px;
 }
 .homepage_domains_container .each_domain
 {
@@ -385,6 +398,7 @@
 .homepage_nft_collections_container .nft_collections_subname
 {
     display: flex;
+    justify-content: space-between;
     font: 400 13px/16px "Plus Jakarta Sans",sans-serif;
     color: #fff7;
     padding: 5px 0px 20px;
@@ -393,6 +407,11 @@
 .homepage_nft_collections_container:hover .nft_collections_subname
 {
     color: #ffff;
+}
+.homepage_nft_collections_container .nft_collections_subname .search_icon_area img
+{
+    width: 22px;
+    margin-top: -6px;
 }
 .homepage_nft_collections_container .each_collection
 {
@@ -425,6 +444,7 @@
     letter-spacing: 0.04em;
     transition: all 0.3s ease;
 }
+
 /* .homepage_nft_collections_container:hover .each_collection .collection_name
 {
     color: #ffff;
@@ -435,7 +455,7 @@
 }
 .homepage_nft_collections_container .each_collection .number_of_nfts {
     font: 500 13px/16px "Plus Jakarta Sans",sans-serif;
-    color: #fff7;
+    color: #BAFC08BB;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -446,7 +466,7 @@
 }
 .homepage_nft_collections_container:hover .each_collection .number_of_nfts
 {
-    color: #ffff;
+    color: #BAFC08;
 }
 .item_domains_tab_onwards
 {
