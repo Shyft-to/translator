@@ -20,10 +20,10 @@
 }
 
 .form_field_outer .form_field_inner {
-  background-color: transparent;
+  background-color: #1c1c1c;
   border-radius: 25px;
   padding: 8px 24px 12px;
-  border: 1px solid #fff5;
+  border: 1px solid transparent;
   transition: all 0.2s ease;
 }
 .form_field_outer .form_field_inner:hover {
@@ -37,7 +37,7 @@
   box-shadow: none;
   width: 100%;
   color: #fff;
-  font: 500 16px/18px "Montserrat", sans-serif;
+  font: 500 15px/18px "Geologica", sans-serif;
   /* letter-spacing: 1px; */
 }
 
@@ -46,14 +46,21 @@
   box-shadow: none;
   outline: none;
 }
+.form_field_outer .form_field_inner input::placeholder
+{
+  color: #fffa;
+  font: 200 14px/18px "Jost", sans-serif;
+  /* font-style: italic; */
+  letter-spacing: 0.04em;
+}
 
 .form_field_outer .form_field_inner select {
   background-color: transparent;
   border: none;
   box-shadow: none;
   color: #fff;
-  font: 500 16px/18px "Montserrat", sans-serif;
-  /* letter-spacing: 1px; */
+  font: 500 14px/18px "Jost", sans-serif;
+  letter-spacing: 0.08em;
 }
 
 .form_field_outer .form_field_inner select:focus {
@@ -61,15 +68,21 @@
   box-shadow: none;
   outline: none;
 }
-
+.input_end
+{
+  border-right: 1px solid #fff4;
+}
 .form_field_outer .form_field_inner option {
   background-color: #2a0855;
 }
 
 .search_icon {
   text-decoration: none;
-  color: #555;
+  color: #fff;
   transition: all 0.2s ease-in;
+  margin-top: -8px !important;
+  margin-left: -8px;
+  padding-right: 16px;
 }
 
 .search_icon:hover {
@@ -238,6 +251,8 @@
 .token_search_container input::placeholder
 {
   color: #fff;
+  font: 200 14px/18px "Jost", sans-serif;
+  font-style: italic;
 }
 .token_search_container .token_search_icon
 {
@@ -282,14 +297,14 @@
 .token_search_container_highlight
 {
   border: 1px solid #BAFC08;
-  background-color: #111 !important;
+  background-color: #0c0217 !important;
   padding: 4px 8px 8px 16px;
 }
 
 .token_search_container_2
 {
   border-radius: 25px;
-  background-color: #111;
+  background-color: #010101;
   padding: 4px 8px 6px 16px;
 }
 .token_search_container_2 input {
@@ -325,7 +340,7 @@
 }
 .token_search_container_2 .token_search_icon_reverse
 {
-    color: #BAFC08;
+    color: #FDF41B;
     transition: all 0.2s ease-in;
     background-color: transparent;
     border: none;
@@ -411,16 +426,51 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  width: 330px;
+  padding-top: 10px;
 }
 .connect_button_container .links_list a
 {
-  font: 400 16px/32px "Montserrat", sans-serif;
-  color: #FFF;
-  padding: 12px 12px;
+  font: 400 16px/32px "Jost", sans-serif;
+  color: #FFFA;
+  padding: 2px 24px 2px;
   text-decoration: none;
+  background-color: #1c1c1c;
+  border-radius: 25px 25px;
+}
+.connect_button_container .links_list a img
+{
+  width: 24px;
+  margin-top: -4px;
+  margin-right: 6px;
 }
 .connect_button_container .links_list a:hover
 {
   color: #FDF41B;
+}
+
+.menubar_container
+{
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1400px;
+    padding-top: 10px;    
+}
+
+.area_1
+{
+  padding: 4px 8px;
+  flex-grow: 2.2;
+}
+.area_2
+{
+  padding: 4px 0px;
+  width: 50.5%;
+}
+.area_3
+{
+  padding: 4px 16px;
+  flex-grow: 1;
 }

@@ -48,7 +48,7 @@ body {
 .background_super {
   min-height: 100vh;
   max-width: 100vw;
-  background: radial-gradient(#1E0C36 8%, #000 75%);
+  background: radial-gradient(50% 50% at 50% 50%, #313131 0%, #1F1F1F 0.01%, #111111 100%);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: 100% 100%;
@@ -248,7 +248,7 @@ body {
 }
 
 .logo_container {
-  font: 700 32px/32px "Montserrat", sans-serif;
+  font: 700 32px/32px "Geologica", sans-serif;
   width: 250px;
 }
 .logo_area
@@ -965,4 +965,5 @@ body {
     width: 100%;
     max-width: 1350px;
     padding-top: 80px;
+
 }
