@@ -247,15 +247,23 @@ const SearchComponent = ({ popup, setPopUp }) => {
                   {
                     currentWallet ?
                       <div className={styles.links_list}>
-                        <a href={`/feed`}>
+                        <a href={`/feed`} style={{border: "3px solid #1c1c1c"}}>
                           <img src={homeIcon} />
                           Feed
                         </a>
-                        <a href={`/address/${currentWallet}`}>
+                        <a href={`/address/${currentWallet}`} style={{border: "2px solid #BAFC08", paddingLeft: "10px",paddingRight: "16px"}}>
                           <img src={profIcon} />
-                        Profile</a>
+                        4avg2...c2</a>
                       </div> :
-                      <button>Connect Wallet</button>
+                      <div className={styles.links_list}>
+                        <a href={`/feed`} style={{border: "3px solid #1c1c1c"}}>
+                          <img src={homeIcon} />
+                          Feed
+                        </a>
+                        <a href={`/address/${currentWallet}`} style={{border: "2px solid #BAFC08", paddingLeft: "10px",paddingRight: "16px"}}>
+                          <img src={profIcon} />
+                        4avg2...c2</a>
+                      </div>
                   }
 
 
