@@ -1396,7 +1396,7 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                         </div>
                                     }
                                     {
-                                      (action.type === "OFFER_LOAN" || action.type === "TAKE_LOAN" || action.type === "REQUEST_LOAN" || action.type === "BUY_NOW_PAY_LATER") && (action.info.hasOwnProperty("apy")) && (action.info.apy !== 0) && 
+                                      (action.type === "OFFER_LOAN" || action.type === "BUY_NOW_PAY_LATER") && (action.info.hasOwnProperty("apy")) && (action.info.apy !== 0 || action.info.apy !== null) && 
                                           
                                         <div className={`${styles.only_text} ${styles.slippage_params}`}>
                                           <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
@@ -1407,6 +1407,86 @@ const TxnComponent = ({ popup, setPopUp }) => {
                                               {action.info.apy ?? "--"}
                                               
                                             </div>
+                                          </div>
+                                        </div>      
+                                    }
+                                    {
+                                      (action.type === "REQUEST_LOAN") && ((action.info.hasOwnProperty("apy")) || (action.info.hasOwnProperty("ltv")) || (action.info.hasOwnProperty("admin_payment"))) && 
+                                          
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            {(action.info.hasOwnProperty("apy") && (action.info.apy !== 0 && action.info.apy !== null)) && <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Annual % Return: </span>{" "}
+                                              {action.info.apy ?? "--"} SOL
+                                              
+                                            </div>}
+                                            {(action.info.hasOwnProperty("ltv") && (action.info.ltv !== 0)) && <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Ltv: </span>{" "}
+                                              {action.info.ltv ?? "--"} %
+                                              
+                                            </div>}
+                                            {(action.info.hasOwnProperty("admin_payment") && (action.info.admin_payment !== 0)) && <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Admin Payment: </span>{" "}
+                                              {action.info.admin_payment ?? "--"} SOL
+                                              
+                                            </div>}
+                                          </div>
+                                        </div>      
+                                    }
+                                    {
+                                      (action.type === "TAKE_LOAN") && ((action.info.hasOwnProperty("apy")) || (action.info.hasOwnProperty("discount")) || (action.info.hasOwnProperty("transfer_to_borrower"))) && 
+                                          
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            {(action.info.hasOwnProperty("apy") && (action.info.apy !== 0 && action.info.apy !== null)) && <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Annual % Return: </span>{" "}
+                                              {action.info.apy ?? "--"} SOL
+                                              
+                                            </div>}
+                                            {(action.info.hasOwnProperty("discount") && (action.info.discount !== 0)) && <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Discount: </span>{" "}
+                                              {action.info.discount ?? "--"} %
+                                              
+                                            </div>}
+                                            {(action.info.hasOwnProperty("transfer_to_borrower") && (action.info.transfer_to_borrower !== 0)) && <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Transfer to Borrower: </span>{" "}
+                                              {action.info.transfer_to_borrower ?? "--"} SOL
+                                              
+                                            </div>}
+                                          </div>
+                                        </div>      
+                                    }
+                                    {
+                                      (action.type === "REPAY_LOAN") && ((action.info.hasOwnProperty("admin_payment")) || (action.info.hasOwnProperty("payback_to_liq_owner"))) && 
+                                          
+                                        <div className={`${styles.only_text} ${styles.slippage_params}`}>
+                                          <div className="d-flex flex-wrap justify-content-start justify-content-md-start">
+                                            {(action.info.hasOwnProperty("admin_payment") && (action.info.admin_payment !== 0)) && <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Admin Payment: </span>{" "}
+                                              {action.info.admin_payment ?? "--"} SOL
+                                              
+                                            </div>}
+                                            {(action.info.hasOwnProperty("payback_to_liq_owner") && (action.info.payback_to_liq_owner !== 0)) && <div
+                                              className={styles.slippage_param}
+                                            >
+                                              <span>Payment to Liquidity Owner: </span>{" "}
+                                              {action.info.payback_to_liq_owner ?? "--"} SOL
+                                              
+                                            </div>}
                                           </div>
                                         </div>      
                                     }

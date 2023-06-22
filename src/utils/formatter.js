@@ -137,7 +137,7 @@ export function isParsable(action)
             const actionsWeParse = ["SOL_TRANSFER", "TOKEN_TRANSFER", "NFT_TRANSFER", "NFT_MINT", "NFT_BURN", "TOKEN_MINT", "TOKEN_CREATE", "TOKEN_BURN",
                 "NFT_SALE", "NFT_BID", "NFT_BID_CANCEL", "NFT_LIST", "NFT_LIST_UPDATE", "NFT_LIST_CANCEL", "MARKETPLACE_WITHDRAW",
                 "OFFER_LOAN", "CANCEL_LOAN", "TAKE_LOAN", "REPAY_LOAN", "REPAY_ESCROW_LOAN", "EXTEND_LOAN", "EXTEND_ESCROW_LOAN",
-                "BUY_NOW_PAY_LATER", "REQUEST_LOAN",
+                "BUY_NOW_PAY_LATER", "REQUEST_LOAN","LIQUIDATE_LOAN",
                 "FORECLOSE_LOAN", "MEMO", "SWAP", "CREATE_RAFFLE", "BUY_TICKETS", "REVEAL_WINNERS", "CLAIM_PRIZE", "CLOSE_RAFFLE",
                 "CANCEL_RAFFLE", "COMPRESSED_NFT_MINT", "CREATE_TREE", "COMPRESSED_NFT_TRANSFER", "COMPRESSED_NFT_BURN", "CREATE_POOL",
                 "ADD_LIQUIDITY", "REMOVE_LIQUIDITY", "CREATE_REALM", "DEPOSIT_GOVERNING_TOKENS", "WITHDRAW_GOVERNING_TOKENS",
@@ -281,6 +281,11 @@ export const listOfAddresses = [
     {
         domain:"Foxy Raffle",
         address:"9ehXDD5bnhSpFVRf99veikjgq8VajtRH7e3D9aVPLqYd", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Frakt Lending",
+        address:"A66HabVL3DzNzeJgcHYtRRNW1ZRMKwBfrdSR4kLsZ9DJ", 
         network:"mainnet-beta"
     },
     {
