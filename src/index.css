@@ -248,7 +248,8 @@ body {
 }
 
 .logo_container {
-  font: 700 32px/32px "Montserrat", sans-serif;
+  font: 700 32px/32px "Geologica", sans-serif;
+  letter-spacing: 0.02em;
   width: 250px;
 }
 .logo_area
