@@ -12,8 +12,11 @@ import TransactionStructureToken from "./TransactionsStructureToken";
 import staticRefresh from "../../resources/images/txnImages/refresh_static.png";
 import rotateRefresh from "../../resources/images/txnImages/refresh_rotate.gif";
 import duration from "../../resources/images/txnImages/duration.png";
+import avatar2 from "../../resources/images/txnImages/avatar2.svg";
+
 import { AnimatePresence } from "framer-motion";
 import { getTxnUptoSignature } from "../../utils/getAllData";
+import { getRelativetime, shortenAddress } from "../../utils/formatter";
 
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -317,7 +320,23 @@ const FeedTransactions = ({ address, cluster }) => {
           {
             (txns.length > 0) ?
               (
-                txns.map((each_txn) => <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} />)
+                txns.map((each_txn) =>
+                  <div>
+                    <div className={styles.feed_txn_outer}>
+                        <div className={styles.feed_txn_signer}>
+                          <div className={styles.avatar_area}>
+                            <img src={avatar2} />
+                            <span className={styles.text}>{shortenAddress(each_txn.signers[0])}</span>
+                          </div>
+                        </div>
+                        <div className={styles.time_area}>
+                        {(each_txn.timestamp !== "") ? getRelativetime(each_txn.timestamp) : ""}
+                        
+                        </div>
+                      </div> 
+                    <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} />
+                  </div>
+                  )
               ) : ""
 
           }

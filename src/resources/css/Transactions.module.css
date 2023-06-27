@@ -754,3 +754,33 @@
 {
     overflow: hidden;
 }
+
+
+.feed_txn_outer
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: -10px;
+}
+.feed_txn_outer .feed_txn_signer
+{
+    padding: 0px 0px 14px;
+}
+.feed_txn_signer .avatar_area img
+{
+    width: 28px;
+    margin-right: 10px;
+}
+.feed_txn_signer .avatar_area span
+{
+    font: 500 16px/18px "Geologica",sans-serif;
+    color: #FFF;
+}
+.feed_txn_outer .time_area
+{
+    font: 400 14px/18px "Jost",sans-serif;
+    color: #FFF;
+    padding: 0px 0px 16px;
+}
