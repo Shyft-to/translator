@@ -17,6 +17,7 @@ import { userLogon } from "./utils/dboperations";
 
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
+import * as bs58 from "bs58";
 
 const staticAddresses = [
   {
@@ -43,7 +44,7 @@ const staticAddresses = [
 
 const Home = ({popup, setPopUp}) => {
   const navigate = useNavigate();
-  const { publicKey } = useWallet();
+  const userWallet = useWallet();
   const [wallet, setWallet] = useState('');
   const [network, setNetwork] = useState('mainnet-beta');
   const [loadingAddr,setLoadingAddr] = useState(false);
@@ -71,9 +72,9 @@ const Home = ({popup, setPopUp}) => {
   }, [])
 
   useEffect(() => {
-    if(publicKey)
-      connectWallet(publicKey?.toBase58())
-  }, [publicKey])
+    if(userWallet.publicKey)
+      connectWallet(userWallet.publicKey?.toBase58())
+  }, [userWallet.publicKey])
   
 
   const BlurAfterTime = () => {
@@ -169,6 +170,14 @@ const Home = ({popup, setPopUp}) => {
 
   }
   const connectWallet = async (wallet_address) => {
+    // const message = "Hi! This is SHYFT Website";
+    // const encodedMessage = new TextEncoder().encode(message);
+    
+    // const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+    // console.log(signedMessageFromWallet);
+    // console.log(bs58.encode(signedMessageFromWallet));
+    
+
     localStorage.setItem("reac_wid","");
     const isUser = await userLogon(wallet_address);
     if(isUser.success)
