@@ -175,7 +175,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                             </div>
                     }
                     {(contentType === "WALLET") &&
-                        <div className="container">
+                        <div className="container-lg">
                             <motion.div className={styles.heading_section} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
                                 <div className="row">
                                     <div className="col-6 col-lg-6">
@@ -223,7 +223,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         <div className="d-flex flex-wrap justify-content-end">
                                             <div 
                                                 //className="border border-light" 
-                                                style={{width:"200px",overflow:"hidden",overflowWrap:"normal"}}
+                                                
                                             >
                                                 <div className={styles.wallet_balance_indicator}>
                                                     {data.balance?.toFixed(8)}&nbsp;SOL

@@ -1,6 +1,6 @@
 .collection_row .collection_name
 {
-    font: 400 20px/24px "Montserrat",sans-serif;
+    font: 400 20px/24px "Geologica",sans-serif;
     color: #fff;
     padding-bottom: 4px;
     /* letter-spacing: 1px; */
@@ -49,7 +49,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font: 400 14px/22px "Montserrat", sans-serif;
+    font: 400 14px/22px "Plus Jakarta Sans", sans-serif;
     color: #fff;    
 }
 .i_hover_section
@@ -131,7 +131,7 @@
 
 .all_collections_page .main_heading
 {
-    font: 500 40px/48px "Odibee Sans", sans-serif;
+    font: 500 40px/48px "Jost", sans-serif;
     background: -webkit-linear-gradient(278deg, #FF008A 3%, #F3DD59 85%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -144,7 +144,7 @@
 }
 .all_collections_page .main_heading span
 {
-  font: 500 40px/48px "Odibee Sans", sans-serif;
+  font: 500 40px/48px "Jost", sans-serif;
   background: -webkit-linear-gradient(280deg, #FF008A 3%, #F3DD59 75%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -155,7 +155,7 @@
 @media screen and (max-width: 767px) {
     .all_collections_page .main_heading
     {
-        font: 500 32px/40px "Odibee Sans", sans-serif;
+        font: 500 32px/40px "Jost", sans-serif;
         background: -webkit-linear-gradient(278deg, #FF008A 1%, #F3DD59 75%);
         -webkit-background-clip: text;
         background-clip: text;
@@ -168,7 +168,7 @@
     }
     .collection_row .collection_name
     {
-        font: 400 18px/22px "Montserrat",sans-serif;
+        font: 400 18px/22px "Plus Jakarta Sans",sans-serif;
         color: #fff;
         padding-bottom: 10px;
         /* letter-spacing: 1px; */
@@ -190,7 +190,7 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        font: 400 12px/20px "Montserrat", sans-serif;
+        font: 400 12px/20px "Plus Jakarta Sans", sans-serif;
         color: #fff;    
     }
 }

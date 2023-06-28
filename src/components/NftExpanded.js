@@ -130,7 +130,7 @@ const NftExpanded = ({ nft, cluster }) => {
         
       </div>}
       <div className="row">
-        <motion.div className="col-12 col-lg-4" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+        <motion.div className="col-12 col-lg-3" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className={styles.nft_image_container}>
             {(nft.hasOwnProperty("animation_url") && nft.animation_url !== "" && (nft.animation_url?.endsWith("glb") === true || nft.animation_url?.endsWith("gltf") === true))?
             <>
@@ -187,7 +187,7 @@ const NftExpanded = ({ nft, cluster }) => {
           </div>
  
         </motion.div>
-        <div className="col-12 col-lg-8">
+        <div className="col-12 col-lg-9">
           <div className={styles.nft_desc_section}>
             <div className="d-flex flex-wrap">
               <div>

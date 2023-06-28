@@ -2528,7 +2528,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
             } else if (varFields.type === "MEMO") {
               return (
                 <div className="row pt-1">
-                  <div className="col-12 col-md-6">
+                  <div className="col-12 col-md-12">
                     <div className="d-flex">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Message</div>
@@ -2541,7 +2541,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         />
                       </div>
                       <div className="pe-1">
-                        <div className={styles.field_sub_1}>
+                        <div className={styles.field_sub_1} style={{wordBreak:"break-all",overflowWrap:"break-word"}}>
                           {varFields.from}
                         </div>
                       </div>

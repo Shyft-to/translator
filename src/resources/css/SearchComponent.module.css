@@ -4,7 +4,7 @@
 }
 
 .form_container label {
-  font: 500 16px/24px "Montserrat", sans-serif;
+  font: 500 16px/24px "Geologica", sans-serif;
   color: #fff;
   /* letter-spacing: 1px; */
   margin-bottom: 8px;
@@ -20,10 +20,10 @@
 }
 
 .form_field_outer .form_field_inner {
-  background-color: transparent;
+  background-color: #2a0855;
   border-radius: 25px;
   padding: 8px 24px 12px;
-  border: 1px solid #fff5;
+  border: 1px solid transparent;
   transition: all 0.2s ease;
 }
 .form_field_outer .form_field_inner:hover {
@@ -37,7 +37,7 @@
   box-shadow: none;
   width: 100%;
   color: #fff;
-  font: 500 16px/18px "Montserrat", sans-serif;
+  font: 500 15px/18px "Geologica", sans-serif;
   /* letter-spacing: 1px; */
 }
 
@@ -46,14 +46,21 @@
   box-shadow: none;
   outline: none;
 }
+.form_field_outer .form_field_inner input::placeholder
+{
+  color: #fffa;
+  font: 200 14px/18px "Jost", sans-serif;
+  /* font-style: italic; */
+  letter-spacing: 0.04em;
+}
 
 .form_field_outer .form_field_inner select {
   background-color: transparent;
   border: none;
   box-shadow: none;
   color: #fff;
-  font: 500 16px/18px "Montserrat", sans-serif;
-  /* letter-spacing: 1px; */
+  font: 500 14px/18px "Jost", sans-serif;
+  letter-spacing: 0.08em;
 }
 
 .form_field_outer .form_field_inner select:focus {
@@ -61,15 +68,21 @@
   box-shadow: none;
   outline: none;
 }
-
+.input_end
+{
+  border-right: 1px solid #fff4;
+}
 .form_field_outer .form_field_inner option {
   background-color: #2a0855;
 }
 
 .search_icon {
   text-decoration: none;
-  color: #555;
+  color: #fff;
   transition: all 0.2s ease-in;
+  margin-top: -8px !important;
+  margin-left: -8px;
+  padding-right: 16px;
 }
 
 .search_icon:hover {
@@ -103,7 +116,7 @@
     box-shadow: none;
     width: 100%;
     color: #fff;
-    font: 500 13px/18px "Montserrat", sans-serif;
+    font: 500 13px/18px "Geologica", sans-serif;
     /* letter-spacing: 1px; */
   }
 
@@ -117,7 +130,7 @@
     border: none;
     box-shadow: none;
     color: #fff;
-    font: 500 13px/18px "Montserrat", sans-serif;
+    font: 500 13px/18px "Geologica", sans-serif;
     /* letter-spacing: 1px; */
     padding-top: 1px;
   }
@@ -175,7 +188,7 @@
 .each_search .network_area
 {
   color: #fff;
-  font: 300 12px/14px "Poppins",sans-serif;
+  font: 300 12px/14px "Geologica",sans-serif;
   background-color: #2a0855;
   padding: 5px 10px 2px;
   width: 80px;
@@ -184,7 +197,7 @@
 .each_search .address_area
 {
   color: #fff;
-  font: 300 14px/14px "Poppins",sans-serif;
+  font: 300 14px/14px "Geologica",sans-serif;
   padding: 5px 8px 2px;
   text-align: left;
   white-space: nowrap;
@@ -224,7 +237,7 @@
   box-shadow: none;
   width: 100%;
   color: #fff;
-  font: 300 13px/18px "Montserrat", sans-serif;
+  font: 300 13px/18px "Jost", sans-serif;
   /* letter-spacing: 1px; */
   width: 110px;
   transition: width 0.3s ease;
@@ -238,6 +251,8 @@
 .token_search_container input::placeholder
 {
   color: #fff;
+  font: 200 14px/18px "Jost", sans-serif;
+  font-style: italic;
 }
 .token_search_container .token_search_icon
 {
@@ -247,7 +262,7 @@
     border: none;
     outline: none;
     box-shadow: none;
-    font: 300 14px/14px "Montserrat", sans-serif;
+    font: 300 14px/14px "Geologica", sans-serif;
 }
 .token_search_container .token_search_icon_reverse
 {
@@ -259,7 +274,7 @@
     box-shadow: none;
     display: inline-block;
     margin-left: -6px;
-    font: 300 14px/14px "Montserrat", sans-serif;
+    font: 300 14px/14px "Geologica", sans-serif;
 }
 @media screen and (max-width: 767px) {
   .token_search_container
@@ -289,7 +304,7 @@
 .token_search_container_2
 {
   border-radius: 25px;
-  background-color: #280C4C;
+  background-color: #010101;
   padding: 4px 8px 6px 16px;
 }
 .token_search_container_2 input {
@@ -298,7 +313,7 @@
   box-shadow: none;
   width: 100%;
   color: #fff;
-  font: 300 13px/18px "Montserrat", sans-serif;
+  font: 300 13px/18px "Geologica", sans-serif;
   /* letter-spacing: 1px; */
   width: 145px;
   transition: width 0.3s ease;
@@ -321,7 +336,7 @@
     border: none;
     outline: none;
     box-shadow: none;
-    font: 300 14px/14px "Montserrat", sans-serif;
+    font: 300 14px/14px "Jost", sans-serif;
 }
 .token_search_container_2 .token_search_icon_reverse
 {
@@ -333,7 +348,7 @@
     box-shadow: none;
     display: inline-block;
     margin-left: -6px;
-    font: 300 14px/14px "Montserrat", sans-serif;
+    font: 300 14px/14px "Jost", sans-serif;
 }
 @media screen and (max-width: 767px) {
   .token_search_container_2
@@ -392,7 +407,81 @@
 .program_search_heading
 {
   background-color: #400c85;
-  font: 500 10px/12px "Montserrat", sans-serif;
+  font: 500 10px/12px "Geologica", sans-serif;
   color: #fff;
   padding: 4px 16px;
+}
+.connect_button_container
+{
+  width: 100%;
+}
+@media screen and (max-width: 569px) {
+  .connect_button_container
+  {
+    width: 100%;
+  }
+}
+.connect_button_container .links_list
+{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+.connect_button_container .links_list a
+{
+  font: 400 16px/32px "Jost", sans-serif;
+  color: #FFFA;
+  padding: 2px 24px 2px;
+  text-decoration: none;
+  background-color: #2a0855;
+  border-radius: 25px 25px;
+  margin-right: 16px;
+}
+.connect_button_container .links_list a img
+{
+  width: 24px;
+  margin-top: -4px;
+  margin-right: 6px;
+}
+.connect_button_container .links_list a:hover
+{
+  color: #FDF41B;
+}
+.connect_button_container .link_info_button
+{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+.connect_button_container .link_info_button img
+{
+  max-width: 88%;
+}
+
+.menubar_container
+{
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    padding-top: 10px;    
+}
+
+.area_1
+{
+  padding: 4px 8px;
+  width: 21%;
+}
+.area_2
+{
+  padding: 4px 0px;
+  width: 100%;
+  max-width: 1010px;
+}
+.area_3
+{
+  padding: 4px 16px;
+  width: 22%;
 }
