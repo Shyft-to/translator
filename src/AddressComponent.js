@@ -21,6 +21,7 @@ import SimpleLoader from "./components/loaders/SimpleLoader";
 import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
 import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
+import CnftSlider from "./components/CnftSlider";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -34,6 +35,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     const navigate = useNavigate();
 
     const [panel, setPanel] = useState("TXN");
+    const [nftPanel,setNftPanel] = useState("NFT");
     const [copied, setCopied] = useState("Copy");
     const [copyLink,setCopyLink] = useState("Copy Link");
 
@@ -255,9 +257,28 @@ const AddressComponent = ({popup,setPopUp}) => {
                                 </div>
                             </motion.div>
                             <div className={styles.collections_cara_cont}>
-                                <AllNfts collections={data.collections} address={addr} network={cluster} />
+                                <div className={styles.tab_container}>
+                                    <button className={(nftPanel === "NFT") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                            setNftPanel("NFT");
+                                        }}>
+                                        Collections
+                                        {(nftPanel === "NFT") ? <div className={styles.underline} /> : ""}
+                                    </button>
+                                    <button className={(nftPanel === "CNFT") ? `${styles.top_tab} ${styles.top_tab_extended} ${styles.top_tab_selected}` : `${styles.top_tab} ${styles.top_tab_extended}`} onClick={(e) => {
+                                        setNftPanel("CNFT");
+                                        }}>
+                                        Compressed NFTs
+                                        {/* {(tokenCount > -1) && <div className={styles.count_badge}>{tokenCount}</div>} */}
+                                        {(nftPanel === "CNFT") ? <div className={styles.underline} /> : ""}
+                                    </button>
+                                </div>
+                                {nftPanel === "NFT" &&
+                                    <AllNfts collections={data.collections} address={addr} network={cluster} />
+                                }
+                                {nftPanel === "CNFT" &&
+                                    <CnftSlider addr={addr} network={cluster} />
+                                }
                             </div>
-
                         </div>}
                     {
                         (contentType === "NFT") &&
@@ -338,8 +359,68 @@ const AddressComponent = ({popup,setPopUp}) => {
                             </motion.div>
                         </div>
                     }
+                    {
+                        (contentType === "GENERAL") &&
+                        <div className="container pb-1 pt-1">
+                            <motion.div className={styles.heading_section} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                                <div className="row">
+                                    <div className="col-6 col-lg-6">
+                                        <div className={styles.main_heading}>
+                                            <div className="d-flex">
+                                                <div className="pe-2" onClick={() => copyValue(addr)}>
+                                                    <Tooltip
+                                                        content={copied}
+                                                        className="myTarget"
+                                                        direction="up"
+                                                        // eventOn="onClick"
+                                                        // eventOff="onMouseLeave"
+                                                        useHover={true}
+                                                        background="#101010"
+                                                        color="#fefefe"
+                                                        arrowSize={5}
+
+                                                    >
+                                                        
+                                                        {shortenAddress(addr)}
+                                                    </Tooltip>
+                                                </div>
+                                                
+                                                <div className="px-1" style={{ marginTop: "-3px", color: "#fff" }}>
+                                                    <Tooltip
+                                                            content={copyLink}
+                                                            className="myTarget"
+                                                            direction="up"
+                                                            // eventOn="onClick"
+                                                            // eventOff="onMouseLeave"
+                                                            useHover={true}
+                                                            background="#101010"
+                                                            color="#fefefe"
+                                                            arrowSize={5}
+
+                                                        >
+                                                        <button className="copy_link" onClick={() => copyValue((cluster==='mainnet-beta')?`https://translator.shyft.to/address/${addr}`:`https://translator.shyft.to/address/${addr}?cluster=${cluster}`, true)}>
+                                                            <FaLink />
+                                                        </button>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-6 col-lg-6 text-end">
+                                        <div className={styles.wallet_balance_indicator}>
+                                            {data.balance} SOL 
+                                            <img src={WalletIcon} alt="Wallet Icon" style={{width:"22px", marginTop:"-4px",marginLeft:"8px"}}/>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    }
 
                 </div>}
+                
+                
                 <div className="container-lg">
                     <div className={styles.tab_container}>
                         <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {

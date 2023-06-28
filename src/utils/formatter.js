@@ -134,7 +134,16 @@ export function isParsable(action)
         if(action !== "")
         {
             const trimmedAction = action.trim();
-            const actionsWeParse = ["SOL_TRANSFER","TOKEN_TRANSFER","NFT_TRANSFER","NFT_MINT","NFT_BURN","TOKEN_MINT","TOKEN_CREATE","TOKEN_BURN","NFT_SALE","NFT_BID","NFT_BID_CANCEL","NFT_LIST","NFT_LIST_UPDATE","NFT_LIST_CANCEL","MARKETPLACE_WITHDRAW","OFFER_LOAN","CANCEL_LOAN","TAKE_LOAN","REPAY_LOAN","REPAY_ESCROW_LOAN","EXTEND_LOAN","EXTEND_ESCROW_LOAN","FORECLOSE_LOAN","MEMO","SWAP","CREATE_RAFFLE","BUY_TICKETS","REVEAL_WINNERS","CLAIM_PRIZE","CLOSE_RAFFLE","CANCEL_RAFFLE","COMPRESSED_NFT_MINT","CREATE_TREE","COMPRESSED_NFT_TRANSFER","COMPRESSED_NFT_BURN","CREATE_POOL","ADD_LIQUIDITY","REMOVE_LIQUIDITY"];
+            const actionsWeParse = ["SOL_TRANSFER","TOKEN_TRANSFER","NFT_TRANSFER","NFT_MINT","NFT_BURN","TOKEN_MINT","TOKEN_CREATE","TOKEN_BURN",
+                                    "NFT_SALE","NFT_BID","NFT_BID_CANCEL","NFT_LIST","NFT_LIST_UPDATE","NFT_LIST_CANCEL","MARKETPLACE_WITHDRAW",
+                                    "OFFER_LOAN","CANCEL_LOAN","TAKE_LOAN","REPAY_LOAN","REPAY_ESCROW_LOAN","EXTEND_LOAN","EXTEND_ESCROW_LOAN",
+                                    "FORECLOSE_LOAN","MEMO","SWAP","CREATE_RAFFLE","BUY_TICKETS","REVEAL_WINNERS","CLAIM_PRIZE","CLOSE_RAFFLE",
+                                    "CANCEL_RAFFLE","COMPRESSED_NFT_MINT","CREATE_TREE","COMPRESSED_NFT_TRANSFER","COMPRESSED_NFT_BURN","CREATE_POOL",
+                                    "ADD_LIQUIDITY","REMOVE_LIQUIDITY","CREATE_REALM","DEPOSIT_GOVERNING_TOKENS","WITHDRAW_GOVERNING_TOKENS",
+                                    "SET_GOVERNANCE_DELEGATE","CREATE_GOVERNANCE","CREATE_PROGRAM_GOVERNANCE","CREATE_PROPOSAL","ADD_SIGNATORY",
+                                    "REMOVE_SIGNATORY","CANCEL_PROPOSAL","SIGN_OFF_PROPOSAL","INSERT_TRANSACTION","REMOVE_TRANSACTION","CAST_VOTE",
+                                    "FINALIZE_VOTE","RELINQUISH_VOTE","EXECUTE_TRANSACTION","CREATE_MINT_GOVERNANCE","CREATE_TOKEN_GOVERNANCE",
+                                    "SET_GOVERNANCE_CONFIG","SET_REALM_AUTHORITY","POST_MESSAGE"];
             if(actionsWeParse.includes(trimmedAction) === true)
                 return true;
             else
@@ -476,6 +485,11 @@ export const listOfAddresses = [
     {
         domain:"Raydium Staking",
         address: "EhhTKczWMGQt46ynNeRX1WfeagwwJd7ufHvCDjRxjo5Q",
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Realms Gov",
+        address: "GovER5Lthms3bLBqWub97yVrMmEogzX7xNjdXpPPCVZw",
         network:"mainnet-beta"
     },
     {

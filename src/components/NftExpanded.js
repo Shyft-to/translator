@@ -22,7 +22,7 @@ const NftExpanded = ({ nft, cluster }) => {
   
   useEffect(() => {
     
-    if(nft.collection.hasOwnProperty('address') && nft.collection?.address !== "")
+    if(nft?.collection?.hasOwnProperty('address') && nft.collection?.address !== "")
     {
       if(nft.collection.hasOwnProperty('name'))
       {
@@ -132,7 +132,7 @@ const NftExpanded = ({ nft, cluster }) => {
       <div className="row">
         <motion.div className="col-12 col-lg-4" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className={styles.nft_image_container}>
-            {(nft.animation_url !== "" && (nft.animation_url.endsWith("glb") === true || nft.animation_url.endsWith("gltf") === true))?
+            {(nft.hasOwnProperty("animation_url") && nft.animation_url !== "" && (nft.animation_url?.endsWith("glb") === true || nft.animation_url?.endsWith("gltf") === true))?
             <>
               <div className={styles.nft_model_container}>
                 <div className={styles.nft_model_inner_container}>
@@ -153,14 +153,14 @@ const NftExpanded = ({ nft, cluster }) => {
                   <button className={`text-center ${styles.download_button}`} onClick={() => setShowExpObj(true)}>Preview</button>
                 </div>
                 <div className="px-3 pt-2">
-                  <a href={nft.animation_url} target="_blank" rel="noreferrer" className={`text-center ${styles.download_button}`} style={{textDecoration: "none", lineHeight: "30px"}}>Download</a>
+                  <a href={nft.animation_url ?? ""} target="_blank" rel="noreferrer" className={`text-center ${styles.download_button}`} style={{textDecoration: "none", lineHeight: "30px"}}>Download</a>
                 </div>
               </div>
             </>
             :
             <>
               <img ref={ref2}
-                src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift") || nft.image_uri.includes("dex-ray.gift")) ? unknown : (nft.image_uri)}
+                src={(nft.hasOwnProperty("image_uri") && (nft.image_uri === "" || nft.image_uri?.includes("ray-initiative.gift") || nft.image_uri?.includes("dex-ray.gift"))) ? unknown : (nft.image_uri)}
                 className="img-fluid"
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null; // prevents looping
@@ -220,7 +220,7 @@ const NftExpanded = ({ nft, cluster }) => {
               <p className={styles.section_desc}>{nft.description ?? "--"}</p>
             </motion.div>
             <div className={styles.nft_image_container_mob}>
-            {(nft.animation_url !== "" && (nft.animation_url.endsWith("glb") === true || nft.animation_url.endsWith("gltf") === true))?
+            {(nft.hasOwnProperty("animation_url") && nft.animation_url !== "" && (nft.animation_url?.endsWith("glb") === true || nft.animation_url?.endsWith("gltf") === true))?
                 <>
                   <div className={styles.nft_model_container}>
                     <div className={styles.nft_model_inner_container}>
@@ -244,7 +244,7 @@ const NftExpanded = ({ nft, cluster }) => {
               :
               <>
                 <motion.img
-                  src={(nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift") || nft.image_uri.includes("dex-ray.gift")) ? unknown : nft.image_uri}
+                  src={(nft?.hasOwnProperty("image_uri") && (nft.image_uri === "" || nft.image_uri.includes("ray-initiative.gift") || nft.image_uri.includes("dex-ray.gift"))) ? unknown : nft.image_uri}
                   ref={ref3}
                   className="img-fluid"
                   alt="nft"
@@ -357,7 +357,7 @@ const NftExpanded = ({ nft, cluster }) => {
                         styles={{ display: "inline" }}
                         arrowSize={5}
                       ><button onClick={() => copyValue(nft.collection?.address)}><img src={copyBtn} /></button></Tooltip>} */}
-                      {(nft.collection.hasOwnProperty('address') && nft.collection?.address !== "") ? <a href={(cluster === "mainnet-beta")?`/address/${nft.collection?.address}`:`/address/${nft.collection?.address}?cluster=${cluster}`}>{nft.collection?.name || collectionName || nft.collection?.family || nft.collection?.address}</a> : (nft.collection?.name || nft.collection?.family || nft.collection?.address || "--")}
+                      {(nft?.collection?.hasOwnProperty('address') && nft.collection?.address !== "") ? <a href={(cluster === "mainnet-beta")?`/address/${nft.collection?.address}`:`/address/${nft.collection?.address}?cluster=${cluster}`}>{nft.collection?.name || collectionName || nft.collection?.family || nft.collection?.address}</a> : (nft.collection?.name || nft.collection?.family || nft.collection?.address || "--")}
                     </div>
                   </div>
                 </div>
