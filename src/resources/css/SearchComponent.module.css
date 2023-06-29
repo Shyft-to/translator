@@ -104,10 +104,9 @@
   }
 
   .form_field_outer .form_field_inner {
-    background-color: transparent;
+    background-color: #2a0855;
     border-radius: 25px;
     padding: 6px 18px 10px;
-    border: 1px solid #fff5;
   }
 
   .form_field_outer .form_field_inner input {
@@ -224,6 +223,12 @@
 {
   position: relative;
   padding: 0px 16px;
+}
+@media screen and (max-width: 576px) {
+  .header_search_area .header_search_area_inner
+{
+  padding: 0px 0px;
+}
 }
 .token_search_container
 {
@@ -468,6 +473,11 @@
     width: 100%;
     padding-top: 10px;    
 }
+.menubar_container .menubar_container_inner
+{
+  display: flex;
+  justify-content: space-between;
+}
 
 .area_1
 {
@@ -484,4 +494,55 @@
 {
   padding: 4px 16px;
   width: 22%;
+}
+@media screen and (max-width: 1080px) {
+  .menubar_container .menubar_container_inner
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0px 20px;
+}
+.area_1
+{
+  padding: 4px 8px;
+  width: 50%;
+  order: 1;
+}
+.area_2
+{
+  width: 100%;
+  max-width: 1010px;
+  order: 3;
+  padding-top: 8px;
+}
+.area_3
+{
+  padding: 4px 16px;
+  width: 50%;
+  order: 2;
+}
+.connect_button_container .link_info_button img
+{
+  max-width: 60%;
+}
+  
+}
+@media screen and (max-width: 992px) {
+  .menubar_container .menubar_container_inner
+  {
+    padding: 0px 0px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .area_2
+  {
+    
+    padding-top: 2px;
+  }
+  .connect_button_container .link_info_button img
+  {
+    max-width: 40%;
+    margin-top: -4px;
+  }
 }

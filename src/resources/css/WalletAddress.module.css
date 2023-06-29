@@ -38,6 +38,12 @@
   padding: 80px 0px 40px;
 
 }
+@media screen and (max-width: 1080px) {
+  .background_super
+  {
+    padding: 100px 0px 40px;
+  }
+}
 .main_heading
 {
   font: 600 24px/24px "Geologica", sans-serif;
