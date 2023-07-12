@@ -276,7 +276,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     <AllNfts collections={data.collections} address={addr} network={cluster} />
                                 }
                                 {nftPanel === "CNFT" &&
-                                    <CnftSlider addr={addr} network={cluster} />
+                                    <CnftSlider addr={addr} cluster={cluster} />
                                 }
                             </div>
                         </div>}
