@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -14,9 +14,11 @@ import infoIcon from "../resources/images/info.svg";
 import { listOfAddresses } from "../utils/formatter";
 
 const SearchComponent = ({popup,setPopUp}) => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  const cluster = searchParams.get("cluster") ?? "mainnet-beta";
   // const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
-  const [network, setNetwork] = useState("mainnet-beta");
+  const [network, setNetwork] = useState(cluster);
   const [isFocused, setFocused] = useState(false);
 
   const [searchData, setSearchData] = useState([]);
