@@ -1157,6 +1157,117 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         setName(messg);
         setRelType("NONE");
       }
+      else if (data.type === "COMPRESSED_NFT_SALE") {
+        type_obj = {
+          type: "COMPRESSED_NFT_SALE",
+          buyer: data.info.buyer ?? "--",
+          seller: data.info.seller ?? "--",
+          token: "NFT",
+          action: "--",
+          // value: data.info.amount ?? "--",
+          value: data.info.price ?? "--",
+          symbol: "",
+          merkle_tree:  data.info.merkle_tree ?? "--",
+          royalty_percentage: data.info.royalty_percentage ?? "--"
+        };
+        setRelField(data.info.nft_address ?? "");
+        setCurrencyField(data.info.currency ?? "");
+        setRelType("NONE");
+      }
+      else if (data.type === "COMPRESSED_NFT_LIST") {
+        type_obj = {
+          type: "COMPRESSED_NFT_LIST",
+          marketplace: data.info.marketplace ?? "--",
+          seller: data.info.seller ?? "--",
+          token: "NFT",
+          action: "--",
+          // value: data.info.amount ?? "--",
+          value: data.info.price ?? "--",
+          symbol: "",
+          merkle_tree:  data.info.merkle_tree ?? "--",
+          // royalty_percentage: data.info.royalty_percentage ?? "--"
+        };
+        setRelField(data.info.nft_address ?? "");
+        setCurrencyField(data.info.currency ?? "");
+        setRelType("NONE");
+      }
+      else if (data.type === "COMPRESSED_NFT_LIST_UPDATE") {
+        type_obj = {
+          type: "COMPRESSED_NFT_LIST_UPDATE",
+          marketplace: data.info.marketplace ?? "--",
+          seller: data.info.seller ?? "--",
+          token: "NFT",
+          action: "--",
+          // value: data.info.amount ?? "--",
+          value: data.info.new_price ?? "--",
+          symbol: "",
+        };
+        setRelField(data.info.marketplace ?? "");
+        setCurrencyField(data.info.currency ?? "");
+        setRelType("NONE");
+      }
+      else if (data.type === "COMPRESSED_NFT_BID") {
+        type_obj = {
+          type: "COMPRESSED_NFT_BID",
+          marketplace: data.info.marketplace ?? "--",
+          bidder: data.info.bidder ?? "--",
+          token: "NFT",
+          action: "--",
+          // value: data.info.amount ?? "--",
+          value: data.info.price ?? "--",
+          symbol: "",
+        };
+        setRelField(data.info.marketplace ?? "");
+        setCurrencyField(data.info.currency ?? "");
+        setRelType("NONE");
+      }
+      else if (data.type === "COMPRESSED_NFT_TAKE_BID") {
+        type_obj = {
+          type: "COMPRESSED_NFT_TAKE_BID",
+          marketplace: data.info.marketplace ?? "--",
+          seller: data.info.seller ?? "--",
+          bidder: data.info.bidder ?? "--",
+          token: "NFT",
+          action: "--",
+          // value: data.info.amount ?? "--",
+          value: data.info.price ?? "--",
+          symbol: "",
+          royalty_percentage: data.info.royalty_percentage ?? "--"
+        };
+        setRelField(data.info.nft_address ?? "");
+        setCurrencyField(data.info.currency ?? "");
+        setRelType("NONE");
+      }
+      else if (data.type === "COMPRESSED_NFT_BID_CANCEL") {
+        type_obj = {
+          type: "COMPRESSED_NFT_BID_CANCEL",
+          marketplace: data.info.marketplace ?? "--",
+          bidder: data.info.bidder ?? "--",
+          token: "NFT",
+          action: "--",
+          // value: data.info.amount ?? "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.marketplace ?? "");
+        // setCurrencyField(data.info.currency ?? "");
+        setRelType("NONE");
+      }
+      else if (data.type === "COMPRESSED_NFT_LIST_CANCEL") {
+        type_obj = {
+          type: "COMPRESSED_NFT_LIST_CANCEL",
+          marketplace: data.info.marketplace ?? "--",
+          seller: data.info.seller ?? "--",
+          token: "NFT",
+          action: "--",
+          // value: data.info.amount ?? "--",
+          value: "--",
+          symbol: "",
+        };
+        setRelField(data.info.nft_address ?? "");
+        // setCurrencyField(data.info.currency ?? "");
+        setRelType("NONE");
+      }
       else {
         type_obj = {
           type: "",
@@ -2216,7 +2327,82 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                 </div>
               );
-            } else if (varFields.type === "NFT_SALE") {
+            } else if (varFields.type === "COMPRESSED_NFT_LIST") {
+              return (
+                <div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-8">
+                      <div className="d-flex justify-content-start">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Listed to </div>
+                        </div>
+                        <div className="pe-3">
+                          <img
+                            src={list}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.marketplace}`
+                                  : `/address/${varFields.marketplace}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.marketplace}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.marketplace)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        <div>
+                          {varFields.value} {currency}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-8">
+                      <div className="d-flex justify-content-start">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Listed by</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.seller}`
+                                  : `/address/${varFields.seller}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.seller}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.seller)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              );
+            }
+             else if (varFields.type === "NFT_SALE") {
               return (
                 <>
                   <div className="row pt-1">
@@ -2293,7 +2479,99 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                 </>
               );
-            } else if (varFields.type === "NFT_LIST_CANCEL") {
+            } else if (varFields.type === "COMPRESSED_NFT_SALE") {
+              return (
+                <>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-6">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Sold By</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.seller}`
+                                  : `/address/${varFields.seller}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.seller}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.seller)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        {varFields.value} {currency}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Sold To</div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.buyer}`
+                                  : `/address/${varFields.buyer}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.buyer}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.buyer)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-2">
+                      <div className={styles.field_sub_2}>
+                        <div className="d-flex justify-content-end">
+                          {/* <div className={`text-end pe-1`}>
+                            Royalty 
+                          </div> */}
+                          <div className="pe-1">
+                            <img
+                              src={royalty_crown}
+                              alt=""
+                              style={{ width: "14px", marginTop: "-2px" }}
+                            />
+                          </div>
+                          <div className={`text-end`}>
+                            {varFields.royalty_percentage ?? "--"}%
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+             else if (varFields.type === "NFT_LIST_CANCEL") {
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
@@ -2324,7 +2602,50 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                 </div>
               );
-            } else if (varFields.type === "NFT_LIST_UPDATE") {
+            } else if (varFields.type === "COMPRESSED_NFT_LIST_CANCEL") {
+              return (
+                <div className="row pt-1">
+                  <div className="col-12 col-md-6">
+                    <div className="d-flex">
+                      <div className="pe-2">
+                        <div className={styles.field_sub_1}>
+                          Listing Cancelled
+                        </div>
+                      </div>
+                      <div className="pe-3">
+                        <img
+                          src={cancel}
+                          alt=""
+                          style={{ width: "14px", marginTop: "-4px" }}
+                        />
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.field_sub_1}>
+                          by 
+                          <a
+                            href={
+                              cluster === "mainnet-beta"
+                                ? `/address/${varFields.seller}`
+                                : `/address/${varFields.seller}?cluster=${cluster}`
+                            }
+                            aria-label={varFields.seller}
+                            data-balloon-pos="up"
+                          >
+                            {shortenAddress(varFields.seller)}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className={`text-end ${styles.field_sub_1}`}>
+                      <div className={styles.plus}></div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+             else if (varFields.type === "NFT_LIST_UPDATE") {
               return (
                 <div className="row pt-1">
                   {varFields.from && varFields.to && (
@@ -2402,7 +2723,74 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                 </div>
               );
-            } else if (varFields.type === "NFT_BID") {
+            } else if (varFields.type === "COMPRESSED_NFT_LIST_UPDATE") {
+              return (
+                <div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex justify-content-start">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>New Price </div>
+                        </div>
+                        <div className="pe-2">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.value}`
+                                  : `/address/${varFields.value}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.value}
+                              data-balloon-pos="up"
+                            >
+                              {/* {shortenAddress(varFields.bidder)} */}
+                             {varFields.value ?? "--"} {currency}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-12">
+                      <div className="d-flex justify-content-start">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Updated by </div>
+                        </div>
+                        <div className="pe-2">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.seller}`
+                                  : `/address/${varFields.seller}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.seller}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.seller)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              );
+            }
+             else if (varFields.type === "NFT_BID") {
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
@@ -2443,7 +2831,112 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                 </div>
               );
-            } else if (varFields.type === "NFT_BID_CANCEL") {
+            } else if (varFields.type === "COMPRESSED_NFT_BID") {
+              return (
+                <div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-8">
+                      <div className="d-flex justify-content-start">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>Bid by </div>
+                        </div>
+                        <div className="pe-2">
+                          <img
+                            src={bid}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.bidder}`
+                                  : `/address/${varFields.bidder}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.bidder}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.bidder)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        <div>
+                          {varFields.value} {currency}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              );
+            } else if (varFields.type === "COMPRESSED_NFT_TAKE_BID") {
+              return (
+                <div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-8">
+                      <div className="d-flex justify-content-start">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.seller}`
+                                  : `/address/${varFields.seller}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.seller}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.seller)}
+                            </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>accepted bid </div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={bid}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>from </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.bidder}`
+                                  : `/address/${varFields.bidder}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.bidder}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.bidder)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        <div>
+                          {varFields.value} {currency}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              );
+            }
+             else if (varFields.type === "NFT_BID_CANCEL") {
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-11">
@@ -2484,7 +2977,49 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                         </div> */}
                 </div>
               );
-            } else if (varFields.type === "MARKETPLACE_WITHDRAW") {
+            } else if (varFields.type === "COMPRESSED_NFT_BID_CANCEL") {
+              return (
+                <div className="row pt-1">
+                  <div className="col-12 col-md-11">
+                    <div className="d-flex">
+                      <div className="pe-2">
+                        <div className={styles.field_sub_1}>Bid Cancelled</div>
+                      </div>
+                      <div className="pe-3">
+                        <img
+                          src={cancel}
+                          alt=""
+                          style={{ width: "14px", marginTop: "-4px" }}
+                        />
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.field_sub_1}>
+                          <a
+                            href={
+                              cluster === "mainnet-beta"
+                                ? `/address/${varFields.bidder}`
+                                : `/address/${varFields.bidder}?cluster=${cluster}`
+                            }
+                            aria-label={varFields.bidder}
+                            data-balloon-pos="up"
+                          >
+                            {shortenAddress(varFields.bidder)}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div className="col-12 col-md-6">
+                                            <div className={`text-end ${styles.field_sub_2}`}>
+                                                <div>
+                                                    {varFields.value} {currency}
+                                                </div>
+                                            </div>
+                                        </div> */}
+                </div>
+              );
+            }
+             else if (varFields.type === "MARKETPLACE_WITHDRAW") {
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
