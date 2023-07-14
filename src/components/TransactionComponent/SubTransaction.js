@@ -1733,7 +1733,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     </>
                   )
                 }
-                else if (data.type === "COMPRESSED_NFT_TRANSFER" || data.type === "COMPRESSED_NFT_MINT" || data.type === "COMPRESSED_NFT_BURN") {
+                else if (data.type === "COMPRESSED_NFT_TRANSFER" || data.type === "COMPRESSED_NFT_MINT" || data.type === "COMPRESSED_NFT_BURN" || data.type === "COMPRESSED_NFT_SALE" || data.type === "COMPRESSED_NFT_LIST" || data.type === "COMPRESSED_NFT_LIST_CANCEL" || data.type === "COMPRESSED_NFT_TAKE_BID") {
                   return (
                     <>
                       {
