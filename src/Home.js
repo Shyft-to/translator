@@ -18,6 +18,7 @@ import { userLogon } from "./utils/dboperations";
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
 import * as bs58 from "bs58";
+import axios from "axios";
 
 const staticAddresses = [
   {
@@ -170,21 +171,32 @@ const Home = ({popup, setPopUp}) => {
 
   }
   const connectWallet = async (wallet_address) => {
-    // const message = "Hi! This is SHYFT Website";
-    // const encodedMessage = new TextEncoder().encode(message);
+    const message = "Hi! This is SHYFT Website";
+    const encodedMessage = new TextEncoder().encode(message);
     
-    // const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
-    // console.log(signedMessageFromWallet);
-    // console.log(bs58.encode(signedMessageFromWallet));
-    
-
-    localStorage.setItem("reac_wid","");
-    const isUser = await userLogon(wallet_address);
-    if(isUser.success)
+    const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+    console.log(signedMessageFromWallet);
+    console.log(bs58.encode(signedMessageFromWallet));
+    await axios.request(
     {
-      localStorage.setItem("reac_wid",wallet_address);
-      navigate(`/feed`)
-    }
+        url: "http://localhost:4000/user-login",
+        method: "POST",
+        data: {
+          encoded_message: message,
+          signed_message: bs58.encode(signedMessageFromWallet),
+          public_key: wallet_address
+        }
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log(err.response.data));
+
+    // localStorage.setItem("reac_wid","");
+    // const isUser = await userLogon(wallet_address);
+    // if(isUser.success)
+    // {
+    //   localStorage.setItem("reac_wid",wallet_address);
+    //   navigate(`/feed`)
+    // }
 
   }
   // useEffect(() => {
