@@ -2612,7 +2612,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           Listing Cancelled
                         </div>
                       </div>
-                      <div className="pe-3">
+                      <div className="pe-2">
                         <img
                           src={cancel}
                           alt=""
@@ -2621,7 +2621,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       </div>
                       <div className="pe-1">
                         <div className={styles.field_sub_1}>
-                          by 
+                          by{" "} 
                           <a
                             href={
                               cluster === "mainnet-beta"

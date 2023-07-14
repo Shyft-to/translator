@@ -591,6 +591,11 @@ export const listOfAddresses = [
         network:"mainnet-beta"
     },
     {
+        domain:"Tensor cNFTs",
+        address:"TCMPhJdwDryooaGtiocG1u3xcYbRpiJzb283XfCZsDp", 
+        network:"mainnet-beta"
+    },
+    {
         domain:"Tensor Swap",
         address:"TSWAPaqyCSx2KABk68Shruf4rp7CxcNi8hAsbdwmHbN", 
         network:"mainnet-beta"
