@@ -67,7 +67,8 @@ const FeedTransactions = ({ address, cluster }) => {
     setLoading(true);
     setTxns([]);
     setLiveTxns([]);
-    if (address) {
+    const xToken = localStorage.getItem("reac_wid") ?? "";
+    if (address && xToken) {
       var params = {
         network: cluster,
         account: address,
@@ -80,10 +81,11 @@ const FeedTransactions = ({ address, cluster }) => {
       //     }
       //   }
       axios({
-        url: `http://localhost:4000/getTransactions/${address}/${cluster}/1`,
+        url: `${process.env.REACT_APP_BACKEND_EP}/getTransactions/${cluster}/1`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${xToken}`
           // "x-api-key": xKey,
         },
         // params: params,
@@ -121,6 +123,7 @@ const FeedTransactions = ({ address, cluster }) => {
 
   const getPrevNext = (value) => {
     setLoading(true);
+    const xToken = localStorage.getItem("reac_wid") ?? "";
     // var params = {
     //   network: cluster,
     //   account: address,
@@ -138,13 +141,12 @@ const FeedTransactions = ({ address, cluster }) => {
     //   };
     // }
     axios({
-      url: `http://localhost:4000/getTransactions/${address}/${cluster}/${value}`,
-      method: "GET",
+      url: `${process.env.REACT_APP_BACKEND_EP}/getTransactions/${cluster}/${value}`,
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // "x-api-key": xKey,
+        "Authorization": `Bearer ${xToken}`
       },
-      // params: params,
     })
       .then((res) => {
 

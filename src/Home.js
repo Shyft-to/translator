@@ -179,23 +179,32 @@ const Home = ({popup, setPopUp}) => {
     console.log(bs58.encode(signedMessageFromWallet));
     await axios.request(
     {
-        url: "http://localhost:4000/user-login",
+        url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
         method: "POST",
         data: {
           encoded_message: message,
           signed_message: bs58.encode(signedMessageFromWallet),
-          public_key: wallet_address
+          wallet_address: wallet_address
         }
     })
-    .then(res => console.log(res))
-    .catch(err => console.log(err.response.data));
+    .then(res => {
+      if(res.data.success)
+      {
+        localStorage.setItem("reac_wid",res.data.accessToken);
+        navigate(`/feed`);
+      }
+    })
+    .catch(err => {
+      console.log(err.response.data);
+      localStorage.setItem("reac_wid","");
+    });
 
     // localStorage.setItem("reac_wid","");
     // const isUser = await userLogon(wallet_address);
     // if(isUser.success)
     // {
     //   localStorage.setItem("reac_wid",wallet_address);
-    //   navigate(`/feed`)
+    //   
     // }
 
   }
