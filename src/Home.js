@@ -191,7 +191,7 @@ const Home = ({popup, setPopUp}) => {
       if(res.data.success)
       {
         localStorage.setItem("reac_wid",res.data.accessToken);
-        navigate(`/feed`);
+        navigate(`/feed?cluster=${network}`);
       }
     })
     .catch(err => {

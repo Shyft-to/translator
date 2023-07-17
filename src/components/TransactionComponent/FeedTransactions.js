@@ -17,6 +17,7 @@ import avatar2 from "../../resources/images/txnImages/avatar2.svg";
 import { AnimatePresence } from "framer-motion";
 import { getTxnUptoSignature } from "../../utils/getAllData";
 import { getRelativetime, shortenAddress } from "../../utils/formatter";
+import AnimatedTxnLoader from "../loaders/AnimatedTxnLoader";
 
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -352,7 +353,7 @@ const FeedTransactions = ({ address, cluster }) => {
           </div>
           <div className="pt-2 text-center ten-height">
 
-            {isLoading && <TxnLoader />}
+            {isLoading && <AnimatedTxnLoader />}
             {/* {(isLoading === false && moreTxns === false && errOcc === false) ? <div className={styles.could_not_text}>Genesis Transaction Reached</div> : ""} */}
             {/* <button className="btn btn-light" onClick={() => getPrevNext("next")}>Load More</button> */}
           </div>
