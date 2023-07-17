@@ -77,9 +77,9 @@ const AddressComponent = ({popup,setPopUp}) => {
 
     useEffect(() => {
         console.log("is user followed");
-        // const currentWallet = localStorage.getItem("reac_wid");
-      if(currentWallet)
-        isUserFollowed(currentWallet,addr,cluster)
+        const xToken = localStorage.getItem("reac_wid");
+      if(xToken)
+        isUserFollowed(addr,cluster,xToken)
             .then(res => {
                 console.log(res);
                 if(res.success === true)
@@ -88,12 +88,29 @@ const AddressComponent = ({popup,setPopUp}) => {
                 }
             })
             .catch(err => console.log(err));
+        console.log("im im here")
+        if(addr)
+        {
+            getFollowData(addr,cluster)
+            .then(res => {
+                console.log("Returned from getfollowdata12321312:",res)
+                if(res.success === true)
+                {
+                    setFollowing(res.following);
+                    setFollowers(res.followers);
+                }
+            })
+            .catch(err => console.log(err))
+        }
+            
     }, [])
 
     useEffect(() => {
+        
       if(addr)
         getFollowData(addr,cluster)
         .then(res => {
+            console.log("Returned from getfollowdata12321312:",res.data)
             if(res.success === true)
             {
                 setFollowing(res.following);
@@ -101,7 +118,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             }
         })
     
-    }, [isFollowed]);
+    }, [addr,cluster,isFollowed]);
     
     
     

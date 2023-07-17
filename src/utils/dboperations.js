@@ -214,7 +214,56 @@ export async function followUser(wallet_address,followed_address,cluster)
     }
   }
 }
-export async function isUserFollowed(wallet_address, followed_address,cluster)
+export async function isUserFollowed(followed_address, cluster, xToken)
+{
+  var response = {
+    success:false,
+    message: "Wrong Params Supplied"
+  }
+  if (xToken !== "" && followed_address !== "") {
+    await axios.request({
+      url: `${process.env.REACT_APP_BACKEND_EP}/isUserFollowed`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${xToken}`
+      },
+      params: {
+        followed_user: followed_address,
+        network: cluster
+      }
+    })
+    .then(res => {
+      if(res.data.success === true)
+      {
+        if(res.data.followed === true)
+          response = {
+            success:true,
+            message: "user is followed"
+          }
+        else
+          response = {
+            success:false,
+            message: "user not followed"
+          }
+      }
+    })
+    .catch((err) =>{
+      console.log(err);
+      response = {
+        success:false,
+        message: "Internal Server Error"
+      }
+    })
+  } else {
+    response =  {
+      success:false,
+      message: "Wrong Params Supplied"
+    }
+  }
+  return response;
+}
+export async function isUserFollowedOld(wallet_address, followed_address, cluster)
 {
   const database = createClient(supabaseUrl, supabaseKey);
   const { data,error } = await database
@@ -374,8 +423,53 @@ export async function unFollowUser(wallet_address,followed_address,cluster)
     }
   }
 }
-
-export async function getFollowData(wallet_address,network)
+export async function getFollowData(address,network)
+{
+  var response = {
+    success: true,
+    message: "could not get data",
+    followers: 0,
+    following: 0
+  }
+  if(address !== "" && network !== "")
+  {
+      await axios.request({
+        url: `${process.env.REACT_APP_BACKEND_EP}/getFollowData`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          
+        },
+        params: {
+          network: network,
+          wallet_address: address
+        }
+      })
+      .then(res => {
+        
+        if(res.data.success === true)
+        {
+          response =  {
+            success: true,
+            message: "Follower Data Found",
+            followers: res.data.followers,
+            following: res.data.following
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err)
+         response =  {
+          success: false,
+          message: "Follower Data Not Found",
+          followers: 0,
+          following: 0
+        }
+      });    
+  }
+  return response;
+}
+export async function getFollowDataOld(wallet_address,network)
 {
   var response = {
     success: false,
