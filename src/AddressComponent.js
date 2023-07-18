@@ -23,6 +23,8 @@ import ClickToTop from "./ClickToTop";
 import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
 import CnftSlider from "./components/CnftSlider";
 import { followUser,getFollowData,isUserFollowed, unFollowUser } from "./utils/dboperations";
+import ButtonLoader from "./components/loaders/ButtonLoader";
+import FolUnfolLoader from "./components/loaders/FolUnfolLoader";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -288,6 +290,8 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
                                         {!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>}
+                                        {/* <ButtonLoader /> */}
+                                        {/* <FolUnfolLoader follow={false} /> */}
                                     </div>
                                 </div>
                                 <div className="row pt-4">

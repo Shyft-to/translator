@@ -14,6 +14,7 @@ import rotateRefresh from "../../resources/images/txnImages/refresh_rotate.gif";
 import duration from "../../resources/images/txnImages/duration.png";
 import { AnimatePresence } from "framer-motion";
 import { getTxnUptoSignature } from "../../utils/getAllData";
+import TransactionSearching from "../loaders/TransactionSearching";
 
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -321,7 +322,7 @@ const Transactions = ({ address, cluster }) => {
           </div>
           <div className="pt-2 text-center ten-height">
 
-            {isLoading && <TxnLoader />}
+            {isLoading && <TransactionSearching />}
             {(isLoading === false && moreTxns === false && errOcc === false) ? <div className={styles.could_not_text}>Genesis Transaction Reached</div> : ""}
             {/* <button className="btn btn-light" onClick={() => getPrevNext("next")}>Load More</button> */}
           </div>
