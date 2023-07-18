@@ -352,7 +352,7 @@ export async function unFollowUser(xToken,followed_address,cluster)
           "Content-Type": "application/json",
           "Authorization": `Bearer ${xToken}`
         },
-        body: {
+        data: {
           followed_address:followed_address,
           network:cluster
         }
