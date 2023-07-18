@@ -51,7 +51,51 @@ export async function userLogon(wallet_address)
     }
     return message;
 }
-export async function followUser(wallet_address,followed_address,cluster)
+export async function followUser(xToken,followed_address,cluster)
+{
+  var response = {
+      success:false,
+      message:"Some Error Occured"
+    }
+  try {
+    if(xToken !== "" && followed_address !== "" && cluster !== "")
+    {
+      await axios({
+        url: `${process.env.REACT_APP_BACKEND_EP}/followUser`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${xToken}`
+        },
+        body: {
+          followed_address:followed_address,
+          network:cluster
+        }
+      })
+      .then(res => {
+        if(res.data.success === true)
+        {
+          response = {
+            success:true,
+            message:"User was followed"
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        throw err;
+      })
+    }
+    else
+    {
+      throw new Error("WRONG PARAMS")
+    }
+  } catch (error) {
+    console.log(error.message)
+  }
+  return response;
+}
+export async function followUserOld(wallet_address,followed_address,cluster)
 {
   var alreadyExisting = false;
   const database = createClient(supabaseUrl, supabaseKey);
@@ -290,8 +334,52 @@ export async function isUserFollowedOld(wallet_address, followed_address, cluste
       }
     }
 }
+export async function unFollowUser(xToken,followed_address,cluster)
+{
+  var response = {
+      success:false,
+      message:"Some Error Occured"
+    }
+  try {
+    if(xToken !== "" && followed_address !== "" && cluster !== "")
+    {
+      await axios({
+        url: `${process.env.REACT_APP_BACKEND_EP}/unfollowUser`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${xToken}`
+        },
+        body: {
+          followed_address:followed_address,
+          network:cluster
+        }
+      })
+      .then(res => {
+        if(res.data.success === true)
+        {
+          response = {
+            success:true,
+            message:"User was unfollowed"
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        throw err;
+      })
+    }
+    else
+    {
+      throw new Error("WRONG PARAMS")
+    }
+  } catch (error) {
+    console.log(error.message)
+  }
+  return response;
+}
 
-export async function unFollowUser(wallet_address,followed_address,cluster)
+export async function unFollowUserOld(wallet_address,followed_address,cluster)
 {
   const database = createClient(supabaseUrl, supabaseKey);
   console.log("wal:",wallet_address);

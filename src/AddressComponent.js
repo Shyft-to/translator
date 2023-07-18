@@ -88,20 +88,6 @@ const AddressComponent = ({popup,setPopUp}) => {
                 }
             })
             .catch(err => console.log(err));
-        console.log("im im here")
-        if(addr)
-        {
-            getFollowData(addr,cluster)
-            .then(res => {
-                console.log("Returned from getfollowdata12321312:",res)
-                if(res.success === true)
-                {
-                    setFollowing(res.following);
-                    setFollowers(res.followers);
-                }
-            })
-            .catch(err => console.log(err))
-        }
             
     }, [])
 
@@ -110,7 +96,6 @@ const AddressComponent = ({popup,setPopUp}) => {
       if(addr)
         getFollowData(addr,cluster)
         .then(res => {
-            console.log("Returned from getfollowdata12321312:",res.data)
             if(res.success === true)
             {
                 setFollowing(res.following);
@@ -118,7 +103,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             }
         })
     
-    }, [addr,cluster,isFollowed]);
+    }, [isFollowed]);
     
     
     
@@ -202,12 +187,12 @@ const AddressComponent = ({popup,setPopUp}) => {
     }
     const followuser = async () => {
         
-        //const wallet_address = localStorage.getItem("reac_wid");
+        const xToken = localStorage.getItem("reac_wid") ?? "";
         console.log("clicked follow");
-        if(currentWallet)
+        if(xToken !== "")
         {
             const followed_user = addr;
-            const resp = await followUser(currentWallet,followed_user,cluster);
+            const resp = await followUser(xToken,followed_user,cluster);
             if(resp.success === true)
                 setIsFollowed(true);
         }
@@ -216,11 +201,12 @@ const AddressComponent = ({popup,setPopUp}) => {
     const unfollowuser = async () => {
         
         //const wallet_address = localStorage.getItem("reac_wid");
+        const xToken = localStorage.getItem("reac_wid") ?? "";
         console.log("clicked unfollow");
-        if(currentWallet)
+        if(xToken !== "")
         {
             const unfollowed_user = addr;
-            const resp = await unFollowUser(currentWallet,unfollowed_user,cluster);
+            const resp = await unFollowUser(xToken,unfollowed_user,cluster);
             if(resp.success === true)
                 setIsFollowed(false);
         }
