@@ -53,6 +53,8 @@ export async function userLogon(wallet_address)
 }
 export async function followUser(xToken,followed_address,cluster)
 {
+  console.log("Xtoken:",xToken);
+  console.log("folltoken:",followed_address);
   var response = {
       success:false,
       message:"Some Error Occured"
@@ -67,7 +69,7 @@ export async function followUser(xToken,followed_address,cluster)
           "Content-Type": "application/json",
           "Authorization": `Bearer ${xToken}`
         },
-        body: {
+        data: {
           followed_address:followed_address,
           network:cluster
         }

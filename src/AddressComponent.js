@@ -188,7 +188,9 @@ const AddressComponent = ({popup,setPopUp}) => {
     const followuser = async () => {
         
         const xToken = localStorage.getItem("reac_wid") ?? "";
+        
         console.log("clicked follow");
+        console.log("xtoken",xToken);
         if(xToken !== "")
         {
             const followed_user = addr;
