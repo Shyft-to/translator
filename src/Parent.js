@@ -80,48 +80,48 @@ const Parent = () => {
         <div>
             <ConnectionProvider endpoint={endpoint}>
                 <Router>
-                    <ScrollToTop />
+                    <WalletProvider wallets={wallets} autoConnect>
+                        <WalletModalProvider>
+                            <ScrollToTop />
 
-                    <Routes>
+                            <Routes>
 
-                        <Route exact path="/" element={
-                            <WalletProvider wallets={wallets} autoConnect>
-                                <WalletModalProvider>
-                                    <Home popup={popup} setPopUp={setPopUp} />
-                                </WalletModalProvider>
-                            </WalletProvider>
-                        } />
-                        <Route exact path="/address/:addr" element={
-                            <>
-                                <WalletProvider wallets={wallets} autoConnect>
-                                    <WalletModalProvider>
-                                        <div className="container pt-2 pb-1">
-                                            <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
-                                        </div>
-                                    </WalletModalProvider>
-                                </WalletProvider>
-                                <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
-                            </>
-                        } />
-                        <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp} />} />
-                        <Route exact path="/tx/:txn" element={<TxnComponent popup={popup} setPopUp={setPopUp} />} />
-                        <Route exact path="/collections/:addr" element={<CollectionsComponent popup={popup} setPopUp={setPopUp} />} />
-                        <Route exact path="/collection/:addr" element={<SingleCollectionComponent popup={popup} setPopUp={setPopUp} />} />
-                        <Route exact path="/feed" element={
-                            <>
-                                <WalletProvider wallets={wallets} autoConnect>
-                                    <WalletModalProvider>
-                                        <div className="container pt-2 pb-1">
-                                            <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
-                                        </div>
-                                    </WalletModalProvider>
-                                </WalletProvider>
-                                <FeedComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
-                            </>
-                        } />
-                        {/* <Route exact path="/:type/:addr" element={<TokenComponent />} /> */}
-                        <Route exact path="*" element={<Four04 />} />
-                    </Routes>
+                                <Route exact path="/" element={
+                                    
+                                            <Home popup={popup} setPopUp={setPopUp} />
+                                        
+                                } />
+                                <Route exact path="/address/:addr" element={
+                                    <>
+                                                <div className="container pt-2 pb-1">
+                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                                </div>
+                                        <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                    </>
+                                } />
+                                <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp} />} />
+                                <Route exact path="/tx/:txn" element={
+                                    <TxnComponent popup={popup} setPopUp={setPopUp} />
+                                } />
+                                <Route exact path="/collections/:addr" element={<CollectionsComponent popup={popup} setPopUp={setPopUp} />} />
+                                <Route exact path="/collection/:addr" element={<SingleCollectionComponent popup={popup} setPopUp={setPopUp} />} />
+                                <Route exact path="/feed" element={
+                                    <>
+                                        {/* <WalletProvider wallets={wallets} autoConnect>
+                                            <WalletModalProvider> */}
+                                                <div className="container pt-2 pb-1">
+                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                                </div>
+                                            {/* </WalletModalProvider>
+                                        </WalletProvider> */}
+                                        <FeedComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                    </>
+                                } />
+                                {/* <Route exact path="/:type/:addr" element={<TokenComponent />} /> */}
+                                <Route exact path="*" element={<Four04 />} />
+                            </Routes>
+                        </WalletModalProvider>
+                    </WalletProvider>
                 </Router>
 
             </ConnectionProvider>

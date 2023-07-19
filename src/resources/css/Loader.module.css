@@ -11,7 +11,8 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #FDF41B;
+    /* background: #FDF41B; */
+    background: #FFF;
     position: absolute;
     opacity: 0;
     left: 0;

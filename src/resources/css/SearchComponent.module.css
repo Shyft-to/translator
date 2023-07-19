@@ -499,7 +499,7 @@
   background-color: #2a0855;
   color: #fffc;
   padding: 8px 16px;
-  font: 400 16px/18px "Jost",sans-serif;
+  font: 400 12px/18px "Jost",sans-serif;
 }
 .dropdown_menu .dropdown_image
 {
@@ -514,6 +514,8 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   border-radius: 10px;
+  padding-top: 10px;
+  text-align: center;
 }
 .dropdown_menu .dropdown_content a
 {
@@ -535,4 +537,5 @@
 .dropdown_menu .link_type:hover
 {
   color: #fff;
+  background-color: transparent !important;
 }

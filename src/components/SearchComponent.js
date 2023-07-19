@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
 // import { useWallet } from '@solana/wallet-adapter-react';
+import * as bs58 from "bs58";
+import axios from "axios";
 
 import styles from "../resources/css/SearchComponent.module.css";
 import { getAddressfromDomain } from "../utils/getAllData";
@@ -13,9 +15,10 @@ import infoIcon from "../resources/images/info.svg";
 import homeIcon from "../resources/images/home_icon.svg";
 import profIcon from "../resources/images/unknown_token.svg";
 
-import { listOfAddresses } from "../utils/formatter";
+import { listOfAddresses, shortenAddress } from "../utils/formatter";
 import FollowerList from "./FollowerList";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { WalletDisconnectButton, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const SearchComponent = ({ popup, setPopUp }) => {
   const navigate = useNavigate();
@@ -30,6 +33,8 @@ const SearchComponent = ({ popup, setPopUp }) => {
 
   const [isFocused, setFocused] = useState(false);
   const [searchData, setSearchData] = useState([]);
+
+  const userWallet = useWallet();
 
   useEffect(() => {
     try {
@@ -130,10 +135,48 @@ const SearchComponent = ({ popup, setPopUp }) => {
     }
 
   }
-  const logout = () => {
-    localStorage.setItem("reac_wid","");
-    navigate("/");
-  }
+  // useEffect(() => {
+  //   if(userWallet.publicKey)
+  //   {
+  //     connectWallet(userWallet.publicKey?.toBase58())
+  //   }
+    
+  // }, [userWallet.publicKey])
+
+  // const connectWallet = async (wallet_address) => {
+  //   const message = "Hi! This is SHYFT Website";
+  //   const encodedMessage = new TextEncoder().encode(message);
+    
+  //   const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+  //   console.log(signedMessageFromWallet);
+  //   console.log(bs58.encode(signedMessageFromWallet));
+  //   await axios.request(
+  //   {
+  //       url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
+  //       method: "POST",
+  //       data: {
+  //         encoded_message: message,
+  //         signed_message: bs58.encode(signedMessageFromWallet),
+  //         wallet_address: wallet_address
+  //       }
+  //   })
+  //   .then(res => {
+  //     if(res.data.success)
+  //     {
+  //       localStorage.setItem("reac_wid",res.data.accessToken);
+  //       navigate(`/feed?cluster=${network}`);
+  //     }
+  //   })
+  //   .catch(err => {
+  //     console.log(err.response.data);
+  //     localStorage.setItem("reac_wid","");
+  //   });
+  // }
+  
+  // const logout = () => {
+  //   localStorage.setItem("reac_wid","");
+  //   navigate("/");
+  // }
   return (
     <motion.div className={styles.header_search_area} initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }}>
       {/* <OpenPopup setPopUp={setPopUp}/> */}
@@ -254,27 +297,28 @@ const SearchComponent = ({ popup, setPopUp }) => {
                 <div className={styles.connect_button_container}>
                   <div className={styles.links_list}>
                   {
-                    currentWallet ?
+                    (userWallet?.publicKey) ?
                     <>
-                      <a href={`/feed`} style={{border: "3px solid #2a0855"}}>
+                      <a href={`/feed?cluster=${network}`} style={{border: "3px solid #2a0855"}}>
                         <img src={homeIcon} />
                         Feed
                       </a>
                       <div className={styles.dropdown_menu}>
                         <div className={styles.menu_head}>
                           <img src={profIcon} className={styles.dropdown_image} />
-                          4avg2...c2
+                          {shortenAddress(userWallet.publicKey?.toBase58())}
                         </div>
                         <div className={styles.dropdown_content}>
                           <div className={styles.link_type} onClick={() => setShowFoll(true)}>Following</div>
-                          <div className={styles.link_type} onClick={logout}>Disconnect</div>
+                          {/* <div className={styles.link_type} onClick={logout}>Disconnect</div> */}
+                          <WalletDisconnectButton className={styles.link_type} />
                           {/* <a href="#">Link 3</a> */}
                         </div>
                       </div>
                       
-                    </>:
+                    </>:""
                     
-                    <WalletMultiButton className="wallet-button"/>
+                    // <WalletMultiButton className="wallet-button"/>
                   }
                   <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
                     <img src={infoIcon} />

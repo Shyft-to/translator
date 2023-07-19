@@ -82,6 +82,7 @@ const AddressComponent = ({popup,setPopUp}) => {
 
     useEffect(() => {
         console.log("is user followed");
+        setIsFollowed(false);
         const xToken = localStorage.getItem("reac_wid");
       if(xToken)
         isUserFollowed(addr,cluster,xToken)
@@ -94,7 +95,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             })
             .catch(err => console.log(err));
             
-    }, [])
+    }, [addr,cluster])
 
     useEffect(() => {
         
@@ -108,7 +109,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             }
         })
     
-    }, [isFollowed]);
+    }, [addr,cluster,isFollowed]);
     
     
     
