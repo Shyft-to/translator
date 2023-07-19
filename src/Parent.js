@@ -69,7 +69,7 @@ const Parent = () => {
             new LedgerWalletAdapter(),
             new SolletExtensionWalletAdapter(),
             new SolletWalletAdapter(),
-            new UnsafeBurnerWalletAdapter()
+            // new UnsafeBurnerWalletAdapter()
         ],
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [network]
@@ -85,7 +85,7 @@ const Parent = () => {
                     <Routes>
 
                         <Route exact path="/" element={
-                            <WalletProvider wallets={wallets}>
+                            <WalletProvider wallets={wallets} autoConnect>
                                 <WalletModalProvider>
                                     <Home popup={popup} setPopUp={setPopUp} />
                                 </WalletModalProvider>

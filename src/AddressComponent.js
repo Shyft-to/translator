@@ -6,6 +6,7 @@ import { shortenAddress,formatNames,getProgramNamefromAddr } from "./utils/forma
 import { motion } from "framer-motion";
 import { FaLink } from "react-icons/fa";
 import Tooltip from 'react-tooltip-lite';
+import toast, { Toaster } from 'react-hot-toast';
 import styles from "./resources/css/WalletAddress.module.css";
 
 import AllNfts from "./components/AllNfts";
@@ -205,6 +206,21 @@ const AddressComponent = ({popup,setPopUp}) => {
                 setIsFollowed(true);
                 setFollowLoading("FOLLOWED");
             }
+            else if(resp.success === false && resp.message === "limit_reached")
+            {
+                toast('Cannot follow more than 5 wallets',
+                {
+                    icon: '👏',
+                    style: {
+                      borderRadius: '10px',
+                      background: '#1E0C36',
+                      color: '#fff',
+                      border: '1px solid white',
+                      fontFamily: "Jost"
+                    },
+                  })
+            }
+                
             setTimeout(() => {
                 setFollowLoading("NO_ACTION");
             }, 2000);
@@ -242,9 +258,13 @@ const AddressComponent = ({popup,setPopUp}) => {
             {/* <HeaderComponent /> */}
             
             <div className={styles.background_super}>
-
+                <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                />
                 <div className="container pt-2 pb-1">
                     {/* <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet}/> */}
+                    
                 </div>
                 {isLoading &&
                     <div className="container-lg pt-4 pt-md-5 pt-xl-3">

@@ -15,6 +15,7 @@ import profIcon from "../resources/images/unknown_token.svg";
 
 import { listOfAddresses } from "../utils/formatter";
 import FollowerList from "./FollowerList";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const SearchComponent = ({ popup, setPopUp }) => {
   const navigate = useNavigate();
@@ -272,7 +273,8 @@ const SearchComponent = ({ popup, setPopUp }) => {
                       </div>
                       
                     </>:
-                    <button>Connect Wallet</button>
+                    
+                    <WalletMultiButton className="wallet-button"/>
                   }
                   <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
                     <img src={infoIcon} />

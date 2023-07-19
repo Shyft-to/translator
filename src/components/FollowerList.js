@@ -52,9 +52,11 @@ const FollowerList = ({setShowFoll}) => {
             {   const newFolList = followerList.filter(user => user.id!==id);
                 setFollowerList(newFolList);
                 setUnfollowing("UNFOLLOWED");
+                setRemId(-1);
             }
             setTimeout(() => {
                 setUnfollowing("NOT_CLICKED");
+                
             }, 2000);
         }   
     }

@@ -82,9 +82,17 @@ export async function followUser(xToken,followed_address,cluster)
             message:"User was followed"
           }
         }
+        if(res.data.success === false && res.data.message === "Limit_reached")
+        {
+          response = {
+            success:false,
+            message:"limit_reached"
+          }
+        }
       })
       .catch(err => {
         console.log(err);
+        console.log("follow Api error");
         throw err;
       })
     }
@@ -94,6 +102,7 @@ export async function followUser(xToken,followed_address,cluster)
     }
   } catch (error) {
     console.log(error.message)
+    
   }
   return response;
 }
