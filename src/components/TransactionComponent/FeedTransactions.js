@@ -69,7 +69,7 @@ const FeedTransactions = ({ address, cluster }) => {
     setTxns([]);
     setLiveTxns([]);
     const xToken = localStorage.getItem("reac_wid") ?? "";
-    if (address && xToken) {
+    if (xToken) {
       var params = {
         network: cluster,
         account: address,
@@ -120,7 +120,7 @@ const FeedTransactions = ({ address, cluster }) => {
           setLoading(false);
         });
     }
-  }, [address, cluster]);
+  }, [cluster]);
 
   const getPrevNext = (value) => {
     setLoading(true);
@@ -353,7 +353,7 @@ const FeedTransactions = ({ address, cluster }) => {
           </div>
           <div className="pt-2 text-center ten-height">
 
-            {isLoading && <AnimatedTxnLoader />}
+            {isLoading && <TxnLoader />}
             {/* {(isLoading === false && moreTxns === false && errOcc === false) ? <div className={styles.could_not_text}>Genesis Transaction Reached</div> : ""} */}
             {/* <button className="btn btn-light" onClick={() => getPrevNext("next")}>Load More</button> */}
           </div>
