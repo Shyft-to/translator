@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useWallet } from '@solana/wallet-adapter-react';
+// import { useWallet } from '@solana/wallet-adapter-react';
 
 import styles from "../resources/css/SearchComponent.module.css";
 import { getAddressfromDomain } from "../utils/getAllData";
@@ -14,16 +14,18 @@ import homeIcon from "../resources/images/home_icon.svg";
 import profIcon from "../resources/images/unknown_token.svg";
 
 import { listOfAddresses } from "../utils/formatter";
+import FollowerList from "./FollowerList";
 
 const SearchComponent = ({ popup, setPopUp }) => {
   const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState("mainnet-beta");
   const currentWallet = localStorage.getItem("reac_wid");
+  const [showFoll,setShowFoll] = useState(false);
 
   // const currentTab = searchParams.get("tab") ?? "TXN";
   // const navigate = useNavigate();
-  const { publicKey } = useWallet();
+  // const { publicKey } = useWallet();
 
   const [isFocused, setFocused] = useState(false);
   const [searchData, setSearchData] = useState([]);
@@ -127,11 +129,16 @@ const SearchComponent = ({ popup, setPopUp }) => {
     }
 
   }
+  const logout = () => {
+    localStorage.setItem("reac_wid","");
+    navigate("/");
+  }
   return (
     <motion.div className={styles.header_search_area} initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }}>
       {/* <OpenPopup setPopUp={setPopUp}/> */}
       {popup && <PopupView setPopUp={setPopUp} />}
-
+      
+      {showFoll && <FollowerList setShowFoll={setShowFoll}/>}
       <div className={styles.header_search_area_inner}>
         <div className="container-fluid">
           <div className={styles.menubar_container}>
@@ -246,14 +253,25 @@ const SearchComponent = ({ popup, setPopUp }) => {
                 <div className={styles.connect_button_container}>
                   <div className={styles.links_list}>
                   {
-                    currentWallet ?<>
+                    currentWallet ?
+                    <>
                       <a href={`/feed`} style={{border: "3px solid #2a0855"}}>
                         <img src={homeIcon} />
                         Feed
                       </a>
-                      <a href={`/address/${currentWallet}`} style={{border: "2px solid #9650E5", paddingLeft: "10px",paddingRight: "16px"}}>
-                        <img src={profIcon} />
-                      4avg2...c2</a></>:
+                      <div className={styles.dropdown_menu}>
+                        <div className={styles.menu_head}>
+                          <img src={profIcon} className={styles.dropdown_image} />
+                          4avg2...c2
+                        </div>
+                        <div className={styles.dropdown_content}>
+                          <div className={styles.link_type} onClick={() => setShowFoll(true)}>Following</div>
+                          <div className={styles.link_type} onClick={logout}>Disconnect</div>
+                          {/* <a href="#">Link 3</a> */}
+                        </div>
+                      </div>
+                      
+                    </>:
                     <button>Connect Wallet</button>
                   }
                   <button className={styles.link_info_button} onClick={() => setPopUp(true)}>

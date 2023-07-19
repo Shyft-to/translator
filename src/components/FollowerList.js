@@ -1,11 +1,12 @@
 import { useState,useEffect } from "react";
 import styles from "../resources/css/followerList.module.css";
-import { getFollowingList } from "../utils/dboperations";
+import { getFollowingList, unFollowUser } from "../utils/dboperations";
 import { shortenAddress } from "../utils/formatter";
-const FollowerList = () => {
+const FollowerList = ({setShowFoll}) => {
     const [followerList,setFollowerList] = useState([]);
     const [loading,setLoading] = useState("UNLOADED");
-     
+    const [unfollowing,setUnfollowing] = useState("NOT_CLICKED");
+    const [remId,setRemId] = useState(-1);
     useEffect(() => {
         getFollowList()
     }, [])
@@ -37,6 +38,26 @@ const FollowerList = () => {
             }
         }
     }
+    const unfollowuser = async (id,addr,cluster) => {
+        //const wallet_address = localStorage.getItem("reac_wid");
+        const xToken = localStorage.getItem("reac_wid") ?? "";
+        console.log("clicked unfollow");
+        if(xToken !== "")
+        {
+            setRemId(id);
+            setUnfollowing("LOADING");
+            const unfollowed_user = addr;
+            const resp = await unFollowUser(xToken,unfollowed_user,cluster);
+            if(resp.success === true)
+            {   const newFolList = followerList.filter(user => user.id!==id);
+                setFollowerList(newFolList);
+                setUnfollowing("UNFOLLOWED");
+            }
+            setTimeout(() => {
+                setUnfollowing("NOT_CLICKED");
+            }, 2000);
+        }   
+    }
     
     return (
     <div className="modal show" style={{display: "block", backdropFilter:"blur(10px)"}}>
@@ -44,7 +65,7 @@ const FollowerList = () => {
           <div className={`modal-content ${styles.modal_body_outer}`}>
             <div className="modal-header border-bottom-0">
               <h4 className={`modal-title ${styles.modal_heading}`}>You are following</h4>
-              <button type="button" className="btn text-light">✖</button>
+              <button type="button" className="btn text-light" onClick={() => setShowFoll(false)}>✖</button>
             </div>
       
             <div className="modal-body">
@@ -66,15 +87,15 @@ const FollowerList = () => {
                 }
                 {
                     (loading === "LOADED") && followerList.map((follow) => 
-                        <div className={styles.each_follower}>
+                        <div className={styles.each_follower} key={follow.id}>
                             <div className="d-flex justify-content-between">
                                 <div className={styles.wallet_address_name}>{shortenAddress(follow.followed_address) ?? "--"}</div>
                                 <div>
-                                    <button className={styles.wallet_unfollow_button}>Unfollow</button>
-                                    {/* <div className="text-center" style={{width: "80px", height: "26px"}}>
+                                    {(remId === follow.id) ?
+                                    <div className="text-center" style={{width: "80px", height: "26px"}}>
                                         <span className={styles.loader_small}></span>
-                                    </div> */}
-                                    
+                                    </div>:
+                                    <button className={styles.wallet_unfollow_button} onClick={() => unfollowuser(follow.id,follow.followed_address, follow.cluster)}>Unfollow</button>}
                                 </div>
                             </div>
                         </div>
