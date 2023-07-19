@@ -38,7 +38,7 @@ const Parent = () => {
     const pubKeyFromSession = localStorage.getItem("reac_wid");
 
     useEffect(() => {
-        console.log("pubkey:", pubKeyFromSession)
+        // console.log("pubkey:", pubKeyFromSession)
         console.log(currentWallet);
         if (pubKeyFromSession)
             setConnectedWallet(pubKeyFromSession)

@@ -97,168 +97,43 @@ export async function followUser(xToken,followed_address,cluster)
   }
   return response;
 }
-export async function followUserOld(wallet_address,followed_address,cluster)
+export async function getFollowingList(xToken)
 {
-  var alreadyExisting = false;
-  const database = createClient(supabaseUrl, supabaseKey);
-  console.log("wal:",wallet_address);
-  console.log("fol:",followed_address);
-  var flag = 0;
-  const response = await database
-    .from('user_follow')
-    .select()
-    .eq("wallet_address",wallet_address)
-    .match({
-      followed_address: followed_address,
-      cluster: cluster
-    });
-
-    console.log(response.data);
-  if(response.data.length === 0)
-  {
-    const { error } = await database
-      .from('user_follow')
-      .insert({ 
-        wallet_address: wallet_address,
-        followed_address: followed_address,
-        cluster:cluster
-        });
-    //create callback or modify
-    console.log("followed")
-    if(!error)
-      flag++;
-    const currentUserCallback = await database
-    .from('user_details')
-    .select()
-    .eq("wallet_address",wallet_address);
-
-    console.log("what we got for that user:",currentUserCallback.data);
-    
-    var callbackToBeModified;
-    if(cluster === "devnet")
-      callbackToBeModified = currentUserCallback.data[0].callback_devnet;
-    else if(cluster === "testnet")
-      callbackToBeModified = currentUserCallback.data[0].callback_testnet;
-    else
-      callbackToBeModified = currentUserCallback.data[0].callback_mainnet; 
-    
-    console.log("callback to be modified",callbackToBeModified)
-    if(!callbackToBeModified)
+  var response = {
+    success: false,
+    message: "Could Not get Data",
+    isFollowing:false,
+    followList:[]
+  }
+  try {
+    if(xToken !== "")
     {
-      //new callback to create
-      let data = JSON.stringify({
-        network: cluster,
-        addresses: [
-          followed_address
-        ],
-        "callback_url": `https://d67c-2405-201-8010-50c5-b878-831f-f9dd-5ed6.ngrok-free.app/callback/${wallet_address}/${cluster}`,
-      });
-      const endpoint = process.env.REACT_APP_MAINCALLBACK_EP;
-      
       await axios({
-        url: `${endpoint}callback/create`,
-        method: "POST",
+        url:`${process.env.REACT_APP_BACKEND_EP}/getUserFollowers`,
+        method:"GET",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": process.env.REACT_APP_MAINCALLBACK_KEY,
-        },
-        data : data
+          "Authorization": `Bearer ${xToken}` 
+        }
       })
-        .then(async (res) => {
-          if (res.data.success === true) {
-            const createdCallbackId = res.data.result.id;
-            var table_to_be_updated;
-            if(cluster === "devnet")
-              table_to_be_updated = { callback_devnet: createdCallbackId };
-            else if(cluster === "testnet")
-              table_to_be_updated = { callback_devnet: createdCallbackId };
-            else
-              table_to_be_updated = { callback_devnet: createdCallbackId }; 
-
-            const { error } = await database
-              .from('user_details')
-              .update(table_to_be_updated)
-              .eq('wallet_address', wallet_address);
-            console.log("callback id to db");
-            console.log(error);
-            if(!error)
-            {
-              flag++;
-            }
+      .then(res => {
+        if(res.data.success === true)
+        {
+          response = {
+            success: true,
+            message: res.data.message,
+            isFollowing: res.data.isFollowing,
+            followList: res.data.followList
           }
-        })
-        .catch((err) => {
-          console.warn(err);
-        });
-
-    }
-    else
-    {
-      console.log("callback already exists");
-      var callbackIdmModify;
-
-      if(cluster === "devnet")
-        callbackIdmModify = currentUserCallback.data[0].callback_devnet;
-      else if(cluster === "testnet")
-        callbackIdmModify = currentUserCallback.data[0].callback_testnet;
-      else
-        callbackIdmModify = currentUserCallback.data[0].callback_mainnet; 
-
-      const currentUserfollowed = await database
-        .from('user_follow')
-        .select()
-        .eq("wallet_address",wallet_address);
-      var followAddresses = [];
-      currentUserfollowed.data.forEach((follow_addr) => {
-        followAddresses.push(follow_addr.followed_address)
+        }
       })
-      let data = JSON.stringify({
-        id: callbackIdmModify,
-        addresses: [
-          ...followAddresses
-        ]
-      });
-
-      const endpoint = process.env.REACT_APP_MAINCALLBACK_EP;
-      await axios({
-        url: `${endpoint}callback/update`,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": process.env.REACT_APP_MAINCALLBACK_KEY,
-        },
-        data : data
-      })
-        .then(async (res) => {
-          if (res.data.success === true) {
-            console.log(res.data.result);
-            flag ++;
-          }
-        })
-        .catch((err) => {
-          console.warn(err);
-        });
-
+      .catch(err => {throw err});
     }
-    if(flag === 2)
-      return {
-        success:true,
-        message:"User Followed"
-      }
-    else
-      return {
-        success:false,
-        message:"user not followed"
-      }
+  } catch (error) {
+    console.log("Error while getting followers list");
+    
   }
-  else
-  {
-    console.log("Already Followed");
-    return {
-      success:true,
-      message:"User was already followed"
-    }
-  }
+  return response;
 }
 export async function isUserFollowed(followed_address, cluster, xToken)
 {
@@ -309,33 +184,7 @@ export async function isUserFollowed(followed_address, cluster, xToken)
   }
   return response;
 }
-export async function isUserFollowedOld(wallet_address, followed_address, cluster)
-{
-  const database = createClient(supabaseUrl, supabaseKey);
-  const { data,error } = await database
-    .from('user_follow')
-    .select()
-    .eq("wallet_address",wallet_address)
-    .match({
-      followed_address: followed_address,
-      cluster:cluster
-    });
 
-    if(!error && data.length === 1)
-    {
-      return {
-        success:true,
-        message: "user is followed"
-      }
-    }
-    else
-    {
-      return {
-        success:false,
-        message: "user not followed"
-      }
-    }
-}
 export async function unFollowUser(xToken,followed_address,cluster)
 {
   var response = {

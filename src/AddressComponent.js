@@ -25,6 +25,7 @@ import CnftSlider from "./components/CnftSlider";
 import { followUser,getFollowData,isUserFollowed, unFollowUser } from "./utils/dboperations";
 import ButtonLoader from "./components/loaders/ButtonLoader";
 import FolUnfolLoader from "./components/loaders/FolUnfolLoader";
+import FollowerList from "./components/FollowerList";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -57,6 +58,7 @@ const AddressComponent = ({popup,setPopUp}) => {
      const [isFollowed,setIsFollowed] = useState(false);
      const [followers,setFollowers] = useState(0);
      const [following,setFollowing] = useState(0);
+     const [followLoading,setFollowLoading] = useState("NO_ACTION");
 
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     useEffect(() => {
@@ -192,13 +194,20 @@ const AddressComponent = ({popup,setPopUp}) => {
         const xToken = localStorage.getItem("reac_wid") ?? "";
         
         console.log("clicked follow");
-        console.log("xtoken",xToken);
+        
         if(xToken !== "")
         {
+            setFollowLoading("LOADING");
             const followed_user = addr;
             const resp = await followUser(xToken,followed_user,cluster);
             if(resp.success === true)
+            {
                 setIsFollowed(true);
+                setFollowLoading("FOLLOWED");
+            }
+            setTimeout(() => {
+                setFollowLoading("NO_ACTION");
+            }, 2000);
         }
         
     }
@@ -209,10 +218,17 @@ const AddressComponent = ({popup,setPopUp}) => {
         console.log("clicked unfollow");
         if(xToken !== "")
         {
+            setFollowLoading("LOADING");
             const unfollowed_user = addr;
             const resp = await unFollowUser(xToken,unfollowed_user,cluster);
             if(resp.success === true)
+            {
                 setIsFollowed(false);
+                setFollowLoading("UNFOLLOWED");
+            }
+            setTimeout(() => {
+                setFollowLoading("NO_ACTION");
+            }, 2000);
         }
         
     }
@@ -224,6 +240,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             {popup && <PopupView setPopUp={setPopUp} />} */}
             
             {/* <HeaderComponent /> */}
+            
             <div className={styles.background_super}>
 
                 <div className="container pt-2 pb-1">
@@ -289,9 +306,10 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         </div>
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
-                                        {!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>}
-                                        {/* <ButtonLoader /> */}
-                                        {/* <FolUnfolLoader follow={false} /> */}
+                                        {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
+                                        {(followLoading === "LOADING") && <ButtonLoader />}
+                                        {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />}
+                                        {(followLoading === "UNFOLLOWED") && <FolUnfolLoader follow={false} />}
                                     </div>
                                 </div>
                                 <div className="row pt-4">
