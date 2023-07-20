@@ -574,7 +574,7 @@
     width: 16px;
   }
 }
-@media screen and (max-width: 1700px) {
+@media screen and (max-width: 1399px) {
   .menubar_container .menubar_container_inner
 {
   display: flex;
