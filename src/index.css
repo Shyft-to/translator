@@ -266,7 +266,12 @@ body {
   text-decoration: none;
   color: #fff;
 }
-@media screen and (max-width:970px){
+@media screen and (max-width:1100px){
+  .logo_container {
+    font: 700 24px/28px "Geologica", sans-serif;
+    letter-spacing: 0.02em;
+    width: 250px;
+  }
   .logo_area
   {
     display: none;
@@ -282,9 +287,13 @@ body {
   .logo_container {
     font: 700 32px/32px "Montserrat", sans-serif;
     width: 90vw !important;
-  
   }
-  
+}
+@media screen and (max-width:576px){
+  .logo_container {
+    font: 700 24px/28px "Montserrat", sans-serif;
+    width: 90vw !important;
+  }
 }
 .myTarget .react-tooltip-lite {
   width: 76px;
