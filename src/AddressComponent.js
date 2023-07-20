@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { FaLink } from "react-icons/fa";
 import Tooltip from 'react-tooltip-lite';
 import toast, { Toaster } from 'react-hot-toast';
+import * as bs58 from "bs58";
+import axios from "axios";
 import styles from "./resources/css/WalletAddress.module.css";
 
 import AllNfts from "./components/AllNfts";
@@ -27,6 +29,8 @@ import { followUser,getFollowData,isUserFollowed, unFollowUser } from "./utils/d
 import ButtonLoader from "./components/loaders/ButtonLoader";
 import FolUnfolLoader from "./components/loaders/FolUnfolLoader";
 import FollowerList from "./components/FollowerList";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -37,9 +41,12 @@ const AddressComponent = ({popup,setPopUp}) => {
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
     const currentTab = searchParams.get("tab") ?? "TXN";
     const isCompressedNft = searchParams.get("compressed") ?? "false";
-    const currentWallet = localStorage.getItem("reac_wid");
+    // const currentWallet = localStorage.getItem("reac_wid");
     const navigate = useNavigate();
 
+    const { setVisible } = useWalletModal();
+    const userWallet = useWallet();
+    // console.log("public key:",publicKey);
     const [panel, setPanel] = useState("TXN");
     const [nftPanel,setNftPanel] = useState("NFT");
     const [copied, setCopied] = useState("Copy");
@@ -60,6 +67,8 @@ const AddressComponent = ({popup,setPopUp}) => {
      const [followers,setFollowers] = useState(0);
      const [following,setFollowing] = useState(0);
      const [followLoading,setFollowLoading] = useState("NO_ACTION");
+
+     const[clickedFollowLoggedOut,setClickedConnectLoggedOut] = useState(false);
 
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     useEffect(() => {
@@ -209,8 +218,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             }
             else if(resp.success === false && resp.message === "limit_reached")
             {
-                toast('Cannot follow more than 5 wallets',
-                {
+                toast('Cannot follow more than 5 wallets',{
                     icon: '👏',
                     style: {
                       borderRadius: '10px',
@@ -220,6 +228,19 @@ const AddressComponent = ({popup,setPopUp}) => {
                       fontFamily: "Jost"
                     },
                   })
+            }
+            else
+            {
+                toast('Error while following',{
+                    icon: '❌',
+                    style: {
+                    borderRadius: '10px',
+                    background: '#1E0C36',
+                    color: '#fff',
+                    border: '1px solid white',
+                    fontFamily: "Jost"
+                    },
+                })
             }
                 
             setTimeout(() => {
@@ -243,11 +264,85 @@ const AddressComponent = ({popup,setPopUp}) => {
                 setIsFollowed(false);
                 setFollowLoading("UNFOLLOWED");
             }
+            else
+            {
+                toast('Error while unfollowing',{
+                    icon: '❌',
+                    style: {
+                    borderRadius: '10px',
+                    background: '#1E0C36',
+                    color: '#fff',
+                    border: '1px solid white',
+                    fontFamily: "Jost"
+                    },
+                })
+            }
             setTimeout(() => {
                 setFollowLoading("NO_ACTION");
             }, 2000);
         }
         
+    }
+    const openFollowPopup = () => {
+        setClickedConnectLoggedOut(true);
+        setVisible(true);
+    }
+    useEffect(() => {
+        if(userWallet.publicKey && clickedFollowLoggedOut === true)
+        {
+            connectNFollow(userWallet.publicKey?.toBase58())
+            
+        }
+    }, [userWallet.publicKey]);
+
+    const connectNFollow = async(wallet_address) => {
+        localStorage.setItem("reac_wid","");
+        
+        const message = "Hi! This is SHYFT Website";
+        const encodedMessage = new TextEncoder().encode(message);
+        
+        const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+
+        if(signedMessageFromWallet)
+            setClickedConnectLoggedOut(false);
+        setFollowLoading("LOADING");
+        await axios.request(
+        {
+            url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
+            method: "POST",
+            data: {
+            encoded_message: message,
+            signed_message: bs58.encode(signedMessageFromWallet),
+            wallet_address: wallet_address
+            }
+        })
+        .then(res => {
+        // console.log("After Submission: ",res.data);
+        setFollowLoading("NO_ACTION");
+        if(res.data.success)
+        {
+            localStorage.setItem("reac_wid",res.data.accessToken);
+            // navigate(`/feed?cluster=${network}`);
+            followuser();
+        }
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            setFollowLoading("NO_ACTION");
+            localStorage.setItem("reac_wid","");
+            toast('Error while connecting wallet',{
+                icon: '❌',
+                style: {
+                borderRadius: '10px',
+                background: '#1E0C36',
+                color: '#fff',
+                border: '1px solid white',
+                fontFamily: "Jost"
+                },
+            })
+        
+        });
+
     }
 
     return (
@@ -327,10 +422,15 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         </div>
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
-                                        {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
-                                        {(followLoading === "LOADING") && <ButtonLoader />}
-                                        {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />}
-                                        {(followLoading === "UNFOLLOWED") && <FolUnfolLoader follow={false} />}
+                                        {(userWallet?.publicKey !== null)?<>
+                                            {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
+                                            {(followLoading === "LOADING") && <ButtonLoader />}
+                                            {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />}
+                                            {(followLoading === "UNFOLLOWED") && <FolUnfolLoader follow={false} />}
+                                        </>:
+                                        <>
+                                        <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>
+                                        </>}
                                     </div>
                                 </div>
                                 <div className="row pt-4">

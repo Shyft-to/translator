@@ -14,6 +14,7 @@ import PopupView from "../PopupView";
 import infoIcon from "../resources/images/info.svg";
 import homeIcon from "../resources/images/home_icon.svg";
 import profIcon from "../resources/images/unknown_token.svg";
+import follIcon from "../resources/images/followers.png";
 
 import { listOfAddresses, shortenAddress } from "../utils/formatter";
 import FollowerList from "./FollowerList";
@@ -155,6 +156,7 @@ const SearchComponent = ({ popup, setPopUp }) => {
   // }, [userWallet.publicKey])
 
   // const connectWallet = async (wallet_address) => {
+  //   localStorage.setItem("reac_wid","");
   //   const message = "Hi! This is SHYFT Website";
   //   const encodedMessage = new TextEncoder().encode(message);
     
@@ -310,10 +312,10 @@ const SearchComponent = ({ popup, setPopUp }) => {
                   {
                     (userWallet?.publicKey) ?
                     <>
-                      <a href={`/feed?cluster=${network}`} style={{border: "3px solid #2a0855"}}>
+                      {/* <a href={`/feed?cluster=${network}`} style={{border: "3px solid #2a0855"}}>
                         <img src={homeIcon} />
                         Feed
-                      </a>
+                      </a> */}
                       <div className={styles.dropdown_menu}>
                         <div className={styles.menu_head}>
                           <img src={profIcon} className={styles.dropdown_image} />
@@ -321,8 +323,10 @@ const SearchComponent = ({ popup, setPopUp }) => {
                         </div>
                         <div className={styles.dropdown_content}>
                           <div className={styles.link_type} onClick={() => setShowFoll(true)}>Following</div>
+                          <a className={styles.link_type} href={`/feed?cluster=${network}`}>Feed</a>
                           {/* <div className={styles.link_type} onClick={logout}>Disconnect</div> */}
                           <WalletDisconnectButton className={styles.link_type} onClick={walletDisconnected}/>
+                          {/* <a href="#">Link 3</a> */}
                           {/* <a href="#">Link 3</a> */}
                         </div>
                       </div>
