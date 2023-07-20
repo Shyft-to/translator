@@ -94,15 +94,21 @@ const AddressComponent = ({popup,setPopUp}) => {
         setIsFollowed(false);
         const xToken = localStorage.getItem("reac_wid");
       if(xToken)
+      {
+        setFollowLoading("LOADING");
         isUserFollowed(addr,cluster,xToken)
-            .then(res => {
-                console.log(res);
-                if(res.success === true)
-                {
-                    setIsFollowed(true);
-                }
-            })
-            .catch(err => console.log(err));
+        .then(res => {
+            console.log(res);
+            if(res.success === true)
+            {
+                setIsFollowed(true);
+            }
+        })
+        .catch(err => console.log(err));
+        setFollowLoading("NO_ACTION");
+
+      }
+        
             
     }, [addr,cluster])
 
