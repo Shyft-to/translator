@@ -10,6 +10,8 @@ import { getAddressfromDomain } from "./utils/getAllData";
 import TxnLoader from "./components/loaders/TxnLoader";
 
 import searchIcon from "./resources/images/uil_search.svg";
+import crossIcon from "./resources/images/cross-icon.png";
+
 import PopupView from "./PopupView";
 import OpenPopup from "./OpenPopup";
 import { listOfAddresses } from "./utils/formatter";
@@ -53,6 +55,8 @@ const Home = ({popup, setPopUp}) => {
   const [isFocused, setFocused] = useState(false);
 
   const [searchData, setSearchData] = useState([]);
+
+  const [connectionProgress,setConnectionProgress] = useState("UNLOADED");
 
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: "/", title: "HomePage" });
@@ -171,12 +175,15 @@ const Home = ({popup, setPopUp}) => {
 
   }
   const connectWallet = async (wallet_address) => {
+    localStorage.setItem("reac_wid","");
     const message = "Hi! This is SHYFT Website";
     const encodedMessage = new TextEncoder().encode(message);
     
     const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
-    console.log(signedMessageFromWallet);
-    console.log(bs58.encode(signedMessageFromWallet));
+    // console.log(signedMessageFromWallet);
+    // console.log(bs58.encode(signedMessageFromWallet));
+    // console.log("Submitting Signature");
+    setConnectionProgress("LOADING");
     await axios.request(
     {
         url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
@@ -188,6 +195,8 @@ const Home = ({popup, setPopUp}) => {
         }
     })
     .then(res => {
+      // console.log("After Submission: ",res.data);
+      setConnectionProgress("LOADED");
       if(res.data.success)
       {
         localStorage.setItem("reac_wid",res.data.accessToken);
@@ -196,7 +205,11 @@ const Home = ({popup, setPopUp}) => {
     })
     .catch(err => {
       console.log(err.response.data);
+      setConnectionProgress("ERROR");
       localStorage.setItem("reac_wid","");
+      setTimeout(() => {
+        setConnectionProgress("UNLOADED");
+      }, 1000);
     });
 
     // localStorage.setItem("reac_wid","");
@@ -319,6 +332,10 @@ const Home = ({popup, setPopUp}) => {
                   <WalletMultiButton className="wallet-button"/>
                 </div>
             </motion.div>
+            <div className="pt-4">
+                  {(connectionProgress === "LOADING") && <TxnLoader />}
+                  {(connectionProgress === "ERROR") && <img src={crossIcon} style={{width:"20px", margin: "0 auto", display: "block"}}/>}
+            </div>
           </div>
         </div>
 
