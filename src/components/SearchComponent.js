@@ -19,6 +19,7 @@ import { listOfAddresses, shortenAddress } from "../utils/formatter";
 import FollowerList from "./FollowerList";
 import { WalletDisconnectButton, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
+import DisconnectLoader from "./loaders/DisconnectedLoader";
 
 const SearchComponent = ({ popup, setPopUp }) => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const SearchComponent = ({ popup, setPopUp }) => {
   const [network, setNetwork] = useState("mainnet-beta");
   const currentWallet = localStorage.getItem("reac_wid");
   const [showFoll,setShowFoll] = useState(false);
+  const [disconn,setDisconn] = useState(false);
 
   // const currentTab = searchParams.get("tab") ?? "TXN";
   // const navigate = useNavigate();
@@ -134,6 +136,15 @@ const SearchComponent = ({ popup, setPopUp }) => {
       window.location.href = `/address/${wallet}?cluster=${network}`;
     }
 
+  }
+  const walletDisconnected = () => {
+    console.log("wallet Disconnected");
+    setDisconn(true);
+    localStorage.setItem("reac_wid","");
+    setTimeout(() => {
+      setDisconn(false);
+      navigate('/');
+    }, 1000);
   }
   // useEffect(() => {
   //   if(userWallet.publicKey)
@@ -311,7 +322,7 @@ const SearchComponent = ({ popup, setPopUp }) => {
                         <div className={styles.dropdown_content}>
                           <div className={styles.link_type} onClick={() => setShowFoll(true)}>Following</div>
                           {/* <div className={styles.link_type} onClick={logout}>Disconnect</div> */}
-                          <WalletDisconnectButton className={styles.link_type} />
+                          <WalletDisconnectButton className={styles.link_type} onClick={walletDisconnected}/>
                           {/* <a href="#">Link 3</a> */}
                         </div>
                       </div>
@@ -334,7 +345,7 @@ const SearchComponent = ({ popup, setPopUp }) => {
                   </button>
                 </div> */}
               </div>
-              
+              {disconn && <DisconnectLoader />}
             </div>
             </div>
         </div>

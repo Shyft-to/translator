@@ -81,7 +81,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     }, [addr, cluster]);
 
     useEffect(() => {
-        console.log("is user followed");
+        // console.log("is user followed");
         setIsFollowed(false);
         const xToken = localStorage.getItem("reac_wid");
       if(xToken)
