@@ -21,6 +21,7 @@ import { WalletMultiButton, useWalletModal } from '@solana/wallet-adapter-react-
 import { useWallet } from '@solana/wallet-adapter-react';
 import * as bs58 from "bs58";
 import axios from "axios";
+import { BarLoader } from "react-spinners";
 
 const staticAddresses = [
   {
@@ -331,20 +332,32 @@ const Home = ({popup, setPopUp}) => {
             </form>
             <motion.div className="row" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
                 <div className="col-12 col-md-9 p-2 pt-4">
+                  {(connectionProgress === "LOADING")?<button id="start_search" className={styles.btn_solid_grad} style={{opacity:"0.4"}}>
+                    Translate
+                  </button>:
                   <button id="start_search" className={styles.btn_solid_grad} onClick={(e) => {
                     addDataNavigate(wallet, network)}
                   }>
                     Translate
-                  </button>
+                  </button>}
                 </div>
                 <div className="col-12 col-md-3 p-2 pt-2 pt-md-4">
                   {(userWallet?.publicKey)?<WalletMultiButton className="wallet-button"/>:
                   <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
                 </div>
             </motion.div>
-            <div className="pt-4">
-                  {(connectionProgress === "LOADING") && <TxnLoader />}
+            <div className="pt-5">
+                  {/* {(connectionProgress === "LOADING") && <TxnLoader />} */}
                   {(connectionProgress === "ERROR") && <img src={crossIcon} style={{width:"20px", margin: "0 auto", display: "block"}}/>}
+                  <BarLoader 
+                    color={"#fff"}
+                    loading={connectionProgress === "LOADING"}
+                    cssOverride={{
+                      display: "block",
+                      margin: "0 auto",
+                      borderColor: "yellow",
+                    }}
+                  />
             </div>
           </div>
         </div>
