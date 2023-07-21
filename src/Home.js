@@ -17,7 +17,7 @@ import OpenPopup from "./OpenPopup";
 import { listOfAddresses } from "./utils/formatter";
 import { userLogon } from "./utils/dboperations";
 
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { WalletMultiButton, useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
 import * as bs58 from "bs58";
 import axios from "axios";
@@ -48,6 +48,8 @@ const staticAddresses = [
 const Home = ({popup, setPopUp}) => {
   const navigate = useNavigate();
   const userWallet = useWallet();
+  const { setVisible } = useWalletModal();
+  const [clickedConnectWallet,setClickedConnectWallet] = useState(false);
   const [wallet, setWallet] = useState('');
   const [network, setNetwork] = useState('mainnet-beta');
   const [loadingAddr,setLoadingAddr] = useState(false);
@@ -77,8 +79,11 @@ const Home = ({popup, setPopUp}) => {
   }, [])
 
   useEffect(() => {
-    if(userWallet.publicKey)
+    if(userWallet.publicKey && clickedConnectWallet === true)
+    {
+      setClickedConnectWallet(false);
       connectWallet(userWallet.publicKey?.toBase58())
+    }
   }, [userWallet.publicKey])
   
 
@@ -231,6 +236,10 @@ const Home = ({popup, setPopUp}) => {
   //   }
   
   // }, [wallet])
+  const connectWalletOnClick = () => {
+    setClickedConnectWallet(true);
+    setVisible(true);
+  }
   
   return (
     <div>
@@ -329,7 +338,8 @@ const Home = ({popup, setPopUp}) => {
                   </button>
                 </div>
                 <div className="col-12 col-md-3 p-2 pt-2 pt-md-4">
-                  <WalletMultiButton className="wallet-button"/>
+                  {(userWallet?.publicKey)?<WalletMultiButton className="wallet-button"/>:
+                  <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
                 </div>
             </motion.div>
             <div className="pt-4">

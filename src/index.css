@@ -790,6 +790,7 @@ body {
   background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
   width: 100% !important;
   justify-content: center !important;
+  border: none;
   padding: 0px !important;
   height: auto !important;
   font: 500 0.9rem/1.2rem "Montserrat", sans-serif !important;
