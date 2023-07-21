@@ -32,6 +32,7 @@ import FollowerList from "./components/FollowerList";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PulseLoader } from "react-spinners";
+import FolUnfolLoaderFull from "./components/loaders/FolUnfolLoaderFull";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -305,7 +306,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     const connectNFollow = async(wallet_address) => {
         localStorage.setItem("reac_wid","");
         
-        const message = "Hi! This is SHYFT Website";
+        const message = process.env.REACT_APP_SHARE_MSG ?? "Hi! My name is Translator. I translate Solana for humans.";
         const encodedMessage = new TextEncoder().encode(message);
         
         const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
@@ -429,11 +430,14 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         </div>
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
+                                    
                                         {(userWallet?.publicKey !== null)?<>
                                             {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
                                             {(followLoading === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}
-                                            {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />}
-                                            {(followLoading === "UNFOLLOWED") && <FolUnfolLoader follow={false} />}
+                                            {/* {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />} */}
+                                            {(followLoading === "FOLLOWED") && <FolUnfolLoaderFull follow={true}/>}
+                                            {/* {(followLoading === "UNFOLLOWED") && <FolUnfolLoader follow={false} />} */}
+                                            {(followLoading === "UNFOLLOWED") && <FolUnfolLoaderFull follow={false}/>}
                                         </>:
                                         <>
                                             <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>

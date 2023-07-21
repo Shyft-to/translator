@@ -182,7 +182,7 @@ const Home = ({popup, setPopUp}) => {
   }
   const connectWallet = async (wallet_address) => {
     localStorage.setItem("reac_wid","");
-    const message = "Hi! This is SHYFT Website";
+    const message = process.env.REACT_APP_SHARE_MSG ?? "Hi! My name is Translator. I translate Solana for humans.";
     const encodedMessage = new TextEncoder().encode(message);
     
     const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
