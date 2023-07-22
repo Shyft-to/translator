@@ -14,7 +14,7 @@ import PopupView from "../PopupView";
 import infoIcon from "../resources/images/info.svg";
 import homeIcon from "../resources/images/home_icon.svg";
 import profIcon from "../resources/images/unknown_token.svg";
-import follIcon from "../resources/images/followers.png";
+import follIcon from "../resources/images/followers-2.png";
 
 import { listOfAddresses, shortenAddress } from "../utils/formatter";
 import FollowerList from "./FollowerList";
@@ -322,8 +322,14 @@ const SearchComponent = ({ popup, setPopUp }) => {
                           {shortenAddress(userWallet.publicKey?.toBase58())}
                         </div>
                         <div className={styles.dropdown_content}>
-                          <div className={styles.link_type} onClick={() => setShowFoll(true)}>Following</div>
-                          <a className={styles.link_type} href={`/feed?cluster=${network}`}>Feed</a>
+                          <div className={styles.link_type} onClick={() => setShowFoll(true)}>
+                            <img src={follIcon} className={styles.dropdown_image} alt="Feed" style={{opacity: 0.4, width: "20px", marginRight: "14px"}}/>
+                            Following
+                          </div>
+                          <a className={styles.link_type} href={`/feed?cluster=${network}`} style={{paddingTop: "6px"}}>
+                            <img src={homeIcon} className={styles.dropdown_image} style={{width: "20px", marginRight: "14px"}} alt="Feed" />
+                            Feed
+                          </a>
                           {/* <div className={styles.link_type} onClick={logout}>Disconnect</div> */}
                           <WalletDisconnectButton className={styles.link_type} onClick={walletDisconnected}/>
                           {/* <a href="#">Link 3</a> */}

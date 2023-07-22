@@ -447,7 +447,7 @@
 }
 .connect_button_container .links_list a:hover
 {
-  color: #FDF41B;
+  color: #FFFF;
 }
 
 .connect_button_container .link_info_button
@@ -528,7 +528,7 @@
   z-index: 1;
   border-radius: 10px;
   padding-top: 10px;
-  text-align: center;
+  text-align: start;
 }
 .dropdown_menu .dropdown_content a
 {
