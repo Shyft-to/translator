@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
+import toast, { Toaster } from 'react-hot-toast';
 // import { useWallet } from '@solana/wallet-adapter-react';
 import * as bs58 from "bs58";
 import axios from "axios";
@@ -21,6 +22,8 @@ import FollowerList from "./FollowerList";
 import { WalletDisconnectButton, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import DisconnectLoader from "./loaders/DisconnectedLoader";
+import wallet_Disconnected_loader from "../resources/images/loaders/disconnect_wallet.gif";
+
 
 const SearchComponent = ({ popup, setPopUp }) => {
   const navigate = useNavigate();
@@ -142,6 +145,18 @@ const SearchComponent = ({ popup, setPopUp }) => {
     console.log("wallet Disconnected");
     setDisconn(true);
     localStorage.setItem("reac_wid","");
+    toast((t) => (
+        <div className="foll_unfoll_notification">
+            <div className="d-flex">
+                <div className="icon_foll">
+                    <img className="img-fluid" src={wallet_Disconnected_loader} alt="wallet_followed"/>
+                </div>
+                <div className="text_foll">
+                    Disconnected
+                </div>
+            </div>
+        </div>
+    ));
     setTimeout(() => {
       setDisconn(false);
       navigate('/');
@@ -355,7 +370,19 @@ const SearchComponent = ({ popup, setPopUp }) => {
                   </button>
                 </div> */}
               </div>
-              {disconn && <DisconnectLoader />}
+              {/* {disconn && <DisconnectLoader />} */}
+              <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                    toastOptions={{
+                        className: '',
+                        style: {
+                          border: '2px solid white',
+                          padding: '0px',
+                          background: '#1E0C36',
+                        },
+                      }}
+                />
             </div>
             </div>
         </div>

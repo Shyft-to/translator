@@ -33,6 +33,9 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PulseLoader } from "react-spinners";
 import FolUnfolLoaderFull from "./components/loaders/FolUnfolLoaderFull";
+
+import walletFollowed from "./resources/images/loaders/follow_image.gif";
+import walletUnfollowed from "./resources/images/loaders/unfollow_image.gif";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -223,6 +226,18 @@ const AddressComponent = ({popup,setPopUp}) => {
             {
                 setIsFollowed(true);
                 setFollowLoading("FOLLOWED");
+                toast((t) => (
+                    <div className="foll_unfoll_notification">
+                        <div className="d-flex">
+                            <div className="icon_foll">
+                                <img className="img-fluid" src={walletFollowed} alt="wallet_followed"/>
+                            </div>
+                            <div className="text_foll">
+                                Wallet Followed
+                            </div>
+                        </div>
+                    </div>
+                ));
             }
             else if(resp.success === false && resp.message === "limit_reached")
             {
@@ -271,6 +286,18 @@ const AddressComponent = ({popup,setPopUp}) => {
             {
                 setIsFollowed(false);
                 setFollowLoading("UNFOLLOWED");
+                toast((t) => (
+                    <div className="foll_unfoll_notification">
+                        <div className="d-flex">
+                            <div className="icon_foll">
+                                <img className="img-fluid" src={walletUnfollowed} alt="wallet_followed"/>
+                            </div>
+                            <div className="text_foll">
+                                Wallet unfollowed
+                            </div>
+                        </div>
+                    </div>
+                ));
             }
             else
             {
@@ -365,6 +392,14 @@ const AddressComponent = ({popup,setPopUp}) => {
                 <Toaster
                     position="top-center"
                     reverseOrder={false}
+                    toastOptions={{
+                        className: '',
+                        style: {
+                          border: '2px solid white',
+                          padding: '0px',
+                          background: '#1E0C36',
+                        },
+                      }}
                 />
                 <div className="container pt-2 pb-1">
                     {/* <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet}/> */}
@@ -435,14 +470,13 @@ const AddressComponent = ({popup,setPopUp}) => {
                                             {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
                                             {(followLoading === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}
                                             {/* {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />} */}
-                                            {(followLoading === "FOLLOWED") && <FolUnfolLoaderFull follow={true}/>}
+                                            {/* {(followLoading === "FOLLOWED") && <FolUnfolLoaderFull follow={true}/>} */}
                                             {/* {(followLoading === "UNFOLLOWED") && <FolUnfolLoader follow={false} />} */}
-                                            {(followLoading === "UNFOLLOWED") && <FolUnfolLoaderFull follow={false}/>}
+                                            {/* {(followLoading === "UNFOLLOWED") && <FolUnfolLoaderFull follow={false}/>} */}
                                         </>:
                                         <>
                                             <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>
                                         </>}
-                                        
                                     </div>
                                 </div>
                                 <div className="row pt-4">

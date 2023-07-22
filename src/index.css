@@ -811,3 +811,19 @@ body {
 {
   padding: 0.62rem 0rem !important;
 }
+.foll_unfoll_notification {
+  background-color: #1E0C36;
+  /* border: 2px solid #fffd; */
+  color: #fff;
+  padding: 6px 10px;
+}
+.foll_unfoll_notification .icon_foll
+{
+  background-color: transparent;
+  width: 36px;
+  margin-right: 10px;
+}
+.foll_unfoll_notification .text_foll {
+  font: 400 16px "Geologica",sans-serif;
+  padding-top: 8px;
+}
