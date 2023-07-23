@@ -329,7 +329,7 @@ const FeedTransactions = ({ address, cluster }) => {
                         <div className={styles.feed_txn_signer}>
                           <div className={styles.avatar_area}>
                             <img src={avatar2} />
-                            <span className={styles.text}>{shortenAddress(each_txn.signers[0])}</span>
+                            <span className={styles.text}>{shortenAddress(each_txn.tag_address || each_txn.signers[0])}</span>
                           </div>
                         </div>
                         <div className={styles.time_area}>
