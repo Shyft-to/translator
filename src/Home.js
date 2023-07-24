@@ -347,17 +347,8 @@ const Home = ({popup, setPopUp}) => {
                 </div>
             </motion.div>
             <div className="pt-5">
-                  {/* {(connectionProgress === "LOADING") && <TxnLoader />} */}
+                  {(connectionProgress === "LOADING") && <TxnLoader />}
                   {(connectionProgress === "ERROR") && <img src={crossIcon} style={{width:"20px", margin: "0 auto", display: "block"}}/>}
-                  <BarLoader 
-                    color={"#fff"}
-                    loading={connectionProgress === "LOADING"}
-                    cssOverride={{
-                      display: "block",
-                      margin: "0 auto",
-                      borderColor: "yellow",
-                    }}
-                  />
             </div>
           </div>
         </div>

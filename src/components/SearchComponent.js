@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
 import toast, { Toaster } from 'react-hot-toast';
-// import { useWallet } from '@solana/wallet-adapter-react';
 import * as bs58 from "bs58";
 import axios from "axios";
 
@@ -19,7 +18,7 @@ import follIcon from "../resources/images/followers-2.png";
 
 import { listOfAddresses, shortenAddress } from "../utils/formatter";
 import FollowerList from "./FollowerList";
-import { WalletDisconnectButton, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { WalletDisconnectButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import DisconnectLoader from "./loaders/DisconnectedLoader";
 import wallet_Disconnected_loader from "../resources/images/loaders/disconnect_wallet.gif";
@@ -52,9 +51,60 @@ const SearchComponent = ({ popup, setPopUp }) => {
     } catch (error) {
       setSearchData([]);
     }
-
-
   }, [])
+
+  //This is for disconecting when wallet changed
+  // useEffect(() => {
+  //   const currentToken = localStorage.getItem("reac_wid") ?? "";
+  //   if(userWallet?.publicKey && currentToken !== "")
+  //   {
+  //     axios({
+  //       url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
+  //       method:"POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": `Bearer ${currentToken}`
+  //       }
+  //     })
+  //     .then(res => {
+  //       if(res.status === 200)
+  //       {
+  //         const pubKeyReceived = res.data.wallet_address;
+  //         if(pubKeyReceived !== userWallet?.publicKey?.toBase58())
+  //         {
+  //           localStorage.setItem("reac_wid","");
+  //           disconnectButtonPress()
+  //         }
+  //         else {
+  //           console.log("Wallet Verified");
+  //         }
+  //       }
+  //       else
+  //       {
+  //         localStorage.setItem("reac_wid","");
+  //         disconnectButtonPress()
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       disconnectButtonPress();
+  //       localStorage.setItem("reac_wid","");
+  //     })
+  //   }
+
+  // }, [userWallet?.publicKey]);
+
+  useEffect(() => {
+    const currentToken = localStorage.getItem("reac_wid") ?? "";
+    if(userWallet?.publicKey)
+    {
+      if(currentToken === "")
+        disconnectButtonPress()
+    }
+  
+  }, [])
+  
+  
 
   const BlurAfterTime = () => {
     setTimeout(() => {
@@ -161,6 +211,31 @@ const SearchComponent = ({ popup, setPopUp }) => {
       setDisconn(false);
       navigate('/');
     }, 1000);
+  }
+  const reconnectWallet = () => {
+    console.log("Please Reconnect Your Wallet");
+    toast((t) => (
+        <div className="foll_unfoll_notification">
+            <div className="d-flex">
+                {/* <div className="icon_foll">
+                    <img className="img-fluid" src={wallet_Disconnected_loader} alt="wallet_followed"/>
+                </div> */}
+                <div className="text_foll">
+                    Wallet changed, please reconnect your wallet
+                </div>
+            </div>
+        </div>
+    ));
+    setTimeout(() => {
+      // setDisconn(false);
+      navigate('/');
+    }, 2000);
+  }
+  const disconnectButtonPress = () => {
+    let content = document.getElementsByClassName("keys")[0];
+    let kbButtons = content.getElementsByTagName("button")[0];
+    // console.log(kbButtons[0])
+    kbButtons.click();
   }
   // useEffect(() => {
   //   if(userWallet.publicKey)
@@ -347,7 +422,9 @@ const SearchComponent = ({ popup, setPopUp }) => {
                           </a>
                           {/* <div className={styles.link_type} onClick={logout}>Disconnect</div> */}
                           <WalletDisconnectButton className={styles.link_type} onClick={walletDisconnected}/>
-                          {/* <a href="#">Link 3</a> */}
+                          <div className="keys" style={{display:"none"}}>
+                            <WalletDisconnectButton className={styles.link_type} onClick={reconnectWallet}/>
+                          </div>
                           {/* <a href="#">Link 3</a> */}
                         </div>
                       </div>
@@ -368,7 +445,7 @@ const SearchComponent = ({ popup, setPopUp }) => {
                   <button className={styles.about_shyft_button} onClick={() => setPopUp(true)}>
                     <img src={infoIcon} />
                   </button>
-                </div> */}
+                </div> */}  
               </div>
               {/* {disconn && <DisconnectLoader />} */}
               <Toaster
