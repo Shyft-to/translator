@@ -702,6 +702,7 @@ export async function knowAddressType(network, address) {
         // "authority": reqUrl,
         // "origin": "https://explorer.solana.com",
         // "referer": "https://explorer.solana.com/",
+        // "referer": "https://explorer.solana.com/",
       },
       data: data,
     })
