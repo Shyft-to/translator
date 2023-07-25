@@ -1,0 +1,65 @@
+.modal_body_outer
+{
+    background-color: #1E0C36;
+    color: #fff;
+    font: 400 16px/28px "Jost",sans-serif;
+    border: 1px solid white;
+}
+.modal_heading
+{
+    font: 600 24px "Geologica",sans-serif;
+}
+.each_follower
+{
+    background-color: #3C1B67;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.wallet_unfollow_button
+{
+    background-color: transparent;
+    padding: 8px 16px;
+    box-shadow: none;
+    border: none;
+    color: #fff;
+    font: 500 12px/12px "Geologica",sans-serif;    
+    background-color: #7640b2;
+    border-radius: 14px;
+}
+
+.loader_small {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    position: relative;
+  }
+  .loader_small::after,
+  .loader_small::before {
+    content: '';  
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #FFF;
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    animation: animloader 2s linear infinite;
+  }
+  .loader_small::after {
+    animation-delay: 1s;
+  }
+  
+  @keyframes animloader {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    100% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    
+  }

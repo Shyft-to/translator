@@ -12,16 +12,19 @@ import TransactionStructureToken from "./TransactionsStructureToken";
 import staticRefresh from "../../resources/images/txnImages/refresh_static.png";
 import rotateRefresh from "../../resources/images/txnImages/refresh_rotate.gif";
 import duration from "../../resources/images/txnImages/duration.png";
+import avatar2 from "../../resources/images/txnImages/avatar2.svg";
+
 import { AnimatePresence } from "framer-motion";
 import { getTxnUptoSignature } from "../../utils/getAllData";
-import TransactionSearching from "../loaders/TransactionSearching";
+import { getRelativetime, shortenAddress } from "../../utils/formatter";
+import AnimatedTxnLoader from "../loaders/AnimatedTxnLoader";
 
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
 const refreshCounter = Number(process.env.REACT_APP_REFRESH_FEED_AFTER_SECS ?? "0")
 
-const Transactions = ({ address, cluster }) => {
+const FeedTransactions = ({ address, cluster }) => {
   const [loaded, setLoaded] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [errOcc, setErrOcc] = useState(false);
@@ -31,7 +34,7 @@ const Transactions = ({ address, cluster }) => {
 
   const [txns, setTxns] = useState([]);
 
-  const [moreTxns, setMoreTxns] = useState(false);
+  const [moreTxns, setMoreTxns] = useState(true);
 
   const [firstTxn, setFirstTxn] = useState("");
   const [recall, setRecall] = useState(false);
@@ -39,7 +42,8 @@ const Transactions = ({ address, cluster }) => {
   const [liveTxns, setLiveTxns] = useState([]);
   const [pauseTimer,setPauseTimer] = useState(false);
   const [chatFocus, setChatFocus] = useState(true);
-  
+
+  const [page,setPage] = useState(1);
 
   const { ref, inView } = useInView();
 
@@ -47,11 +51,13 @@ const Transactions = ({ address, cluster }) => {
   // const isInViewLoadMore = useInView(loadMoreArea,{ margin: "20%" });
   useEffect(() => {
     // console.log("End of screen reach:",inView,txns.length)
+    console.log("current page value",page)
     if (isLoading === false) {
       if (inView === true) {
-        if (moreTxns === true && txns.length > 0) {
+        console.log("Red square in view",inView);
+        if (moreTxns === true && page > 1 && txns.length > 0) {
           console.log("Getting more txns");
-          getPrevNext("next");
+          getPrevNext(page);
         }
       }
     }
@@ -62,7 +68,8 @@ const Transactions = ({ address, cluster }) => {
     setLoading(true);
     setTxns([]);
     setLiveTxns([]);
-    if (address) {
+    const xToken = localStorage.getItem("reac_wid") ?? "";
+    if (xToken) {
       var params = {
         network: cluster,
         account: address,
@@ -75,28 +82,33 @@ const Transactions = ({ address, cluster }) => {
       //     }
       //   }
       axios({
-        url: `${endpoint}transaction/history`,
+        url: `${process.env.REACT_APP_BACKEND_EP}/getTransactions/${cluster}/1`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": xKey,
+          "Authorization": `Bearer ${xToken}`
+          // "x-api-key": xKey,
         },
-        params: params,
+        // params: params,
       })
         .then((res) => {
-          if (res.data.success === true && res.data.result.length > 0) {
-            const txnReceived = res.data.result;
-
-            if (txnLastInitial === "")
-              setTxnLastInitial(
-                txnReceived[txnReceived.length - 1].signatures[0]
-              );
-
-            setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
-            setTxnOne(txnReceived[0].signatures[0]);
-            setTxns(txnReceived);
-            setFirstTxn(txnReceived[0].signatures[0]);
-            setMoreTxns(true);
+          if (res.data.txns.length > 0) {
+            console.log("here");
+            if (res.data.txns.length > 0) {
+              const txnReceived = res.data.txns;
+              if (txnReceived.length === 0)
+                setMoreTxns(false);
+              setTxns([...txns, ...txnReceived]);
+              // setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
+              // setTxnOne(txnReceived[0].signatures[0]);
+              setTimeout(() => {
+                setPage(2);
+              }, 1000);
+              
+            }
+            else {
+              setMoreTxns(false);
+            }
             //setProtocolName(txnReceived[0].protocol.name || txnReceived[0].protocol.address);
 
           }
@@ -108,44 +120,46 @@ const Transactions = ({ address, cluster }) => {
           setLoading(false);
         });
     }
-  }, [address, cluster]);
+  }, [cluster]);
 
   const getPrevNext = (value) => {
     setLoading(true);
-    var params = {
-      network: cluster,
-      account: address,
-      // tx_num: 5
-    };
-    if (value === "prev") {
-      params = {
-        ...params,
-        before_tx_signature: txnOne,
-      };
-    } else {
-      params = {
-        ...params,
-        before_tx_signature: txnLast,
-      };
-    }
+    const xToken = localStorage.getItem("reac_wid") ?? "";
+    // var params = {
+    //   network: cluster,
+    //   account: address,
+    //   // tx_num: 5
+    // };
+    // if (value === "prev") {
+    //   params = {
+    //     ...params,
+    //     before_tx_signature: txnOne,
+    //   };
+    // } else {
+    //   params = {
+    //     ...params,
+    //     before_tx_signature: txnLast,
+    //   };
+    // }
     axios({
-      url: `${endpoint}transaction/history`,
-      method: "GET",
+      url: `${process.env.REACT_APP_BACKEND_EP}/getTransactions/${cluster}/${value}`,
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": xKey,
+        "Authorization": `Bearer ${xToken}`
       },
-      params: params,
     })
       .then((res) => {
 
-        if (res.data.success === true && res.data.result.length > 0) {
-          const txnReceived = res.data.result;
+        if (res.data.txns.length > 0) {
+          const txnReceived = res.data.txns;
           if (txnReceived.length === 0)
             setMoreTxns(false);
+          else
+            setPage(value+1);
           setTxns([...txns, ...txnReceived]);
-          setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
-          setTxnOne(txnReceived[0].signatures[0]);
+          // setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
+          // setTxnOne(txnReceived[0].signatures[0]);
         }
         else {
           setMoreTxns(false);
@@ -161,36 +175,36 @@ const Transactions = ({ address, cluster }) => {
         setLoading(false);
       });
   };
-  const getLiveData = async () =>
-  {
-    try {
-      if (firstTxn !== "") {
-        console.log("Refreshing Activity Feed"); 
-        if (address) {
-          const txnFetch = await getTxnUptoSignature(cluster,address,firstTxn);
-          if (txnFetch.success === true && txnFetch.details.length > 0) {
-            const txnReceived = txnFetch.details;
-            console.log("New txns received: ", txnReceived.length)
-            setLiveTxns([...txnReceived, ...liveTxns]);
-            setFirstTxn(txnReceived[0].signatures[0]);
-          }
-          if(refreshCounter)
-              setTimer(refreshCounter);
+  // const getLiveData = async () =>
+  // {
+  //   try {
+  //     if (firstTxn !== "") {
+  //       console.log("Refreshing Activity Feed"); 
+  //       if (address) {
+  //         const txnFetch = await getTxnUptoSignature(cluster,address,firstTxn);
+  //         if (txnFetch.success === true && txnFetch.details.length > 0) {
+  //           const txnReceived = txnFetch.details;
+  //           console.log("New txns received: ", txnReceived.length)
+  //           setLiveTxns([...txnReceived, ...liveTxns]);
+  //           setFirstTxn(txnReceived[0].signatures[0]);
+  //         }
+  //         if(refreshCounter)
+  //             setTimer(refreshCounter);
           
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      setTimer(30);
-    }
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     setTimer(30);
+  //   }
     
-  }
+  // }
 
   //getting live txns
   useEffect(() => {
     if (firstTxn !== "") {
       
-      getLiveData();
+      // getLiveData();
       // console.log("Refreshing Activity Feed");
       // if (address) {
       //   var params = {
@@ -234,17 +248,17 @@ const Transactions = ({ address, cluster }) => {
     }
   }, [recall]);
 
-  useEffect(() => {
-    if(refreshCounter && !pauseTimer)
-    {
-      setTimeout(() => {
-        if (timer === 0)
-          setRecall(!recall);
-        else
-          setTimer(timer - 1);
-      }, 1000);
-    }
-  }, [timer,pauseTimer]);
+  // useEffect(() => {
+  //   if(refreshCounter && !pauseTimer)
+  //   {
+  //     setTimeout(() => {
+  //       if (timer === 0)
+  //         setRecall(!recall);
+  //       else
+  //         setTimer(timer - 1);
+  //     }, 1000);
+  //   }
+  // }, [timer,pauseTimer]);
   
 
   useEffect(() => {
@@ -298,18 +312,34 @@ const Transactions = ({ address, cluster }) => {
 
 
         <div className={styles.all_txn_container}>
-          <AnimatePresence>
+          {/* <AnimatePresence>
             {
               (liveTxns.length > 0) ?
                 (
                   liveTxns.map((each_txn,index) => <LiveTransactions styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} key={liveTxns.length - index}/>)
                 ) : ""
             }
-          </AnimatePresence>
+          </AnimatePresence> */}
           {
             (txns.length > 0) ?
               (
-                txns.map((each_txn) => <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} />)
+                txns.map((each_txn) =>
+                  <div>
+                    <div className={styles.feed_txn_outer}>
+                        <div className={styles.feed_txn_signer}>
+                          <div className={styles.avatar_area}>
+                            <img src={avatar2} />
+                            <span className={styles.text}>{shortenAddress(each_txn.tag_address || each_txn.signers[0])}</span>
+                          </div>
+                        </div>
+                        <div className={styles.time_area}>
+                        {(each_txn.timestamp !== "") ? getRelativetime(each_txn.timestamp) : ""}
+                        
+                        </div>
+                      </div> 
+                    <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} />
+                  </div>
+                  )
               ) : ""
 
           }
@@ -324,7 +354,8 @@ const Transactions = ({ address, cluster }) => {
           <div className="pt-2 text-center ten-height">
 
             {isLoading && <TxnLoader />}
-            {(isLoading === false && moreTxns === false && errOcc === false) ? <div className={styles.could_not_text}>Genesis Transaction Reached</div> : ""}
+            {!isLoading && txns.length === 0 && <div className={styles.could_not_text}>You do not have any transactions, search and follow some wallets</div>}
+            {/* {(isLoading === false && moreTxns === false && errOcc === false) ? <div className={styles.could_not_text}>Genesis Transaction Reached</div> : ""} */}
             {/* <button className="btn btn-light" onClick={() => getPrevNext("next")}>Load More</button> */}
           </div>
         </div>
@@ -333,4 +364,4 @@ const Transactions = ({ address, cluster }) => {
   );
 };
 
-export default Transactions;
+export default FeedTransactions;

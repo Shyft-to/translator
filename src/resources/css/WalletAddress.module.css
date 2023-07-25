@@ -38,7 +38,7 @@
   padding: 80px 0px 40px;
 
 }
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 1700px) {
   .background_super
   {
     padding: 100px 0px 40px;
@@ -87,7 +87,7 @@
 @media screen and (max-width:767px) {
   .background_super
   {
-    padding: 100px 0px 16px;
+    padding: 130px 0px 16px;
   }
   .main_heading
   {
@@ -305,4 +305,40 @@
   .select_container_2 option {
     background-color: #2a0855;
   }
+}
+.your_feed_heading_container
+{
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  padding-bottom: 24px;
+}
+.select_container_feed {
+  width: 150px;
+  background-color: #8254b066;
+  border-radius: 26px;
+  padding: 6px 16px;
+}
+
+.select_container_feed select {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #fff;
+  font: 400 14px/18px "Geologica", sans-serif;
+  /* letter-spacing: 1px; */
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.select_container_feed select:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.select_container_feed option {
+  background-color: #2a0855;
 }

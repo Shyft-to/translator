@@ -5,7 +5,7 @@ import discord from './resources/images/footer/discord.svg';
 import twitter from './resources/images/footer/twitter.svg';
 import github from './resources/images/footer/github.svg';
 
-import i_icon from "./resources/images/info.svg";
+// import i_icon from "./resources/images/info.svg";
 
 const Footer = () => {
     return ( 

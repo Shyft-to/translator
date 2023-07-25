@@ -11,6 +11,7 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    /* background: #FDF41B; */
     background: #FFF;
     position: absolute;
     opacity: 0;
@@ -41,4 +42,31 @@
   width: 100%;
   background-color: transparent;
   text-align: center;
+}
+.button_loader
+{
+  width: 120px;
+  height: 40px;
+  /* background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);; */
+  border: "2px solid white";
+  display: block;
+  margin-left: auto;
+  border-radius: 25px;
+}
+.button_loader_2
+{
+    width: 100px;
+    height: 40px;
+    /* background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%); */
+    border: "2px solid white";
+    display: block;
+    margin-left: auto;
+    border-radius: 25px;
+  
+}
+.button_loader_2 img
+{
+  display: block;
+  margin: 0 auto;
+  width: 40px;
 }

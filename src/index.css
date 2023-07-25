@@ -297,6 +297,7 @@ body {
   }
 }
 
+
 .myTarget .react-tooltip-lite {
   width: 76px;
   padding: 18px 4px;
@@ -349,6 +350,12 @@ body {
 
 .white-footer-icons img {
   width: 60%;
+}
+@media screen and (max-width: 768px) {
+  .footer-white {
+    position: relative;
+  }
+  
 }
 @media screen and (max-width: 768px) {
   .footer-white {
@@ -792,6 +799,7 @@ body {
   background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
   width: 100% !important;
   justify-content: center !important;
+  border: none;
   padding: 0px !important;
   height: auto !important;
   font: 500 0.9rem/1.2rem "Montserrat", sans-serif !important;
@@ -811,4 +819,20 @@ body {
 .wallet-adapter-dropdown .wallet-button
 {
   padding: 0.62rem 0rem !important;
+}
+.foll_unfoll_notification {
+  background-color: #1E0C36;
+  /* border: 2px solid #fffd; */
+  color: #fff;
+  padding: 6px 10px;
+}
+.foll_unfoll_notification .icon_foll
+{
+  background-color: transparent;
+  width: 36px;
+  margin-right: 10px;
+}
+.foll_unfoll_notification .text_foll {
+  font: 400 16px "Geologica",sans-serif;
+  padding-top: 8px;
 }
