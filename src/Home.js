@@ -59,10 +59,47 @@ const Home = ({popup, setPopUp}) => {
   const [searchData, setSearchData] = useState([]);
 
   const [connectionProgress,setConnectionProgress] = useState("UNLOADED");
+  const [isWalletConnected,setWalletConnected] = useState(false);
+  const [connectedWalletAddress,setConnWallAddr] = useState("");
 
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: "/", title: "HomePage" });
   }, []);
+
+  useEffect(() => {
+    const xToken = localStorage.getItem("reac_wid") ?? ""
+    if(xToken !== "")
+    {
+      axios({
+        url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${xToken}`
+        }
+      })
+      .then(res => {
+        if(res.status === 200)
+        {
+          const pubKeyReceived = res.data.wallet_address;
+          setConnWallAddr(pubKeyReceived);
+          setWalletConnected(true);
+        }
+        else
+        {
+          localStorage.setItem("reac_wid","");
+          setWalletConnected(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setWalletConnected(false)
+        localStorage.setItem("reac_wid","");
+      })
+      
+    }
+  }, [])
+  
 
   useEffect(() => {
     try {
@@ -205,27 +242,39 @@ const Home = ({popup, setPopUp}) => {
           if(res.data.success)
           {
             localStorage.setItem("reac_wid",res.data.accessToken);
-            navigate(`/feed?cluster=${network}`);
-          }
-        })
-        .catch(err => {
-          console.log(err.response.data);
-          disconnectWallet();
-          toast('Connection Error',
-            {
-              icon: '❌',
+            toast.success('Wallet Authorized',{
               style: {
                 borderRadius: '10px',
                 background: '#1E0C36',
                 color: '#fff',
                 border: "1px solid white",
                 font: "300 16px Geologica,sans-serif",
-                paddingLeft: "10px",
+                paddingLeft: "18px",
                 paddingRight: "10px",
                 paddingTop: "10px"
               },
-            }
-          );
+            })
+            disconnectWallet();
+            setTimeout(() => {
+              navigate(`/feed?cluster=${network}`);
+            }, 1000);
+          }
+        })
+        .catch(err => {
+          console.log(err.response.data);
+          disconnectWallet();
+          toast.error('Connection Error',{
+            style: {
+              borderRadius: '10px',
+              background: '#1E0C36',
+              color: '#fff',
+              border: "1px solid white",
+              font: "300 16px Geologica,sans-serif",
+              paddingLeft: "18px",
+              paddingRight: "10px",
+              paddingTop: "10px"
+            },
+          });
           setConnectionProgress("ERROR");
           localStorage.setItem("reac_wid","");
           setTimeout(() => {
@@ -236,21 +285,18 @@ const Home = ({popup, setPopUp}) => {
     } catch (error) {
       console.log("Error",error.message);
       disconnectWallet();
-      toast('Authentication Failed',
-        {
-          icon: '❌',
-          style: {
-            borderRadius: '10px',
-            background: '#1E0C36',
-            color: '#fff',
-            border: "1px solid white",
-            font: "300 16px Geologica,sans-serif",
-            paddingLeft: "10px",
-            paddingRight: "10px",
-            paddingTop: "10px"
-          },
-        }
-      );
+      toast.error('Wallet Not Authorized',{
+        style: {
+          borderRadius: '10px',
+          background: '#1E0C36',
+          color: '#fff',
+          border: "1px solid white",
+          font: "300 16px Geologica,sans-serif",
+          paddingLeft: "18px",
+          paddingRight: "10px",
+          paddingTop: "10px"
+        },
+      });
     }
     
     // console.log(signedMessageFromWallet);
@@ -396,6 +442,7 @@ const Home = ({popup, setPopUp}) => {
           reverseOrder={false}
           toastOptions={{
             className: '',
+            duration: 1000,
             style: {
               border: '2px solid white',
               padding: '0px',
