@@ -15,13 +15,12 @@ import crossIcon from "./resources/images/cross-icon.png";
 import PopupView from "./PopupView";
 import OpenPopup from "./OpenPopup";
 import { listOfAddresses } from "./utils/formatter";
-import { userLogon } from "./utils/dboperations";
 
-import { WalletMultiButton, useWalletModal } from '@solana/wallet-adapter-react-ui';
+import { WalletDisconnectButton, WalletMultiButton, useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
 import * as bs58 from "bs58";
 import axios from "axios";
-import { BarLoader } from "react-spinners";
+import toast, { Toaster } from "react-hot-toast";
 
 const staticAddresses = [
   {
@@ -184,48 +183,80 @@ const Home = ({popup, setPopUp}) => {
     localStorage.setItem("reac_wid","");
     const message = process.env.REACT_APP_SHARE_MSG ?? "Hi! My name is Translator. I translate Solana for humans.";
     const encodedMessage = new TextEncoder().encode(message);
+    try {
+      const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+      // console.log("Signed message from Wallet: ",signedMessageFromWallet);
+      if(signedMessageFromWallet)
+      {
+        setConnectionProgress("LOADING");
+        await axios.request(
+        {
+            url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
+            method: "POST",
+            data: {
+              encoded_message: message,
+              signed_message: bs58.encode(signedMessageFromWallet),
+              wallet_address: wallet_address
+            }
+        })
+        .then(res => {
+          // console.log("After Submission: ",res.data);
+          setConnectionProgress("LOADED");
+          if(res.data.success)
+          {
+            localStorage.setItem("reac_wid",res.data.accessToken);
+            navigate(`/feed?cluster=${network}`);
+          }
+        })
+        .catch(err => {
+          console.log(err.response.data);
+          disconnectWallet();
+          toast('Connection Error',
+            {
+              icon: '❌',
+              style: {
+                borderRadius: '10px',
+                background: '#1E0C36',
+                color: '#fff',
+                border: "1px solid white",
+                font: "300 16px Geologica,sans-serif",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                paddingTop: "10px"
+              },
+            }
+          );
+          setConnectionProgress("ERROR");
+          localStorage.setItem("reac_wid","");
+          setTimeout(() => {
+            setConnectionProgress("UNLOADED");
+          }, 1000);
+        });
+      }
+    } catch (error) {
+      console.log("Error",error.message);
+      disconnectWallet();
+      toast('Authentication Failed',
+        {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#1E0C36',
+            color: '#fff',
+            border: "1px solid white",
+            font: "300 16px Geologica,sans-serif",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            paddingTop: "10px"
+          },
+        }
+      );
+    }
     
-    const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
     // console.log(signedMessageFromWallet);
     // console.log(bs58.encode(signedMessageFromWallet));
     // console.log("Submitting Signature");
-    setConnectionProgress("LOADING");
-    await axios.request(
-    {
-        url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
-        method: "POST",
-        data: {
-          encoded_message: message,
-          signed_message: bs58.encode(signedMessageFromWallet),
-          wallet_address: wallet_address
-        }
-    })
-    .then(res => {
-      // console.log("After Submission: ",res.data);
-      setConnectionProgress("LOADED");
-      if(res.data.success)
-      {
-        localStorage.setItem("reac_wid",res.data.accessToken);
-        navigate(`/feed?cluster=${network}`);
-      }
-    })
-    .catch(err => {
-      console.log(err.response.data);
-      setConnectionProgress("ERROR");
-      localStorage.setItem("reac_wid","");
-      setTimeout(() => {
-        setConnectionProgress("UNLOADED");
-      }, 1000);
-    });
-
-    // localStorage.setItem("reac_wid","");
-    // const isUser = await userLogon(wallet_address);
-    // if(isUser.success)
-    // {
-    //   localStorage.setItem("reac_wid",wallet_address);
-    //   
-    // }
-
+     
   }
   // useEffect(() => {
   //   console.log("current wallet value",wallet.length);
@@ -240,6 +271,11 @@ const Home = ({popup, setPopUp}) => {
   const connectWalletOnClick = () => {
     setClickedConnectWallet(true);
     setVisible(true);
+  }
+  const disconnectWallet = () => {
+    let content = document.getElementsByClassName("keys")[0];
+    let kbButtons = content.getElementsByTagName("button")[0];
+    kbButtons.click();
   }
   
   return (
@@ -352,7 +388,22 @@ const Home = ({popup, setPopUp}) => {
             </div>
           </div>
         </div>
-
+        <div className="keys" style={{display:"none"}}>
+          <WalletDisconnectButton />
+        </div>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{
+            className: '',
+            style: {
+              border: '2px solid white',
+              padding: '0px',
+              paddingBottom: "10px",
+              background: '#1E0C36',
+            },
+          }}
+        />
       </div>
       <Footer setPopUp={setPopUp}/>
     </div>

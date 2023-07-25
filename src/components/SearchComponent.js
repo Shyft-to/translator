@@ -54,55 +54,61 @@ const SearchComponent = ({ popup, setPopUp }) => {
   }, [])
 
   //This is for disconecting when wallet changed
-  // useEffect(() => {
-  //   const currentToken = localStorage.getItem("reac_wid") ?? "";
-  //   if(userWallet?.publicKey && currentToken !== "")
-  //   {
-  //     axios({
-  //       url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
-  //       method:"POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": `Bearer ${currentToken}`
-  //       }
-  //     })
-  //     .then(res => {
-  //       if(res.status === 200)
-  //       {
-  //         const pubKeyReceived = res.data.wallet_address;
-  //         if(pubKeyReceived !== userWallet?.publicKey?.toBase58())
-  //         {
-  //           localStorage.setItem("reac_wid","");
-  //           disconnectButtonPress()
-  //         }
-  //         else {
-  //           console.log("Wallet Verified");
-  //         }
-  //       }
-  //       else
-  //       {
-  //         localStorage.setItem("reac_wid","");
-  //         disconnectButtonPress()
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       disconnectButtonPress();
-  //       localStorage.setItem("reac_wid","");
-  //     })
-  //   }
-
-  // }, [userWallet?.publicKey]);
-
   useEffect(() => {
     const currentToken = localStorage.getItem("reac_wid") ?? "";
     if(userWallet?.publicKey)
     {
-      if(currentToken === "")
+      if(currentToken !== "")
+      {
+        axios({
+          url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
+          method:"POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${currentToken}`
+          }
+        })
+        .then(res => {
+          if(res.status === 200)
+          {
+            const pubKeyReceived = res.data.wallet_address;
+            if(pubKeyReceived !== userWallet?.publicKey?.toBase58())
+            {
+              localStorage.setItem("reac_wid","");
+              disconnectButtonPress()
+            }
+            else {
+              console.log("Wallet Verified");
+            }
+          }
+          else
+          {
+            localStorage.setItem("reac_wid","");
+            disconnectButtonPress()
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          disconnectButtonPress();
+          localStorage.setItem("reac_wid","");
+        })
+      }
+      else
+      {
         disconnectButtonPress()
+      }
     }
+  }, [userWallet?.publicKey]);
+
+  // useEffect(() => {
+  //   const currentToken = localStorage.getItem("reac_wid") ?? "";
+  //   if(userWallet?.publicKey)
+  //   {
+  //     if(currentToken === "")
+  //       disconnectButtonPress()
+  //   }
   
-  }, [])
+  // }, [])
   
   
 

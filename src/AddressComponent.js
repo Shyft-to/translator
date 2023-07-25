@@ -332,40 +332,53 @@ const AddressComponent = ({popup,setPopUp}) => {
 
     const connectNFollow = async(wallet_address) => {
         localStorage.setItem("reac_wid","");
-        
         const message = process.env.REACT_APP_SHARE_MSG ?? "Hi! My name is Translator. I translate Solana for humans.";
         const encodedMessage = new TextEncoder().encode(message);
-        
-        const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+        try {
+            const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
 
-        if(signedMessageFromWallet)
-            setClickedConnectLoggedOut(false);
-        setFollowLoading("LOADING");
-        await axios.request(
-        {
-            url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
-            method: "POST",
-            data: {
-            encoded_message: message,
-            signed_message: bs58.encode(signedMessageFromWallet),
-            wallet_address: wallet_address
-            }
-        })
-        .then(res => {
-        // console.log("After Submission: ",res.data);
-        setFollowLoading("NO_ACTION");
-        if(res.data.success)
-        {
-            localStorage.setItem("reac_wid",res.data.accessToken);
-            // navigate(`/feed?cluster=${network}`);
-            followuser();
-        }
-        })
-        .catch(err => {
-            console.log(err.response.data);
+            if(signedMessageFromWallet)
+                setClickedConnectLoggedOut(false);
+            setFollowLoading("LOADING");
+            await axios.request(
+            {
+                url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
+                method: "POST",
+                data: {
+                encoded_message: message,
+                signed_message: bs58.encode(signedMessageFromWallet),
+                wallet_address: wallet_address
+                }
+            })
+            .then(res => {
+            // console.log("After Submission: ",res.data);
             setFollowLoading("NO_ACTION");
-            localStorage.setItem("reac_wid","");
-            toast('Error while connecting wallet',{
+            if(res.data.success)
+            {
+                localStorage.setItem("reac_wid",res.data.accessToken);
+                // navigate(`/feed?cluster=${network}`);
+                followuser();
+            }
+            })
+            .catch(err => {
+                console.log(err.response.data);
+                setFollowLoading("NO_ACTION");
+                localStorage.setItem("reac_wid","");
+                toast('Error while connecting wallet',{
+                    icon: '❌',
+                    style: {
+                    borderRadius: '10px',
+                    background: '#1E0C36',
+                    color: '#fff',
+                    border: '1px solid white',
+                    fontFamily: "Jost"
+                    },
+                })
+            
+            });
+        } catch (error) {
+            console.log(error.message);
+            toast('Authentication Failed',{
                 icon: '❌',
                 style: {
                 borderRadius: '10px',
@@ -375,9 +388,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                 fontFamily: "Jost"
                 },
             })
-        
-        });
-
+        }
     }
 
     return (
