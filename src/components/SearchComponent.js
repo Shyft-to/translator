@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useSearchParams } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "framer-motion";
 import toast, { Toaster } from 'react-hot-toast';
@@ -12,19 +12,31 @@ import PopupView from "../PopupView";
 // import OpenPopup from "../OpenPopup";
 
 import infoIcon from "../resources/images/info.svg";
+import homeIcon from "../resources/images/home_icon.svg";
+import profIcon from "../resources/images/unknown_token.svg";
+import follIcon from "../resources/images/followers-2.png";
 
-import { listOfAddresses } from "../utils/formatter";
+import { listOfAddresses, shortenAddress } from "../utils/formatter";
+import FollowerList from "./FollowerList";
+import { WalletDisconnectButton } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
+import DisconnectLoader from "./loaders/DisconnectedLoader";
+import wallet_Disconnected_loader from "../resources/images/loaders/disconnect_wallet.gif";
 
 const SearchComponent = ({popup,setPopUp}) => {
   let [searchParams, setSearchParams] = useSearchParams();
   const cluster = searchParams.get("cluster") ?? "mainnet-beta";
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState(cluster);
+
+  const currentWallet = localStorage.getItem("reac_wid");
+  const [showFoll,setShowFoll] = useState(false);
+  const [disconn,setDisconn] = useState(false);
+  
   const [isFocused, setFocused] = useState(false);
-
   const [searchData, setSearchData] = useState([]);
-
+  
   const userWallet = useWallet();
 
   useEffect(() => {
