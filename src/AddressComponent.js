@@ -74,6 +74,7 @@ const AddressComponent = ({popup,setPopUp}) => {
      const [followLoading,setFollowLoading] = useState("NO_ACTION");
 
      const[clickedFollowLoggedOut,setClickedConnectLoggedOut] = useState(false);
+     const [isWalletConnected,setWalletConnected] = useState("NOT_CONN");
 
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     useEffect(() => {
@@ -100,6 +101,7 @@ const AddressComponent = ({popup,setPopUp}) => {
         const xToken = localStorage.getItem("reac_wid");
       if(xToken)
       {
+        setWalletConnected("CONN");
         setFollowLoading("LOADING");
         isUserFollowed(addr,cluster,xToken)
         .then(res => {
@@ -112,6 +114,9 @@ const AddressComponent = ({popup,setPopUp}) => {
         .catch(err => console.log(err));
         setFollowLoading("NO_ACTION");
 
+      }
+      else{
+        setWalletConnected("NOT_CONN");
       }
         
             
@@ -248,7 +253,8 @@ const AddressComponent = ({popup,setPopUp}) => {
                       background: '#1E0C36',
                       color: '#fff',
                       border: '1px solid white',
-                      fontFamily: "Jost"
+                      fontFamily: "Jost",
+                      padding: "6px 12px 3px"
                     },
                   })
             }
@@ -261,7 +267,8 @@ const AddressComponent = ({popup,setPopUp}) => {
                     background: '#1E0C36',
                     color: '#fff',
                     border: '1px solid white',
-                    fontFamily: "Jost"
+                    fontFamily: "Jost",
+                    padding: "6px 12px 3px"
                     },
                 })
             }
@@ -308,7 +315,8 @@ const AddressComponent = ({popup,setPopUp}) => {
                     background: '#1E0C36',
                     color: '#fff',
                     border: '1px solid white',
-                    fontFamily: "Jost"
+                    fontFamily: "Jost",
+                    padding: "6px 12px 3px"
                     },
                 })
             }
@@ -371,7 +379,8 @@ const AddressComponent = ({popup,setPopUp}) => {
                     background: '#1E0C36',
                     color: '#fff',
                     border: '1px solid white',
-                    fontFamily: "Jost"
+                    fontFamily: "Jost",
+                    padding: "6px 12px 3px"
                     },
                 })
             
@@ -385,7 +394,8 @@ const AddressComponent = ({popup,setPopUp}) => {
                 background: '#1E0C36',
                 color: '#fff',
                 border: '1px solid white',
-                fontFamily: "Jost"
+                fontFamily: "Jost",
+                padding: "6px 12px 3px"
                 },
             })
         }
@@ -477,7 +487,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
                                     
-                                        {(userWallet?.publicKey !== null)?<>
+                                        {(isWalletConnected)?<>
                                             {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
                                             {(followLoading === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}
                                             {/* {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />} */}
