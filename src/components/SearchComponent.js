@@ -36,6 +36,9 @@ const SearchComponent = ({popup,setPopUp}) => {
   
   const [isFocused, setFocused] = useState(false);
   const [searchData, setSearchData] = useState([]);
+
+  const [isWalletConnected,setWalletConnected] = useState("NOT_CONN");
+  const [connectedWalletAddress,setConnWallAddr] = useState("");
   
   const userWallet = useWallet();
 
@@ -50,66 +53,45 @@ const SearchComponent = ({popup,setPopUp}) => {
       setSearchData([]);
     }
   }, [])
-
-  //This is for disconecting when wallet changed
   useEffect(() => {
-    const currentToken = localStorage.getItem("reac_wid") ?? "";
-    if(userWallet?.publicKey)
+    const xToken = localStorage.getItem("reac_wid") ?? "";
+    if(xToken !== "")
     {
-      if(currentToken !== "")
-      {
-        axios({
-          url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
-          method:"POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${currentToken}`
-          }
-        })
-        .then(res => {
-          if(res.status === 200)
-          {
-            const pubKeyReceived = res.data.wallet_address;
-            if(pubKeyReceived !== userWallet?.publicKey?.toBase58())
-            {
-              localStorage.setItem("reac_wid","");
-              disconnectButtonPress()
-            }
-            else {
-              console.log("Wallet Verified");
-            }
-          }
-          else
-          {
-            localStorage.setItem("reac_wid","");
-            disconnectButtonPress()
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          disconnectButtonPress();
+      setWalletConnected("LOADING");
+      axios({
+        url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${xToken}`
+        }
+      })
+      .then(res => {
+        if(res.status === 200)
+        {
+          const pubKeyReceived = res.data.wallet_address;
+          setConnWallAddr(pubKeyReceived);
+          setWalletConnected("CONN");
+        }
+        else
+        {
           localStorage.setItem("reac_wid","");
-        })
-      }
-      else
-      {
-        disconnectButtonPress()
-      }
+          setWalletConnected("NOT_CONN");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setWalletConnected("NOT_CONN")
+        localStorage.setItem("reac_wid","");
+      })
+      
     }
-  }, [userWallet?.publicKey]);
-
-  // useEffect(() => {
-  //   const currentToken = localStorage.getItem("reac_wid") ?? "";
-  //   if(userWallet?.publicKey)
-  //   {
-  //     if(currentToken === "")
-  //       disconnectButtonPress()
-  //   }
+    else
+    {
+      setWalletConnected("NOT_CONN"); 
+    }  
+  }, [])
   
-  // }, [])
-  
-  
-
   const BlurAfterTime = () => {
     setTimeout(() => {
       setFocused(false)
@@ -195,10 +177,17 @@ const SearchComponent = ({popup,setPopUp}) => {
     }
 
   }
-  const walletDisconnected = () => {
-    console.log("wallet Disconnected");
-    setDisconn(true);
+
+  const disconnectButtonPress = () => {
+    let content = document.getElementsByClassName("keys")[0];
+    let kbButtons = content.getElementsByTagName("button")[0];
+    // console.log(kbButtons[0])
+    kbButtons.click();
+  }
+  const disconnectWallet = () => {
     localStorage.setItem("reac_wid","");
+    setConnWallAddr("");
+    setWalletConnected("NO_CONN");
     toast((t) => (
         <div className="foll_unfoll_notification">
             <div className="d-flex">
@@ -216,74 +205,6 @@ const SearchComponent = ({popup,setPopUp}) => {
       navigate('/');
     }, 1000);
   }
-  const reconnectWallet = () => {
-    console.log("Please Reconnect Your Wallet");
-    toast((t) => (
-        <div className="foll_unfoll_notification">
-            <div className="d-flex">
-                {/* <div className="icon_foll">
-                    <img className="img-fluid" src={wallet_Disconnected_loader} alt="wallet_followed"/>
-                </div> */}
-                <div className="text_foll">
-                    Wallet changed, please reconnect your wallet
-                </div>
-            </div>
-        </div>
-    ));
-    setTimeout(() => {
-      // setDisconn(false);
-      navigate('/');
-    }, 2000);
-  }
-  const disconnectButtonPress = () => {
-    let content = document.getElementsByClassName("keys")[0];
-    let kbButtons = content.getElementsByTagName("button")[0];
-    // console.log(kbButtons[0])
-    kbButtons.click();
-  }
-  // useEffect(() => {
-  //   if(userWallet.publicKey)
-  //   {
-  //     connectWallet(userWallet.publicKey?.toBase58())
-  //   }
-    
-  // }, [userWallet.publicKey])
-
-  // const connectWallet = async (wallet_address) => {
-  //   localStorage.setItem("reac_wid","");
-  //   const message = "Hi! This is SHYFT Website";
-  //   const encodedMessage = new TextEncoder().encode(message);
-    
-  //   const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
-  //   console.log(signedMessageFromWallet);
-  //   console.log(bs58.encode(signedMessageFromWallet));
-  //   await axios.request(
-  //   {
-  //       url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
-  //       method: "POST",
-  //       data: {
-  //         encoded_message: message,
-  //         signed_message: bs58.encode(signedMessageFromWallet),
-  //         wallet_address: wallet_address
-  //       }
-  //   })
-  //   .then(res => {
-  //     if(res.data.success)
-  //     {
-  //       localStorage.setItem("reac_wid",res.data.accessToken);
-  //       navigate(`/feed?cluster=${network}`);
-  //     }
-  //   })
-  //   .catch(err => {
-  //     console.log(err.response.data);
-  //     localStorage.setItem("reac_wid","");
-  //   });
-  // }
-  
-  // const logout = () => {
-  //   localStorage.setItem("reac_wid","");
-  //   navigate("/");
-  // }
   return (
     <motion.div className={styles.header_search_area} initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }}>
       {/* <OpenPopup setPopUp={setPopUp}/> */}
@@ -404,39 +325,34 @@ const SearchComponent = ({popup,setPopUp}) => {
                 <div className={styles.connect_button_container}>
                   <div className={styles.links_list}>
                   {
-                    (userWallet?.publicKey) ?
+                    (isWalletConnected === "CONN") ?
                     <>
-                      {/* <a href={`/feed?cluster=${network}`} style={{border: "3px solid #2a0855"}}>
-                        <img src={homeIcon} />
-                        Feed
-                      </a> */}
+                      
                       <div className={styles.dropdown_menu}>
                         <div className={styles.menu_head}>
                           <img src={profIcon} className={styles.dropdown_image} />
-                          {shortenAddress(userWallet.publicKey?.toBase58())}
+                          {shortenAddress(connectedWalletAddress)}
                         </div>
                         <div className={styles.dropdown_content}>
                           <div className={styles.link_type} onClick={() => setShowFoll(true)}>
-                            <img src={follIcon} className={styles.dropdown_image} alt="Feed" style={{opacity: 0.4, width: "20px", marginRight: "14px"}}/>
+                            {/* <img src={follIcon} className={styles.dropdown_image} alt="Feed" style={{opacity: 0.4, width: "20px", marginRight: "14px"}}/> */}
                             Following
                           </div>
-                          <a className={styles.link_type} href={`/feed?cluster=${network}`} style={{paddingTop: "6px"}}>
-                            <img src={homeIcon} className={styles.dropdown_image} style={{width: "20px", marginRight: "14px"}} alt="Feed" />
+                          <a className={styles.link_type} href={`/feed?cluster=${network}`} >
+                            {/* <img src={homeIcon} className={styles.dropdown_image} style={{width: "20px", marginRight: "14px"}} alt="Feed" /> */}
                             Feed
                           </a>
-                          {/* <div className={styles.link_type} onClick={logout}>Disconnect</div> */}
-                          <WalletDisconnectButton className={styles.link_type} onClick={walletDisconnected}/>
-                          <div className="keys" style={{display:"none"}}>
-                            <WalletDisconnectButton className={styles.link_type} onClick={reconnectWallet}/>
+                          <div onClick={disconnectWallet} className={styles.link_type} style={{paddingBottom: "10px"}}>
+                            Disconnect
                           </div>
-                          {/* <a href="#">Link 3</a> */}
+                          
                         </div>
                       </div>
                       
                     </>:""
                     
-                    // <WalletMultiButton className="wallet-button"/>
                   }
+                  
                   <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
                     <img src={infoIcon} />
                   </button>
@@ -444,14 +360,9 @@ const SearchComponent = ({popup,setPopUp}) => {
                   
 
                 </div>
-                {/* <div className="logo_area">
                   
-                  <button className={styles.about_shyft_button} onClick={() => setPopUp(true)}>
-                    <img src={infoIcon} />
-                  </button>
-                </div> */}  
               </div>
-              {/* {disconn && <DisconnectLoader />} */}
+              
               <Toaster
                     position="top-center"
                     reverseOrder={false}

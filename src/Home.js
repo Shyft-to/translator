@@ -21,6 +21,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import * as bs58 from "bs58";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { PulseLoader } from "react-spinners";
 
 const staticAddresses = [
   {
@@ -59,7 +60,7 @@ const Home = ({popup, setPopUp}) => {
   const [searchData, setSearchData] = useState([]);
 
   const [connectionProgress,setConnectionProgress] = useState("UNLOADED");
-  const [isWalletConnected,setWalletConnected] = useState(false);
+  const [isWalletConnected,setWalletConnected] = useState("NOT_CONN");
   const [connectedWalletAddress,setConnWallAddr] = useState("");
 
   useEffect(() => {
@@ -70,6 +71,7 @@ const Home = ({popup, setPopUp}) => {
     const xToken = localStorage.getItem("reac_wid") ?? ""
     if(xToken !== "")
     {
+      setWalletConnected("LOADING");
       axios({
         url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
         method:"POST",
@@ -83,20 +85,24 @@ const Home = ({popup, setPopUp}) => {
         {
           const pubKeyReceived = res.data.wallet_address;
           setConnWallAddr(pubKeyReceived);
-          setWalletConnected(true);
+          setWalletConnected("CONN");
         }
         else
         {
           localStorage.setItem("reac_wid","");
-          setWalletConnected(false);
+          setWalletConnected("NOT_CONN");
         }
       })
       .catch(err => {
         console.log(err);
-        setWalletConnected(false)
+        setWalletConnected("NOT_CONN")
         localStorage.setItem("reac_wid","");
       })
       
+    }
+    else
+    {
+      setWalletConnected("NOT_CONN"); 
     }
   }, [])
   
@@ -424,8 +430,13 @@ const Home = ({popup, setPopUp}) => {
                   </button>}
                 </div>
                 <div className="col-12 col-md-3 p-2 pt-2 pt-md-4">
-                  {(userWallet?.publicKey)?<WalletMultiButton className="wallet-button"/>:
-                  <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
+                  {/* {(userWallet?.publicKey)?<WalletMultiButton className="wallet-button"/>:
+                  <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>} */}
+
+                  {/* <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button> */}
+                  {isWalletConnected === "NOT_CONN" && <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
+                  {isWalletConnected === "CONN" && <button className="wallet-button">Disconnect</button>}
+                  {isWalletConnected === "LOADING" && <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button>}
                 </div>
             </motion.div>
             <div className="pt-5">
