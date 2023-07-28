@@ -507,7 +507,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                             {/* {(followLoading === "UNFOLLOWED") && <FolUnfolLoaderFull follow={false}/>} */}
                                         </>
                                         }
-                                        {(isWalletConnected === "CONN") && <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>}    
+                                        {(isWalletConnected === "NOT_CONN") && <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>}    
                                         {(isWalletConnected === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}    
                                         
                                         <div className="keys" style={{display:"none"}}>
