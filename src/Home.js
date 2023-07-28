@@ -324,10 +324,25 @@ const Home = ({popup, setPopUp}) => {
     setClickedConnectWallet(true);
     setVisible(true);
   }
+  // const disconnectWallet = () => {
+  //   let content = document.getElementsByClassName("keys")[0];
+  //   let kbButtons = content.getElementsByTagName("button")[0];
+  //   kbButtons.click();
+  // }
   const disconnectWallet = () => {
-    let content = document.getElementsByClassName("keys")[0];
-    let kbButtons = content.getElementsByTagName("button")[0];
-    kbButtons.click();
+    localStorage.setItem("reac_wid","");
+    toast.success('Wallet Disconnected',{
+      style: {
+        borderRadius: '10px',
+        background: '#1E0C36',
+        color: '#fff',
+        border: "1px solid white",
+        font: "300 16px Geologica,sans-serif",
+        paddingLeft: "18px",
+        paddingRight: "10px",
+        paddingTop: "10px"
+      },
+    });
   }
   
   return (
@@ -435,7 +450,7 @@ const Home = ({popup, setPopUp}) => {
 
                   {/* <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button> */}
                   {isWalletConnected === "NOT_CONN" && <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
-                  {isWalletConnected === "CONN" && <button className="wallet-button">Disconnect</button>}
+                  {isWalletConnected === "CONN" && <button className="wallet-button" onClick={disconnectWallet}>Disconnect</button>}
                   {isWalletConnected === "LOADING" && <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button>}
                 </div>
             </motion.div>

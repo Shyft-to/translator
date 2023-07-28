@@ -29,7 +29,7 @@ import { followUser,getFollowData,isUserFollowed, unFollowUser } from "./utils/d
 import ButtonLoader from "./components/loaders/ButtonLoader";
 import FolUnfolLoader from "./components/loaders/FolUnfolLoader";
 import FollowerList from "./components/FollowerList";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { WalletDisconnectButton, useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { PulseLoader } from "react-spinners";
 import FolUnfolLoaderFull from "./components/loaders/FolUnfolLoaderFull";
@@ -219,7 +219,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     const followuser = async () => {
         
         const xToken = localStorage.getItem("reac_wid") ?? "";
-        
+        console.log("isWallet Conn: ",isWalletConnected);
         console.log("clicked follow");
         
         if(xToken !== "")
@@ -348,6 +348,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             if(signedMessageFromWallet)
                 setClickedConnectLoggedOut(false);
             setFollowLoading("LOADING");
+            setWalletConnected("LOADING");
             await axios.request(
             {
                 url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
@@ -364,11 +365,15 @@ const AddressComponent = ({popup,setPopUp}) => {
             if(res.data.success)
             {
                 localStorage.setItem("reac_wid",res.data.accessToken);
+                setWalletConnected("CONN")
                 // navigate(`/feed?cluster=${network}`);
+                disconnectWallet();
                 followuser();
             }
             })
             .catch(err => {
+                disconnectWallet();
+                setWalletConnected("NO_CONN")
                 console.log(err.response.data);
                 setFollowLoading("NO_ACTION");
                 localStorage.setItem("reac_wid","");
@@ -386,7 +391,9 @@ const AddressComponent = ({popup,setPopUp}) => {
             
             });
         } catch (error) {
+            disconnectWallet();
             console.log(error.message);
+            setWalletConnected("NO_CONN")
             toast('Authentication Failed',{
                 icon: '❌',
                 style: {
@@ -400,7 +407,11 @@ const AddressComponent = ({popup,setPopUp}) => {
             })
         }
     }
-
+    const disconnectWallet = () => {
+        let content = document.getElementsByClassName("keys")[0];
+        let kbButtons = content.getElementsByTagName("button")[0];
+        kbButtons.click();
+    }
     return (
         <div>
             <ClickToTop />
@@ -487,17 +498,21 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
                                     
-                                        {(isWalletConnected)?<>
+                                        {(isWalletConnected === "CONN")&& <>
                                             {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
                                             {(followLoading === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}
                                             {/* {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />} */}
                                             {/* {(followLoading === "FOLLOWED") && <FolUnfolLoaderFull follow={true}/>} */}
                                             {/* {(followLoading === "UNFOLLOWED") && <FolUnfolLoader follow={false} />} */}
                                             {/* {(followLoading === "UNFOLLOWED") && <FolUnfolLoaderFull follow={false}/>} */}
-                                        </>:
-                                        <>
-                                            <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>
-                                        </>}
+                                        </>
+                                        }
+                                        {(isWalletConnected === "CONN") && <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>}    
+                                        {(isWalletConnected === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}    
+                                        
+                                        <div className="keys" style={{display:"none"}}>
+                                            <WalletDisconnectButton />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="row pt-4">
