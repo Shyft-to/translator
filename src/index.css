@@ -806,11 +806,11 @@ body {
   color: #fff !important;
   padding: 0.7rem 0rem !important;
   border-radius: 2.5rem !important;
-  transition: all 0.2s;
+  transition: all 0.5s ease-in;
 }
 
 .wallet-button:hover {
-  transform: scale(1.05);
+  background: linear-gradient(90.22deg, #5d2b99 1.13%, #280C4C 131.77%);
 }
 .wallet-adapter-dropdown
 {

@@ -420,3 +420,42 @@
     padding-bottom: 0.6rem;
   }
 }
+.hover_button
+{
+}
+.hover_button .visible_on_hover
+{
+  display: none;
+  width: 95%;
+  margin: 0 auto;
+  transition: all 0.5s ease;
+}
+.hover_button:hover .visible_on_hover
+{
+  display: block;
+  background-color: #000;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+.visible_on_hover button{
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  width: 100%;
+  padding: 16px 0px 24px;
+  text-align: center;
+  color: #fff;
+  font: 500 16px/16px "Jost", sans-serif;
+}
+.visible_on_hover .visible_section_link{
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  width: 100%;
+  padding: 16px 0px;
+  text-align: center;
+  color: #fff;
+  font: 500 16px/16px "Jost", sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}

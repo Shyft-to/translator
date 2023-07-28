@@ -14,7 +14,7 @@ import crossIcon from "./resources/images/cross-icon.png";
 
 import PopupView from "./PopupView";
 import OpenPopup from "./OpenPopup";
-import { listOfAddresses } from "./utils/formatter";
+import { listOfAddresses, shortenAddress } from "./utils/formatter";
 
 import { WalletDisconnectButton, WalletMultiButton, useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -66,6 +66,12 @@ const Home = ({popup, setPopUp}) => {
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: "/", title: "HomePage" });
   }, []);
+
+  useEffect(() => {
+    if(userWallet?.publicKey)
+      disconnectWallet();
+  }, [])
+  
 
   useEffect(() => {
     const xToken = localStorage.getItem("reac_wid") ?? ""
@@ -232,6 +238,7 @@ const Home = ({popup, setPopUp}) => {
       if(signedMessageFromWallet)
       {
         setConnectionProgress("LOADING");
+        setWalletConnected("LOADING");
         await axios.request(
         {
             url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
@@ -260,10 +267,15 @@ const Home = ({popup, setPopUp}) => {
                 paddingTop: "10px"
               },
             })
+            setWalletConnected("CONN");
             disconnectWallet();
             setTimeout(() => {
               navigate(`/feed?cluster=${network}`);
             }, 1000);
+          }
+          else
+          {
+            setWalletConnected("NOT_CONN");
           }
         })
         .catch(err => {
@@ -282,6 +294,7 @@ const Home = ({popup, setPopUp}) => {
             },
           });
           setConnectionProgress("ERROR");
+          setWalletConnected("NOT_CONN");
           localStorage.setItem("reac_wid","");
           setTimeout(() => {
             setConnectionProgress("UNLOADED");
@@ -290,6 +303,7 @@ const Home = ({popup, setPopUp}) => {
       }
     } catch (error) {
       console.log("Error",error.message);
+      setWalletConnected("NOT_CONN");
       disconnectWallet();
       toast.error('Wallet Not Authorized',{
         style: {
@@ -324,13 +338,15 @@ const Home = ({popup, setPopUp}) => {
     setClickedConnectWallet(true);
     setVisible(true);
   }
-  // const disconnectWallet = () => {
-  //   let content = document.getElementsByClassName("keys")[0];
-  //   let kbButtons = content.getElementsByTagName("button")[0];
-  //   kbButtons.click();
-  // }
   const disconnectWallet = () => {
+    let content = document.getElementsByClassName("keys")[0];
+    let kbButtons = content.getElementsByTagName("button")[0];
+    kbButtons.click();
+  }
+  const disconnectTheWallet = () => {
     localStorage.setItem("reac_wid","");
+    setWalletConnected("NOT_CONN");
+    setConnWallAddr("");
     toast.success('Wallet Disconnected',{
       style: {
         borderRadius: '10px',
@@ -410,7 +426,7 @@ const Home = ({popup, setPopUp}) => {
                           <div className={`flex-grow-1 ${styles.address_area}`}>
                             {result.domain || result.address}
                           </div>
-                          <div className={styles.network_area}>
+                          <div className={styles.nework_area}>
                             {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
                           </div>
                         </div>
@@ -449,8 +465,19 @@ const Home = ({popup, setPopUp}) => {
                   <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>} */}
 
                   {/* <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button> */}
+                  
                   {isWalletConnected === "NOT_CONN" && <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
-                  {isWalletConnected === "CONN" && <button className="wallet-button" onClick={disconnectWallet}>Disconnect</button>}
+                  {isWalletConnected === "CONN" && <>
+                    <div className={styles.hover_button}>
+                      <button className="wallet-button">{shortenAddress(connectedWalletAddress)}</button>
+                      <div className={styles.visible_on_hover}>
+                        <div className={styles.visible_section_link} onClick={() => navigate(`/feed?cluster=${network}`)}>
+                          Your Feed
+                        </div>
+                        <button onClick={disconnectTheWallet}>Disconnect</button>
+                      </div>
+                    </div>
+                  </>}
                   {isWalletConnected === "LOADING" && <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button>}
                 </div>
             </motion.div>
