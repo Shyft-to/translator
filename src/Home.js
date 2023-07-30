@@ -487,7 +487,7 @@ const Home = ({popup, setPopUp}) => {
             </div>
           </div>
         </div>
-        <div className="keys" style={{display:"none"}}>
+        <div className="keys" >
           <WalletDisconnectButton />
         </div>
         <Toaster

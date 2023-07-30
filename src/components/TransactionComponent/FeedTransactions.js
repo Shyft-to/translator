@@ -18,6 +18,7 @@ import { AnimatePresence } from "framer-motion";
 import { getTxnUptoSignature } from "../../utils/getAllData";
 import { getRelativetime, shortenAddress } from "../../utils/formatter";
 import AnimatedTxnLoader from "../loaders/AnimatedTxnLoader";
+import GroupTransactions from "./GroupTransactions";
 
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -96,15 +97,34 @@ const FeedTransactions = ({ address, cluster }) => {
             console.log("here");
             if (res.data.txns.length > 0) {
               const txnReceived = res.data.txns;
+              const txnsReceivedGroup = [];
               if (txnReceived.length === 0)
                 setMoreTxns(false);
-              setTxns([...txns, ...txnReceived]);
-              // setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
-              // setTxnOne(txnReceived[0].signatures[0]);
+              else
+              {
+                for (let index = 0; index < (txnReceived.length)-1; index++) {
+                  const currentTxn = txnReceived[index];
+                  var groupedArray = [currentTxn];
+                  var checkUpto = index;
+                  for (let txn = index+1; txn < txnReceived.length; txn++) {
+                    const nextTxn = txnReceived[txn];
+                    if(nextTxn.tag_address !== "" && nextTxn.tag_address === currentTxn.tag_address)
+                    {
+                      groupedArray.push(nextTxn)
+                      checkUpto = txn;
+                    }
+                    else
+                      break               
+                  }
+                  index = checkUpto;
+                  txnsReceivedGroup.push(groupedArray);
+                }
+              }
+              console.log("Txns received group: ",txnsReceivedGroup);
+              setTxns(txnsReceivedGroup);
               setTimeout(() => {
                 setPage(2);
-              }, 1000);
-              
+              }, 1000);  
             }
             else {
               setMoreTxns(false);
@@ -160,7 +180,7 @@ const FeedTransactions = ({ address, cluster }) => {
           {
             for (let index = 0; index < (txnReceived.length)-1; index++) {
               const currentTxn = txnReceived[index];
-              var groupedArray = [];
+              var groupedArray = [currentTxn];
               var checkUpto = index;
               for (let txn = index+1; txn < txnReceived.length; txn++) {
                 const nextTxn = txnReceived[txn];
@@ -344,24 +364,23 @@ const FeedTransactions = ({ address, cluster }) => {
             (txns.length > 0) ?
               (
                 txns.map((each_txn) =>
-                  <div>
-                    <div className={styles.feed_txn_outer}>
+                    <>
+                      <div className={styles.feed_txn_outer}>
                         <div className={styles.feed_txn_signer}>
                           <div className={styles.avatar_area}>
-                            <img src={avatar2} />
-                            <span className={styles.text}>{shortenAddress(each_txn.tag_address || each_txn.signers[0])}</span>
+                            <img src={avatar2} alt="display pic" />
+                            <span className={styles.text}>{shortenAddress(each_txn[0].tag_address || each_txn[0].signers[0])}</span>
                           </div>
                         </div>
-                        <div className={styles.time_area}>
-                        {(each_txn.timestamp !== "") ? getRelativetime(each_txn.timestamp) : ""}
-                        
+                      </div>
+                      <div style={{paddingLeft: "10px", paddingBottom: "20px"}}>
+                        <div style={{borderLeft: "2px dotted #fff8", paddingLeft: "20px"}}>
+                            <GroupTransactions txns={each_txn} address={address} cluster={cluster}/> 
                         </div>
-                      </div> 
-                    <TransactionStructureToken styles={styles} id={each_txn.signatures[0]} data={each_txn} address={address} cluster={cluster} />
-                  </div>
+                      </div>
+                    </>
                   )
               ) : ""
-
           }
           {
             (errOcc) && <div className={`text-center ${styles.could_not_text}`}>

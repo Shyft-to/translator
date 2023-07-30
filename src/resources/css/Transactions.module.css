@@ -784,3 +784,18 @@
     color: #FFF;
     padding: 0px 0px 16px;
 }
+.feed_txn_outer_2
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    /* margin-top: -10px; */
+}
+.feed_txn_outer_2 .time_area
+{
+    font: 400 14px/18px "Jost",sans-serif;
+    color: #FFF;
+    padding: 0px 0px 16px;
+    margin-top: -20px;
+}
