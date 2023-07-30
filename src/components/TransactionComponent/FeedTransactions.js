@@ -153,11 +153,31 @@ const FeedTransactions = ({ address, cluster }) => {
 
         if (res.data.txns.length > 0) {
           const txnReceived = res.data.txns;
+          const txnsReceivedGroup = [];
           if (txnReceived.length === 0)
             setMoreTxns(false);
           else
+          {
+            for (let index = 0; index < (txnReceived.length)-1; index++) {
+              const currentTxn = txnReceived[index];
+              var groupedArray = [];
+              var checkUpto = index;
+              for (let txn = index+1; txn < txnReceived.length; txn++) {
+                const nextTxn = txnReceived[txn];
+                if(nextTxn.tag_address !== "" && nextTxn.tag_address === currentTxn.tag_address)
+                {
+                  groupedArray.push(nextTxn)
+                  checkUpto = txn;
+                }
+                else
+                  break               
+              }
+              index = checkUpto;
+              txnsReceivedGroup.push(groupedArray);
+            }
             setPage(value+1);
-          setTxns([...txns, ...txnReceived]);
+          }
+          setTxns([...txns, ...txnsReceivedGroup]);
           // setTxnLast(txnReceived[txnReceived.length - 1].signatures[0]);
           // setTxnOne(txnReceived[0].signatures[0]);
         }
