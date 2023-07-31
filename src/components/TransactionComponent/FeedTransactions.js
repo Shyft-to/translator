@@ -163,7 +163,7 @@ const FeedTransactions = ({ address, cluster }) => {
     // }
     axios({
       url: `${process.env.REACT_APP_BACKEND_EP}/getTransactions/${cluster}/${value}`,
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${xToken}`
@@ -184,7 +184,7 @@ const FeedTransactions = ({ address, cluster }) => {
               var checkUpto = index;
               for (let txn = index+1; txn < txnReceived.length; txn++) {
                 const nextTxn = txnReceived[txn];
-                if(nextTxn.tag_address !== "" && nextTxn.tag_address === currentTxn.tag_address)
+                if(nextTxn.tag_address && nextTxn.tag_address === currentTxn.tag_address)
                 {
                   groupedArray.push(nextTxn)
                   checkUpto = txn;
