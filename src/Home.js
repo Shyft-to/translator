@@ -255,6 +255,7 @@ const Home = ({popup, setPopUp}) => {
           if(res.data.success)
           {
             localStorage.setItem("reac_wid",res.data.accessToken);
+            setConnWallAddr(wallet_address);
             toast.success('Wallet Authorized',{
               style: {
                 borderRadius: '10px',
@@ -276,6 +277,7 @@ const Home = ({popup, setPopUp}) => {
           else
           {
             setWalletConnected("NOT_CONN");
+            setConnWallAddr("");
           }
         })
         .catch(err => {
@@ -304,6 +306,7 @@ const Home = ({popup, setPopUp}) => {
     } catch (error) {
       console.log("Error",error.message);
       setWalletConnected("NOT_CONN");
+      setConnectionProgress("UNLOADED");
       disconnectWallet();
       toast.error('Wallet Not Authorized',{
         style: {
@@ -487,7 +490,7 @@ const Home = ({popup, setPopUp}) => {
             </div>
           </div>
         </div>
-        <div className="keys" >
+        <div className="keys" style={{display: "none"}}>
           <WalletDisconnectButton />
         </div>
         <Toaster

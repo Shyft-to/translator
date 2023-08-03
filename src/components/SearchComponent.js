@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate,useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import { BounceLoader } from "react-spinners";
 import { motion } from "framer-motion";
 import toast, { Toaster } from 'react-hot-toast';
 import * as bs58 from "bs58";
@@ -23,7 +24,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import DisconnectLoader from "./loaders/DisconnectedLoader";
 import wallet_Disconnected_loader from "../resources/images/loaders/disconnect_wallet.gif";
 
-const SearchComponent = ({popup,setPopUp}) => {
+const SearchComponent = ({ popup, setPopUp }) => {
   let [searchParams, setSearchParams] = useSearchParams();
   const cluster = searchParams.get("cluster") ?? "mainnet-beta";
   const navigate = useNavigate();
@@ -31,15 +32,16 @@ const SearchComponent = ({popup,setPopUp}) => {
   const [network, setNetwork] = useState(cluster);
 
   const currentWallet = localStorage.getItem("reac_wid");
-  const [showFoll,setShowFoll] = useState(false);
-  const [disconn,setDisconn] = useState(false);
-  
+  const [showFoll, setShowFoll] = useState(false);
+  const [disconn, setDisconn] = useState(false);
+
   const [isFocused, setFocused] = useState(false);
   const [searchData, setSearchData] = useState([]);
 
-  const [isWalletConnected,setWalletConnected] = useState("NOT_CONN");
-  const [connectedWalletAddress,setConnWallAddr] = useState("");
-  
+  const [isWalletConnected, setWalletConnected] = useState("NOT_CONN");
+  const [connectedWalletAddress, setConnWallAddr] = useState("");
+  const [isSearching,setSearching] = useState(false);
+
   const userWallet = useWallet();
 
   useEffect(() => {
@@ -55,43 +57,39 @@ const SearchComponent = ({popup,setPopUp}) => {
   }, [])
   useEffect(() => {
     const xToken = localStorage.getItem("reac_wid") ?? "";
-    if(xToken !== "")
-    {
+    if (xToken !== "") {
       setWalletConnected("LOADING");
       axios({
-        url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
-        method:"POST",
+        url: `${process.env.REACT_APP_BACKEND_EP}/user-verify`,
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${xToken}`
         }
       })
-      .then(res => {
-        if(res.status === 200)
-        {
-          const pubKeyReceived = res.data.wallet_address;
-          setConnWallAddr(pubKeyReceived);
-          setWalletConnected("CONN");
-        }
-        else
-        {
-          localStorage.setItem("reac_wid","");
-          setWalletConnected("NOT_CONN");
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        setWalletConnected("NOT_CONN")
-        localStorage.setItem("reac_wid","");
-      })
-      
+        .then(res => {
+          if (res.status === 200) {
+            const pubKeyReceived = res.data.wallet_address;
+            setConnWallAddr(pubKeyReceived);
+            setWalletConnected("CONN");
+          }
+          else {
+            localStorage.setItem("reac_wid", "");
+            setWalletConnected("NOT_CONN");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          setWalletConnected("NOT_CONN")
+          localStorage.setItem("reac_wid", "");
+        })
+
     }
-    else
-    {
-      setWalletConnected("NOT_CONN"); 
-    }  
+    else {
+      setWalletConnected("NOT_CONN");
+    }
   }, [])
-  
+
   const BlurAfterTime = () => {
     setTimeout(() => {
       setFocused(false)
@@ -100,26 +98,25 @@ const SearchComponent = ({popup,setPopUp}) => {
 
 
   const addDataNavigate = async (searchParam, network) => {
-    // console.log("clicked");
+    console.log("Searching Address");
     document.getElementById("start_search").disabled = true;
     try {
       if (searchParam !== "") {
-
         var wallet = "";
         var solDomain = "";
 
         if (searchParam.length < 40) {
+          setSearching(true);
           var address = await getAddressfromDomain(searchParam);
           if (address.success === true) {
             wallet = address.wallet_address;
             solDomain = searchParam;
-          }
-          else {
+          } else {
             wallet = searchParam;
             solDomain = "";
           }
-        }
-        else {
+          setSearching(false);
+        } else {
           wallet = searchParam;
           solDomain = "";
         }
@@ -127,55 +124,55 @@ const SearchComponent = ({popup,setPopUp}) => {
         const newAddress = {
           domain: solDomain,
           address: wallet,
-          network: network
-        }
+          network: network,
+        };
 
         var is_unique = false;
         searchData.map((search) => {
-          if (search.domain === newAddress.domain && search.address === newAddress.address && search.network === newAddress.network) {
+          if (
+            search.domain === newAddress.domain &&
+            search.address === newAddress.address &&
+            search.network === newAddress.network
+          ) {
             is_unique = true;
           }
-        })
+        });
 
         if (is_unique === false) {
           var newResults = [];
           if (searchData.length > 4)
             newResults = [...searchData.slice(1), newAddress];
-          else
-            newResults = [...searchData, newAddress];
+          else newResults = [...searchData, newAddress];
 
           document.getElementById("start_search").disabled = false;
           setSearchData(newResults);
-          localStorage.setItem('shshis2', JSON.stringify(newResults));
+          localStorage.setItem("shshis2", JSON.stringify(newResults));
         }
+        else {
+          document.getElementById("start_search").disabled = false;
+        }
+
         if (searchParam.length > 55) {
           if (network === "mainnet-beta") {
             window.location.href = `/tx/${wallet}`;
-          }
-          else {
+          } else {
             window.location.href = `/tx/${wallet}?cluster=${network}`;
           }
-        }
-        else {
+        } else {
           if (network === "mainnet-beta") {
             navigate(`/address/${wallet}`);
             // window.location.href = `/address/${wallet}`;
-          }
-          else {
+          } else {
             navigate(`/address/${wallet}?cluster=${network}`);
             // window.location.href = `/address/${wallet}?cluster=${network}`;
           }
         }
-
-
-
       }
     } catch (error) {
       // navigate(`/address/${searchParam}?cluster=${network}`);
       document.getElementById("start_search").disabled = false;
       window.location.href = `/address/${wallet}?cluster=${network}`;
     }
-
   }
 
   const disconnectButtonPress = () => {
@@ -185,20 +182,20 @@ const SearchComponent = ({popup,setPopUp}) => {
     kbButtons.click();
   }
   const disconnectWallet = () => {
-    localStorage.setItem("reac_wid","");
+    localStorage.setItem("reac_wid", "");
     setConnWallAddr("");
     setWalletConnected("NO_CONN");
     toast((t) => (
-        <div className="foll_unfoll_notification">
-            <div className="d-flex">
-                <div className="icon_foll">
-                    <img className="img-fluid" src={wallet_Disconnected_loader} alt="wallet_followed"/>
-                </div>
-                <div className="text_foll">
-                    Disconnected
-                </div>
-            </div>
+      <div className="foll_unfoll_notification">
+        <div className="d-flex">
+          <div className="icon_foll">
+            <img className="img-fluid" src={wallet_Disconnected_loader} alt="wallet_followed" />
+          </div>
+          <div className="text_foll">
+            Disconnected
+          </div>
         </div>
+      </div>
     ));
     setTimeout(() => {
       setDisconn(false);
@@ -209,8 +206,8 @@ const SearchComponent = ({popup,setPopUp}) => {
     <motion.div className={styles.header_search_area} initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }}>
       {/* <OpenPopup setPopUp={setPopUp}/> */}
       {popup && <PopupView setPopUp={setPopUp} />}
-      
-      {showFoll && <FollowerList setShowFoll={setShowFoll}/>}
+
+      {showFoll && <FollowerList setShowFoll={setShowFoll} />}
       <div className={styles.header_search_area_inner}>
         <div className="container-fluid">
           <div className={styles.menubar_container}>
@@ -240,14 +237,19 @@ const SearchComponent = ({popup,setPopUp}) => {
                               addDataNavigate(wallet, network)
                             }
                             }>
-                              <div className="d-flex justify-content-start">                                
+                              <div className="d-flex justify-content-start">
                                 <div className={`flex-grow-1 ${styles.input_end}`}>
 
                                   <div className="d-flex justify-content-between">
                                     <div>
-                                      <button type="submit" id="start_search" style={{ backgroundColor: "transparent", border: "none", outline: "none" }} className={styles.search_icon}>
+                                      {isSearching ? 
+                                      <div style={{ backgroundColor: "transparent", border: "none", outline: "none", paddingTop: "12px" }} className={styles.search_icon}>
+                                        <BounceLoader size={18} color="#fff"/>
+                                      </div>
+                                      :<button type="submit" id="start_search" style={{ backgroundColor: "transparent", border: "none", outline: "none" }} className={styles.search_icon}>
                                         <FaSearch />
-                                      </button>
+                                      </button>}
+                                      
                                     </div>
                                     <div className="flex-grow-1">
                                       <input
@@ -259,7 +261,7 @@ const SearchComponent = ({popup,setPopUp}) => {
                                         onBlur={BlurAfterTime}
                                       />
                                     </div>
-                                    
+
 
                                   </div>
 
@@ -317,66 +319,66 @@ const SearchComponent = ({popup,setPopUp}) => {
                       </div>
                     </motion.div>
                   </div>
-                  
+
                 </div>
 
               </div>
               <div className={styles.area_3}>
                 <div className={styles.connect_button_container}>
                   <div className={styles.links_list}>
-                  {
-                    (isWalletConnected === "CONN") ?
-                    <>
-                      
-                      <div className={styles.dropdown_menu}>
-                        <div className={styles.menu_head}>
-                          <img src={profIcon} className={styles.dropdown_image} />
-                          {shortenAddress(connectedWalletAddress)}
-                        </div>
-                        <div className={styles.dropdown_content}>
-                          <div className={styles.link_type} onClick={() => setShowFoll(true)}>
-                            {/* <img src={follIcon} className={styles.dropdown_image} alt="Feed" style={{opacity: 0.4, width: "20px", marginRight: "14px"}}/> */}
-                            Following
+                    {
+                      (isWalletConnected === "CONN") ?
+                        <>
+
+                          <div className={styles.dropdown_menu}>
+                            <div className={styles.menu_head}>
+                              <img src={profIcon} className={styles.dropdown_image} />
+                              {shortenAddress(connectedWalletAddress)}
+                            </div>
+                            <div className={styles.dropdown_content}>
+                              <div className={styles.link_type} onClick={() => setShowFoll(true)}>
+                                {/* <img src={follIcon} className={styles.dropdown_image} alt="Feed" style={{opacity: 0.4, width: "20px", marginRight: "14px"}}/> */}
+                                Following
+                              </div>
+                              <a className={styles.link_type} href={`/feed?cluster=${network}`} >
+                                {/* <img src={homeIcon} className={styles.dropdown_image} style={{width: "20px", marginRight: "14px"}} alt="Feed" /> */}
+                                Feed
+                              </a>
+                              <div onClick={disconnectWallet} className={styles.link_type} style={{ paddingBottom: "10px" }}>
+                                Disconnect
+                              </div>
+
+                            </div>
                           </div>
-                          <a className={styles.link_type} href={`/feed?cluster=${network}`} >
-                            {/* <img src={homeIcon} className={styles.dropdown_image} style={{width: "20px", marginRight: "14px"}} alt="Feed" /> */}
-                            Feed
-                          </a>
-                          <div onClick={disconnectWallet} className={styles.link_type} style={{paddingBottom: "10px"}}>
-                            Disconnect
-                          </div>
-                          
-                        </div>
-                      </div>
-                      
-                    </>:""
-                    
-                  }
-                  
-                  <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
-                    <img src={infoIcon} />
-                  </button>
-                  </div> 
-                  
+
+                        </> : ""
+
+                    }
+
+                    <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
+                      <img src={infoIcon} />
+                    </button>
+                  </div>
+
 
                 </div>
-                  
+
               </div>
-              
+
               <Toaster
-                    position="top-center"
-                    reverseOrder={false}
-                    toastOptions={{
-                        className: '',
-                        style: {
-                          border: '2px solid white',
-                          padding: '0px',
-                          background: '#1E0C36',
-                        },
-                      }}
-                />
+                position="top-center"
+                reverseOrder={false}
+                toastOptions={{
+                  className: '',
+                  style: {
+                    border: '2px solid white',
+                    padding: '0px',
+                    background: '#1E0C36',
+                  },
+                }}
+              />
             </div>
-            </div>
+          </div>
         </div>
       </div>
     </motion.div>
