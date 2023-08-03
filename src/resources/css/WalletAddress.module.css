@@ -70,6 +70,15 @@
   color: #fff;
   padding-top: 6px;
 }
+.follower_flex
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 230px;
+  margin-right: 0;
+  margin-left: auto;
+}
 .copy_button
 {
   display: block;
@@ -87,7 +96,7 @@
 @media screen and (max-width:767px) {
   .background_super
   {
-    padding: 130px 0px 16px;
+    padding: 100px 0px 16px;
   }
   .main_heading
   {
@@ -101,11 +110,23 @@
   {
     font: 300 18px/18px "Geologica", sans-serif;
     color: #fff;
-    text-align: end;
+  }
+  .follower_flex
+  {
+    max-width: 180px;
   }
   
 }
-
+@media screen and (max-width:767px) {
+  .wallet_balance_indicator
+  {
+    font: 300 14px/18px "Geologica", sans-serif;
+  }
+  .follower_flex
+  {
+    max-width: 160px;
+  }
+}
 
 /* Tabbed Section Container */
 .tabbed_section_container
@@ -304,6 +325,12 @@
 
   .select_container_2 option {
     background-color: #2a0855;
+  }
+  .follow_button
+  {
+    padding: 8px 30px;
+    border-radius: 16px;
+    font: 500 12px/12px "Jost", sans-serif;
   }
 }
 .your_feed_heading_container

@@ -515,7 +515,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row pt-4">
+                                <div className="row pt-2 pt-md-4">
                                     <div className="col-6 col-lg-6">
                                         <div>
                                             <div className={styles.wallet_balance_indicator}>
@@ -525,8 +525,8 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
                                         <div>
-                                            <div className={styles.wallet_balance_indicator}>
-                                                {followers} Followers &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {following} Following
+                                            <div className={`${styles.wallet_balance_indicator} ${styles.follower_flex}`}>
+                                                <div>{followers} Followers</div>  <div>{following} Following</div>
                                             </div>
                                         </div>
                                     </div>

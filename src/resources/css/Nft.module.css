@@ -58,6 +58,7 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-left: 4px;
+        margin-top: 14px;
     }
 }
 /* Each NFT */

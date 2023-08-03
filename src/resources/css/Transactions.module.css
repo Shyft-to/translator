@@ -309,7 +309,7 @@
 .each_txn_3 .toggle_button
 {
     position: absolute;
-    top: 20px;
+    top: 26px;
     right: 20px;
     display: flex;
     justify-content: end;
@@ -347,6 +347,7 @@
     height: 22px;
 }
 @media screen and (max-width: 767px) {
+    
     .each_txn_3 .toggle_button
     {
         top: 10px;
@@ -366,7 +367,7 @@
 
     .each_txn_3 .toggle_button .copyTxnSig img
     {
-        display:none;
+        /* display:none; */
     }
 }
 /* .each_txn_3 .txn_name_section
@@ -428,31 +429,42 @@
     }
     .each_txn_3 .txn_name
     {
-        font: 500 16px/20px "Montserrat",sans-serif;
-        width: 70vw;
+        font: 500 16px/20px "Geologica",sans-serif;
         padding-bottom: 0px;
     }
     .each_txn_3 .txn_subname
     {
-        font: 300 11px/14px "Montserrat",sans-serif;
+        font: 300 11px/14px "Jost",sans-serif;
+        padding: 14px 20px 20px 0px;
+        color: #FFFFFF99;
+    }
+    .each_txn_3 .txn_signature
+    {
+        font: 300 11px/14px "Jost",sans-serif;
         padding: 6px 20px 20px 0px;
         color: #FFFFFF99;
     }
     .each_txn_3 .txn_signature
     {
-        font: 300 11px/14px "Montserrat",sans-serif;
-        padding: 6px 20px 20px 0px;
-        color: #FFFFFF99;
-    }
-    .each_txn_3 .txn_signature
-    {
-        
         margin-top: 0px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .each_txn_3 .txn_name
+    {
+        font: 500 16px/20px "Geologica",sans-serif;
+        padding: 26px 20px 24px 0px;
+    }
+    .each_txn_3 .txn_subname
+    {
+        font: 300 11px/14px "Jost",sans-serif;
+        padding: 29px 20px 20px 0px;
+        color: #FFFFFF99;
     }
 }
 .each_txn_3 .dynamic_field
 {
-    font: 400 14px/14px "Montserrat",sans-serif;
+    font: 400 14px/14px "Jost",sans-serif;
     /* letter-spacing: 1px; */
     padding: 4px 0px;
     color: #FFFA;
