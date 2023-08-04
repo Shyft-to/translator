@@ -144,7 +144,9 @@ export function isParsable(action)
                 "SET_GOVERNANCE_DELEGATE", "CREATE_GOVERNANCE", "CREATE_PROGRAM_GOVERNANCE", "CREATE_PROPOSAL", "ADD_SIGNATORY",
                 "REMOVE_SIGNATORY", "CANCEL_PROPOSAL", "SIGN_OFF_PROPOSAL", "INSERT_TRANSACTION", "REMOVE_TRANSACTION", "CAST_VOTE",
                 "FINALIZE_VOTE", "RELINQUISH_VOTE", "EXECUTE_TRANSACTION", "CREATE_MINT_GOVERNANCE", "CREATE_TOKEN_GOVERNANCE",
-                "SET_GOVERNANCE_CONFIG", "SET_REALM_AUTHORITY", "POST_MESSAGE"];
+                "SET_GOVERNANCE_CONFIG", "SET_REALM_AUTHORITY", "POST_MESSAGE","COMPRESSED_NFT_SALE","COMPRESSED_NFT_LIST","COMPRESSED_NFT_LIST_UPDATE",
+                "COMPRESSED_NFT_BID","COMPRESSED_NFT_TAKE_BID", "COMPRESSED_NFT_LIST_CANCEL", "COMPRESSED_NFT_BID_CANCEL"
+            ];
             if(actionsWeParse.includes(trimmedAction) === true)
                 return true;
             else
@@ -586,6 +588,11 @@ export const listOfAddresses = [
     {
         domain:"Switchboard Oracle Program",
         address:"DtmE9D2CSB4L5D6A15mraeEjrGMm6auWVzgaD8hK2tZM", 
+        network:"mainnet-beta"
+    },
+    {
+        domain:"Tensor cNFTs",
+        address:"TCMPhJdwDryooaGtiocG1u3xcYbRpiJzb283XfCZsDp", 
         network:"mainnet-beta"
     },
     {
