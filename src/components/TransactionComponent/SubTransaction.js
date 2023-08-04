@@ -3996,8 +3996,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <a
-                              href={`/address/${varFields.to}?cluster=${cluster}`}
-                              aria-label={varFields.to}
+                              href={`/address/${varFields.merkle_tree}?cluster=${cluster}`}
+                              aria-label={varFields.merkle_tree}
                               data-balloon-pos="up"
                             >
                               {shortenAddress(varFields.merkle_tree)}
