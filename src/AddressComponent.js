@@ -324,7 +324,7 @@ const AddressComponent = ({popup,setPopUp}) => {
 
                                                     >
                                                         
-                                                        {getProgramNamefromAddr(addr) || shortenAddress(addr)}
+                                                        {formatNames(data.name) || getProgramNamefromAddr(addr) || shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
                                                 
