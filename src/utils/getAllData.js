@@ -401,6 +401,11 @@ export async function getProtocolData(network, address) {
   };
 
   try {
+    var receivedBalance = 0;
+    var idlAvailable = false;
+    var idlUri = "";
+    var checksComplete = 0;
+
     await axios({
       url: `${endpoint}wallet/balance`,
       method: "GET",
@@ -415,39 +420,51 @@ export async function getProtocolData(network, address) {
     })
       .then((res) => {
         if (res.data.success === true) {
-          data = {
-            success: true,
-            type: "PROTOCOL",
-            details: {
-              balance: res.data.result.balance ?? 0,
-            },
-          };
+          receivedBalance = res.data.result.balance ?? 0;
+          checksComplete++;
         }
       })
       .catch((err) => {
         console.warn(err);
-        data = {
-          success: false,
-          type: "UNKOWN",
-          details: 0,
-        };
       });
-
-    // if (Object.keys(details).length === 0) {
-    //   data = {
-    //     success: false,
-    //     type: "UNKNOWN",
-    //     details: details,
-    //   };
-    // }
-    // else {
-    //   data = {
-    //     success: true,
-    //     type: "WALLET",
-    //     details: details,
-    //   };
-    // }
-
+    
+      // await axios({
+      //   url: `${endpoint}wallet/balance`, //rex endpoint
+      //   method: "GET",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     "x-api-key": xKey,
+      //   },
+      //   params: {
+      //     network: network,
+      //     wallet: address,
+      //   },
+      // })
+      //   .then((res) => {
+      //     if (res.data.success === true) {
+      //       idlAvailable = true;
+      //       idlUri = res.data.idl_uri ?? "";
+      //       checksComplete++;
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.warn(err);
+          
+      //   });
+        
+        if(checksComplete > 0)
+        {
+          data = {
+            success: true,
+            type: "PROTOCOL",
+            details: {
+              balance: receivedBalance,
+              idl_available: idlAvailable,
+              idl_uri: idlUri
+            },
+          };
+        }
+      
     return data;
   } catch (error) {
     console.log(error);

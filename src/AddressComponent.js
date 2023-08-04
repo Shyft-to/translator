@@ -22,6 +22,7 @@ import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
 import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
 import CnftSlider from "./components/CnftSlider";
+import UploadIdl from "./components/TransactionComponent/UploadIdl";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -50,6 +51,8 @@ const AddressComponent = ({popup,setPopUp}) => {
     const [tokenCount,setTokensCount] = useState(-1);
     const [domainsCount,setDomainsCount] = useState(-1);
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
+    const [upIdlPanel,setUpIdlPanel] = useState(true);
+
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
     }, []);
@@ -155,6 +158,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             {popup && <PopupView setPopUp={setPopUp} />} */}
             
             {/* <HeaderComponent /> */}
+            {upIdlPanel && <UploadIdl />}
             <div className={styles.background_super}>
 
                 <div className="container pt-2 pb-1">
@@ -341,6 +345,9 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                             <FaLink />
                                                         </button>
                                                     </Tooltip>
+                                                </div>
+                                                <div className="px-1">
+                                                    <button>Upload IDL</button>
                                                 </div>
                                             </div>
                                             {/*<span>Space Overview</span> */}

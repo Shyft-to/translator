@@ -812,3 +812,93 @@ body {
 {
   padding: 0.62rem 0rem !important;
 }
+.upload_idl
+{
+  padding: 20px 16px;
+}
+.upload_idl .upload_heading {
+  font: 500 24px/28px "Geologica", sans-serif;
+  color: #fff;
+}
+
+.custom-file-input-1 {
+  color: transparent;
+  width: 110px;
+  display: block;
+  margin: 0 auto;
+}
+.custom-file-input-1::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input-1::before {
+  content: 'Select IDL*';
+  color: black;
+  display: inline-block;
+  background: linear-gradient(90.8deg,#e0499b -30.34%,#571da3 85%);
+  font-family: "Jost", sans-serif;
+  font-weight: 400 !important;
+  border-radius: 16px;
+  padding: 5px 20px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  border: 1px solid #2a0855;
+  font-size: 10pt;
+  color:white;
+  transition: border 0.2s ease;
+}
+.custom-file-input-1:hover::before {
+  border: 1px solid #fff;
+}
+.custom-file-input-1:active {
+  outline: 0;
+}
+.custom-file-input-1:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+}
+
+.idl_field_set {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 4px 0px;
+}
+.idl_field_set label {
+  font: 400 16px "Geologica",sans-serif;
+  color: #fff;
+  padding-left: 4px;
+}
+
+.idl_field_set label.label_value {
+  font: 600 16px "Geologica",sans-serif !important;
+  color: #FDF41B;
+  padding-right: 10px;
+}
+.idl_upload {
+  background: linear-gradient(90.8deg,#e0499b -30.34%,#571da3 85%);
+  border: 1px solid #2a0855;
+  outline: none;
+  padding: 10px 30px;
+  border-radius: 20px;
+  font: 400 14px/14px "Geologica",sans-serif;
+  color: #fff;
+  transition: border 0.3s ease;
+}
+.idl_upload:hover {
+  border: 1px solid #fff;
+}
+.idl_upload_success {
+  background: linear-gradient(90.8deg,#1e003d -30.34%,#1e003d 85%);
+  border: 1px solid #2a0855;
+  outline: none;
+  padding: 2px 32px;
+  border-radius: 20px;
+  font: 400 14px/14px "Geologica",sans-serif;
+  color: #1e003d;
+}
+.error_text {
+  font: 600 14px "Jost",sans-serif !important;
+  color: red;
+}
