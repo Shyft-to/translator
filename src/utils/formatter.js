@@ -1,6 +1,7 @@
 import moment from "moment";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
+
 export function shortenAddress(address) {
     try {
         var trimmedString = "";
@@ -610,4 +611,47 @@ export const listOfAddresses = [
         address:"wormDTUJ6AWPNvk59vGQbDvGJmqbDTdgWgAqcLBCgUb", 
         network:"mainnet-beta"
     },
+  ];
+
+  export const MANUALLY_PARSED_IDLS = [
+    "11111111111111111111111111111111",
+    "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "TokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
+    "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
+    "ComputeBudget111111111111111111111111111111",
+    "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
+    "hausS13jsjafwWwGqZTUQRmWyvyxn9EQpqMwV1PBBmk",
+    "cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ",
+    "CndyV3LdqHUfDLmE5naZjVN8rBZz4tqhdefbAnjHG3JR",
+    "Guard1JwRhJkVH6XZhzoYxeBVQe872VH6QggF4BWmS9g",
+    "M2mx93ekt1fmXSVkTrUL9xVFHkmME8HTUi5Cyc5aF7K",
+    "SHARKobtfF1bHhxD2eqftjHBdVSCbKo9JtgK71FhELP",
+    "Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo",
+    "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr",
+    "CJsLwbP1iu5DuUikHEJnLfANgKy6stB2uFgvBBHoyxwz",
+    "TSWAPaqyCSx2KABk68Shruf4rp7CxcNi8hAsbdwmHbN",
+    "HYPERfwdTjyJ2SCaKHmpF2MtrXqWxrsotYDsTrshHWq8",
+    "JUP4Fb2cqiRUcaTHdrPC8h2gNsA2ETXiPDD33WcGuJB",
+    "9ehXDD5bnhSpFVRf99veikjgq8VajtRH7e3D9aVPLqYd",
+    "cmtDvXumGCrqC1Age74AVPhSRVXJMd8PJS91L8KbNCK",
+    "BGUMAp9Gq7iTEuizy4pqaxsTyUCBK68MDfK752saRPUY",
+    "noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV",
+    "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
+    "CLoCKyJ6DXBJqqu2VWx9RLbgnwwR6BMHHuyasVmfMzBh",
+    "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+    "routeUGWgWzqBWFcrCfv8tritsqukccJPu3q5GPP3xS",
+    "GnftV5kLjd67tvHpNGyodwWveEKivz3ZWvvE3Z4xi2iw",
+    "GgathUhdrCWRHowoRKACjgWhYHfxCEdBi5ViqYN6HVxk",
+    "GovER5Lthms3bLBqWub97yVrMmEogzX7xNjdXpPPCVZw",
+    "gCHAtYKrUUktTVzE4hEnZdLV4LXrdBf6Hh9qMaJALET",
+    "JCFRaPv7852ESRwJJGRy2mysUMydXZgVVhrMLmExvmVp",
+    "A66HabVL3DzNzeJgcHYtRRNW1ZRMKwBfrdSR4kLsZ9DJ",
+    "TCMPhJdwDryooaGtiocG1u3xcYbRpiJzb283XfCZsDp",
+    "exAuvFHqXXbiLrM4ce9m1icwuSyXytRnfBkajukDFuB",
+    "EXBuYPNgBUXMTsjCbezENRUtFQzjUNZxvPGTd11Pznk5",
+    "AmK5g2XcyptVLCFESBCJqoSfwV3znGoVYQnqEnaAZKWn",
+    "CrNcYmnu2nvH5fp4pspk2rLQ9h6N3XrJvZMzEhnpbJux",
+    "HUNTopv9dHDdTPPMV1SfKZAxjXtuM4ic2PVEWPbsi9Z2",
+    "STAkY8Zx3rfY2MUyTJkdLB5jaM47mnDpKUUWzkj5d3L",
+    "mmm3XBJg5gk8XJxEKBvdgptZz6SgK4tXvn36sodowMc"
   ];

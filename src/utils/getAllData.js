@@ -2,6 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import { getDomainKeySync, NameRegistryState } from "@bonfida/spl-name-service";
 import { Connection } from "@solana/web3.js";
+import { MANUALLY_PARSED_IDLS } from "./formatter";
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
@@ -404,7 +405,9 @@ export async function getProtocolData(network, address) {
     var receivedBalance = 0;
     var idlAvailable = false;
     var idlUri = "";
+    var idlName = ""
     var checksComplete = 0;
+    var manuallyParsed = false;
 
     await axios({
       url: `${endpoint}wallet/balance`,
@@ -427,30 +430,36 @@ export async function getProtocolData(network, address) {
       .catch((err) => {
         console.warn(err);
       });
-    
-      // await axios({
-      //   url: `${endpoint}wallet/balance`, //rex endpoint
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     "x-api-key": xKey,
-      //   },
-      //   params: {
-      //     network: network,
-      //     wallet: address,
-      //   },
-      // })
-      //   .then((res) => {
-      //     if (res.data.success === true) {
-      //       idlAvailable = true;
-      //       idlUri = res.data.idl_uri ?? "";
-      //       checksComplete++;
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.warn(err);
-          
-      //   });
+      if(MANUALLY_PARSED_IDLS.includes(address))
+      {
+        manuallyParsed = true;
+      }
+      else {
+        await axios({
+          url: `${endpoint}transaction/internal/fetch_idl`, //rex endpoint
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": xKey,
+          },
+          params: {
+            program_id: address,
+          },
+        })
+          .then((res) => {
+            if (res.data.success === true) {
+              idlAvailable = true;
+              idlUri = res.data.result.program_idl ?? "";
+              idlName = res.data.result.program_name ?? "";
+              checksComplete++;
+            }
+          })
+          .catch((err) => {
+            console.warn(err);
+            
+          });
+      }
+      
         
         if(checksComplete > 0)
         {
@@ -459,8 +468,10 @@ export async function getProtocolData(network, address) {
             type: "PROTOCOL",
             details: {
               balance: receivedBalance,
+              name: idlName,
               idl_available: idlAvailable,
-              idl_uri: idlUri
+              idl_uri: idlUri,
+              manually_parsed_idls: manuallyParsed
             },
           };
         }

@@ -51,7 +51,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     const [tokenCount,setTokensCount] = useState(-1);
     const [domainsCount,setDomainsCount] = useState(-1);
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
-    const [upIdlPanel,setUpIdlPanel] = useState(true);
+    const [upIdlPanel,setUpIdlPanel] = useState(false);
 
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
@@ -158,7 +158,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             {popup && <PopupView setPopUp={setPopUp} />} */}
             
             {/* <HeaderComponent /> */}
-            {upIdlPanel && <UploadIdl />}
+            {upIdlPanel && <UploadIdl setUpIdlPanel={setUpIdlPanel} addr={addr}/>}
             <div className={styles.background_super}>
 
                 <div className="container pt-2 pb-1">
@@ -346,9 +346,9 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                         </button>
                                                     </Tooltip>
                                                 </div>
-                                                <div className="px-1">
-                                                    <button>Upload IDL</button>
-                                                </div>
+                                                {data.manually_parsed_idls?"":<div className="px-1">
+                                                    <button className={styles.update_idl_button} onClick={() => setUpIdlPanel(true)}>{data.idl_available?"Update IDL":"Upload IDL"}</button>
+                                                </div>}
                                             </div>
                                             {/*<span>Space Overview</span> */}
 

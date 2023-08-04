@@ -2,15 +2,18 @@ import { useState } from "react";
 import { PulseLoader } from "react-spinners";
 import successTick from "../../resources/images/txnImages/success_tick.gif";
 import failedTick from "../../resources/images/txnImages/failed_tick.gif";
+import closeTick from "../../resources/images/txnImages/cancel.svg";
+
 import axios from "axios";
+import { getProgramNamefromAddr, shortenAddress } from "../../utils/formatter";
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
 
-const UploadIdl = () => {
+const UploadIdl = ({setUpIdlPanel,addr}) => {
     const [idlFile,setIdlFile] = useState(null);
     const [status,setStatus] = useState("UNLOADED");
-    const [msg,setMsg] = useState("")
-    const submitIdl = async () => {
+    const [msg,setMsg] = useState("");
+    const submitIdl = () => {
         try {
             setMsg("");
             if(idlFile === "null")
@@ -18,7 +21,7 @@ const UploadIdl = () => {
             else
             {
                 let formData = new FormData();
-                formData.append("prograd_id","");
+                formData.append("program_id",addr);
                 formData.append("idl_file",idlFile);
                 setStatus("LOADING")
                 axios({
@@ -26,7 +29,7 @@ const UploadIdl = () => {
                     method: "POST",
                     headers: { 
                         "Content-Type": "multipart/form-data",
-                        "x-api_key": xKey
+                        "x-api-key": xKey
                     },
                     data: formData
                 })
@@ -34,23 +37,25 @@ const UploadIdl = () => {
                     if(res.data.success === true)
                     {
                         setStatus("SUCCESS");
+                        // setMsg("IDL Uploaded Successfully");
                         setTimeout(() => {
+                            setUpIdlPanel(false);
                             setStatus("UNLOADED");
                             window.location.reload();
-                        }, 1500);
+                        }, 2500);
                     }
                     else
                     {
                         setStatus("FAILED");
+                        setMsg(res.data.result.message);
                         setTimeout(() => {
                             setStatus("UNLOADED");
-                            setMsg("Som error occured")
                         }, 1500); 
                     }
                 })
                 .catch(err => {
                     setStatus("FAILED");
-                    setMsg(err.response.message);
+                    setMsg(err.response.data.error ?? "Some error occured");
                     setTimeout(() => {
                         setStatus("UNLOADED");
                     }, 1500);
@@ -60,17 +65,21 @@ const UploadIdl = () => {
             console.log(error.message);
             setMsg("Some Error Occured");
         }
+        
     }
     return ( 
         <div class="modal" tabindex="-1" style={{display:"block", backdropFilter: "blur(10px)"}}>
-            <div class="modal-dialog">
-                <div class="modal-content" style={{backgroundColor: "#2a0855", border: "2px solid #fff", borderRadius: "18px"}}>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style={{backgroundColor: "#2a0855", border: "2px solid #fff", borderRadius: "18px", position: 'relative'}}>
                 <div class="modal-body upload_idl">
-                    <h5 className="text-center upload_heading">Upload an IDL</h5>
+                    <button className="close_button" onClick={() => setUpIdlPanel(false)}>
+                        <img src={closeTick} style={{width: "20px"}} alt="closepopup"/>
+                    </button>
+                    <h5 className="text-center upload_heading">Upload IDL</h5>
                     <div className="idl_form_container">
                         <div className="idl_field_set">
                             <label>Program</label>
-                            <label className="label_value">Sharky.fi</label>
+                            <label className="label_value">{getProgramNamefromAddr(addr) || shortenAddress(addr)}</label>
                         </div>
                         <div className="idl_field_set">
                             <label>Please select an IDL (.json)</label>
@@ -94,7 +103,7 @@ const UploadIdl = () => {
                             <span className="error_text">{msg}</span>
                         </div>}
                         <div className="w-100 text-center pt-4 pb-1">
-                            {status === "UNLOADED" && <button className="idl_upload">Upload</button>}
+                            {status === "UNLOADED" && <button className="idl_upload" onClick={submitIdl}>Upload</button>}
                             {status === "LOADING" && 
                             <div className="idl_upload" style={{maxWidth:"110px", margin: "0 auto"}}>
                                 <PulseLoader size={8} color="#fff"/>
