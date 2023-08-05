@@ -495,10 +495,10 @@ body {
   font: 400 14px "Geologica",sans-serif;
 }
 .notification_area .batch_icon span {
-  color: #FDF41B;;
-  /* animation-name: red_yellow;
-  animation-duration: 0.3s;
-  animation-iteration-count: infinite; */
+  color: #FF5454;
+  animation-name: red_yellow;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
 }
 .notification_area .noti_item {
   color: #fff;
@@ -529,8 +529,9 @@ body {
   }
 }
 @keyframes red_yellow {
-  from {color: #FF5454;}
-  to {color: #FDF41B;}
+  0% {color: #FF5454;}
+  50% {color: #FDF41B;}
+  100% {color: #FF5454;}
 }
 
 .popup_view_overlay

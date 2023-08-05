@@ -181,7 +181,7 @@ const Home = ({popup, setPopUp}) => {
             <span>New!</span>🔥
           </div>
           <div className="noti_item">
-            You can now upload program's IDL to see human readable txs
+            You can now upload your program's IDL to instantly see parsed txs.
           </div>
         </div>
        </div>
