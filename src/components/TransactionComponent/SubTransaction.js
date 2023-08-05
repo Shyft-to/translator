@@ -2470,28 +2470,6 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             <a
                               href={
                                 cluster === "mainnet-beta"
-                                  ? `/address/${varFields.to}`
-                                  : `/address/${varFields.to}?cluster=${cluster}`
-                              }
-                              aria-label={varFields.to}
-                              data-balloon-pos="up"
-                            >
-                              {shortenAddress(varFields.to)}
-                            </a>
-                          </div>
-                        </div>
-                        <div className="pe-1">
-                          <img
-                            src={arrow_rev}
-                            alt=""
-                            style={{ width: "14px", marginTop: "-4px" }}
-                          />
-                        </div>
-                        <div className="pe-1">
-                          <div className={styles.field_sub_1}>
-                            <a
-                              href={
-                                cluster === "mainnet-beta"
                                   ? `/address/${varFields.from}`
                                   : `/address/${varFields.from}?cluster=${cluster}`
                               }
@@ -2502,6 +2480,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </a>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.to}`
+                                  : `/address/${varFields.to}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.to}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.to)}
+                            </a>
+                          </div>
+                        </div>
+                        
+                        
                       </div>
                     </div>
                     <div className="col-12 col-md-4">
@@ -4803,19 +4805,19 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 <a
                                   href={
                                     cluster === "mainnet-beta"
-                                      ? `/address/${varFields.to}`
-                                      : `/address/${varFields.to}?cluster=${cluster}`
+                                      ? `/address/${varFields.from}`
+                                      : `/address/${varFields.from}?cluster=${cluster}`
                                   }
-                                  aria-label={varFields.to}
+                                  aria-label={varFields.from}
                                   data-balloon-pos="up"
                                 >
-                                  {shortenAddress(varFields.to)}
+                                  {shortenAddress(varFields.from)}
                                 </a>
                               </div>
                             </div>
                             <div className="pe-1">
                               <img
-                                src={arrow_rev}
+                                src={arrow}
                                 alt=""
                                 style={{ width: "14px", marginTop: "-4px" }}
                               />
@@ -4825,13 +4827,13 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 <a
                                   href={
                                     cluster === "mainnet-beta"
-                                      ? `/address/${varFields.from}`
-                                      : `/address/${varFields.from}?cluster=${cluster}`
+                                      ? `/address/${varFields.to}`
+                                      : `/address/${varFields.to}?cluster=${cluster}`
                                   }
-                                  aria-label={varFields.from}
+                                  aria-label={varFields.to}
                                   data-balloon-pos="up"
                                 >
-                                  {shortenAddress(varFields.from)}
+                                  {shortenAddress(varFields.to)}
                                 </a>
                               </div>
                             </div>
@@ -4851,8 +4853,6 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       </div>
                       
                     </div>)}
-                    
-                  
                 </>
               )
             }
