@@ -13,6 +13,7 @@ import searchIcon from "./resources/images/uil_search.svg";
 import PopupView from "./PopupView";
 import OpenPopup from "./OpenPopup";
 import { listOfAddresses } from "./utils/formatter";
+import UploadIdlWithProgramAddr from "./components/TransactionComponent/UploadIdlWithProgramAddr";
 
 const staticAddresses = [
   {
@@ -42,6 +43,7 @@ const Home = ({popup, setPopUp}) => {
   const [wallet, setWallet] = useState('');
   const [network, setNetwork] = useState('mainnet-beta');
   const [loadingAddr,setLoadingAddr] = useState(false);
+  const [openIdl,setOpenIdl] = useState(false);
 
   const [isFocused, setFocused] = useState(false);
 
@@ -183,10 +185,12 @@ const Home = ({popup, setPopUp}) => {
           <div className="noti_item">
             You can now upload your program's IDL to instantly see parsed txs.
           </div>
+          <button className="upload_idl_button" onClick={() => setOpenIdl(true)}>Upload</button>
         </div>
        </div>
       </div>
       <OpenPopup setPopUp={setPopUp} />
+      {openIdl && <UploadIdlWithProgramAddr setOpenIdl={setOpenIdl} />}
       {popup && <PopupView setPopUp={setPopUp} />}
       <div className={styles.background_2}>
         <div className="container-lg">

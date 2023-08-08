@@ -3,26 +3,31 @@ import { PulseLoader } from "react-spinners";
 import successTick from "../../resources/images/txnImages/success_tick.gif";
 import failedTick from "../../resources/images/txnImages/failed_tick.gif";
 import closeTick from "../../resources/images/txnImages/cancel.svg";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { getProgramNamefromAddr, shortenAddress,shortenAddressFile } from "../../utils/formatter";
+// import { getProgramNamefromAddr, shortenAddress } from "../../utils/formatter";
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
 
-const UploadIdl = ({setUpIdlPanel,addr}) => {
+const UploadIdlWithProgramAddr = ({setOpenIdl}) => {
+    const navigate = useNavigate();
     const [idlFile,setIdlFile] = useState(null);
+    const [programAddr,setProgramAddr] = useState("")
     const [status,setStatus] = useState("UNLOADED");
     const [msg,setMsg] = useState("");
     const [buttonName,setButtonName] = useState("Select IDL*");
     const submitIdl = () => {
         try {
             setMsg("");
-            if(idlFile === null)
+            if(programAddr === "")
+                setMsg("Program Address cannot be empty");
+            else if(idlFile === null)
                 setMsg("Please select a .json file");
             else
             {
                 let formData = new FormData();
-                formData.append("program_id",addr);
+                formData.append("program_id",programAddr);
                 formData.append("idl_file",idlFile);
                 setStatus("LOADING");
                 axios({
@@ -37,19 +42,20 @@ const UploadIdl = ({setUpIdlPanel,addr}) => {
                 .then(res => {
                     if(res.data.success === true)
                     {
-                        setButtonName("Select IDL*");
                         setStatus("SUCCESS");
+                        setButtonName("Select IDL*");
                         // setMsg("IDL Uploaded Successfully");
                         setTimeout(() => {
-                            setUpIdlPanel(false);
+                            setOpenIdl(false);
                             setStatus("UNLOADED");
-                            window.location.reload();
+                            // window.location.reload();
+                            navigate(`/address/${programAddr}`);
                         }, 2500);
                     }
                     else
                     {
-                        setButtonName("Select IDL*");
                         setStatus("FAILED");
+                        setButtonName("Select IDL*");
                         setMsg(res.data.result.message);
                         setTimeout(() => {
                             setStatus("UNLOADED");
@@ -73,34 +79,32 @@ const UploadIdl = ({setUpIdlPanel,addr}) => {
         
     }
     return ( 
-        <div class="modal" tabindex="-1" style={{display:"block", backdropFilter: "blur(10px)"}}>
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" style={{backgroundColor: "#2a0855", border: "2px solid #fff", borderRadius: "18px", position: 'relative'}}>
-                <div class="modal-body upload_idl">
-                    <button className="close_button" onClick={() => setUpIdlPanel(false)}>
+        <div className="modal" tabIndex="-1" style={{display:"block", backdropFilter: "blur(10px)"}}>
+            <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content" style={{backgroundColor: "#2a0855", border: "2px solid #fff", borderRadius: "18px", position: 'relative'}}>
+                <div className="modal-body upload_idl">
+                    <button className="close_button" onClick={() => setOpenIdl(false)}>
                         <img src={closeTick} style={{width: "20px"}} alt="closepopup"/>
                     </button>
                     <h5 className="text-center upload_heading">Upload IDL</h5>
                     <div className="idl_form_container">
-                        <div className="idl_field_set">
-                            <label>Program</label>
-                            <label className="label_value">{getProgramNamefromAddr(addr) || shortenAddress(addr)}</label>
+                        <div className="idl_field_set block">
+                            <label>Program Address*</label>
+                            <div className="idl_input_container">
+                                <input type="text" placeholder="Enter program address" value={programAddr} onChange={(e) => setProgramAddr(e.target.value)}/>
+                            </div>
                         </div>
-                        <div className="idl_field_set">
-                            <label>Please select an IDL (.json)</label>
+                        <div className="idl_field_set block">
+                            <label className="mb-2">Please select an IDL (.json)</label>
                             <div>
                                 <input 
                                     type="file" 
                                     accept=".json"
-                                    className="custom-file-input-1"
                                     data-label-custom={buttonName}
+                                    className="custom-file-input-2"
                                     onChange={(e) => {
-                                        // const [fileDisp] = e.target.files;
-                                        //setFile(e.target.files[0]);
-                                        // console.log(e.target.files[0]);
                                         setIdlFile(e.target.files[0]);
-                                        setButtonName(shortenAddressFile(e.target.files[0].name));
-                                        //console.log(typeof file);
+                                        setButtonName(e.target.files[0].name);
                                       }}
                                     
                                 />
@@ -109,15 +113,12 @@ const UploadIdl = ({setUpIdlPanel,addr}) => {
                         {msg !== "" && <div className="text-center">
                             <span className="error_text">{msg}</span>
                         </div>}
-                        <div className="w-100 text-center pt-4 pb-1">
+                        <div className="w-100 text-center pt-4 pb-1 mt-2">
                             {status === "UNLOADED" && <button className="idl_upload" onClick={submitIdl}>Upload</button>}
                             {status === "LOADING" && 
                             <div className="idl_upload" style={{maxWidth:"110px", margin: "0 auto"}}>
                                 <PulseLoader size={8} color="#fff"/>
                             </div>}
-                            {/* <div className="idl_upload" style={{maxWidth:"110px", margin: "0 auto"}}>
-                                <PulseLoader size={8} color="#fff"/>
-                            </div> */}
                             {status === "SUCCESS" && <div className="idl_upload_success" style={{maxWidth:"110px", margin: "0 auto"}}>
                                 <img src={successTick} style={{width: "28px"}} alt="success"/>
                             </div>}
@@ -134,4 +135,4 @@ const UploadIdl = ({setUpIdlPanel,addr}) => {
     );
 }
  
-export default UploadIdl;
+export default UploadIdlWithProgramAddr;

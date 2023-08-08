@@ -19,6 +19,23 @@ export function shortenAddress(address) {
     }
     
 }
+export function shortenAddressFile(address) {
+    try {
+        var trimmedString = "";
+        if (address === "")
+            return "unknown";
+        if (address != null || address.length > 16) {
+            trimmedString = (address.substring(0, 3) + "..." + address.substring(address.length - 5));
+        }
+        else {
+            trimmedString = address ?? "";
+        }
+        return trimmedString;    
+    } catch (error) {
+        return address;
+    }
+    
+}
 
 export function getRelativetime(ISOString) {
     return moment(ISOString).fromNow();
