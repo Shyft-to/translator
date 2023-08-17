@@ -222,7 +222,7 @@
 }
 .each_attribute .attribute_label
 {
-    font: 300 16px/16px "Jost", sans-serif;
+    font: 300 16px "Jost", sans-serif;
     color: #fff;
     overflow: hidden;
     white-space: nowrap;
@@ -230,7 +230,7 @@
 }
 .each_attribute .attribute_value
 {
-    font: 500 16px/16px "Plus Jakarta Sans", sans-serif;
+    font: 500 16px "Plus Jakarta Sans", sans-serif;
     color: #fff;
     text-align: end;
     overflow: hidden;
