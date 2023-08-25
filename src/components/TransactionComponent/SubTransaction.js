@@ -289,6 +289,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: "",
           symbol: "",
           merkle_tree: data.info.merkle_tree ?? "--",
+          collection_address: data.info.nft_metadata?.collection?.key ?? "--"
         };
         setRelField(data.info.nft_address ?? "");
         setRelType("COMPRESSED_NFT");
@@ -362,7 +363,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           to: data.info.marketplace ?? "--",
           token: "--",
           action: "--",
-          value: formatLamports(data.info.price) ?? "--",
+          // value: (data.info.currency === "So11111111111111111111111111111111111111112")?formatLamports(data.info.price) ?? "--":data.info.price ?? "--",
+          value: data.info.price ?? "--",
           symbol: "",
         };
 
@@ -4129,6 +4131,40 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       </div>
                     </div>
                 </div>
+                {(varFields.collection_address !== "--" && varFields.collection_address !== "") && <div className="row pt-0">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Collection</div>
+                        </div>
+                        <div className="pe-3">
+                          <img
+                            src={merkle_tree_outline}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={`/address/${varFields.merkle_tree}?cluster=${cluster}`}
+                              aria-label={varFields.merkle_tree}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.collection_address)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-2">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        <div className={styles.plus_color}>
+                          {/* + {varFields.value} */}
+                        </div>
+                      </div>
+                    </div>
+                </div>}
               </div>
               );
             }
