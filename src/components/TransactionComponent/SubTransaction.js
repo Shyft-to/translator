@@ -4139,9 +4139,9 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         </div>
                         <div className="pe-3">
                           <img
-                            src={merkle_tree_outline}
+                            src={arrow}
                             alt=""
-                            style={{ width: "14px", marginTop: "-4px" }}
+                            style={{ width: "14px", marginTop: "-2px" }}
                           />
                         </div>
                         <div className="pe-1">
