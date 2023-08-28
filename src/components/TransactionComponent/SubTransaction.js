@@ -56,7 +56,8 @@ import {
   formatLamports,
   convertToDays,
   formatNumbers,
-  getFullTime
+  getFullTime,
+  formatCurrencyValues
 } from "../../utils/formatter";
 
 const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCreators }) => {
@@ -69,6 +70,10 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
   //const [relType,setRelType] = useState("");
   const [currency, setCurrency] = useState("");
   const [currencyField, setCurrencyField] = useState("");
+  
+  const [decimals,setDecimals] = useState(0);
+  const [preBalance,setPreBalance] = useState(0);
+  const [postBalance,setPostBalance] = useState(0);
 
   const [currencyTwo,setCurrencyTwo] = useState("");
   const [currencyFieldTwo, setCurrencyFieldTwo] = useState("");
@@ -119,7 +124,6 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           const res = await getTokenData(cluster, address);
           if (res.success === true) {
             if (res.details.image) setImage(res.details.image);
-
             setName(res.details.name);
           }
         }
@@ -161,11 +165,16 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
     try {
       if (address === "So11111111111111111111111111111111111111112") {
         setCurrency("SOL");
+        if(preBalance !== 0)
+            setPostBalance(formatLamports(preBalance) ?? 0);
         setDataLoaded(true);
       } else {
         const res = await getTokenData(cluster, address);
         if (res.success === true) {
           setCurrency(res.details.symbol ?? res.details.name ?? "");
+          setDecimals(res.details.decimals ?? 0);
+          if(preBalance !== 0)
+            setPostBalance(formatCurrencyValues(preBalance) ?? 0);
         }
         setDataLoaded(true);
       }
@@ -367,7 +376,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: data.info.price ?? "--",
           symbol: "",
         };
-
+        console.log("im here", data.info.price)
+        setPreBalance(data.info.price);
         setRelField(data.info.nft_address ?? "");
         setCurrencyField(data.info.currency ?? "");
       } else if (data.type === "NFT_SALE") {
@@ -1367,6 +1377,11 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
   useEffect(() => {
     categoriseAction();
   }, []);
+
+  useEffect(() => {
+    
+  }, [decimals])
+  
 
   useEffect(() => {
     
@@ -2380,7 +2395,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="col-12 col-md-6">
                     <div className={`text-end ${styles.field_sub_2}`}>
                       <div>
-                        {varFields.value} {currency}
+                        {postBalance} {currency}
                       </div>
                     </div>
                   </div>

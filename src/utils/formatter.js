@@ -69,6 +69,23 @@ export function formatLamports(value) {
 
 }
 
+export function formatCurrencyValues(value, decimals)
+{
+    try {
+        if(typeof value === "number" && typeof decimals === "number")
+        {
+            var formattedAmount = value / 10 ** decimals;
+            formattedAmount = formattedAmount.toLocaleString('en-US');
+            return formattedAmount;
+        }
+        else
+            return value;
+    } catch (error) {
+        console.log(error);
+        return value;
+    }
+}
+
 export function formatNames(name) {
     try {
         if (name.includes("_")) {
