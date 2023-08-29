@@ -1,12 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
 
 /* NFT page styles */
 .entire_nft_expanded
 {
     width: 100%;
-    /* max-width: 1100px; */
+    max-width: 1000px;
     margin: 0 auto;
     padding-top: 20px;
 }
@@ -21,7 +18,7 @@
 .view_original_button
 {
  padding-top: 14px;
- font: 400 12px/18px "Poppins", sans-serif;
+ font: 400 12px/18px "Jost", sans-serif;
  text-align: center;
  /* padding-right: 10px; */
 }
@@ -38,7 +35,7 @@
 .download_button
 {
     padding-top: 14px;
-    font: 400 12px/18px "Poppins", sans-serif;
+    font: 400 12px/18px "Jost", sans-serif;
     text-align: center;
     color: #fffc;
     background-color: transparent;
@@ -138,7 +135,7 @@
 }
 .nft_name
 {
-    font: 600 40px/48px "Odibee Sans", sans-serif;
+    font: 600 34px/40px "Geologica", sans-serif;
     background: -webkit-linear-gradient(278deg, #FF008A 1%, #F3DD59 95%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -153,12 +150,12 @@
 }
 .nft_section .section_heading
 {
-    font: 500 18px/22px "Montserrat", sans-serif;
+    font: 500 18px/22px "Geologica", sans-serif;
     color: #fff;
 }
 .nft_section .section_desc
 {
-    font: 300 16px/24px "Poppins", sans-serif;
+    font: 300 16px/24px "Jost", sans-serif;
     color: #fff;
 }
 .nft_section .table_container
@@ -190,13 +187,13 @@
 }
 .nft_section .table_container .table_field_name
 {
-    font: 300 16px/20px "Montserrat", sans-serif;
+    font: 300 16px/20px "Jost", sans-serif;
     color: #fff;
 
 }
 .nft_section .table_container .table_field_value
 {
-    font: 500 16px/19px "Poppins", sans-serif;
+    font: 500 16px/19px "Plus Jakarta Sans", sans-serif;
     color: #fff;
     text-align: end;
     overflow: hidden;
@@ -225,7 +222,7 @@
 }
 .each_attribute .attribute_label
 {
-    font: 300 16px/16px "Montserrat", sans-serif;
+    font: 300 16px "Jost", sans-serif;
     color: #fff;
     overflow: hidden;
     white-space: nowrap;
@@ -233,7 +230,7 @@
 }
 .each_attribute .attribute_value
 {
-    font: 500 16px/16px "Montserrat", sans-serif;
+    font: 500 16px "Plus Jakarta Sans", sans-serif;
     color: #fff;
     text-align: end;
     overflow: hidden;
@@ -271,7 +268,7 @@
 .nft_section .table_container_creator .table_field_name
 {
 
-    font: 500 16px/19px "Poppins", sans-serif;
+    font: 500 16px/19px "Jost", sans-serif;
     color: #fff;
     
     overflow: hidden;
@@ -281,7 +278,7 @@
 .nft_section .table_container_creator .table_field_value
 {
     
-    font: 300 16px/20px "Montserrat", sans-serif;
+    font: 300 16px/20px "Plus Jakarta Sans", sans-serif;
     color: #fff;
     text-align: end;
 }
@@ -300,18 +297,18 @@
 @media screen and (max-width:767px) {
     .nft_name
     {
-        font: 600 32px/40px "Odibee Sans", sans-serif;
+        font: 600 32px/40px "Geologica", sans-serif;
         
         width: auto;
         display: inline;
     }
     .nft_section .section_heading
     {
-        font: 500 16px/20px "Montserrat", sans-serif;
+        font: 500 16px/20px "Geologica", sans-serif;
     }
     .nft_section .section_desc
     {
-        font: 300 14px/22px "Poppins", sans-serif;
+        font: 300 14px/22px "Jost", sans-serif;
         color: #fffc;
     }
     .nft_section .table_container
@@ -326,13 +323,13 @@
     }
     .nft_section .table_container .table_field_name
     {
-        font: 300 13px/18px "Montserrat", sans-serif;
+        font: 300 13px/18px "Jost", sans-serif;
         color: #fff;
 
     }
     .nft_section .table_container .table_field_value
     {
-        font: 500 13px/16px "Poppins", sans-serif;
+        font: 500 13px/16px "Plus Jakarta Sans", sans-serif;
         color: #fff;
         text-align: end;
         
@@ -350,13 +347,13 @@
     }
     .nft_section .table_container_creator .table_field_name
     {
-        font: 500 13px/16px "Poppins", sans-serif;
+        font: 500 13px/16px "Jost", sans-serif;
         color: #fff;
         
     }
     .nft_section .table_container_creator .table_field_value
     {
-        font: 300 13px/18px "Montserrat", sans-serif;
+        font: 300 13px/18px "Geologica", sans-serif;
         color: #fff;
         text-align: end;
     }
@@ -367,12 +364,12 @@
     }
     .each_attribute .attribute_label
     {
-        font: 300 13px/16px "Montserrat", sans-serif;
+        font: 300 13px/16px "Geologica", sans-serif;
         
     }
     .each_attribute .attribute_value
     {
-        font: 500 13px/16px "Montserrat", sans-serif;
+        font: 500 13px/16px "Geologica", sans-serif;
         color: #fff;
         text-align: end;
         overflow: hidden;

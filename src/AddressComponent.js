@@ -21,6 +21,8 @@ import SimpleLoader from "./components/loaders/SimpleLoader";
 import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
 import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
+import CnftSlider from "./components/CnftSlider";
+import UploadIdl from "./components/TransactionComponent/UploadIdl";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -34,6 +36,7 @@ const AddressComponent = ({popup,setPopUp}) => {
     const navigate = useNavigate();
 
     const [panel, setPanel] = useState("TXN");
+    const [nftPanel,setNftPanel] = useState("NFT");
     const [copied, setCopied] = useState("Copy");
     const [copyLink,setCopyLink] = useState("Copy Link");
 
@@ -48,6 +51,8 @@ const AddressComponent = ({popup,setPopUp}) => {
     const [tokenCount,setTokensCount] = useState(-1);
     const [domainsCount,setDomainsCount] = useState(-1);
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
+    const [upIdlPanel,setUpIdlPanel] = useState(false);
+
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
     }, []);
@@ -153,6 +158,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             {popup && <PopupView setPopUp={setPopUp} />} */}
             
             {/* <HeaderComponent /> */}
+            {upIdlPanel && <UploadIdl setUpIdlPanel={setUpIdlPanel} addr={addr}/>}
             <div className={styles.background_super}>
 
                 <div className="container pt-2 pb-1">
@@ -173,7 +179,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                             </div>
                     }
                     {(contentType === "WALLET") &&
-                        <div className="container">
+                        <div className="container-lg">
                             <motion.div className={styles.heading_section} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
                                 <div className="row">
                                     <div className="col-6 col-lg-6">
@@ -221,7 +227,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                         <div className="d-flex flex-wrap justify-content-end">
                                             <div 
                                                 //className="border border-light" 
-                                                style={{width:"200px",overflow:"hidden",overflowWrap:"normal"}}
+                                                
                                             >
                                                 <div className={styles.wallet_balance_indicator}>
                                                     {data.balance?.toFixed(8)}&nbsp;SOL
@@ -255,9 +261,28 @@ const AddressComponent = ({popup,setPopUp}) => {
                                 </div>
                             </motion.div>
                             <div className={styles.collections_cara_cont}>
-                                <AllNfts collections={data.collections} address={addr} network={cluster} />
+                                <div className={styles.tab_container}>
+                                    <button className={(nftPanel === "NFT") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                            setNftPanel("NFT");
+                                        }}>
+                                        Collections
+                                        {(nftPanel === "NFT") ? <div className={styles.underline} /> : ""}
+                                    </button>
+                                    <button className={(nftPanel === "CNFT") ? `${styles.top_tab} ${styles.top_tab_extended} ${styles.top_tab_selected}` : `${styles.top_tab} ${styles.top_tab_extended}`} onClick={(e) => {
+                                        setNftPanel("CNFT");
+                                        }}>
+                                        Compressed NFTs
+                                        {/* {(tokenCount > -1) && <div className={styles.count_badge}>{tokenCount}</div>} */}
+                                        {(nftPanel === "CNFT") ? <div className={styles.underline} /> : ""}
+                                    </button>
+                                </div>
+                                {nftPanel === "NFT" &&
+                                    <AllNfts collections={data.collections} address={addr} network={cluster} />
+                                }
+                                {nftPanel === "CNFT" &&
+                                    <CnftSlider addr={addr} cluster={cluster} />
+                                }
                             </div>
-
                         </div>}
                     {
                         (contentType === "NFT") &&
@@ -299,7 +324,7 @@ const AddressComponent = ({popup,setPopUp}) => {
 
                                                     >
                                                         
-                                                        {getProgramNamefromAddr(addr) || shortenAddress(addr)}
+                                                        {formatNames(data.name) || getProgramNamefromAddr(addr) || shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
                                                 
@@ -321,6 +346,9 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                         </button>
                                                     </Tooltip>
                                                 </div>
+                                                {data.manually_parsed_idls?"":<div className="px-1">
+                                                    <button className={styles.update_idl_button} onClick={() => setUpIdlPanel(true)}>{data.idl_available?"Update IDL":"Upload IDL"}</button>
+                                                </div>}
                                             </div>
                                             {/*<span>Space Overview</span> */}
 
@@ -399,49 +427,50 @@ const AddressComponent = ({popup,setPopUp}) => {
 
                 </div>}
                 
-                
-                <div className="container-lg">
-                    <div className={styles.tab_container}>
-                        <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
-                                setPanel("TXN");
-                                tabSelected("txn","remove");
-                            }}>
-                            Live Activity<div className="px-2" style={{display:"inline",position:"relative"}}><div className="blinking"></div></div>
-                            {(panel === "TXN") ? <div className={styles.underline} /> : ""}
-                        </button>
-                        {(contentType === "WALLET") && <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
-                            setPanel("TKN");
-                            tabSelected("token","add");
-                            }}>
-                            Tokens
-                            {(tokenCount > -1) && <div className={styles.count_badge}>{tokenCount}</div>}
-                            {(panel === "TKN") ? <div className={styles.underline} /> : ""}
-                        </button>}
-                        {(contentType === "WALLET") && <button className={(panel === "DOM") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
-                            setPanel("DOM");
-                            //tabSelected("token","add");
-                            }}>
-                            Domains
-                            {(domainsCount > -1) &&<div className={styles.count_badge}>{domainsCount}</div>}
-                            {(panel === "DOM") ? <div className={styles.underline} /> : ""}
-                        </button>}
+                {isCompressedNft === "false" &&
+                    <div className="container-lg">
+                        <div className={styles.tab_container}>
+                            <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                    setPanel("TXN");
+                                    tabSelected("txn","remove");
+                                }}>
+                                Live Activity<div className="px-2" style={{display:"inline",position:"relative"}}><div className="blinking"></div></div>
+                                {(panel === "TXN") ? <div className={styles.underline} /> : ""}
+                            </button>
+                            {(contentType === "WALLET") && <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                setPanel("TKN");
+                                tabSelected("token","add");
+                                }}>
+                                Tokens
+                                {(tokenCount > -1) && <div className={styles.count_badge}>{tokenCount}</div>}
+                                {(panel === "TKN") ? <div className={styles.underline} /> : ""}
+                            </button>}
+                            {(contentType === "WALLET") && <button className={(panel === "DOM") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                setPanel("DOM");
+                                //tabSelected("token","add");
+                                }}>
+                                Domains
+                                {(domainsCount > -1) &&<div className={styles.count_badge}>{domainsCount}</div>}
+                                {(panel === "DOM") ? <div className={styles.underline} /> : ""}
+                            </button>}
+                        </div>
+                        <div className={styles.tabbed_section_container}>
+                            {
+                                (panel === "TXN") && <Transactions address={addr} cluster={cluster}  />
+                            }
+                            {
+                                (panel === "TKN") && <div className="text-center could_not_text pt-5">
+                                    <TabbedTokens address={addr} cluster={cluster} setTokensCount={setTokensCount} />
+                                </div>
+                            }
+                            {
+                                (panel === "DOM") && <div className="text-center pt-5">
+                                    <TabbedDomains address={addr} cluster={cluster} setDomainsCount={setDomainsCount} />
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div className={styles.tabbed_section_container}>
-                        {
-                            (panel === "TXN") && <Transactions address={addr} cluster={cluster}  />
-                        }
-                        {
-                            (panel === "TKN") && <div className="text-center could_not_text pt-5">
-                                <TabbedTokens address={addr} cluster={cluster} setTokensCount={setTokensCount} />
-                            </div>
-                        }
-                        {
-                            (panel === "DOM") && <div className="text-center pt-5">
-                                <TabbedDomains address={addr} cluster={cluster} setDomainsCount={setDomainsCount} />
-                            </div>
-                        }
-                    </div>
-                </div>
+                }
 
             </div>
         </div>

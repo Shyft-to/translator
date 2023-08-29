@@ -1,14 +1,9 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
-
 
 .single_txn_page
 {
     position: relative;
-    /* background: radial-gradient(#1E0C36 8%, #1E0C36 75%); */
-    background: radial-gradient(#190a2c 8%, #190a2c 75%);
+    /* background: radial-gradient(#000 8%, #1E0C36 75%); */
+    background: radial-gradient(#0c0614 8%, #0b0118 75%);
     z-index: 0;
     min-height: 100vh;
     padding: 120px 0px 40px;
@@ -16,7 +11,7 @@
 .single_txn_page .main_heading
 {
     padding-bottom: 30px;
-    font: 700 32px "Montserrat",sans-serif;
+    font: 700 32px "Geologica",sans-serif;
     color: #fff;
     /* letter-spacing: 1px; */
 }
@@ -24,7 +19,7 @@
     .single_txn_page .main_heading
     {
         padding-bottom: 30px;
-        font: 700 22px "Montserrat",sans-serif;
+        font: 700 22px "Geologica",sans-serif;
         color: #fff;
         /* letter-spacing: 0px; */
     }
@@ -100,10 +95,10 @@
 
 .single_txn_page .each_row .row_title
 {
-    font: 200 16px "Plus Jakarta Sans",sans-serif;
+    font: 300 16px "Jost",sans-serif;
     color: #fff; 
     padding-bottom: 8px;
-    /* letter-spacing: 1px; */
+    letter-spacing: 0.05em;
 }
 .single_txn_page .each_row .row_value
 {
@@ -241,7 +236,7 @@
 }
 .single_txn_page .hide_details_container
 {
-    background-color: #080012B2;
+    background-color: #2a0855B2;
     padding: 2px 12px;
     border-radius: 8px;
     margin-bottom: 8px;
@@ -315,19 +310,19 @@
 }
 .each_txn_3 .txn_name
 {
-    font: 500 18px/24px "Montserrat",sans-serif;
+    font: 500 18px/24px "Geologica",sans-serif;
     padding: 10px 20px 10px 0px;
     color: #FDF41B;
 }
 .each_txn_3 .txn_subname
 {
-    font: 300 11px/28px "Montserrat",sans-serif;
+    font: 300 11px/28px "Jost",sans-serif;
     padding: 10px 20px 10px 0px;
     color: #FFFFFF99;
 }
 .each_txn_3 .interacted_with
 {
-    font: 500 16px/20px "Montserrat",sans-serif;
+    font: 500 16px/20px "Geologica",sans-serif;
     padding: 4px 0px;
     color: #fff;
 }
@@ -469,7 +464,7 @@
 }
 .sub_txns .field_sub_1
 {
-    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    font: 400 13px/26px "Plus Jakarta Sans",sans-serif;
     color: #FFFa;
     width: 100%;
 }

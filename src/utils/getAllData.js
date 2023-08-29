@@ -2,6 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import { getDomainKeySync, NameRegistryState } from "@bonfida/spl-name-service";
 import { Connection } from "@solana/web3.js";
+import { MANUALLY_PARSED_IDLS } from "./formatter";
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
 const xKey = process.env.REACT_APP_API_KEY ?? "";
@@ -54,7 +55,77 @@ export async function getNFTData(network, address) {
 
   return data;
 }
+export async function getCompressedNFTsFromWallet(network,address)
+{
+  var data = {
+    success: false,
+    type: "UNKNOWN",
+    details: [],
+  };
 
+  let dataFromMem = localStorage.getItem("cNdata");
+
+  if (dataFromMem) {
+    const cachedData = new Map(JSON.parse(dataFromMem));
+    const tokens = cachedData.get(address);
+    if (tokens) {
+      data = {
+        success: true,
+        type: "CNFTS",
+        details: JSON.parse(tokens),
+      };
+      return data;
+    }
+  }
+  
+  await axios({
+    url: `${endpoint}nft/compressed/read_all`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": xKey,
+    },
+    params: {
+      network: network,
+      wallet_address: address,
+    },
+  })
+    .then(async (res) => {
+      if (res.data.success === true) {
+        const allCompressedNfts = res.data.result.nfts;
+        try {
+          if(Array.isArray(allCompressedNfts) && allCompressedNfts.length > 0 && allCompressedNfts.length < 100)
+          {
+            for (let index = 0; index < allCompressedNfts.length; index++) {
+              const nft = allCompressedNfts[index];
+              pushDatatoCache(network, nft, nft.mint);
+            }
+          }
+          if(allCompressedNfts.length > 0)
+          {
+            let dataSet = new Map();
+            dataSet.set(address, JSON.stringify(allCompressedNfts));
+            
+            const valueToStore = JSON.stringify(Array.from(dataSet.entries()));
+            localStorage.setItem("cNdata", valueToStore);
+          }
+        } catch (error) {
+          console.log("too large dataset");
+        }
+        
+        data = {
+          success: true,
+          type: "CNFTS",
+          details: allCompressedNfts,
+        };
+      }
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+
+  return data;
+}
 export async function getCompressedNFTData(network,address)
 {
   var data = {
@@ -331,6 +402,13 @@ export async function getProtocolData(network, address) {
   };
 
   try {
+    var receivedBalance = 0;
+    var idlAvailable = false;
+    var idlUri = "";
+    var idlName = ""
+    var checksComplete = 0;
+    var manuallyParsed = false;
+
     await axios({
       url: `${endpoint}wallet/balance`,
       method: "GET",
@@ -345,39 +423,59 @@ export async function getProtocolData(network, address) {
     })
       .then((res) => {
         if (res.data.success === true) {
-          data = {
-            success: true,
-            type: "PROTOCOL",
-            details: {
-              balance: res.data.result.balance ?? 0,
-            },
-          };
+          receivedBalance = res.data.result.balance ?? 0;
+          checksComplete++;
         }
       })
       .catch((err) => {
         console.warn(err);
-        data = {
-          success: false,
-          type: "UNKOWN",
-          details: 0,
-        };
       });
-
-    // if (Object.keys(details).length === 0) {
-    //   data = {
-    //     success: false,
-    //     type: "UNKNOWN",
-    //     details: details,
-    //   };
-    // }
-    // else {
-    //   data = {
-    //     success: true,
-    //     type: "WALLET",
-    //     details: details,
-    //   };
-    // }
-
+      if(MANUALLY_PARSED_IDLS.includes(address))
+      {
+        manuallyParsed = true;
+      }
+      else {
+        await axios({
+          url: `${endpoint}transaction/internal/fetch_idl`, //rex endpoint
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": xKey,
+          },
+          params: {
+            program_id: address,
+          },
+        })
+          .then((res) => {
+            if (res.data.success === true) {
+              idlAvailable = true;
+              idlUri = res.data.result.program_idl ?? "";
+              idlName = res.data.result.program_name ?? "";
+              checksComplete++;
+            }
+          })
+          .catch((err) => {
+            console.warn(err);
+            
+          });
+      }
+      
+        
+        if(checksComplete > 0)
+        {
+          data = {
+            success: true,
+            type: "PROTOCOL",
+            details: {
+              balance: receivedBalance,
+              name: idlName,
+              idl_available: idlAvailable,
+              idl_uri: idlUri,
+              manually_parsed_idls: manuallyParsed
+            },
+          };
+        }
+      
     return data;
   } catch (error) {
     console.log(error);
@@ -970,6 +1068,7 @@ export async function clearIfOutdated() {
           localStorage.setItem("mainData", "");
           localStorage.setItem("devData", "");
           localStorage.setItem("testData", "");
+          localStorage.setItem("cNdata", "");
           localStorage.setItem("lastcatime", timeNow);
           console.log("All cached data cleared");
           return true;

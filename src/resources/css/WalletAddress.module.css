@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
 
 .heading_section
 {
   padding-top: 40px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 .background
 {
@@ -34,21 +35,25 @@
   background-repeat: no-repeat;
   background-position: 100% 100%;
   background-attachment: fixed;
-  padding: 60px 0px 40px;
+  padding: 80px 0px 40px;
 
+}
+@media screen and (max-width: 1080px) {
+  .background_super
+  {
+    padding: 100px 0px 40px;
+  }
 }
 .main_heading
 {
-  font: 600 24px/24px "Montserrat", sans-serif;
+  font: 600 24px/24px "Geologica", sans-serif;
   color: #fff;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   cursor: pointer;
+  padding-top: 6px;
 }
 .main_heading span
 {
-  font: 500 40px/48px "Odibee Sans", sans-serif;
+  font: 500 40px/48px "Geologica", sans-serif;
   background: -webkit-linear-gradient(280deg, #FF008A 12%, #F3DD59 95%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -61,8 +66,9 @@
   /* overflow-x: hidden !important;
   overflow-y: hidden !important; */
   /* width: 150px; */
-  font: 500 24px/32px "Montserrat", sans-serif;
+  font: 500 18px/24px "Geologica", sans-serif;
   color: #fff;
+  padding-top: 6px;
 }
 .copy_button
 {
@@ -85,7 +91,7 @@
   }
   .main_heading
   {
-    font: 300 16px/18px "Montserrat", sans-serif;
+    font: 300 16px/18px "Geologica", sans-serif;
   }
   .copy_button
   {
@@ -93,7 +99,7 @@
   }
   .wallet_balance_indicator
   {
-    font: 300 18px/18px "Odibee Sans", sans-serif;
+    font: 300 18px/18px "Geologica", sans-serif;
     color: #fff;
     text-align: end;
   }
@@ -107,7 +113,7 @@
     position: relative;
     margin: 0 auto;
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px;
 }
 .tab_container
 {
@@ -115,7 +121,7 @@
   margin: 0 auto;
   margin-top: 10px;
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   display: flex;
   border-bottom: 1px solid #fff2;
 }
@@ -126,7 +132,7 @@
   max-width: 140px;
   text-align: center;
   padding: 12px 0px 10px;
-  font: 500 14px/14px "Poppins", sans-serif;
+  font: 500 14px/14px "Jost", sans-serif;
   color: #fffa;
   outline: none;
   border: none;
@@ -139,6 +145,11 @@
 {
   color: #fff;
   background-color: #8254b022;
+}
+.top_tab_extended
+{
+  width: 40% !important;
+  max-width: 180px;
 }
 .top_tab_selected
 {
@@ -161,7 +172,7 @@
 {
   display: inline-block;
   position: absolute;
-  font: 300 10px/16px "Poppins", sans-serif;
+  font: 300 10px/16px "Jost", sans-serif;
   color: #fff;
   border: 1px solid white;
   padding: 2px 5px 1px;
@@ -186,7 +197,7 @@
   border: none;
   box-shadow: none;
   color: #fff;
-  font: 400 14px/18px "Montserrat", sans-serif;
+  font: 400 14px/18px "Geologica", sans-serif;
   /* letter-spacing: 1px; */
   width: 100%;
   display: block;
@@ -217,7 +228,7 @@
   border: none;
   box-shadow: none;
   color: #fff;
-  font: 400 14px/18px "Montserrat", sans-serif;
+  font: 400 14px/18px "Geologica", sans-serif;
   /* letter-spacing: 1px; */
   width: 100%;
   display: block;
@@ -235,13 +246,24 @@
 }
 .collections_cara_cont
 {
-  padding-top: 40px;
+  padding-top: 20px;
+}
+.follow_button
+{
+  background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
+  padding: 8px 30px;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  border-radius: 16px;
+  color: #fff;
+  font: 400 16px/18px "Jost", sans-serif;
 }
 
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .collections_cara_cont
   {
-    padding-top: 40px;
+    padding-top: 24px;
   }
   .heading_section
   {
@@ -266,7 +288,7 @@
 
   .select_container_2 select {
 
-    font: 400 12px/16px "Montserrat", sans-serif;
+    font: 400 12px/16px "Geologica", sans-serif;
     /* letter-spacing: 1px; */
     /* padding:  6px; */
     display: block;
@@ -282,5 +304,24 @@
 
   .select_container_2 option {
     background-color: #2a0855;
+  }
+}
+
+.update_idl_button {
+  background: linear-gradient(90.8deg,#e0499b -30.34%,#571da3 85%);
+  border: 1px solid #2a0855;
+  outline: none;
+  padding: 8px 20px;
+  display: block;
+  margin-top: -2px;
+  border-radius: 20px;
+  font: 400 12px/12px "Geologica",sans-serif;
+  color: #fff;
+  transition: border 0.3s ease;
+}
+@media screen and (max-width: 576px) {
+  .update_idl_button {
+    font: 400 10px/10px "Geologica",sans-serif;
+    padding: 6px 12px;
   }
 }

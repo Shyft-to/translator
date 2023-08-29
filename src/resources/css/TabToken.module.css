@@ -1,14 +1,11 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap');
 
 .tabbed_token_section
 {
     position: relative;
     margin: 0 auto;
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px;
+    margin-top: 20px;
 }
 
 .each_tab_token
@@ -21,7 +18,7 @@
     border-radius: 14px;
     border: 2px solid transparent;
     padding: 6px 24px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     transition: all 0.05s ease;
 }
 .each_tab_token .toggle_button
@@ -63,13 +60,13 @@
 }
 .each_tab_token .name_section .name
 {
-    font: 500 20px/24px "Montserrat",sans-serif;
+    font: 500 20px/24px "Geologica",sans-serif;
     padding: 10px 20px 10px 0px;
     color: #FDF41B;
 }
 .each_tab_token .name_section .sub_name
 {
-    font: 300 11px/30px "Montserrat",sans-serif;
+    font: 300 11px/30px "Jost",sans-serif;
     padding: 10px 20px 10px 0px;
     color: #FFFFFF99;
 }
@@ -94,7 +91,7 @@
 }
 .each_tab_token .info_section .field
 {
-    font: 400 15px/24px "Plus Jakarta Sans",sans-serif;
+    font: 400 15px/24px "Jost",sans-serif;
     /* letter-spacing: 1px; */
     color: #FFFFFFdd;
     padding-top: 10px;
@@ -111,7 +108,7 @@
 }
 .could_not_text
 {
-    font: 300 16px/20px "Poppins",sans-serif;
+    font: 300 16px/20px "Geologica",sans-serif;
     color: #FFF3;
     /* letter-spacing: 1px; */
     text-align: center;
@@ -131,7 +128,7 @@
     }
     .each_tab_token .name_section .name
     {
-        font: 500 18px/22px "Montserrat",sans-serif;
+        font: 500 18px/22px "Geologica",sans-serif;
         padding: 10px 20px 10px 0px;
         color: #FDF41B;
         width: 200px;
@@ -142,14 +139,14 @@
     } 
     .each_tab_token .name_section .sub_name
     {
-        font: 300 10px/16px "Montserrat",sans-serif;
+        font: 300 10px/16px "Jost",sans-serif;
         padding: 0px 20px 10px 0px;
         color: #FFFFFF99;
         display:none;
     }
     .each_tab_token .name_section .sub_name_mob
     {
-        font: 300 11px/30px "Montserrat",sans-serif;
+        font: 300 11px/30px "Jost",sans-serif;
         color: #FFFFFF99; 
         margin-top: -8px;
         text-align: left;
@@ -170,7 +167,7 @@
     }
     .each_tab_token .info_section .field
     {
-        font: 400 12px/24px "Plus Jakarta Sans",sans-serif;
+        font: 400 12px/24px "Jost",sans-serif;
         padding-top: 4px;
     }
     .each_tab_token .toggle_button .sol_icon img
@@ -202,8 +199,9 @@
 .sort_button
 {
     background-color: #3C1B67;
-    font: 300 12px/14px "Plus Jakarta Sans",sans-serif;
+    font: 300 12px/14px "Geologica",sans-serif;
     color: #fff;
+    letter-spacing: 0.02em;
     border: none;
     outline:none;
     box-shadow: none;
@@ -213,14 +211,13 @@
 }
 .sort_button span
 {
-    font: 400 15px/14px "Plus Jakarta Sans",sans-serif;
+    font: 400 14px/14px "Geologica",sans-serif;
     color: #FDF41B;
     margin-left: 2px;
 }
 @media screen and (max-width:767px) {
     .sort_button
     {
-        
         margin-top: 10px;
     }   
 }

@@ -3,18 +3,18 @@
     position: relative;
     margin: 0 auto;
     width: 100%;
-    max-width: 900px;
-    padding-top: 8px;
+    max-width: 1000px;
+    padding-top: 24px;
 }
 .nft_all_section .main_heading
 {
-    font: 500 22px/24px "Montserrat",sans-serif;
+    font: 500 22px/24px "Geologica",sans-serif;
     color: #fff;
     padding-bottom: 12px;
 }
 .nft_all_section .main_heading span
 {
-    font: 300 16px/24px "Montserrat",sans-serif;
+    font: 300 16px/24px "Geologica",sans-serif;
     letter-spacing: 0px;
     margin-left: 8px;
 }
@@ -29,7 +29,7 @@
 .view_all_text
 {
     text-align: end;
-    font: 700 16px/26px "Montserrat", sans-serif !important;
+    font: 700 16px/26px "Geologica", sans-serif !important;
     background: -webkit-linear-gradient(280deg, #FF008A 2%, #F3DD59 92%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -114,7 +114,8 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font: 400 14px/22px "Montserrat", sans-serif;
+    letter-spacing: 0.04em;
+    font: 400 14px/22px "Jost", sans-serif;
     color: #fff;    
 }
 .nft_container .number_badge
@@ -122,7 +123,7 @@
     background-color: transparent;
     border: 2px solid white;
     position: relative;
-    font: 400 11px/14px "Montserrat", sans-serif;
+    font: 400 11px/14px "Jost", sans-serif;
     min-width: 20px;
     padding: 3px 8px 3px;
 
