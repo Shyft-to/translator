@@ -24,9 +24,16 @@ import DisconnectLoader from "./loaders/DisconnectedLoader";
 import wallet_Disconnected_loader from "../resources/images/loaders/disconnect_wallet.gif";
 
 const SearchComponent = ({ popup, setPopUp }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState("mainnet-beta");
+
+  const [disconn,setDisconn] = useState(false);
+
+  // const currentTab = searchParams.get("tab") ?? "TXN";
+  // const navigate = useNavigate();
+  // const { publicKey } = useWallet();
+
   const [isFocused, setFocused] = useState(false);
   const [searchData, setSearchData] = useState([]);
 
