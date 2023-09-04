@@ -2,8 +2,8 @@
 .single_txn_page
 {
     position: relative;
-    /* background: radial-gradient(#1E0C36 8%, #1E0C36 75%); */
-    background: radial-gradient(#190a2c 8%, #190a2c 75%);
+    /* background: radial-gradient(#000 8%, #1E0C36 75%); */
+    background: radial-gradient(#0c0614 8%, #0b0118 75%);
     z-index: 0;
     min-height: 100vh;
     padding: 120px 0px 40px;
@@ -95,10 +95,10 @@
 
 .single_txn_page .each_row .row_title
 {
-    font: 200 16px "Plus Jakarta Sans",sans-serif;
+    font: 300 16px "Jost",sans-serif;
     color: #fff; 
     padding-bottom: 8px;
-    /* letter-spacing: 1px; */
+    letter-spacing: 0.05em;
 }
 .single_txn_page .each_row .row_value
 {
@@ -236,7 +236,7 @@
 }
 .single_txn_page .hide_details_container
 {
-    background-color: #080012B2;
+    background-color: #2a0855B2;
     padding: 2px 12px;
     border-radius: 8px;
     margin-bottom: 8px;
@@ -464,7 +464,7 @@
 }
 .sub_txns .field_sub_1
 {
-    font: 300 13px/26px "Plus Jakarta Sans",sans-serif;
+    font: 400 13px/26px "Plus Jakarta Sans",sans-serif;
     color: #FFFa;
     width: 100%;
 }

@@ -24,18 +24,10 @@ import DisconnectLoader from "./loaders/DisconnectedLoader";
 import wallet_Disconnected_loader from "../resources/images/loaders/disconnect_wallet.gif";
 
 
-const SearchComponent = ({ popup, setPopUp }) => {
-  const navigate = useNavigate();
+const SearchComponent = ({popup,setPopUp}) => {
+  // const navigate = useNavigate();
   const [wallet, setWallet] = useState("");
   const [network, setNetwork] = useState("mainnet-beta");
-  const currentWallet = localStorage.getItem("reac_wid");
-  const [showFoll,setShowFoll] = useState(false);
-  const [disconn,setDisconn] = useState(false);
-
-  // const currentTab = searchParams.get("tab") ?? "TXN";
-  // const navigate = useNavigate();
-  // const { publicKey } = useWallet();
-
   const [isFocused, setFocused] = useState(false);
   const [searchData, setSearchData] = useState([]);
 
@@ -291,7 +283,6 @@ const SearchComponent = ({ popup, setPopUp }) => {
       {/* <OpenPopup setPopUp={setPopUp}/> */}
       {popup && <PopupView setPopUp={setPopUp} />}
       
-      {showFoll && <FollowerList setShowFoll={setShowFoll}/>}
       <div className={styles.header_search_area_inner}>
         <div className="container-fluid">
           <div className={styles.menubar_container}>
@@ -300,9 +291,6 @@ const SearchComponent = ({ popup, setPopUp }) => {
                 <div className="d-flex justify-content-start">
                   <div className="logo_container pt-2 pt-md-3 text-lg-start">
                     <a href={`/`}>Translator</a>
-                    {/* <button className={styles.about_shyft_button_mobile} onClick={() => setPopUp(true)}>
-                      <img src={infoIcon} />
-                    </button> */}
                   </div>
 
                 </div>
@@ -394,81 +382,20 @@ const SearchComponent = ({ popup, setPopUp }) => {
                           </motion.div>
                           }
 
-                        </div>}
-                      </div>
-                    </motion.div>
-                  </div>
-                  
-                </div>
-
+                </div>}
               </div>
-              <div className={styles.area_3}>
-                <div className={styles.connect_button_container}>
-                  <div className={styles.links_list}>
-                  {
-                    (userWallet?.publicKey) ?
-                    <>
-                      {/* <a href={`/feed?cluster=${network}`} style={{border: "3px solid #2a0855"}}>
-                        <img src={homeIcon} />
-                        Feed
-                      </a> */}
-                      <div className={styles.dropdown_menu}>
-                        <div className={styles.menu_head}>
-                          <img src={profIcon} className={styles.dropdown_image} />
-                          {shortenAddress(userWallet.publicKey?.toBase58())}
-                        </div>
-                        <div className={styles.dropdown_content}>
-                          <div className={styles.link_type} onClick={() => setShowFoll(true)}>
-                            <img src={follIcon} className={styles.dropdown_image} alt="Feed" style={{opacity: 0.4, width: "20px", marginRight: "14px"}}/>
-                            Following
-                          </div>
-                          <a className={styles.link_type} href={`/feed?cluster=${network}`} style={{paddingTop: "6px"}}>
-                            <img src={homeIcon} className={styles.dropdown_image} style={{width: "20px", marginRight: "14px"}} alt="Feed" />
-                            Feed
-                          </a>
-                          {/* <div className={styles.link_type} onClick={logout}>Disconnect</div> */}
-                          <WalletDisconnectButton className={styles.link_type} onClick={walletDisconnected}/>
-                          <div className="keys" style={{display:"none"}}>
-                            <WalletDisconnectButton className={styles.link_type} onClick={reconnectWallet}/>
-                          </div>
-                          {/* <a href="#">Link 3</a> */}
-                        </div>
-                      </div>
-                      
-                    </>:""
-                    
-                    // <WalletMultiButton className="wallet-button"/>
-                  }
-                  <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
-                    <img src={infoIcon} />
-                  </button>
-                  </div> 
-                  
-
-                </div>
-                {/* <div className="logo_area">
-                  
-                  <button className={styles.about_shyft_button} onClick={() => setPopUp(true)}>
-                    <img src={infoIcon} />
-                  </button>
-                </div> */}  
-              </div>
-              {/* {disconn && <DisconnectLoader />} */}
-              <Toaster
-                    position="top-center"
-                    reverseOrder={false}
-                    toastOptions={{
-                        className: '',
-                        style: {
-                          border: '2px solid white',
-                          padding: '0px',
-                          background: '#1E0C36',
-                        },
-                      }}
-                />
-            </div>
-            </div>
+            </motion.div>
+          </div>
+          <div className="logo_area">
+              <button className={styles.about_shyft_button} onClick={() => setPopUp(true)}>
+                <img src={infoIcon} />
+              </button>
+          </div>
         </div>
+        </div>
+      </div>
+      </div>
+      </div>
       </div>
     </motion.div>
   );

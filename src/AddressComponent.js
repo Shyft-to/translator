@@ -36,6 +36,7 @@ import FolUnfolLoaderFull from "./components/loaders/FolUnfolLoaderFull";
 
 import walletFollowed from "./resources/images/loaders/follow_image.gif";
 import walletUnfollowed from "./resources/images/loaders/unfollow_image.gif";
+import UploadIdl from "./components/TransactionComponent/UploadIdl";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -76,6 +77,8 @@ const AddressComponent = ({popup,setPopUp}) => {
      const[clickedFollowLoggedOut,setClickedConnectLoggedOut] = useState(false);
 
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
+    const [upIdlPanel,setUpIdlPanel] = useState(false);
+
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
     }, []);
@@ -399,6 +402,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             
             {/* <HeaderComponent /> */}
             
+            {upIdlPanel && <UploadIdl setUpIdlPanel={setUpIdlPanel} addr={addr}/>}
             <div className={styles.background_super}>
                 <Toaster
                     position="top-center"
@@ -431,7 +435,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                             </div>
                     }
                     {(contentType === "WALLET") &&
-                        <div className="container">
+                        <div className="container-lg">
                             <motion.div className={styles.heading_section} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
                                 <div className="row">
                                     <div className="col-6 col-lg-6">
@@ -492,11 +496,26 @@ const AddressComponent = ({popup,setPopUp}) => {
                                 </div>
                                 <div className="row pt-4">
                                     <div className="col-6 col-lg-6">
-                                        <div>
-                                            <div className={styles.wallet_balance_indicator}>
-                                                {data.balance?.toFixed(8)}&nbsp;SOL
+                                        <div className="d-flex flex-wrap justify-content-end">
+                                            <div 
+                                                //className="border border-light" 
+                                                
+                                            >
+                                                <div className={styles.wallet_balance_indicator}>
+                                                    {data.balance?.toFixed(8)}&nbsp;SOL
+                                                </div>
+                                            </div>
+                                            <div className="ps-2">
+                                                <div className={styles.select_container}>
+                                                    <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
+                                                        <option value="mainnet-beta">Mainnet</option>
+                                                        <option value="devnet">Devnet</option>
+                                                        <option value="testnet">Testnet</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
                                         <div>
@@ -528,7 +547,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     <AllNfts collections={data.collections} address={addr} network={cluster} />
                                 }
                                 {nftPanel === "CNFT" &&
-                                    <CnftSlider addr={addr} network={cluster} />
+                                    <CnftSlider addr={addr} cluster={cluster} />
                                 }
                             </div>
                         </div>}
@@ -572,7 +591,7 @@ const AddressComponent = ({popup,setPopUp}) => {
 
                                                     >
                                                         
-                                                        {getProgramNamefromAddr(addr) || shortenAddress(addr)}
+                                                        {formatNames(data.name) || getProgramNamefromAddr(addr) || shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
                                                 
@@ -594,6 +613,9 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                         </button>
                                                     </Tooltip>
                                                 </div>
+                                                {data.manually_parsed_idls?"":<div className="px-1">
+                                                    <button className={styles.update_idl_button} onClick={() => setUpIdlPanel(true)}>{data.idl_available?"Update IDL":"Upload IDL"}</button>
+                                                </div>}
                                             </div>
                                             {/*<span>Space Overview</span> */}
 
@@ -672,49 +694,50 @@ const AddressComponent = ({popup,setPopUp}) => {
 
                 </div>}
                 
-                
-                <div className="container-lg">
-                    <div className={styles.tab_container}>
-                        <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
-                                setPanel("TXN");
-                                tabSelected("txn","remove");
-                            }}>
-                            Live Activity<div className="px-2" style={{display:"inline",position:"relative"}}><div className="blinking"></div></div>
-                            {(panel === "TXN") ? <div className={styles.underline} /> : ""}
-                        </button>
-                        {(contentType === "WALLET") && <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
-                            setPanel("TKN");
-                            tabSelected("token","add");
-                            }}>
-                            Tokens
-                            {(tokenCount > -1) && <div className={styles.count_badge}>{tokenCount}</div>}
-                            {(panel === "TKN") ? <div className={styles.underline} /> : ""}
-                        </button>}
-                        {(contentType === "WALLET") && <button className={(panel === "DOM") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
-                            setPanel("DOM");
-                            //tabSelected("token","add");
-                            }}>
-                            Domains
-                            {(domainsCount > -1) &&<div className={styles.count_badge}>{domainsCount}</div>}
-                            {(panel === "DOM") ? <div className={styles.underline} /> : ""}
-                        </button>}
+                {isCompressedNft === "false" &&
+                    <div className="container-lg">
+                        <div className={styles.tab_container}>
+                            <button className={(panel === "TXN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                    setPanel("TXN");
+                                    tabSelected("txn","remove");
+                                }}>
+                                Live Activity<div className="px-2" style={{display:"inline",position:"relative"}}><div className="blinking"></div></div>
+                                {(panel === "TXN") ? <div className={styles.underline} /> : ""}
+                            </button>
+                            {(contentType === "WALLET") && <button className={(panel === "TKN") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                setPanel("TKN");
+                                tabSelected("token","add");
+                                }}>
+                                Tokens
+                                {(tokenCount > -1) && <div className={styles.count_badge}>{tokenCount}</div>}
+                                {(panel === "TKN") ? <div className={styles.underline} /> : ""}
+                            </button>}
+                            {(contentType === "WALLET") && <button className={(panel === "DOM") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
+                                setPanel("DOM");
+                                //tabSelected("token","add");
+                                }}>
+                                Domains
+                                {(domainsCount > -1) &&<div className={styles.count_badge}>{domainsCount}</div>}
+                                {(panel === "DOM") ? <div className={styles.underline} /> : ""}
+                            </button>}
+                        </div>
+                        <div className={styles.tabbed_section_container}>
+                            {
+                                (panel === "TXN") && <Transactions address={addr} cluster={cluster}  />
+                            }
+                            {
+                                (panel === "TKN") && <div className="text-center could_not_text pt-5">
+                                    <TabbedTokens address={addr} cluster={cluster} setTokensCount={setTokensCount} />
+                                </div>
+                            }
+                            {
+                                (panel === "DOM") && <div className="text-center pt-5">
+                                    <TabbedDomains address={addr} cluster={cluster} setDomainsCount={setDomainsCount} />
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div className={styles.tabbed_section_container}>
-                        {
-                            (panel === "TXN") && <Transactions address={addr} cluster={cluster}  />
-                        }
-                        {
-                            (panel === "TKN") && <div className="text-center could_not_text pt-5">
-                                <TabbedTokens address={addr} cluster={cluster} setTokensCount={setTokensCount} />
-                            </div>
-                        }
-                        {
-                            (panel === "DOM") && <div className="text-center pt-5">
-                                <TabbedDomains address={addr} cluster={cluster} setDomainsCount={setDomainsCount} />
-                            </div>
-                        }
-                    </div>
-                </div>
+                }
 
             </div>
         </div>

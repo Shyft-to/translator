@@ -104,10 +104,9 @@
   }
 
   .form_field_outer .form_field_inner {
-    /* background-color: transparent; */
+    background-color: #2a0855;
     border-radius: 25px;
     padding: 6px 18px 10px;
-    border: 1px solid #fff5;
   }
 
   .form_field_outer .form_field_inner input {
@@ -224,6 +223,12 @@
 {
   position: relative;
   padding: 0px 16px;
+}
+@media screen and (max-width: 576px) {
+  .header_search_area .header_search_area_inner
+{
+  padding: 0px 0px;
+}
 }
 .token_search_container
 {

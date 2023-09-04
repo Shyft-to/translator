@@ -289,7 +289,7 @@
     border-radius: 14px;
     border: 2px solid transparent;
     padding: 16px 32px;
-    margin-bottom: 48px;
+    margin-bottom: 36px;
     transition: all 0.05s ease;
 }
 .each_txn_3:hover

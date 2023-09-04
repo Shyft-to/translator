@@ -376,12 +376,12 @@ const NftExpanded = ({ nft, cluster }) => {
                             <div className="row">
                               <div className="col-6">
                                 <div className={styles.attribute_label}>
-                                  {each_attrib.trait_type}
+                                  {(typeof each_attrib.trait_type === "string" || typeof each_attrib.trait_type === "number")?each_attrib.trait_type:JSON.stringify(each_attrib.trait_type)}
                                 </div>
                               </div>
                               <div className="col-6">
                                 <div className={styles.attribute_value}>
-                                  {each_attrib.value}
+                                  {(typeof each_attrib.value === "string" || typeof each_attrib.value === "number")?each_attrib.value:JSON.stringify(each_attrib.value)}
                                 </div>
                               </div>
                             </div>

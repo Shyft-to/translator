@@ -16,18 +16,25 @@ const CnftSlider = ({ cluster, addr }) => {
 
         try {
             const network = cluster ?? "mainnet-beta";
-            setLoading("loading");
-            const res = await getCompressedNFTsFromWallet(network, addr);
-            //console.log(res);
-            if (res.success === true) {
-                console.log(res.details);
-                setCNFTs(res.details);
-                setType(res.type);
-                setLoading("loaded");
+            if(network === "devnet" || network === "mainnet-beta")
+            {
+                setLoading("loading");
+                const res = await getCompressedNFTsFromWallet(network, addr);
+                //console.log(res);
+                if (res.success === true) {
+                    console.log(res.details);
+                    setCNFTs(res.details);
+                    setType(res.type);
+                    setLoading("loaded");
+                }
+                else {
+                    setLoading("error");
+                }
             }
             else {
-                setLoading("error");
+                setLoading("unsupported");
             }
+            
         }
         catch (err) {
             // setErrOccured(true);
@@ -109,6 +116,10 @@ const CnftSlider = ({ cluster, addr }) => {
             {
                (loading === "error" || (loading === "loaded" && cNFTs.length < 1)) && 
                <div className="py-4 pt-5 not_found_text">No Compressed NFTs Found</div>
+            }
+            {
+               (loading === "unsupported") && 
+                <div className="py-4 pt-5 my-4 not_found_text">Coming Soon! Currently unavailable, but our devs are working hard to add this cluster soon.</div>
             }
             {loading === "loading" && <div className="py-5"><TxnLoader /></div>}
         </div>

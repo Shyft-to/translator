@@ -39,6 +39,7 @@ const Transactions = ({ address, cluster }) => {
   const [liveTxns, setLiveTxns] = useState([]);
   const [pauseTimer,setPauseTimer] = useState(false);
   const [chatFocus, setChatFocus] = useState(true);
+  
 
   const { ref, inView } = useInView();
 
