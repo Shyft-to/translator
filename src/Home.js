@@ -22,6 +22,7 @@ import * as bs58 from "bs58";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { PulseLoader } from "react-spinners";
+import UploadIdlWithProgramAddr from "./components/TransactionComponent/UploadIdlWithProgramAddr";
 
 const staticAddresses = [
   {
@@ -54,6 +55,7 @@ const Home = ({popup, setPopUp}) => {
   const [wallet, setWallet] = useState('');
   const [network, setNetwork] = useState('mainnet-beta');
   const [loadingAddr,setLoadingAddr] = useState(false);
+  const [openIdl,setOpenIdl] = useState(false);
 
   const [isFocused, setFocused] = useState(false);
 
@@ -370,8 +372,21 @@ const Home = ({popup, setPopUp}) => {
       <div className="scroll-to-top-3">
         <a href="https://translator.shyft.to/">Translator</a>
       </div>
-      
+      <div className="scroll-to-top-notification">
+       <div className="notification_area">
+        <div className="d-flex">
+          <div className="batch_icon">
+            <span>New!</span>🔥
+          </div>
+          <div className="noti_item">
+            You can now upload your program's IDL to instantly see parsed txs.
+          </div>
+          <button className="upload_idl_button" onClick={() => setOpenIdl(true)}>Upload</button>
+        </div>
+       </div>
+      </div>
       <OpenPopup setPopUp={setPopUp} />
+      {openIdl && <UploadIdlWithProgramAddr setOpenIdl={setOpenIdl} />}
       {popup && <PopupView setPopUp={setPopUp} />}
       <div className={styles.background_2}>
         <div className="container-lg">

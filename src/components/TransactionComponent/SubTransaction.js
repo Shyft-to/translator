@@ -46,6 +46,7 @@ import vote_denied from "../../resources/images/txnImages/vote-denied.svg";
 import vote_veto from "../../resources/images/txnImages/vote-veto2.svg";
 import vote from "../../resources/images/txnImages/vote.svg";
 import realm from "../../resources/images/txnImages/realm.svg";
+import collectFees from "../../resources/images/txnImages/collect_fees.png";
 
 import noImage from "../../resources/images/txnImages/unknown_token.png";
 
@@ -55,7 +56,8 @@ import {
   formatLamports,
   convertToDays,
   formatNumbers,
-  getFullTime
+  getFullTime,
+  formatCurrencyValues
 } from "../../utils/formatter";
 
 const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCreators }) => {
@@ -68,6 +70,10 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
   //const [relType,setRelType] = useState("");
   const [currency, setCurrency] = useState("");
   const [currencyField, setCurrencyField] = useState("");
+  
+  const [decimals,setDecimals] = useState(0);
+  const [preBalance,setPreBalance] = useState(0);
+  const [postBalance,setPostBalance] = useState(0);
 
   const [currencyTwo,setCurrencyTwo] = useState("");
   const [currencyFieldTwo, setCurrencyFieldTwo] = useState("");
@@ -118,7 +124,6 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           const res = await getTokenData(cluster, address);
           if (res.success === true) {
             if (res.details.image) setImage(res.details.image);
-
             setName(res.details.name);
           }
         }
@@ -160,11 +165,16 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
     try {
       if (address === "So11111111111111111111111111111111111111112") {
         setCurrency("SOL");
+        if(preBalance !== 0)
+            setPostBalance(formatLamports(preBalance) ?? 0);
         setDataLoaded(true);
       } else {
         const res = await getTokenData(cluster, address);
         if (res.success === true) {
           setCurrency(res.details.symbol ?? res.details.name ?? "");
+          setDecimals(res.details.decimals ?? 0);
+          if(preBalance !== 0)
+            setPostBalance(formatCurrencyValues(preBalance) ?? 0);
         }
         setDataLoaded(true);
       }
@@ -288,6 +298,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           value: "",
           symbol: "",
           merkle_tree: data.info.merkle_tree ?? "--",
+          collection_address: data.info.nft_metadata?.collection?.key ?? "--"
         };
         setRelField(data.info.nft_address ?? "");
         setRelType("COMPRESSED_NFT");
@@ -361,10 +372,12 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           to: data.info.marketplace ?? "--",
           token: "--",
           action: "--",
-          value: formatLamports(data.info.price) ?? "--",
+          // value: (data.info.currency === "So11111111111111111111111111111111111111112")?formatLamports(data.info.price) ?? "--":data.info.price ?? "--",
+          value: data.info.price ?? "--",
           symbol: "",
         };
-
+        console.log("im here", data.info.price)
+        setPreBalance(data.info.price);
         setRelField(data.info.nft_address ?? "");
         setCurrencyField(data.info.currency ?? "");
       } else if (data.type === "NFT_SALE") {
@@ -374,7 +387,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           to: data.info.buyer ?? "--",
           token: "--",
           action: "--",
-          value: formatLamports(data.info.price) ?? "--",
+          value: data.info.price ?? "--",
           symbol: "",
         };
         setRelField(data.info.nft_address ?? "");
@@ -827,6 +840,37 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           setRelType("NONE");
           setImage(single_drop);
         }
+      }
+      else if(data.type === "COLLECT_FEES") {
+        type_obj = {
+          type: "COLLECT_FEES",
+          from: data.info.liquidity_pool_address ?? "--",
+          to: data.info.liquidity_provider_address ?? "--",
+          token: "--",
+          action: "--",
+          value: "--",
+          symbol: "",
+          fees_taken: data.info.fees_taken ?? []
+        };
+        setRelField(data.info.liquidity_pool_address);
+        setImage(collectFees);
+        setRelType("NONE");
+      }
+      else if(data.type === "COLLECT_REWARD") {
+        type_obj = {
+          type: "COLLECT_REWARD",
+          from: data.info.liquidity_pool_address ?? "--",
+          to: data.info.liquidity_provider_address ?? "--",
+          token: "--",
+          action: "--",
+          value: data.info.reward.amount ?? "--",
+          symbol: "",
+        };
+        setRelField(data.info.reward?.token_address ?? "");
+        setName(data.info.reward?.name ?? "");
+        setImage(data.info.reward?.image_uri ?? "");
+        setCurrency(data.info.reward?.symbol ?? "")
+        setRelType("NONE");
       }
       else if(data.type === "CREATE_REALM") {
         type_obj = {
@@ -1336,6 +1380,11 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
 
   useEffect(() => {
     
+  }, [decimals])
+  
+
+  useEffect(() => {
+    
         if(showRoyalty === true && Array.isArray(saleNftCreators) && saleNftCreators.length > 0)
         {
           if(saleNftCreators.includes(data.info.receiver) === true)
@@ -1525,6 +1574,31 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               {shortenAddress(relField)}
                             </a>
                           }
+                        </div>
+                      </div>
+                    </>
+                  )
+                }
+                else if (data.type === "COLLECT_FEES") {
+                  return (
+                    <>
+                      <div className="d-flex flex-wrap">
+                        <div className="pe-2">
+                          Fees collected from liquidity pool
+                        </div>
+
+                        <div className="pe-2">
+                          <a
+                            href={
+                              cluster === "mainnet-beta"
+                                ? `/address/${relField}`
+                                : `/address/${relField}?cluster=${cluster}`
+                            }
+                            aria-label={relField}
+                              data-balloon-pos="up"
+                          >
+                            {shortenAddress(relField)}
+                          </a>
                         </div>
                       </div>
                     </>
@@ -2321,7 +2395,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="col-12 col-md-6">
                     <div className={`text-end ${styles.field_sub_2}`}>
                       <div>
-                        {varFields.value} {currency}
+                        {postBalance} {currency}
                       </div>
                     </div>
                   </div>
@@ -2395,6 +2469,64 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               {shortenAddress(varFields.seller)}
                             </a>
                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              );
+            }
+             else if (varFields.type === "COLLECT_REWARD") {
+              return (
+                <div>
+                  <div className="row pt-1">
+                    <div className="col-12 col-md-8">
+                      <div className="d-flex justify-content-start">
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.from}`
+                                  : `/address/${varFields.from}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.from}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.from)}
+                            </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-4px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={
+                                cluster === "mainnet-beta"
+                                  ? `/address/${varFields.to}`
+                                  : `/address/${varFields.to}?cluster=${cluster}`
+                              }
+                              aria-label={varFields.to}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.to)}
+                            </a>
+                          </div>
+                        </div>
+                        
+                        
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        <div>
+                          {varFields.value} {currency}
                         </div>
                       </div>
                     </div>
@@ -3996,8 +4128,8 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <a
-                              href={`/address/${varFields.to}?cluster=${cluster}`}
-                              aria-label={varFields.to}
+                              href={`/address/${varFields.merkle_tree}?cluster=${cluster}`}
+                              aria-label={varFields.merkle_tree}
                               data-balloon-pos="up"
                             >
                               {shortenAddress(varFields.merkle_tree)}
@@ -4014,6 +4146,40 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       </div>
                     </div>
                 </div>
+                {(varFields.collection_address !== "--" && varFields.collection_address !== "") && <div className="row pt-0">
+                    <div className="col-12 col-md-10">
+                      <div className="d-flex">
+                        <div className="pe-2">
+                          <div className={styles.field_sub_1}>Collection</div>
+                        </div>
+                        <div className="pe-3">
+                          <img
+                            src={arrow}
+                            alt=""
+                            style={{ width: "14px", marginTop: "-2px" }}
+                          />
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.field_sub_1}>
+                            <a
+                              href={`/address/${varFields.merkle_tree}?cluster=${cluster}`}
+                              aria-label={varFields.merkle_tree}
+                              data-balloon-pos="up"
+                            >
+                              {shortenAddress(varFields.collection_address)}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-2">
+                      <div className={`text-end ${styles.field_sub_2}`}>
+                        <div className={styles.plus_color}>
+                          {/* + {varFields.value} */}
+                        </div>
+                      </div>
+                    </div>
+                </div>}
               </div>
               );
             }
@@ -4664,6 +4830,80 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     </div>)}
                     
                   
+                </>
+              )
+            }
+            else if (varFields.type === "COLLECT_FEES") {
+              return (
+                <>
+                  
+                    {(varFields.fees_taken.length > 0) && varFields.fees_taken.map((token) => <div className="row pt-2">
+                      <div className="col-12 col-md-8">
+                          <div className="d-flex justify-content-start">
+                            {/* <div className="pe-2">
+                              <img
+                                src={token.symbol === "SOL"?solanaIcon:((token.image_uri.includes("ray-initiative.gift") || token.image_uri.includes("dex-ray.gift"))?noImage : (token.image_uri || noImage))}
+                                onError={({ currentTarget }) => {
+                                  currentTarget.onerror = null; // prevents looping
+                                  currentTarget.src = noImage;
+                                }}
+                                alt="Token icon"
+                                style={{ width: "22px", marginTop: "-2px" }}
+                              />
+                            </div> */}
+                            <div className="pe-1">
+                              <div className={styles.field_sub_1}>
+                                <a
+                                  href={
+                                    cluster === "mainnet-beta"
+                                      ? `/address/${varFields.from}`
+                                      : `/address/${varFields.from}?cluster=${cluster}`
+                                  }
+                                  aria-label={varFields.from}
+                                  data-balloon-pos="up"
+                                >
+                                  {shortenAddress(varFields.from)}
+                                </a>
+                              </div>
+                            </div>
+                            <div className="pe-1">
+                              <img
+                                src={arrow}
+                                alt=""
+                                style={{ width: "14px", marginTop: "-4px" }}
+                              />
+                            </div>
+                            <div className="pe-1">
+                              <div className={styles.field_sub_1}>
+                                <a
+                                  href={
+                                    cluster === "mainnet-beta"
+                                      ? `/address/${varFields.to}`
+                                      : `/address/${varFields.to}?cluster=${cluster}`
+                                  }
+                                  aria-label={varFields.to}
+                                  data-balloon-pos="up"
+                                >
+                                  {shortenAddress(varFields.to)}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                            
+                            
+                      </div>
+                      <div className="col-12 col-md-4 text-end">
+                        <div>
+                          <div
+                            className={`${styles.field_sub_2}`}
+                          >
+                            {token.amount} {token.symbol ||
+                                    shortenAddress(token.token_address)}
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>)}
                 </>
               )
             }

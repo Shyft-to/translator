@@ -301,6 +301,12 @@
     padding-bottom: 16px;
   }
 }
+@media screen and (max-width: 767px) {
+  .central_area
+  {
+    padding-top: 34% !important;
+  }
+}
 .simple_input_container
 {
   position: relative;

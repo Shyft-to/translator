@@ -36,6 +36,7 @@ import FolUnfolLoaderFull from "./components/loaders/FolUnfolLoaderFull";
 
 import walletFollowed from "./resources/images/loaders/follow_image.gif";
 import walletUnfollowed from "./resources/images/loaders/unfollow_image.gif";
+import UploadIdl from "./components/TransactionComponent/UploadIdl";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
@@ -77,6 +78,8 @@ const AddressComponent = ({popup,setPopUp}) => {
      const [isWalletConnected,setWalletConnected] = useState("NOT_CONN");
 
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
+    const [upIdlPanel,setUpIdlPanel] = useState(false);
+
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
     }, []);
@@ -419,6 +422,7 @@ const AddressComponent = ({popup,setPopUp}) => {
             {popup && <PopupView setPopUp={setPopUp} />} */}
             
             {/* <HeaderComponent /> */}
+            {upIdlPanel && <UploadIdl setUpIdlPanel={setUpIdlPanel} addr={addr}/>}
             
             <div className={styles.background_super}>
                 <Toaster
@@ -597,7 +601,7 @@ const AddressComponent = ({popup,setPopUp}) => {
 
                                                     >
                                                         
-                                                        {getProgramNamefromAddr(addr) || shortenAddress(addr)}
+                                                        {formatNames(data.name) || getProgramNamefromAddr(addr) || shortenAddress(addr)}
                                                     </Tooltip>
                                                 </div>
                                                 
@@ -619,6 +623,9 @@ const AddressComponent = ({popup,setPopUp}) => {
                                                         </button>
                                                     </Tooltip>
                                                 </div>
+                                                {data.manually_parsed_idls?"":<div className="px-1">
+                                                    <button className={styles.update_idl_button} onClick={() => setUpIdlPanel(true)}>{data.idl_available?"Update IDL":"Upload IDL"}</button>
+                                                </div>}
                                             </div>
                                             {/*<span>Space Overview</span> */}
 
