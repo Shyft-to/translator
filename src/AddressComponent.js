@@ -502,7 +502,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
                                     
-                                        {(isWalletConnected === "CONN")&& <>
+                                        {(isWalletConnected === "CONN" && cluster === "mainnet-beta")&& <>
                                             {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
                                             {(followLoading === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}
                                             {/* {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />} */}

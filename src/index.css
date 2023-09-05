@@ -482,7 +482,7 @@ body {
   position: fixed;
   top: 30px;
   left: 45px;
-  z-index: 20;
+  z-index: 1;
 }
 .scroll-to-top-3 a
 {
@@ -496,7 +496,7 @@ body {
   top: 42px;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 20;
+  z-index: 1;
 }
 .scroll-to-top-notification .notification_area {
   font: 400 14px "Geologica",sans-serif;

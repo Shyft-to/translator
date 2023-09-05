@@ -132,6 +132,7 @@ const Home = ({popup, setPopUp}) => {
   useEffect(() => {
     if(userWallet.publicKey && clickedConnectWallet === true)
     {
+      console.log("here");
       setClickedConnectWallet(false);
       connectWallet(userWallet.publicKey?.toBase58())
     }
@@ -267,7 +268,8 @@ const Home = ({popup, setPopUp}) => {
                 font: "300 16px Geologica,sans-serif",
                 paddingLeft: "18px",
                 paddingRight: "10px",
-                paddingTop: "10px"
+                paddingTop: "10px",
+                zIndex: 10
               },
             })
             setWalletConnected("CONN");
@@ -294,7 +296,8 @@ const Home = ({popup, setPopUp}) => {
               font: "300 16px Geologica,sans-serif",
               paddingLeft: "18px",
               paddingRight: "10px",
-              paddingTop: "10px"
+              paddingTop: "10px",
+              zIndex: 10
             },
           });
           setConnectionProgress("ERROR");
@@ -319,7 +322,8 @@ const Home = ({popup, setPopUp}) => {
           font: "300 16px Geologica,sans-serif",
           paddingLeft: "18px",
           paddingRight: "10px",
-          paddingTop: "10px"
+          paddingTop: "10px",
+          zIndex: 10
         },
       });
     }
@@ -361,7 +365,8 @@ const Home = ({popup, setPopUp}) => {
         font: "300 16px Geologica,sans-serif",
         paddingLeft: "18px",
         paddingRight: "10px",
-        paddingTop: "10px"
+        paddingTop: "10px",
+        zIndex: 10
       },
     });
   }
@@ -519,6 +524,7 @@ const Home = ({popup, setPopUp}) => {
               padding: '0px',
               paddingBottom: "10px",
               background: '#1E0C36',
+              zIndex: 10
             },
           }}
         />
