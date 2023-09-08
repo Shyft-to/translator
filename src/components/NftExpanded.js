@@ -7,6 +7,7 @@ import copyBtn from "../resources/images/txnImages/copy_icon.svg";
 import verifiedIcon from "../resources/images/verified-1.png";
 import Tooltip from 'react-tooltip-lite';
 // import { Link } from "react-router-dom";
+import "balloon-css";
 import { FaLink } from "react-icons/fa";
 import { toPng } from 'html-to-image';
 import { useEffect } from "react";
@@ -17,9 +18,36 @@ const NftExpanded = ({ nft, cluster }) => {
   const [copied, setcopied] = useState("Copy");
   const [copyLink, setCopyLink] = useState("Copy Link");
   const [showExpObj,setShowExpObj] = useState(false);
+  const [isVideo,setVideo] = useState("");
+  const [showVideoWindow,setVideoWindow] = useState(false);
+
+  const [videourl,setVideoUrl] = useState("");
+  const [videoType,setVideoType] = useState("");
 
   const [collectionName,setCollectionName] = useState("");
   
+  useEffect(() => {
+    try {
+      if(nft.hasOwnProperty("files") && Array.isArray(nft.files))
+      {
+        console.log("Files is an array")
+        const fileArray = nft.files?.filter(file => file.type?.startsWith("video/")) ?? [];
+        if(fileArray.length > 0)
+        {
+          console.log("Videos Found");
+          setVideoUrl(fileArray[0].uri ?? "");
+          setVideoType(fileArray[0].type ?? "");
+          setVideo(true);
+          //console.log("Video Url: ",fileArray[0].uri);
+        }
+      }
+    } catch (error) {
+      console.log("Error occured while reading files")
+    }
+    
+  }, [nft])
+  
+
   useEffect(() => {
     
     if(nft?.collection?.hasOwnProperty('address') && nft.collection?.address !== "")
@@ -129,6 +157,21 @@ const NftExpanded = ({ nft, cluster }) => {
         </div>
         
       </div>}
+      {showVideoWindow && 
+        <div className={styles.nft_model_modal}>
+        
+        <div className={styles.nft_modal}>
+          <button className={styles.nft_close_button} onClick={() => setVideoWindow(false)}>
+            ✖
+          </button>
+          <video controls autoPlay style={{width: "100%"}}>
+            <source src={videourl} type={videoType}/>
+            videos not supported here
+          </video>
+        </div>
+        
+      </div>
+      }
       <div className="row">
         <motion.div className="col-12 col-lg-3" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className={styles.nft_image_container}>
@@ -168,7 +211,7 @@ const NftExpanded = ({ nft, cluster }) => {
                 }}
                 alt="nft"
               />
-              <div className="d-flex justify-content-center">
+              <div className="d-flex flex-wrap justify-content-center">
                 <div className="px-3">
                   <div className={styles.view_original_button}>
                     {(nft.image_uri !== "") ? <a href={nft.image_uri} target="_blank" rel="noreferrer">
@@ -179,6 +222,11 @@ const NftExpanded = ({ nft, cluster }) => {
                 <div className="px-3">
                   <div>
                     {(nft.image_uri !== "") ? <button className={`text-center ${styles.download_button}`} onClick={onButtonClick}>Download</button>: ""}
+                  </div>
+                </div>
+                <div className="px-3">
+                  <div>
+                    {(isVideo) ? <button className={`text-center ${styles.download_button}`} onClick={() => setVideoWindow(true)}>View Video</button>: ""}
                   </div>
                 </div>
               </div>
@@ -219,6 +267,10 @@ const NftExpanded = ({ nft, cluster }) => {
               <h6 className={styles.section_heading}>Description</h6>
               <p className={styles.section_desc}>{nft.description ?? "--"}</p>
             </motion.div>
+            {(nft.external_url !== "") && <motion.div className={styles.nft_section} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }} style={{paddingBottom: "24px"}}>
+              <h6 className={styles.section_heading}>External URL</h6>
+              <a className={styles.section_desc_link} href={nft?.external_url ?? ""} target="_blank" rel="noreferrer">{nft.external_url ?? "--"}</a>
+            </motion.div>}
             <div className={styles.nft_image_container_mob}>
             {(nft.hasOwnProperty("animation_url") && nft.animation_url !== "" && (nft.animation_url?.endsWith("glb") === true || nft.animation_url?.endsWith("gltf") === true))?
                 <>
@@ -255,7 +307,7 @@ const NftExpanded = ({ nft, cluster }) => {
                   }}
                   initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}
                 />
-                <div className="d-flex justify-content-center">
+                <div className="d-flex flex-wrap justify-content-center">
                   <div className="px-3 pt-2">
                     <div className={styles.view_original_button}>
                       {(nft.image_uri !== "") ? <a href={nft.image_uri} target="_blank" rel="noreferrer">
@@ -268,6 +320,11 @@ const NftExpanded = ({ nft, cluster }) => {
                       {(nft.image_uri !== "") ? <button className={`text-center ${styles.download_button}`} onClick={onButtonClickMobile}>Download</button>: ""}
                     </div>
                   </div>
+                  {(isVideo) ? <div className="px-3 pt-2">
+                    <div>
+                       <button className={`text-center ${styles.download_button}`} onClick={() => setVideoWindow(true)}>View Video</button>
+                    </div>
+                  </div>: ""}
                 </div>
               </>
               }
@@ -339,6 +396,27 @@ const NftExpanded = ({ nft, cluster }) => {
                     </div>
                   </div>
                 </div>
+                {(nft.hasOwnProperty("merkle_tree") && nft.merkle_tree !== "") && <div className={`row ${styles.each_row}`}>
+                  <div className="col-4">
+                    <div className={styles.table_field_name}>Merkle Tree</div>
+                  </div>
+                  <div className="col-8">
+                    <div className={styles.table_field_value}>
+                      {(nft.owner !== "") && <Tooltip
+                        content={copied}
+                        className="myTarget"
+                        direction="left"
+                        // eventOn="onClick"
+                        // eventOff="onMouseLeave"
+                        useHover={true}
+                        background="#101010"
+                        color="#fefefe"
+                        styles={{ display: "inline" }}
+                        arrowSize={5}
+                      ><button onClick={() => copyValue(nft.merkle_tree)}><img src={copyBtn} /></button></Tooltip>}{(nft.merkle_tree !== "") ? <a href={(cluster === "mainnet-beta")?`/address/${nft.merkle_tree}`:`/address/${nft.merkle_tree}?cluster=${cluster}`}>{nft.merkle_tree}</a> : "--"}
+                    </div>
+                  </div>
+                </div>}
                 <div className={`row ${styles.each_row}`}>
                   <div className="col-4">
                     <div className={styles.table_field_name}>Collection</div>
@@ -381,7 +459,25 @@ const NftExpanded = ({ nft, cluster }) => {
                               </div>
                               <div className="col-6">
                                 <div className={styles.attribute_value}>
-                                  {(typeof each_attrib.value === "string" || typeof each_attrib.value === "number")?each_attrib.value:JSON.stringify(each_attrib.value)}
+                                  {
+                                    (typeof each_attrib.value === "string" && each_attrib.value.length > 17)?
+                                      <Tooltip
+                                        content={each_attrib.value}
+                                        className="attribute_tooltip"
+                                        direction="up-start"
+                                        // eventOn="onClick"
+                                        // eventOff="onMouseLeave"
+                                        useHover={true}
+                                        background="#101010"
+                                        color="#fefefe"
+                                        styles={{ display: "inline" }}
+                                        arrowSize={5}
+                                      >
+                                        {each_attrib.value}
+                                      </Tooltip>:
+                                      (typeof each_attrib.value === "string" || typeof each_attrib.value === "number")?each_attrib.value:JSON.stringify(each_attrib.value)
+
+                                  }
                                 </div>
                               </div>
                             </div>
