@@ -89,6 +89,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
    
   const [dataLoaded, setDataLoaded] = useState(false);
   const [copy, setCopied] = useState("Copy");
+  const [copyActions,setCopyActions] = useState("Copy");
 
   const [isRoyalty,setIsRoyalty] = useState(false);
 
@@ -109,7 +110,18 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
   //   if(Array.isArray(getLiquidityFor) && getLiquidityFor.length > 0)
   //     getLiquidityDetails(cluster,getLiquidityFor)
   // }, [getLiquidityFor])
-  
+  const updateCopyActionValue = () => {
+    console.log("MouseOut Change value");
+    setCopyActions("Copy");
+  }
+
+  const copyValueAction = (value) => {
+    navigator.clipboard.writeText(value);
+    setCopyActions("Copied");
+    // setTimeout(() => {
+    //   setCopyActions("Copy");
+    // }, 500);
+  };
 
   const getData = async (cluster, address, type = "") => {
     try {
@@ -1931,7 +1943,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-1">
+                          <div>
                             <div className={styles.field_sub_1}>
                               {/* <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link> */}
                               <a
@@ -1945,6 +1957,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.to)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-2">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.to)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -1975,7 +2011,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -1988,6 +2024,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.from)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-2">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.from)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -2033,7 +2093,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       <div className="row pt-1">
                         <div className="col-12 col-md-6">
                           <div className="d-flex">
-                            <div className="pe-1">
+                            <div className="">
                               <div className={styles.field_sub_1}>
                                 <a
                                   href={
@@ -2048,6 +2108,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 </a>
                               </div>
                             </div>
+                            <div className="pe-2">
+                              <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                                <Tooltip
+                                  content={copyActions}
+                                  className="myMarginTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                                  <motion.button
+                                    onClick={() => copyValueAction(varFields.from)}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <img src={copyIcon} alt="Copy Icon" />
+                                  </motion.button>
+                                </Tooltip>
+                              </div>
+                            </div>
                             <div className="pe-1">
                               <img
                                 src={arrow}
@@ -2055,7 +2139,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 style={{ width: "14px", marginTop: "-2px" }}
                               />
                             </div>
-                            <div className="pe-1">
+                            <div className="">
                               <div className={styles.field_sub_1}>
                                 <a
                                   href={
@@ -2068,6 +2152,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 >
                                   {shortenAddress(varFields.to)}
                                 </a>
+                              </div>
+                            </div>
+                            <div className="pe-2">
+                              <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                                <Tooltip
+                                  content={copyActions}
+                                  className="myMarginTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                                  <motion.button
+                                    onClick={() => copyValueAction(varFields.to)}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <img src={copyIcon} alt="Copy Icon" />
+                                  </motion.button>
+                                </Tooltip>
                               </div>
                             </div>
                           </div>
@@ -2101,7 +2209,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               {/* <Link to={`/address/${varFields.to}?cluster=${cluster}`} aria-label={varFields.to} data-balloon-pos="up">{shortenAddress(varFields.to)}</Link> */}
                               <a
@@ -2117,6 +2225,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               </a>
                             </div>
                           </div>
+                          <div className="pe-1">
+                              <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                                <Tooltip
+                                  content={copyActions}
+                                  className="myMarginTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                                  <motion.button
+                                    onClick={() => copyValueAction(varFields.to)}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <img src={copyIcon} alt="Copy Icon" />
+                                  </motion.button>
+                                </Tooltip>
+                              </div>
+                            </div>
                         </div>
                       </div>
                       <div className="col-12 col-md-6">
@@ -2145,7 +2277,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -2158,6 +2290,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.from)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.from)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -2177,7 +2333,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       <div className="row pt-1">
                         <div className="col-12 col-md-6">
                           <div className="d-flex">
-                            <div className="pe-1">
+                            <div className="">
                               <div className={styles.field_sub_1}>
                                 <a
                                   href={
@@ -2192,6 +2348,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 </a>
                               </div>
                             </div>
+                            <div className="pe-2">
+                              <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                                <Tooltip
+                                  content={copyActions}
+                                  className="myMarginTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                                  <motion.button
+                                    onClick={() => copyValueAction(varFields.from)}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <img src={copyIcon} alt="Copy Icon" />
+                                  </motion.button>
+                                </Tooltip>
+                              </div>
+                            </div>
                             <div className="pe-1">
                               <img
                                 src={arrow}
@@ -2199,7 +2379,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 style={{ width: "14px", marginTop: "-2px" }}
                               />
                             </div>
-                            <div className="pe-1">
+                            <div className="">
                               <div className={styles.field_sub_1}>
                                 <a
                                   href={
@@ -2212,6 +2392,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 >
                                   {shortenAddress(varFields.to)}
                                 </a>
+                              </div>
+                            </div>
+                            <div className="pe-2">
+                              <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                                <Tooltip
+                                  content={copyActions}
+                                  className="myMarginTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                                  <motion.button
+                                    onClick={() => copyValueAction(varFields.to)}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <img src={copyIcon} alt="Copy Icon" />
+                                  </motion.button>
+                                </Tooltip>
                               </div>
                             </div>
                           </div>
@@ -2244,7 +2448,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           style={{ width: "14px", marginTop: "-4px" }}
                         />
                       </div>
-                      <div className="pe-1">
+                      <div className="">
                         <div className={styles.field_sub_1}>
                           <a
                             href={`/address/${varFields.to}?cluster=${cluster}`}
@@ -2253,6 +2457,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           >
                             {shortenAddress(varFields.to)}
                           </a>
+                        </div>
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                          <Tooltip
+                            content={copyActions}
+                            className="myMarginTarget"
+                            direction="up"
+                            // eventOn="onClick"
+                            // eventOff="onMouseLeave"
+                            useHover={true}
+                            background="#101010"
+                            color="#fefefe"
+                            arrowSize={0}
+                            styles={{ display: "inline" }}
+                          >
+                            <motion.button
+                              onClick={() => copyValueAction(varFields.to)}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <img src={copyIcon} alt="Copy Icon" />
+                            </motion.button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
@@ -2375,7 +2603,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           style={{ width: "14px", marginTop: "-4px" }}
                         />
                       </div>
-                      <div className="pe-1">
+                      <div className="">
                         <div className={styles.field_sub_1}>
                           <a
                             href={
@@ -2388,6 +2616,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           >
                             {shortenAddress(varFields.from)}
                           </a>
+                        </div>
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                          <Tooltip
+                            content={copyActions}
+                            className="myMarginTarget"
+                            direction="up"
+                            // eventOn="onClick"
+                            // eventOff="onMouseLeave"
+                            useHover={true}
+                            background="#101010"
+                            color="#fefefe"
+                            arrowSize={0}
+                            styles={{ display: "inline" }}
+                          >
+                            <motion.button
+                              onClick={() => copyValueAction(varFields.to)}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <img src={copyIcon} alt="Copy Icon" />
+                            </motion.button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
@@ -2417,7 +2669,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-4px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -2430,6 +2682,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.marketplace)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.marketplace)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -2470,6 +2746,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </a>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.seller)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2482,7 +2782,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
                       <div className="d-flex justify-content-start">
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -2497,6 +2797,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </a>
                           </div>
                         </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                         <div className="pe-1">
                           <img
                             src={arrow}
@@ -2504,7 +2828,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-4px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -2519,7 +2843,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </a>
                           </div>
                         </div>
-                        
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                         
                       </div>
                     </div>
@@ -2586,7 +2933,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-2px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -2599,6 +2946,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.to)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -2627,7 +2998,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-2px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -2640,6 +3011,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.seller)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.seller)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -2676,6 +3071,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.buyer)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.buyer)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -2765,6 +3184,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           >
                             {shortenAddress(varFields.seller)}
                           </a>
+                        </div>
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                          <Tooltip
+                            content={copyActions}
+                            className="myMarginTarget"
+                            direction="up"
+                            // eventOn="onClick"
+                            // eventOff="onMouseLeave"
+                            useHover={true}
+                            background="#101010"
+                            color="#fefefe"
+                            arrowSize={0}
+                            styles={{ display: "inline" }}
+                          >
+                            <motion.button
+                              onClick={() => copyValueAction(varFields.seller)}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <img src={copyIcon} alt="Copy Icon" />
+                            </motion.button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
@@ -2901,7 +3344,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-4px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -2914,6 +3357,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.seller)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.seller)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -2950,6 +3417,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           >
                             {shortenAddress(varFields.from)}
                           </a>
+                        </div>
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                          <Tooltip
+                            content={copyActions}
+                            className="myMarginTarget"
+                            direction="up"
+                            // eventOn="onClick"
+                            // eventOff="onMouseLeave"
+                            useHover={true}
+                            background="#101010"
+                            color="#fefefe"
+                            arrowSize={0}
+                            styles={{ display: "inline" }}
+                          >
+                            <motion.button
+                              onClick={() => copyValueAction(varFields.from)}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <img src={copyIcon} alt="Copy Icon" />
+                            </motion.button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
@@ -2994,6 +3485,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </a>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.bidder)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div className="col-12 col-md-4">
@@ -3012,7 +3527,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
                       <div className="d-flex justify-content-start">
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -3025,6 +3540,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.seller)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.seller)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                         <div className="pe-1">
@@ -3055,6 +3594,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </a>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.bidder)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div className="col-12 col-md-4">
@@ -3083,7 +3646,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           style={{ width: "14px", marginTop: "-4px" }}
                         />
                       </div>
-                      <div className="pe-1">
+                      <div className="">
                         <div className={styles.field_sub_1}>
                           <a
                             href={
@@ -3096,6 +3659,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           >
                             {shortenAddress(varFields.from)}
                           </a>
+                        </div>
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                          <Tooltip
+                            content={copyActions}
+                            className="myMarginTarget"
+                            direction="up"
+                            // eventOn="onClick"
+                            // eventOff="onMouseLeave"
+                            useHover={true}
+                            background="#101010"
+                            color="#fefefe"
+                            arrowSize={0}
+                            styles={{ display: "inline" }}
+                          >
+                            <motion.button
+                              onClick={() => copyValueAction(varFields.from)}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <img src={copyIcon} alt="Copy Icon" />
+                            </motion.button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
@@ -3124,7 +3711,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           style={{ width: "14px", marginTop: "-4px" }}
                         />
                       </div>
-                      <div className="pe-1">
+                      <div className="">
                         <div className={styles.field_sub_1}>
                           <a
                             href={
@@ -3137,6 +3724,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           >
                             {shortenAddress(varFields.bidder)}
                           </a>
+                        </div>
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                          <Tooltip
+                            content={copyActions}
+                            className="myMarginTarget"
+                            direction="up"
+                            // eventOn="onClick"
+                            // eventOff="onMouseLeave"
+                            useHover={true}
+                            background="#101010"
+                            color="#fefefe"
+                            arrowSize={0}
+                            styles={{ display: "inline" }}
+                          >
+                            <motion.button
+                              onClick={() => copyValueAction(varFields.from)}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <img src={copyIcon} alt="Copy Icon" />
+                            </motion.button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
@@ -3179,6 +3790,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           >
                             {shortenAddress(varFields.to)}
                           </a>
+                        </div>
+                      </div>
+                      <div className="pe-1">
+                        <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                          <Tooltip
+                            content={copyActions}
+                            className="myMarginTarget"
+                            direction="up"
+                            // eventOn="onClick"
+                            // eventOff="onMouseLeave"
+                            useHover={true}
+                            background="#101010"
+                            color="#fefefe"
+                            arrowSize={0}
+                            styles={{ display: "inline" }}
+                          >
+                            <motion.button
+                              onClick={() => copyValueAction(varFields.to)}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <img src={copyIcon} alt="Copy Icon" />
+                            </motion.button>
+                          </Tooltip>
                         </div>
                       </div>
                     </div>
@@ -3242,7 +3877,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-2">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -3255,6 +3890,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.from)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.from)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -3288,7 +3947,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -3301,6 +3960,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.to)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.to)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -3323,7 +4006,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
                         <div className="d-flex">
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -3338,6 +4021,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               </a>
                             </div>
                           </div>
+                          <div className="pe-2">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.from)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
+                            </div>
+                          </div>
                           <div className="pe-1">
                             <img
                               src={arrow}
@@ -3345,7 +4052,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -3358,6 +4065,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.to)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.to)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -3422,7 +4153,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-2">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -3435,6 +4166,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.from)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.from)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -3468,7 +4223,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "14px", marginTop: "-2px" }}
                             />
                           </div>
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -3481,6 +4236,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.to)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.to)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -3518,13 +4297,37 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               </a>
                             </div>
                           </div>
+                          <div className="pe-2">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.to)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
+                            </div>
+                          </div>
                           <div className="pe-1">
                             {/* <img src={arrow} alt="" style={{ width: "14px", marginTop: "-2px" }} /> */}
                             <div className={styles.field_sub_3}>
                               took a loan from
                             </div>
                           </div>
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -3537,6 +4340,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.from)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.from)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -3635,7 +4462,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
                       <div className="d-flex">
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                                 href={
@@ -3648,6 +4475,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.borrower)}
                               </a>
+                          </div>
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.borrower)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                         <div className="pe-1">
@@ -3674,7 +4525,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
                       <div className="d-flex">
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                                 href={
@@ -3687,6 +4538,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.borrower)}
                               </a>
+                          </div>
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.borrower)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                         <div className="pe-1">
@@ -3761,7 +4636,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-9">
                       <div className="d-flex">
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                                 href={
@@ -3774,6 +4649,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.from)}
                               </a>
+                          </div>
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                         <div className="pe-1">
@@ -3792,6 +4691,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.to)}
                               </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -3854,6 +4777,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               </a>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                         {varFields.loan_duration_seconds !== "--" &&
                           <>
                             <div className="pe-1">
@@ -3903,7 +4850,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>by </div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                                 href={
@@ -3916,6 +4863,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.from)}
                               </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -3933,7 +4904,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Loan liquidated by </div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                                 href={
@@ -3946,6 +4917,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.to)}
                               </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -3988,7 +4983,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               style={{ width: "13px", marginTop: "-1px" }}
                             />
                           </div>
-                          <div className="pe-1">
+                          <div className="">
                             <div className={styles.field_sub_1}>
                               <a
                                 href={
@@ -4001,6 +4996,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               >
                                 {shortenAddress(varFields.from)}
                               </a>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.from)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -4029,7 +5048,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-2px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={
@@ -4042,6 +5061,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.swapper)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.swapper)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -4091,7 +5134,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-4px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={`/address/${varFields.to}?cluster=${cluster}`}
@@ -4100,6 +5143,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.to)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -4136,6 +5203,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </a>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.merkle_tree)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div className="col-12 col-md-2">
@@ -4159,7 +5250,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-2px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <a
                               href={`/address/${varFields.merkle_tree}?cluster=${cluster}`}
@@ -4168,6 +5259,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             >
                               {shortenAddress(varFields.collection_address)}
                             </a>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.merkle_tree)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>
@@ -4277,7 +5392,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-6">
                       <div className="d-flex">
-                        <div className="pe-2">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                               content={varFields.to}
@@ -4297,6 +5412,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               </a>
                             </Tooltip> 
                              &nbsp;&nbsp; bought</div>
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
                         </div>
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>{shortenAddress(varFields.tickets) ?? "--"}</div>
@@ -4348,6 +5487,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                         {/* <div className="pe-1">
                           <img
                             src={arrow}
@@ -4382,6 +5545,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.raffle_address)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -4394,7 +5581,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
                       <div className="d-flex">
-                      <div className="pe-1">
+                        <div className="pe-1">
                           <div className={styles.field_sub_1}>
                               <Tooltip
                                 content={varFields.to}
@@ -4417,6 +5604,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                           </div>
                         </div>
                         <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="pe-1">
                           <div className={styles.field_sub_1}>claimed</div>
                         </div>
                         <div className="pe-1">
@@ -4429,7 +5640,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>for raffle</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           
                           <div className={styles.field_sub_1}>
                           <Tooltip
@@ -4448,6 +5659,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                         ? `/address/${varFields.raffle_address}`
                                         : `/address/${varFields.raffle_address}?cluster=${cluster}`)}>
                                       {shortenAddress(varFields.raffle_address) ?? "--"}</a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.raffle_address)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -4579,6 +5814,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.merkle_tree)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -4632,6 +5891,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.to}?cluster=${cluster}`)}>
                               {shortenAddress(varFields.to) ?? "--"}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="pe-1">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -4700,6 +5983,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 : `/address/${varFields.to}?cluster=${cluster}`)}>
                                 {shortenAddress(varFields.to) ?? "--"}
                               </a>
+                              </Tooltip>
+                            </div>
+                          </div>
+                          <div className="pe-1">
+                            <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                              <Tooltip
+                                content={copyActions}
+                                className="myMarginTarget"
+                                direction="up"
+                                // eventOn="onClick"
+                                // eventOff="onMouseLeave"
+                                useHover={true}
+                                background="#101010"
+                                color="#fefefe"
+                                arrowSize={0}
+                                styles={{ display: "inline" }}
+                              >
+                                <motion.button
+                                  onClick={() => copyValueAction(varFields.to)}
+                                  whileHover={{ scale: 1.2 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  <img src={copyIcon} alt="Copy Icon" />
+                                </motion.button>
                               </Tooltip>
                             </div>
                           </div>
@@ -4851,7 +6158,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 style={{ width: "22px", marginTop: "-2px" }}
                               />
                             </div> */}
-                            <div className="pe-1">
+                            <div className="">
                               <div className={styles.field_sub_1}>
                                 <a
                                   href={
@@ -4866,6 +6173,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 </a>
                               </div>
                             </div>
+                            <div className="pe-2">
+                              <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                                <Tooltip
+                                  content={copyActions}
+                                  className="myMarginTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                                  <motion.button
+                                    onClick={() => copyValueAction(varFields.from)}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <img src={copyIcon} alt="Copy Icon" />
+                                  </motion.button>
+                                </Tooltip>
+                              </div>
+                            </div>
                             <div className="pe-1">
                               <img
                                 src={arrow}
@@ -4873,7 +6204,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 style={{ width: "14px", marginTop: "-4px" }}
                               />
                             </div>
-                            <div className="pe-1">
+                            <div className="">
                               <div className={styles.field_sub_1}>
                                 <a
                                   href={
@@ -4886,6 +6217,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 >
                                   {shortenAddress(varFields.to)}
                                 </a>
+                              </div>
+                            </div>
+                            <div className="">
+                              <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                                <Tooltip
+                                  content={copyActions}
+                                  className="myMarginTarget"
+                                  direction="up"
+                                  // eventOn="onClick"
+                                  // eventOff="onMouseLeave"
+                                  useHover={true}
+                                  background="#101010"
+                                  color="#fefefe"
+                                  arrowSize={0}
+                                  styles={{ display: "inline" }}
+                                >
+                                  <motion.button
+                                    onClick={() => copyValueAction(varFields.to)}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <img src={copyIcon} alt="Copy Icon" />
+                                  </motion.button>
+                                </Tooltip>
                               </div>
                             </div>
                           </div>
@@ -4945,6 +6300,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.relField)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -4986,6 +6365,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.from}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.from))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5036,6 +6439,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     {/* <div className="col-12 col-md-2">
@@ -5083,6 +6510,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div className="col-12 col-md-2">
@@ -5098,7 +6549,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
                       <div className="d-flex">
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.from}
@@ -5117,6 +6568,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.from}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.from))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5145,7 +6620,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
-                        
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                         
                       </div>
                     </div>
@@ -5160,7 +6658,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
                       <div className="d-flex">
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.from}
@@ -5179,6 +6677,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.from}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.from))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5204,6 +6726,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.to}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.to))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.to)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5290,6 +6836,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -5305,7 +6875,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Signatory added to proposal</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.from}
@@ -5324,6 +6894,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.from}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.from))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5364,6 +6958,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -5401,6 +7019,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -5416,7 +7058,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Transaction removed from proposal</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.from}
@@ -5435,6 +7077,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.from}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.from))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5475,6 +7141,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -5491,7 +7181,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "20px", marginTop: "-2px", borderRadius: "10px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={relField}
@@ -5510,6 +7200,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${relField}?cluster=${cluster}`)}>
                               {name || (shortenAddress(relField))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(relField)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5550,6 +7264,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -5565,7 +7303,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Vote</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.vote_record_address}
@@ -5587,10 +7325,34 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="pe-2">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.vote_record_address)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>removed for proposal</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.from}
@@ -5609,6 +7371,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.from}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.from))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5642,7 +7428,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Mint Govenance created by</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.from}
@@ -5661,6 +7447,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.from}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.from))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5679,7 +7489,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Token Govenance created by</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.from}
@@ -5701,6 +7511,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             </Tooltip>
                           </div>
                         </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -5716,7 +7550,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Min Tokens for proposal</div>
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                 content={varFields.from}
@@ -5735,6 +7569,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                               : `/address/${varFields.from}?cluster=${cluster}`)}>
                               {(shortenAddress(varFields.from))}
                             </a>
+                            </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
                             </Tooltip>
                           </div>
                         </div>
@@ -5808,7 +7666,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                             style={{ width: "14px", marginTop: "-2px" }}
                           />
                         </div>
-                        <div className="pe-1">
+                        <div className="">
                           <div className={styles.field_sub_1}>
                             <Tooltip
                                   content={varFields.from}
@@ -5828,6 +7686,30 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                 {(shortenAddress(varFields.from))}
                               </a>
                               </Tooltip>
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className={styles.copy_bt_2} onMouseOut={updateCopyActionValue}>
+                            <Tooltip
+                              content={copyActions}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button
+                                onClick={() => copyValueAction(varFields.from)}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="Copy Icon" />
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>

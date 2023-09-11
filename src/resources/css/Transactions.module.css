@@ -635,6 +635,13 @@
     display: block;
     margin-top: -2px;
 }
+.sub_txns .copy_bt_2
+{
+    display: block;
+    margin-top: -2px;
+    position: relative;
+    z-index: 2;
+}
 .sub_txns .second_token_field
 {
     display: flex;
