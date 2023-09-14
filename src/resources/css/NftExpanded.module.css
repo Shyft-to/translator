@@ -158,6 +158,17 @@
     font: 300 16px/24px "Jost", sans-serif;
     color: #fff;
 }
+.nft_section .section_desc_link
+{
+    text-decoration: none;
+    font: 300 16px/24px "Jost", sans-serif;
+    color: #fff;
+}
+.nft_section .section_desc_link:hover
+{
+    /* text-decoration: none; */
+    color: #0AEEFF;
+}
 .nft_section .table_container
 {
     border-radius: 10px;
