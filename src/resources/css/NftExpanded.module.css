@@ -187,12 +187,14 @@
 }
 .nft_section .table_container .table_field_name
 {
+    font: 300 16px/20px "Plus Jakarta Sans", sans-serif;
     font: 300 16px/20px "Jost", sans-serif;
     color: #fff;
 
 }
 .nft_section .table_container .table_field_value
 {
+    font: 500 16px/19px "Jost", sans-serif;
     font: 500 16px/19px "Plus Jakarta Sans", sans-serif;
     color: #fff;
     text-align: end;
@@ -230,7 +232,7 @@
 }
 .each_attribute .attribute_value
 {
-    font: 500 16px "Plus Jakarta Sans", sans-serif;
+    font: 500 16px/16px "Jost", sans-serif;
     color: #fff;
     text-align: end;
     overflow: hidden;
@@ -268,7 +270,7 @@
 .nft_section .table_container_creator .table_field_name
 {
 
-    font: 500 16px/19px "Jost", sans-serif;
+    font: 500 16px/19px "Plus Jakarta Sans", sans-serif;
     color: #fff;
     
     overflow: hidden;
@@ -278,7 +280,7 @@
 .nft_section .table_container_creator .table_field_value
 {
     
-    font: 300 16px/20px "Plus Jakarta Sans", sans-serif;
+    font: 300 16px/20px "Jost", sans-serif;
     color: #fff;
     text-align: end;
 }
@@ -323,13 +325,13 @@
     }
     .nft_section .table_container .table_field_name
     {
-        font: 300 13px/18px "Jost", sans-serif;
+        font: 300 13px/18px "Geologica", sans-serif;
         color: #fff;
 
     }
     .nft_section .table_container .table_field_value
     {
-        font: 500 13px/16px "Plus Jakarta Sans", sans-serif;
+        font: 500 13px/16px "Jost", sans-serif;
         color: #fff;
         text-align: end;
         

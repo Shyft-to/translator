@@ -1,14 +1,12 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap');
+
 
 .tabbed_domain_section
 {
     position: relative;
     margin: 0 auto;
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px;
     padding-top: 10px;
 }
 
@@ -28,7 +26,7 @@
 }
 .each_tab_domain .address_section
 {
-    font: 500 14px/16px "Poppins",sans-serif;
+    font: 500 14px/16px "Jost",sans-serif;
     color: #fffa;
     padding: 10px 20px;
     display: flex;
@@ -44,29 +42,10 @@
     border: none;
     box-shadow: none;
 }
-/* .each_tab_domain .toggle_button
-{
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: end;
-} */
-
-/* .each_tab_domain .toggle_button .sol_icon img
-{
-    width: 20px;
-    height: 20px;
-}
-.each_tab_domain .toggle_button .sol_icon_2 img
-{
-    width: 24px;
-    height: 24px;
-} */
 
 .each_tab_domain .name_section
 {
-    font: 500 14px/16px "Poppins",sans-serif;
+    font: 500 14px/16px "Jost",sans-serif;
     color: #fff;
     padding: 10px 20px;
 }
@@ -81,18 +60,6 @@
         
     }
     
-    /* .each_tab_domain .name_section
-    {
-        font: 500 18px/22px "Montserrat",sans-serif;
-        padding: 10px 20px 10px 0px;
-        color: #FDF41B;
-        width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        text-align: start;
-    }  */
-    
     
 }
 .search_area_container
@@ -106,7 +73,7 @@
 .sort_button
 {
     background-color: #3C1B67;
-    font: 300 12px/14px "Plus Jakarta Sans",sans-serif;
+    font: 300 12px/14px "Geologica",sans-serif;
     color: #fff;
     border: none;
     outline:none;
@@ -117,7 +84,7 @@
 }
 .sort_button span
 {
-    font: 400 15px/14px "Plus Jakarta Sans",sans-serif;
+    font: 400 15px/14px "Geologica",sans-serif;
     color: #FDF41B;
     margin-left: 2px;
 }

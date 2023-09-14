@@ -38,7 +38,7 @@
   padding: 80px 0px 40px;
 
 }
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 1700px) {
   .background_super
   {
     padding: 100px 0px 40px;
@@ -69,6 +69,15 @@
   font: 500 18px/24px "Geologica", sans-serif;
   color: #fff;
   padding-top: 6px;
+}
+.follower_flex
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 230px;
+  margin-right: 0;
+  margin-left: auto;
 }
 .copy_button
 {
@@ -101,11 +110,23 @@
   {
     font: 300 18px/18px "Geologica", sans-serif;
     color: #fff;
-    text-align: end;
+  }
+  .follower_flex
+  {
+    max-width: 180px;
   }
   
 }
-
+@media screen and (max-width:767px) {
+  .wallet_balance_indicator
+  {
+    font: 300 14px/18px "Geologica", sans-serif;
+  }
+  .follower_flex
+  {
+    max-width: 160px;
+  }
+}
 
 /* Tabbed Section Container */
 .tabbed_section_container
@@ -304,6 +325,67 @@
 
   .select_container_2 option {
     background-color: #2a0855;
+  }
+  .follow_button
+  {
+    padding: 8px 30px;
+    border-radius: 16px;
+    font: 500 12px/12px "Jost", sans-serif;
+  }
+}
+.your_feed_heading_container
+{
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  padding-bottom: 24px;
+}
+.select_container_feed {
+  width: 150px;
+  background-color: #8254b066;
+  border-radius: 26px;
+  padding: 6px 16px;
+}
+
+.select_container_feed select {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #fff;
+  font: 400 14px/18px "Geologica", sans-serif;
+  /* letter-spacing: 1px; */
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.select_container_feed select:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.select_container_feed option {
+  background-color: #2a0855;
+}
+
+.update_idl_button {
+  background: linear-gradient(90.8deg,#e0499b -30.34%,#571da3 85%);
+  border: 1px solid #2a0855;
+  outline: none;
+  padding: 8px 20px;
+  display: block;
+  margin-top: -2px;
+  border-radius: 20px;
+  font: 400 12px/12px "Geologica",sans-serif;
+  color: #fff;
+  transition: border 0.3s ease;
+}
+@media screen and (max-width: 576px) {
+  .update_idl_button {
+    font: 400 10px/10px "Geologica",sans-serif;
+    padding: 6px 12px;
   }
 }
 

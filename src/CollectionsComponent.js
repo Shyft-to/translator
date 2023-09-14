@@ -90,7 +90,7 @@ const CollectionsComponent = ({popup,setPopUp}) => {
             <div className="background_super">
 
                 <div className="container pt-2 pb-1">
-                    <SearchComponent popup={popup} setPopUp={setPopUp} />
+                    {/* <SearchComponent popup={popup} setPopUp={setPopUp} /> */}
 
                 </div>
                 {isLoading &&
