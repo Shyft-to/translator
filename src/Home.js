@@ -524,7 +524,8 @@ const Home = ({popup, setPopUp}) => {
               padding: '0px',
               paddingBottom: "10px",
               background: '#1E0C36',
-              zIndex: 10
+              zIndex: 10,
+              marginTop: "30px"
             },
           }}
         />
