@@ -11,7 +11,8 @@ import {
     SolflareWalletAdapter,
     SolletExtensionWalletAdapter,
     SolletWalletAdapter,
-    TorusWalletAdapter
+    TorusWalletAdapter,
+    BackpackWalletAdapter
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 
@@ -69,6 +70,7 @@ const Parent = () => {
             new LedgerWalletAdapter(),
             new SolletExtensionWalletAdapter(),
             new SolletWalletAdapter(),
+            new BackpackWalletAdapter()
             // new UnsafeBurnerWalletAdapter()
         ],
         // eslint-disable-next-line react-hooks/exhaustive-deps
