@@ -292,7 +292,7 @@ body {
 }
 @media screen and (max-width:576px){
   .logo_container {
-    font: 700 24px/28px "Montserrat", sans-serif;
+    font: 700 18px/28px "Montserrat", sans-serif !important;
     width: 90vw !important;
   }
 }
@@ -482,6 +482,18 @@ body {
   color: #280c4c;
   font-weight: 700;
   /* border: 2px solid #fffa; */
+}
+@media screen and (max-width: 576px) {
+  .scroll-to-top-2 button
+{
+  
+  border-radius: 25px;
+  width: 24px;
+  height: 24px;
+  padding: 3px 2px;
+  /* border: 2px solid #fffa; */
+}
+  
 }
 .scroll-to-top-3
 {
@@ -735,6 +747,16 @@ body {
     text-decoration: none;
   }
 }
+@media screen and (max-width:576px) {
+  .scroll-to-top-3 a
+  {
+    display: none;
+    font: 700 18px/20px "Montserrat", sans-serif;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
 .long_cards
 {
   margin-bottom: 28px;
@@ -861,7 +883,7 @@ body {
   }
 }
 
-.wallet-button{
+.wallet-button {
   color: black !important;
   background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
   width: 100% !important;
@@ -886,6 +908,12 @@ body {
 .wallet-adapter-dropdown .wallet-button
 {
   padding: 0.62rem 0rem !important;
+}
+@media screen and (max-width: 576px) {
+  .wallet-button {
+    font: 500 0.75rem/1.2rem "Montserrat", sans-serif !important;
+  }
+  
 }
 .foll_unfoll_notification {
   background-color: #1E0C36;
