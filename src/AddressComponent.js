@@ -41,7 +41,7 @@ import UploadIdl from "./components/TransactionComponent/UploadIdl";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
 
-const AddressComponent = ({popup,setPopUp}) => {
+const AddressComponent = ({popup,setPopUp,reconnectTest, reverseCheck, setReverseCheck}) => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -123,7 +123,7 @@ const AddressComponent = ({popup,setPopUp}) => {
       }
         
             
-    }, [addr,cluster])
+    }, [addr,cluster,reconnectTest])
 
     useEffect(() => {
         
@@ -235,7 +235,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                 setIsFollowed(true);
                 setFollowLoading("FOLLOWED");
                 toast((t) => (
-                    <div className="foll_unfoll_notification">
+                    <div className="foll_unfoll_notification" style={{paddingBottom: "10px"}}>
                         <div className="d-flex">
                             <div className="icon_foll">
                                 <img className="img-fluid" src={walletFollowed} alt="wallet_followed"/>
@@ -370,6 +370,7 @@ const AddressComponent = ({popup,setPopUp}) => {
                 localStorage.setItem("reac_wid",res.data.accessToken);
                 setWalletConnected("CONN")
                 // navigate(`/feed?cluster=${network}`);
+                setReverseCheck(!reverseCheck)
                 disconnectWallet();
                 followuser();
             }

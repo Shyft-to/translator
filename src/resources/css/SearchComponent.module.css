@@ -665,3 +665,25 @@
     margin-top: -4px;
   }
 }
+
+.wallet_button_header {
+  color: black !important;
+  background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
+  /* width: 100% !important; */
+  text-align: center;
+  border: none;
+  /* padding: 0px !important; */
+  padding: 10px 24px;
+  height: auto !important;
+  font: 500 0.8rem/0.8rem "Montserrat", sans-serif;
+  color: #fff !important;
+  border-radius: 2.5rem !important;
+  transition: all 0.5s ease-in;
+}
+@media screen and (max-width: 576px) {
+  .wallet_button_header {
+    font: 500 0.7rem/0.7rem "Montserrat", sans-serif;
+    padding: 8px 20px;
+  }
+  
+}
