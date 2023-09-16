@@ -17,6 +17,8 @@ import homeIcon from "../resources/images/home_icon.svg";
 import profIcon from "../resources/images/unknown_token.svg";
 import follIcon from "../resources/images/followers-2.png";
 
+import walletIcon from "../resources/images/top-wallet-icon.png";
+
 import { listOfAddresses, shortenAddress } from "../utils/formatter";
 import FollowerList from "./FollowerList";
 import { WalletDisconnectButton } from "@solana/wallet-adapter-react-ui";
@@ -332,7 +334,7 @@ const SearchComponent = ({ popup, setPopUp }) => {
 
                           <div className={styles.dropdown_menu}>
                             <div className={styles.menu_head}>
-                              <img src={profIcon} className={styles.dropdown_image} />
+                              <img src={walletIcon} className={styles.dropdown_image} alt="solana-icon"/>
                               {shortenAddress(connectedWalletAddress)}
                             </div>
                             <div className={styles.dropdown_content}>
@@ -344,6 +346,9 @@ const SearchComponent = ({ popup, setPopUp }) => {
                                 {/* <img src={homeIcon} className={styles.dropdown_image} style={{width: "20px", marginRight: "14px"}} alt="Feed" /> */}
                                 Feed
                               </a>
+                              <div onClick={() => setPopUp(true)} className={styles.link_type}>
+                                Info
+                              </div>
                               <div onClick={disconnectWallet} className={styles.link_type} style={{ paddingBottom: "10px" }}>
                                 Disconnect
                               </div>
@@ -355,9 +360,9 @@ const SearchComponent = ({ popup, setPopUp }) => {
 
                     }
 
-                    <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
+                    {/* <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
                       <img src={infoIcon} />
-                    </button>
+                    </button> */}
                   </div>
 
 
