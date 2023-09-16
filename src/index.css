@@ -1129,3 +1129,8 @@ body {
   top: 10px;
   right: 10px;
 }
+@media screen and (max-width: 500px) {
+  .custom_wrap_mob {
+    flex-wrap: wrap;
+  }
+}
