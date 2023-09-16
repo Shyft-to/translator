@@ -418,6 +418,14 @@
     padding: 4px 0px;
     color: #fff;
 }
+.each_txn_3 .responsive_spacer {
+    height: 0px;
+    width: 0px;
+}
+.each_txn_3 .responsive_spacer_bottom {
+    height: 0px;
+    width: 0px;
+}
 @media screen and (max-width:767px) {
     .each_txn_3
     {
@@ -434,8 +442,8 @@
     }
     .each_txn_3 .txn_subname
     {
-        font: 300 11px/14px "Jost",sans-serif;
-        padding: 14px 20px 20px 0px;
+        font: 300 11px/20px "Jost",sans-serif;
+        padding: 10px 20px 0px 0px;
         color: #FFFFFF99;
     }
     .each_txn_3 .txn_signature
@@ -448,19 +456,61 @@
     {
         margin-top: 0px;
     }
+    .each_txn_3 .responsive_spacer {
+        height: 30px;
+        width: 100%;
+    }
+    .each_txn_3 .responsive_spacer_bottom {
+        height: 18px;
+        width: 100%;
+    }
 }
 @media screen and (max-width: 600px) {
+    .each_txn_3 {
+        padding-bottom: 16px;
+    }
     .each_txn_3 .txn_name
     {
         font: 500 16px/20px "Geologica",sans-serif;
-        padding: 26px 20px 24px 0px;
+        padding: 0px 20px 0px 0px;
+    }
+    .each_txn_3 .txn_subname
+    {
+        font: 300 11px/20px "Jost",sans-serif;
+        padding: 0px 20px 0px 0px;
+        color: #FFFFFF99;
+    }
+    .each_txn_3 .responsive_spacer {
+        height: 32px;
+        width: 100%;
+    }
+    .each_txn_3 .responsive_spacer_bottom {
+        height: 16px;
+        width: 100%;
+    }
+}
+@media screen and (max-width: 435px) {
+    
+    .each_txn_3 .txn_name
+    {
+        font: 500 16px/20px "Geologica",sans-serif;
+        padding: 0px 20px 0px 0px;
     }
     .each_txn_3 .txn_subname
     {
         font: 300 11px/14px "Jost",sans-serif;
-        padding: 29px 20px 20px 0px;
+        padding: 4px 20px 6px 2px;
         color: #FFFFFF99;
     }
+    .each_txn_3 .responsive_spacer {
+        height: 32px;
+        width: 100%;
+    }
+    .each_txn_3 .responsive_spacer_bottom {
+        height: 8px;
+        width: 100%;
+    }
+    
 }
 .each_txn_3 .dynamic_field
 {
@@ -710,7 +760,6 @@
         font: 400 14px/26px "Jost",sans-serif;
         color: #FFF;
         width: 100%;
-        
     }
     .sub_txns .copy_bt
     {
@@ -728,8 +777,23 @@
         height: 24px;
         border-radius: 20px;
     }
+    .sub_txns .field_sub_2
+    {
+        font: 400 14px/26px "Jost",sans-serif;
+    }
 }
-
+@media screen and (max-width: 576px) {
+    .sub_txns .field_sub_1
+    {
+        font: 400 12px/26px "Jost",sans-serif;
+        width: 100%;
+    }
+    .sub_txns .field_sub_2
+    {
+        font: 400 12px/26px "Jost",sans-serif;
+    }
+    
+}
 .refresh_section
 {
     background-color: #1C1C1C;
@@ -810,4 +874,25 @@
     color: #FFF;
     padding: 0px 0px 16px;
     margin-top: -20px;
+}
+@media screen and (max-width: 576px) {
+    .feed_txn_outer_2 .time_area
+    {
+        font: 400 12px/18px "Jost",sans-serif;
+        padding: 0px 0px 10px;
+        margin-top: -8px;
+    }
+    
+}
+.border_area_feed
+{
+    border-left: 2px dotted rgba(255, 255, 255, 0.533); 
+    padding-left: 20px;
+}
+@media screen and (max-width: 576px) { 
+    .border_area_feed
+    {
+        border-left: 2px dotted rgba(255, 255, 255, 0.333); 
+        padding-left: 8px;
+    } 
 }

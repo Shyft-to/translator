@@ -143,7 +143,14 @@
   .form_field_outer .form_field_inner option {
     background-color: #2a0855;
   }
-  
+  @media screen and (max-width: 600px) {
+    .form_field_outer .form_field_inner input::placeholder {
+      font: 300 10px/16px "Geologica", sans-serif;
+    }
+    .form_field_outer .form_field_inner select {
+      font: 400 10px/8px "Geologica", sans-serif;
+    }
+  }
   .search_icon {
     /* text-decoration: none; */
     color: #555;
@@ -569,15 +576,22 @@
   {
     padding: 4px 5px;
     border-radius: 12px;
-    border: 2px solid #9650E5;
+    border: 1px solid #9650E5;
     background-color: #2a0855;
     color: #fffc;
-    padding: 2px 8px;
-    font: 400 7px/12px "Jost",sans-serif;
+    padding: 6px 8px;
+    font: 400 9px/12px "Jost",sans-serif;
+    text-align: center;
   }
   .dropdown_menu .dropdown_image
   {
+    display: none;
     width: 16px;
+  }
+  .dropdown_menu a.link_type
+  {
+    padding: 2px 24px 2px;
+    text-decoration: none;
   }
 }
 @media screen and (max-width: 1580px) {

@@ -57,11 +57,11 @@ const FeedComponent = ({popup,setPopUp,currentWallet}) => {
                 />
                 <div className="container-lg pt-5 pb-1">
                     <div className={styles.your_feed_heading_container}>
-                        <div className="d-flex flex-wrap justify-content-between">
+                        <div className="d-flex flex-wrap justify-content-start">
                             <div className={styles.main_heading}>
                                 Your Feed
                             </div>
-                            <div className="ps-1">
+                            {/* <div className="ps-1">
                                 <div className={styles.select_container_feed}>
                                     <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
                                         <option value="mainnet-beta">Mainnet</option>
@@ -69,7 +69,7 @@ const FeedComponent = ({popup,setPopUp,currentWallet}) => {
                                         <option value="testnet">Testnet</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     

@@ -1511,13 +1511,13 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
         </div>
         <div className={styles.txn_details}>
           <div className={styles.subtxn_token}>
-            <div className="d-flex">
+            <div className="d-flex custom_wrap_mob">
               
                {(() => {
                 if (data.type === "ADD_LIQUIDITY" || data.type === "REMOVE_LIQUIDITY") {
                   return (
                     <>
-                      <div className="d-flex flex-wrap">
+                      <div className="d-flex custom_wrap_mob flex-wrap">
                         <div className="pe-2">
                           <Tooltip
                             content={varFields.to}
@@ -1582,7 +1582,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 else if (data.type === "COLLECT_FEES") {
                   return (
                     <>
-                      <div className="d-flex flex-wrap">
+                      <div className="d-flex custom_wrap_mob flex-wrap">
                         <div className="pe-2">
                           Fees collected from liquidity pool
                         </div>
@@ -1607,7 +1607,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 else if (data.type === "SWAP") {
                   return (
                     <>
-                      <div className="d-flex flex-wrap">
+                      <div className="d-flex custom_wrap_mob flex-wrap">
                         <div className="pe-2">
                           <div>
                             {varFields.from_amount}{" "}
@@ -1894,7 +1894,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   (showRoyalty === true && isRoyalty === true) && 
                   
                       <div className={styles.royalty_badge}>
-                        <div className={"d-flex"}>
+                        <div className={"d-flex custom_wrap_mob"}>
                           <div className="pe-1">
                             <img
                               src={royalty_crown}
@@ -1920,7 +1920,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {wallet === varFields.from && (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-2">
                             <div className={styles.field_sub_1}>Sent To</div>
                           </div>
@@ -1962,7 +1962,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {wallet === varFields.to && (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-2">
                             <div className={styles.field_sub_1}>
                               Received From
@@ -2006,7 +2006,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <>
                       {/* <div className="row pt-1">
                                                 <div className="col-12 col-md-6">
-                                                    <div className="d-flex">
+                                                    <div className="d-flex custom_wrap_mob">
                                                         <div className="pe-2">
                                                             <div className={styles.field_sub_1}>
                                                                 From
@@ -2032,7 +2032,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                                             </div> */}
                       <div className="row pt-1">
                         <div className="col-12 col-md-6">
-                          <div className="d-flex">
+                          <div className="d-flex custom_wrap_mob">
                             <div className="pe-1">
                               <div className={styles.field_sub_1}>
                                 <a
@@ -2090,7 +2090,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {wallet === varFields.from && (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-2">
                             <div className={styles.field_sub_1}>Sent To</div>
                           </div>
@@ -2132,7 +2132,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {wallet === varFields.to && (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-2">
                             <div className={styles.field_sub_1}>
                               Received From
@@ -2176,7 +2176,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <>
                       <div className="row pt-1">
                         <div className="col-12 col-md-6">
-                          <div className="d-flex">
+                          <div className="d-flex custom_wrap_mob">
                             <div className="pe-1">
                               <div className={styles.field_sub_1}>
                                 <a
@@ -2233,7 +2233,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Minted to</div>
                       </div>
@@ -2271,7 +2271,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Burned</div>
                       </div>
@@ -2303,7 +2303,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-10">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Burned</div>
                       </div>
@@ -2335,7 +2335,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Created</div>
                       </div>
@@ -2364,7 +2364,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
-                    <div className="d-flex justify-content-start">
+                    <div className="d-flex custom_wrap_mob justify-content-start custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Listed by</div>
                       </div>
@@ -2406,7 +2406,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex justify-content-start">
+                      <div className="d-flex custom_wrap_mob justify-content-start custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Listed to </div>
                         </div>
@@ -2444,7 +2444,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex justify-content-start">
+                      <div className="d-flex custom_wrap_mob justify-content-start custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Listed by</div>
                         </div>
@@ -2481,7 +2481,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex justify-content-start">
+                      <div className="d-flex custom_wrap_mob justify-content-start custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <a
@@ -2539,7 +2539,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-6">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Sold By</div>
                         </div>
@@ -2575,7 +2575,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-6">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Sold To</div>
                         </div>
@@ -2616,7 +2616,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-6">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Sold By</div>
                         </div>
@@ -2652,7 +2652,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Sold To</div>
                         </div>
@@ -2682,7 +2682,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     </div>
                     <div className="col-12 col-md-2">
                       <div className={styles.field_sub_2}>
-                        <div className="d-flex justify-content-end">
+                        <div className="d-flex custom_wrap_mob justify-content-end custom_wrap_mob">
                           {/* <div className={`text-end pe-1`}>
                             Royalty 
                           </div> */}
@@ -2707,7 +2707,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>
                           Listing Cancelled
@@ -2738,7 +2738,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>
                           Listing Cancelled
@@ -2782,7 +2782,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <div className="row pt-1">
                   {varFields.from && varFields.to && (
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>
                             {varFields.from} {currency}
@@ -2805,7 +2805,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   )}
                   {!varFields.from && varFields.to && (
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>New Price</div>
                         </div>
@@ -2825,7 +2825,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     </div>
                   )}
                   <div className="col-12 col-md-12">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Updated by</div>
                       </div>
@@ -2860,7 +2860,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex justify-content-start">
+                      <div className="d-flex custom_wrap_mob justify-content-start custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>New Price </div>
                         </div>
@@ -2890,7 +2890,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                       </div>
                     </div>
                     <div className="col-12 col-md-12">
-                      <div className="d-flex justify-content-start">
+                      <div className="d-flex custom_wrap_mob justify-content-start custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Updated by </div>
                         </div>
@@ -2926,7 +2926,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Bid by</div>
                       </div>
@@ -2968,7 +2968,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex justify-content-start">
+                      <div className="d-flex custom_wrap_mob justify-content-start custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Bid by </div>
                         </div>
@@ -3011,7 +3011,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex justify-content-start">
+                      <div className="d-flex custom_wrap_mob justify-content-start custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <a
@@ -3072,7 +3072,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-11">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Bid Cancelled</div>
                       </div>
@@ -3113,7 +3113,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-11">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Bid Cancelled</div>
                       </div>
@@ -3155,7 +3155,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-6">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>By</div>
                       </div>
@@ -3196,7 +3196,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-12 col-md-12">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>Message</div>
                       </div>
@@ -3229,7 +3229,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.from && !varFields.to ? (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-2">
                             <div className={styles.field_sub_1}>
                               Borrowed From
@@ -3275,7 +3275,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.to && !varFields.from ? (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>
                               Borrowed By
@@ -3322,7 +3322,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.to && varFields.from ? (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>
                               <a
@@ -3379,7 +3379,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.symbol ? (
                     <div className="row">
                       <div className="col-12 col-md-12">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>Duration</div>
                           </div>
@@ -3409,7 +3409,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.from && !varFields.to ? (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-2">
                             <div className={styles.field_sub_1}>
                               Borrowed From
@@ -3455,7 +3455,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.to && !varFields.from ? (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>
                               Borrowed By
@@ -3502,7 +3502,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.to && varFields.from ? (
                     <div className="row pt-1">
                       <div className="col-12 col-md-6">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>
                               <a
@@ -3558,7 +3558,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.symbol ? (
                     <div className="row">
                       <div className="col-12 col-md-12">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>Duration</div>
                           </div>
@@ -3587,7 +3587,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Amount</div>
                         </div>
@@ -3607,7 +3607,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     </div>
                     {varFields.symbol ? (
                         <div className="col-12 col-md-4">
-                          <div className="d-flex justify-content-end">
+                          <div className="d-flex custom_wrap_mob justify-content-end">
                             <div className="ps-1 pe-2">
                               <img
                                 src={duration}
@@ -3634,7 +3634,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <a
@@ -3673,7 +3673,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <a
@@ -3728,7 +3728,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Cancelled</div>
                         </div>
@@ -3760,7 +3760,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-9">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <a
@@ -3805,7 +3805,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.loan_duration_seconds ? (
                     <div className="row">
                       <div className="col-12 col-md-12">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>Duration</div>
                           </div>
@@ -3835,7 +3835,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Loan requested from </div>
                         </div>
@@ -3889,7 +3889,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Loan request cancelled</div>
                         </div>
@@ -3929,7 +3929,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-9">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Loan liquidated by </div>
                         </div>
@@ -3953,7 +3953,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     <div className="col-12 col-md-3 text-end">
                       <div className={styles.field_sub_3}>
                       {varFields.grace_period_seconds ? 
-                        <div className="d-flex justify-content-end">
+                        <div className="d-flex custom_wrap_mob justify-content-end">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>Grace Period</div>
                           </div>
@@ -3977,7 +3977,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   {varFields.from ? (
                     <div className="row">
                       <div className="col-12 col-md-12">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>Lender</div>
                           </div>
@@ -4018,7 +4018,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-7">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Swapped by</div>
                         </div>
@@ -4080,7 +4080,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Minted to</div>
                         </div>
@@ -4114,7 +4114,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-0">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Merkle Tree</div>
                         </div>
@@ -4148,7 +4148,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 </div>
                 {(varFields.collection_address !== "--" && varFields.collection_address !== "") && <div className="row pt-0">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Collection</div>
                         </div>
@@ -4189,7 +4189,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div>
                         <Tooltip
                               content={varFields.start_date}
@@ -4239,7 +4239,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-0">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                               {varFields.tickets}                           
@@ -4276,7 +4276,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-6">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>
                             <Tooltip
@@ -4325,7 +4325,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <Tooltip
@@ -4393,7 +4393,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                       <div className="pe-1">
                           <div className={styles.field_sub_1}>
                               <Tooltip
@@ -4456,7 +4456,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   {/* <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Claimed by</div>
                         </div>
@@ -4500,7 +4500,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-6">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Closed</div>
                         </div>
@@ -4521,7 +4521,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-6">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Closure Amount</div>
                         </div>
@@ -4546,7 +4546,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Address</div>
                         </div>
@@ -4584,7 +4584,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Cancel Raffle</div>
                         </div>
@@ -4609,7 +4609,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-8">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>This Merkle Tree was created by </div>
                         </div>
@@ -4645,7 +4645,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   {/* <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Cancel Raffle</div>
                         </div>
@@ -4670,7 +4670,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                     <div className="row pt-1">
                       <div className="col-12 col-md-10">
-                        <div className="d-flex">
+                        <div className="d-flex custom_wrap_mob">
                           <div className="pe-1">
                             <div className={styles.field_sub_1}>Creator </div>
                           </div>
@@ -4719,7 +4719,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                     varFields.liquidity_details.map((liquidity) => (
                       <div className="row pt-2">
                         <div className="col-12 col-md-10">
-                          <div className="d-flex">
+                          <div className="d-flex custom_wrap_mob">
                             <div className="pe-2">
                               <img
                                 src={liquidity.symbol === "SOL"?solanaIcon:((liquidity.image_uri.includes("ray-initiative.gift") || liquidity.image_uri.includes("dex-ray.gift"))?noImage : (liquidity.image_uri || noImage))}
@@ -4763,7 +4763,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   {/* <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Liquidity removed by </div>
                         </div>
@@ -4795,7 +4795,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   
                     {(varFields.liquidity_details.length > 0) && varFields.liquidity_details.map((liquidity) => <div className="row pt-2">
                       <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                             <div className="pe-2">
                               <img
                                 src={liquidity.symbol === "SOL"?solanaIcon:((liquidity.image_uri.includes("ray-initiative.gift") || liquidity.image_uri.includes("dex-ray.gift"))?noImage : (liquidity.image_uri || noImage))}
@@ -4839,7 +4839,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   
                     {(varFields.fees_taken.length > 0) && varFields.fees_taken.map((token) => <div className="row pt-2">
                       <div className="col-12 col-md-8">
-                          <div className="d-flex justify-content-start">
+                          <div className="d-flex custom_wrap_mob justify-content-start">
                             {/* <div className="pe-2">
                               <img
                                 src={token.symbol === "SOL"?solanaIcon:((token.image_uri.includes("ray-initiative.gift") || token.image_uri.includes("dex-ray.gift"))?noImage : (token.image_uri || noImage))}
@@ -4912,7 +4912,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Associated Community Token </div>
                         </div>
@@ -4956,7 +4956,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <img
                             src={general_token}
@@ -5003,7 +5003,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <img
                             src={general_token}
@@ -5050,7 +5050,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-10">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Governance Delegate set by </div>
                         </div>
@@ -5097,7 +5097,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <Tooltip
@@ -5159,7 +5159,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>
                             <Tooltip
@@ -5219,7 +5219,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <img
                             src={memo_small}
@@ -5241,7 +5241,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Proposal cancelled</div>
                         </div>
@@ -5264,7 +5264,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Proposal signed off by</div>
                         </div>
@@ -5301,7 +5301,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Signatory added to proposal</div>
                         </div>
@@ -5338,7 +5338,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Signatory removed from proposal</div>
                         </div>
@@ -5375,7 +5375,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Transaction inserted to proposal</div>
                         </div>
@@ -5412,7 +5412,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Transaction removed from proposal</div>
                         </div>
@@ -5449,7 +5449,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Vote cast for proposal</div>
                         </div>
@@ -5480,7 +5480,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-2">
                           <div className={styles.field_sub_1}>Governing Token </div>
                         </div>
@@ -5524,7 +5524,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Vote finalized for proposal</div>
                         </div>
@@ -5561,7 +5561,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Vote</div>
                         </div>
@@ -5623,7 +5623,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Proposal successfully executed</div>
                         </div>
@@ -5638,7 +5638,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Mint Govenance created by</div>
                         </div>
@@ -5675,7 +5675,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Token Govenance created by</div>
                         </div>
@@ -5712,7 +5712,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Min Tokens for proposal</div>
                         </div>
@@ -5749,7 +5749,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Action</div>
                         </div>
@@ -5776,7 +5776,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                 <>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Message</div>
                         </div>
@@ -5797,7 +5797,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
                   </div>
                   <div className="row pt-1">
                     <div className="col-12 col-md-12">
-                      <div className="d-flex">
+                      <div className="d-flex custom_wrap_mob">
                         <div className="pe-1">
                           <div className={styles.field_sub_1}>Proposal</div>
                         </div>
@@ -5840,7 +5840,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
               return (
                 <div className="row pt-1">
                   <div className="col-10">
-                    <div className="d-flex">
+                    <div className="d-flex custom_wrap_mob">
                       <div className="pe-2">
                         <div className={styles.field_sub_1}>&nbsp;</div>
                       </div>
@@ -5859,7 +5859,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           })()}
           {/* <div className="row pt-1">
                         <div className="col-10">
-                            <div className="d-flex">
+                            <div className="d-flex custom_wrap_mob">
                                 <div className="pe-1">
                                     <div className={styles.field_sub_1}>
                                         From

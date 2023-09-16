@@ -298,7 +298,9 @@
   }
   .central_area .main_title_container .small_title
   {
+    padding-top: 10px;
     padding-bottom: 16px;
+    font: 400 12px/18px "Montserrat", sans-serif;
   }
 }
 @media screen and (max-width: 767px) {
@@ -424,10 +426,8 @@
   {
     padding-top: 0.6rem;
     padding-bottom: 0.6rem;
+    font: 500 0.8rem/1.2rem "Montserrat", sans-serif;
   }
-}
-.hover_button
-{
 }
 .hover_button .visible_on_hover
 {

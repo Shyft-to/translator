@@ -374,7 +374,7 @@ const FeedTransactions = ({ address, cluster }) => {
                         </div>
                       </div>
                       <div style={{paddingLeft: "10px", paddingBottom: "20px"}}>
-                        <div style={{borderLeft: "2px dotted #fff8", paddingLeft: "20px"}}>
+                        <div className={styles.border_area_feed}>
                             <GroupTransactions txns={each_txn} address={address} cluster={cluster}/> 
                         </div>
                       </div>
