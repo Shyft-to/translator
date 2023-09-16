@@ -297,6 +297,7 @@ body {
   }
 }
 
+
 .myTarget .react-tooltip-lite {
   width: 76px;
   padding: 18px 4px;
@@ -333,6 +334,12 @@ body {
     margin-left: 8px;
     text-align: center;
 }
+.attribute_tooltip .react-tooltip-lite {
+  padding: 18px 4px;
+  font: 300 12px/0 "Poppins", sans-serif;
+  display: inline;
+  text-align: center;
+}
 
 .footer-white {
   position: absolute;
@@ -349,6 +356,12 @@ body {
 
 .white-footer-icons img {
   width: 60%;
+}
+@media screen and (max-width: 768px) {
+  .footer-white {
+    position: relative;
+  }
+  
 }
 @media screen and (max-width: 768px) {
   .footer-white {
@@ -475,7 +488,7 @@ body {
   position: fixed;
   top: 30px;
   left: 45px;
-  z-index: 20;
+  z-index: 1;
 }
 .scroll-to-top-3 a
 {
@@ -489,7 +502,7 @@ body {
   top: 42px;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 20;
+  z-index: 1;
 }
 .scroll-to-top-notification .notification_area {
   font: 400 14px "Geologica",sans-serif;
@@ -853,17 +866,18 @@ body {
   background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
   width: 100% !important;
   justify-content: center !important;
+  border: none;
   padding: 0px !important;
   height: auto !important;
   font: 500 0.9rem/1.2rem "Montserrat", sans-serif !important;
   color: #fff !important;
   padding: 0.7rem 0rem !important;
   border-radius: 2.5rem !important;
-  transition: all 0.2s;
+  transition: all 0.5s ease-in;
 }
 
 .wallet-button:hover {
-  transform: scale(1.05);
+  background: linear-gradient(90.22deg, #5d2b99 1.13%, #280C4C 131.77%);
 }
 .wallet-adapter-dropdown
 {
@@ -872,6 +886,22 @@ body {
 .wallet-adapter-dropdown .wallet-button
 {
   padding: 0.62rem 0rem !important;
+}
+.foll_unfoll_notification {
+  background-color: #1E0C36;
+  /* border: 2px solid #fffd; */
+  color: #fff;
+  padding: 6px 10px;
+}
+.foll_unfoll_notification .icon_foll
+{
+  background-color: transparent;
+  width: 36px;
+  margin-right: 10px;
+}
+.foll_unfoll_notification .text_foll {
+  font: 400 16px "Geologica",sans-serif;
+  padding-top: 8px;
 }
 .upload_idl
 {

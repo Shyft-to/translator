@@ -10,9 +10,18 @@ import { getAddressfromDomain } from "./utils/getAllData";
 import TxnLoader from "./components/loaders/TxnLoader";
 
 import searchIcon from "./resources/images/uil_search.svg";
+import crossIcon from "./resources/images/cross-icon.png";
+
 import PopupView from "./PopupView";
 import OpenPopup from "./OpenPopup";
-import { listOfAddresses } from "./utils/formatter";
+import { listOfAddresses, shortenAddress } from "./utils/formatter";
+
+import { WalletDisconnectButton, WalletMultiButton, useWalletModal } from '@solana/wallet-adapter-react-ui';
+import { useWallet } from '@solana/wallet-adapter-react';
+import * as bs58 from "bs58";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { PulseLoader } from "react-spinners";
 import UploadIdlWithProgramAddr from "./components/TransactionComponent/UploadIdlWithProgramAddr";
 
 const staticAddresses = [
@@ -40,6 +49,9 @@ const staticAddresses = [
 
 const Home = ({popup, setPopUp}) => {
   const navigate = useNavigate();
+  const userWallet = useWallet();
+  const { setVisible } = useWalletModal();
+  const [clickedConnectWallet,setClickedConnectWallet] = useState(false);
   const [wallet, setWallet] = useState('');
   const [network, setNetwork] = useState('mainnet-beta');
   const [loadingAddr,setLoadingAddr] = useState(false);
@@ -49,9 +61,59 @@ const Home = ({popup, setPopUp}) => {
 
   const [searchData, setSearchData] = useState([]);
 
+  const [connectionProgress,setConnectionProgress] = useState("UNLOADED");
+  const [isWalletConnected,setWalletConnected] = useState("NOT_CONN");
+  const [connectedWalletAddress,setConnWallAddr] = useState("");
+
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: "/", title: "HomePage" });
   }, []);
+
+  useEffect(() => {
+    if(userWallet?.publicKey)
+      disconnectWallet();
+  }, [])
+  
+
+  useEffect(() => {
+    const xToken = localStorage.getItem("reac_wid") ?? ""
+    if(xToken !== "")
+    {
+      setWalletConnected("LOADING");
+      axios({
+        url:`${process.env.REACT_APP_BACKEND_EP}/user-verify`,
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${xToken}`
+        }
+      })
+      .then(res => {
+        if(res.status === 200)
+        {
+          const pubKeyReceived = res.data.wallet_address;
+          setConnWallAddr(pubKeyReceived);
+          setWalletConnected("CONN");
+        }
+        else
+        {
+          localStorage.setItem("reac_wid","");
+          setWalletConnected("NOT_CONN");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setWalletConnected("NOT_CONN")
+        localStorage.setItem("reac_wid","");
+      })
+      
+    }
+    else
+    {
+      setWalletConnected("NOT_CONN"); 
+    }
+  }, [])
+  
 
   useEffect(() => {
     try {
@@ -66,6 +128,16 @@ const Home = ({popup, setPopUp}) => {
     
 
   }, [])
+
+  useEffect(() => {
+    if(userWallet.publicKey && clickedConnectWallet === true)
+    {
+      console.log("here");
+      setClickedConnectWallet(false);
+      connectWallet(userWallet.publicKey?.toBase58())
+    }
+  }, [userWallet.publicKey])
+  
 
   const BlurAfterTime = () => {
     setTimeout(() => {
@@ -159,6 +231,108 @@ const Home = ({popup, setPopUp}) => {
     }
 
   }
+  const connectWallet = async (wallet_address) => {
+    localStorage.setItem("reac_wid","");
+    const message = process.env.REACT_APP_SHARE_MSG ?? "Hi! My name is Translator. I translate Solana for humans.";
+    const encodedMessage = new TextEncoder().encode(message);
+    try {
+      const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+      // console.log("Signed message from Wallet: ",signedMessageFromWallet);
+      if(signedMessageFromWallet)
+      {
+        setConnectionProgress("LOADING");
+        setWalletConnected("LOADING");
+        await axios.request(
+        {
+            url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
+            method: "POST",
+            data: {
+              encoded_message: message,
+              signed_message: bs58.encode(signedMessageFromWallet),
+              wallet_address: wallet_address
+            }
+        })
+        .then(res => {
+          // console.log("After Submission: ",res.data);
+          setConnectionProgress("LOADED");
+          if(res.data.success)
+          {
+            localStorage.setItem("reac_wid",res.data.accessToken);
+            setConnWallAddr(wallet_address);
+            toast.success('Wallet Authorized',{
+              style: {
+                borderRadius: '10px',
+                background: '#1E0C36',
+                color: '#fff',
+                border: "1px solid white",
+                font: "300 16px Geologica,sans-serif",
+                paddingLeft: "18px",
+                paddingRight: "10px",
+                paddingTop: "10px",
+                zIndex: 10
+              },
+            })
+            setWalletConnected("CONN");
+            disconnectWallet();
+            setTimeout(() => {
+              navigate(`/feed?cluster=${network}`);
+            }, 1000);
+          }
+          else
+          {
+            setWalletConnected("NOT_CONN");
+            setConnWallAddr("");
+          }
+        })
+        .catch(err => {
+          console.log(err.response.data);
+          disconnectWallet();
+          toast.error('Connection Error',{
+            style: {
+              borderRadius: '10px',
+              background: '#1E0C36',
+              color: '#fff',
+              border: "1px solid white",
+              font: "300 16px Geologica,sans-serif",
+              paddingLeft: "18px",
+              paddingRight: "10px",
+              paddingTop: "10px",
+              zIndex: 10
+            },
+          });
+          setConnectionProgress("ERROR");
+          setWalletConnected("NOT_CONN");
+          localStorage.setItem("reac_wid","");
+          setTimeout(() => {
+            setConnectionProgress("UNLOADED");
+          }, 1000);
+        });
+      }
+    } catch (error) {
+      console.log("Error",error.message);
+      setWalletConnected("NOT_CONN");
+      setConnectionProgress("UNLOADED");
+      disconnectWallet();
+      toast.error('Wallet Not Authorized',{
+        style: {
+          borderRadius: '10px',
+          background: '#1E0C36',
+          color: '#fff',
+          border: "1px solid white",
+          font: "300 16px Geologica,sans-serif",
+          paddingLeft: "18px",
+          paddingRight: "10px",
+          paddingTop: "10px",
+          zIndex: 10
+        },
+      });
+    }
+    
+    // console.log(signedMessageFromWallet);
+    // console.log(bs58.encode(signedMessageFromWallet));
+    // console.log("Submitting Signature");
+     
+  }
   // useEffect(() => {
   //   console.log("current wallet value",wallet.length);
   //   if(wallet.length > 4)
@@ -169,6 +343,33 @@ const Home = ({popup, setPopUp}) => {
   //   }
   
   // }, [wallet])
+  const connectWalletOnClick = () => {
+    setClickedConnectWallet(true);
+    setVisible(true);
+  }
+  const disconnectWallet = () => {
+    let content = document.getElementsByClassName("keys")[0];
+    let kbButtons = content.getElementsByTagName("button")[0];
+    kbButtons.click();
+  }
+  const disconnectTheWallet = () => {
+    localStorage.setItem("reac_wid","");
+    setWalletConnected("NOT_CONN");
+    setConnWallAddr("");
+    toast.success('Wallet Disconnected',{
+      style: {
+        borderRadius: '10px',
+        background: '#1E0C36',
+        color: '#fff',
+        border: "1px solid white",
+        font: "300 16px Geologica,sans-serif",
+        paddingLeft: "18px",
+        paddingRight: "10px",
+        paddingTop: "10px",
+        zIndex: 10
+      },
+    });
+  }
   
   return (
     <div>
@@ -196,14 +397,14 @@ const Home = ({popup, setPopUp}) => {
         <div className="container-lg">
           <div className={styles.central_area}>
             <div className={styles.main_title_container}>
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>Solana Translator</motion.div>
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className={styles.small_title}>A simple to read, human-friendly Solana explorer</motion.div>
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className={styles.small_title}>A simple to read, human-friendly Solana explorer</motion.div>
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>Solana Translator</motion.div>
             </div>
             <form onSubmit={(e) => {
               e.preventDefault();
               addDataNavigate(wallet, network)}
               }>
-              <motion.div className="row py-5" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+              <motion.div className="row pt-5" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
                 <div className="col-12 col-md-9 p-2">
                   <div className={styles.simple_input_container}>
                     <div className="d-flex">
@@ -248,7 +449,7 @@ const Home = ({popup, setPopUp}) => {
                           <div className={`flex-grow-1 ${styles.address_area}`}>
                             {result.domain || result.address}
                           </div>
-                          <div className={styles.network_area}>
+                          <div className={styles.nework_area}>
                             {(result.network === "mainnet-beta") ? <span className="text-light">mainnet</span> : (result.network === "testnet") ? <span className="text-warning">testnet</span> : <span className="text-info">devnet</span>}
                           </div>
                         </div>
@@ -266,20 +467,68 @@ const Home = ({popup, setPopUp}) => {
                   </div>
                 </div>
               </motion.div>
-              <div className="text-center">
-                <motion.div className={styles.button_container} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
-                  <button id="start_search" type="submit" className={styles.btn_solid_grad}>
-                    Translate
-                  </button>
-                </motion.div>
-              </div>
+
               {loadingAddr && <div className="text-center pt-3">
                 <TxnLoader />
               </div>}
             </form>
+            <motion.div className="row" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+                <div className="col-12 col-md-9 p-2 pt-4">
+                  {(connectionProgress === "LOADING")?<button id="start_search" className={styles.btn_solid_grad} style={{opacity:"0.4"}}>
+                    Translate
+                  </button>:
+                  <button id="start_search" className={styles.btn_solid_grad} onClick={(e) => {
+                    addDataNavigate(wallet, network)}
+                  }>
+                    Translate
+                  </button>}
+                </div>
+                <div className="col-12 col-md-3 p-2 pt-2 pt-md-4">
+                  {/* {(userWallet?.publicKey)?<WalletMultiButton className="wallet-button"/>:
+                  <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>} */}
+
+                  {/* <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button> */}
+                  
+                  {isWalletConnected === "NOT_CONN" && <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
+                  {isWalletConnected === "CONN" && <>
+                    <div className={styles.hover_button}>
+                      <button className="wallet-button">{shortenAddress(connectedWalletAddress)}</button>
+                      <div className={styles.visible_on_hover}>
+                        <div className={styles.visible_section_link} onClick={() => navigate(`/feed?cluster=${network}`)}>
+                          Your Feed
+                        </div>
+                        <button onClick={disconnectTheWallet}>Disconnect</button>
+                      </div>
+                    </div>
+                  </>}
+                  {isWalletConnected === "LOADING" && <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button>}
+                </div>
+            </motion.div>
+            <div className="pt-5">
+                  {(connectionProgress === "LOADING") && <TxnLoader />}
+                  {(connectionProgress === "ERROR") && <img src={crossIcon} style={{width:"20px", margin: "0 auto", display: "block"}}/>}
+            </div>
           </div>
         </div>
-
+        <div className="keys" style={{display: "none"}}>
+          <WalletDisconnectButton />
+        </div>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{
+            className: '',
+            duration: 1000,
+            style: {
+              border: '2px solid white',
+              padding: '0px',
+              paddingBottom: "10px",
+              background: '#1E0C36',
+              zIndex: 10,
+              marginTop: "30px"
+            },
+          }}
+        />
       </div>
       <Footer setPopUp={setPopUp}/>
     </div>

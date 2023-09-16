@@ -6,6 +6,9 @@ import { shortenAddress,formatNames,getProgramNamefromAddr } from "./utils/forma
 import { motion } from "framer-motion";
 import { FaLink } from "react-icons/fa";
 import Tooltip from 'react-tooltip-lite';
+import toast, { Toaster } from 'react-hot-toast';
+import * as bs58 from "bs58";
+import axios from "axios";
 import styles from "./resources/css/WalletAddress.module.css";
 
 import AllNfts from "./components/AllNfts";
@@ -22,6 +25,17 @@ import WalletIcon from "./resources/images/wallet_icon.svg";
 import ClickToTop from "./ClickToTop";
 import TabbedDomains from "./components/TransactionComponent/TabbedDomains";
 import CnftSlider from "./components/CnftSlider";
+import { followUser,getFollowData,isUserFollowed, unFollowUser } from "./utils/dboperations";
+import ButtonLoader from "./components/loaders/ButtonLoader";
+import FolUnfolLoader from "./components/loaders/FolUnfolLoader";
+import FollowerList from "./components/FollowerList";
+import { WalletDisconnectButton, useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { PulseLoader } from "react-spinners";
+import FolUnfolLoaderFull from "./components/loaders/FolUnfolLoaderFull";
+
+import walletFollowed from "./resources/images/loaders/follow_image.gif";
+import walletUnfollowed from "./resources/images/loaders/unfollow_image.gif";
 import UploadIdl from "./components/TransactionComponent/UploadIdl";
 // import PopupView from "./PopupView";
 // import OpenPopup from "./OpenPopup";
@@ -33,8 +47,12 @@ const AddressComponent = ({popup,setPopUp}) => {
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
     const currentTab = searchParams.get("tab") ?? "TXN";
     const isCompressedNft = searchParams.get("compressed") ?? "false";
+    // const currentWallet = localStorage.getItem("reac_wid");
     const navigate = useNavigate();
 
+    const { setVisible } = useWalletModal();
+    const userWallet = useWallet();
+    // console.log("public key:",publicKey);
     const [panel, setPanel] = useState("TXN");
     const [nftPanel,setNftPanel] = useState("NFT");
     const [copied, setCopied] = useState("Copy");
@@ -50,13 +68,21 @@ const AddressComponent = ({popup,setPopUp}) => {
 
     const [tokenCount,setTokensCount] = useState(-1);
     const [domainsCount,setDomainsCount] = useState(-1);
+
+     const [isFollowed,setIsFollowed] = useState(false);
+     const [followers,setFollowers] = useState(0);
+     const [following,setFollowing] = useState(0);
+     const [followLoading,setFollowLoading] = useState("NO_ACTION");
+
+     const[clickedFollowLoggedOut,setClickedConnectLoggedOut] = useState(false);
+     const [isWalletConnected,setWalletConnected] = useState("NOT_CONN");
+
     // const [currentCluster,setCurrentCuster] = useState('mainnet-beta');
     const [upIdlPanel,setUpIdlPanel] = useState(false);
 
     useEffect(() => {
         ReactGA.send({ hitType: "pageview", page: "/address", title: "Address Page" });
     }, []);
-    
     useEffect(() => {
         ReactGA.event({
             category: "SEARCH",
@@ -71,6 +97,49 @@ const AddressComponent = ({popup,setPopUp}) => {
         if(currentTab === "token")
             setPanel("TKN");
     }, [addr, cluster]);
+
+    useEffect(() => {
+        // console.log("is user followed");
+        setIsFollowed(false);
+        const xToken = localStorage.getItem("reac_wid");
+      if(xToken)
+      {
+        setWalletConnected("CONN");
+        setFollowLoading("LOADING");
+        isUserFollowed(addr,cluster,xToken)
+        .then(res => {
+            console.log(res);
+            if(res.success === true)
+            {
+                setIsFollowed(true);
+            }
+        })
+        .catch(err => console.log(err));
+        setFollowLoading("NO_ACTION");
+
+      }
+      else{
+        setWalletConnected("NOT_CONN");
+      }
+        
+            
+    }, [addr,cluster])
+
+    useEffect(() => {
+        
+      if(addr)
+        getFollowData(addr,cluster)
+        .then(res => {
+            if(res.success === true)
+            {
+                setFollowing(res.following);
+                setFollowers(res.followers);
+            }
+        })
+    
+    }, [addr,cluster,isFollowed]);
+    
+    
     
 
     const getClassifiedData = async () => {
@@ -150,7 +219,202 @@ const AddressComponent = ({popup,setPopUp}) => {
             window.history.replaceState(null, null, addToUrl);
         }
     }
+    const followuser = async () => {
+        
+        const xToken = localStorage.getItem("reac_wid") ?? "";
+        console.log("isWallet Conn: ",isWalletConnected);
+        console.log("clicked follow");
+        
+        if(xToken !== "")
+        {
+            setFollowLoading("LOADING");
+            const followed_user = addr;
+            const resp = await followUser(xToken,followed_user,cluster);
+            if(resp.success === true)
+            {
+                setIsFollowed(true);
+                setFollowLoading("FOLLOWED");
+                toast((t) => (
+                    <div className="foll_unfoll_notification">
+                        <div className="d-flex">
+                            <div className="icon_foll">
+                                <img className="img-fluid" src={walletFollowed} alt="wallet_followed"/>
+                            </div>
+                            <div className="text_foll">
+                                Wallet Followed
+                            </div>
+                        </div>
+                    </div>
+                ));
+            }
+            else if(resp.success === false && resp.message === "limit_reached")
+            {
+                toast('Cannot follow more than 5 wallets',{
+                    icon: '👏',
+                    style: {
+                      borderRadius: '10px',
+                      background: '#1E0C36',
+                      color: '#fff',
+                      border: '1px solid white',
+                      fontFamily: "Jost",
+                      padding: "6px 12px 3px"
+                    },
+                  })
+            }
+            else
+            {
+                toast('Error while following',{
+                    icon: '❌',
+                    style: {
+                    borderRadius: '10px',
+                    background: '#1E0C36',
+                    color: '#fff',
+                    border: '1px solid white',
+                    fontFamily: "Jost",
+                    padding: "6px 12px 3px"
+                    },
+                })
+            }
+                
+            setTimeout(() => {
+                setFollowLoading("NO_ACTION");
+            }, 2000);
+        }
+        
+    }
+    const unfollowuser = async () => {
+        
+        //const wallet_address = localStorage.getItem("reac_wid");
+        const xToken = localStorage.getItem("reac_wid") ?? "";
+        console.log("clicked unfollow");
+        if(xToken !== "")
+        {
+            setFollowLoading("LOADING");
+            const unfollowed_user = addr;
+            const resp = await unFollowUser(xToken,unfollowed_user,cluster);
+            if(resp.success === true)
+            {
+                setIsFollowed(false);
+                setFollowLoading("UNFOLLOWED");
+                toast((t) => (
+                    <div className="foll_unfoll_notification">
+                        <div className="d-flex">
+                            <div className="icon_foll">
+                                <img className="img-fluid" src={walletUnfollowed} alt="wallet_followed"/>
+                            </div>
+                            <div className="text_foll">
+                                Wallet unfollowed
+                            </div>
+                        </div>
+                    </div>
+                ));
+            }
+            else
+            {
+                toast('Error while unfollowing',{
+                    icon: '❌',
+                    style: {
+                    borderRadius: '10px',
+                    background: '#1E0C36',
+                    color: '#fff',
+                    border: '1px solid white',
+                    fontFamily: "Jost",
+                    padding: "6px 12px 3px"
+                    },
+                })
+            }
+            setTimeout(() => {
+                setFollowLoading("NO_ACTION");
+            }, 2000);
+        }
+        
+    }
+    const openFollowPopup = () => {
+        setClickedConnectLoggedOut(true);
+        setVisible(true);
+    }
+    useEffect(() => {
+        if(userWallet.publicKey && clickedFollowLoggedOut === true)
+        {
+            connectNFollow(userWallet.publicKey?.toBase58())
+            
+        }
+    }, [userWallet.publicKey]);
 
+    const connectNFollow = async(wallet_address) => {
+        localStorage.setItem("reac_wid","");
+        const message = process.env.REACT_APP_SHARE_MSG ?? "Hi! My name is Translator. I translate Solana for humans.";
+        const encodedMessage = new TextEncoder().encode(message);
+        try {
+            const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+
+            if(signedMessageFromWallet)
+                setClickedConnectLoggedOut(false);
+            setFollowLoading("LOADING");
+            setWalletConnected("LOADING");
+            await axios.request(
+            {
+                url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
+                method: "POST",
+                data: {
+                encoded_message: message,
+                signed_message: bs58.encode(signedMessageFromWallet),
+                wallet_address: wallet_address
+                }
+            })
+            .then(res => {
+            // console.log("After Submission: ",res.data);
+            setFollowLoading("NO_ACTION");
+            if(res.data.success)
+            {
+                localStorage.setItem("reac_wid",res.data.accessToken);
+                setWalletConnected("CONN")
+                // navigate(`/feed?cluster=${network}`);
+                disconnectWallet();
+                followuser();
+            }
+            })
+            .catch(err => {
+                disconnectWallet();
+                setWalletConnected("NO_CONN")
+                console.log(err.response.data);
+                setFollowLoading("NO_ACTION");
+                localStorage.setItem("reac_wid","");
+                toast('Error while connecting wallet',{
+                    icon: '❌',
+                    style: {
+                    borderRadius: '10px',
+                    background: '#1E0C36',
+                    color: '#fff',
+                    border: '1px solid white',
+                    fontFamily: "Jost",
+                    padding: "6px 12px 3px"
+                    },
+                })
+            
+            });
+        } catch (error) {
+            disconnectWallet();
+            console.log(error.message);
+            setWalletConnected("NO_CONN")
+            toast('Authentication Failed',{
+                icon: '❌',
+                style: {
+                borderRadius: '10px',
+                background: '#1E0C36',
+                color: '#fff',
+                border: '1px solid white',
+                fontFamily: "Jost",
+                padding: "6px 12px 3px"
+                },
+            })
+        }
+    }
+    const disconnectWallet = () => {
+        let content = document.getElementsByClassName("keys")[0];
+        let kbButtons = content.getElementsByTagName("button")[0];
+        kbButtons.click();
+    }
     return (
         <div>
             <ClickToTop />
@@ -159,10 +423,23 @@ const AddressComponent = ({popup,setPopUp}) => {
             
             {/* <HeaderComponent /> */}
             {upIdlPanel && <UploadIdl setUpIdlPanel={setUpIdlPanel} addr={addr}/>}
+            
             <div className={styles.background_super}>
-
+                <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                    toastOptions={{
+                        className: '',
+                        style: {
+                          border: '2px solid white',
+                          padding: '0px',
+                          background: '#1E0C36',
+                        },
+                      }}
+                />
                 <div className="container pt-2 pb-1">
-                    <SearchComponent popup={popup} setPopUp={setPopUp} />
+                    {/* <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet}/> */}
+                    
                 </div>
                 {isLoading &&
                     <div className="container-lg pt-4 pt-md-5 pt-xl-3">
@@ -223,43 +500,43 @@ const AddressComponent = ({popup,setPopUp}) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-6 col-lg-6">
-                                        <div className="d-flex flex-wrap justify-content-end">
-                                            <div 
-                                                //className="border border-light" 
-                                                
-                                            >
-                                                <div className={styles.wallet_balance_indicator}>
-                                                    {data.balance?.toFixed(8)}&nbsp;SOL
-                                                </div>
-                                            </div>
-                                            <div className="ps-2">
-                                                <div className={styles.select_container}>
-                                                    <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
-                                                        <option value="mainnet-beta">Mainnet</option>
-                                                        <option value="devnet">Devnet</option>
-                                                        <option value="testnet">Testnet</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div className="col-6 col-lg-6 text-end">
+                                    
+                                        {(isWalletConnected === "CONN" && cluster === "mainnet-beta")&& <>
+                                            {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
+                                            {(followLoading === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}
+                                            {/* {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />} */}
+                                            {/* {(followLoading === "FOLLOWED") && <FolUnfolLoaderFull follow={true}/>} */}
+                                            {/* {(followLoading === "UNFOLLOWED") && <FolUnfolLoader follow={false} />} */}
+                                            {/* {(followLoading === "UNFOLLOWED") && <FolUnfolLoaderFull follow={false}/>} */}
+                                        </>
+                                        }
+                                        {(isWalletConnected === "NOT_CONN") && <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>}    
+                                        {(isWalletConnected === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}    
                                         
+                                        <div className="keys" style={{display:"none"}}>
+                                            <WalletDisconnectButton />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="pt-1">
-                                                <div className={styles.select_container_2}>
-                                                    <select value={cluster} onChange={(e) => changeCluster(e.target.value)}>
-                                                        <option value="mainnet-beta">Mainnet</option>
-                                                        <option value="devnet">Devnet</option>
-                                                        <option value="testnet">Testnet</option>
-                                                    </select>
-                                                </div>
+                                <div className="row pt-2 pt-md-4">
+                                    <div className="col-6 col-lg-6">
+                                        <div>
+                                            <div className={styles.wallet_balance_indicator}>
+                                                {data.balance?.toFixed(8)}&nbsp;SOL
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-6 col-lg-6 text-end">
+                                        <div>
+                                            <div className={`${styles.wallet_balance_indicator} ${styles.follower_flex}`}>
+                                                <div>{followers} Followers</div>  <div>{following} Following</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
+                            
                             <div className={styles.collections_cara_cont}>
                                 <div className={styles.tab_container}>
                                     <button className={(nftPanel === "NFT") ? `${styles.top_tab} ${styles.top_tab_selected}` : `${styles.top_tab} `} onClick={(e) => {
