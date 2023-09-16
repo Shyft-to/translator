@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { useInView } from 'react-intersection-observer';
+import Tooltip from "react-tooltip-lite";
 
+import copyIcon from "../../resources/images/txnImages/copy_icon.svg";
 
 import styles from "../../resources/css/Transactions.module.css";
 import TxnLoader from "../loaders/TxnLoader";
@@ -14,11 +16,12 @@ import rotateRefresh from "../../resources/images/txnImages/refresh_rotate.gif";
 import duration from "../../resources/images/txnImages/duration.png";
 import avatar2 from "../../resources/images/txnImages/avatar2.svg";
 
-import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { getTxnUptoSignature } from "../../utils/getAllData";
 import { getRelativetime, shortenAddress } from "../../utils/formatter";
 import AnimatedTxnLoader from "../loaders/AnimatedTxnLoader";
 import GroupTransactions from "./GroupTransactions";
+import { Link } from "react-router-dom";
 
 
 const endpoint = process.env.REACT_APP_API_EP ?? "";
@@ -47,6 +50,8 @@ const FeedTransactions = ({ address, cluster }) => {
   const [page,setPage] = useState(1);
 
   const { ref, inView } = useInView();
+
+  const [copy, setCopied] = useState("Copy")
 
   // const loadMoreArea = useRef(null);
   // const isInViewLoadMore = useInView(loadMoreArea,{ margin: "20%" });
@@ -332,6 +337,13 @@ const FeedTransactions = ({ address, cluster }) => {
       };
   }, [chatFocus]);
 
+  const copyValue = (value) => {
+    navigator.clipboard.writeText(value);
+    setCopied("Copied");
+    setTimeout(() => {
+      setCopied("Copy");
+    }, 500);
+  };
 
   return (
     <div>
@@ -367,9 +379,36 @@ const FeedTransactions = ({ address, cluster }) => {
                     <>
                       <div className={styles.feed_txn_outer}>
                         <div className={styles.feed_txn_signer}>
-                          <div className={styles.avatar_area}>
-                            <img src={avatar2} alt="display pic" />
-                            <span className={styles.text}>{shortenAddress(each_txn[0].tag_address || each_txn[0].signers[0])}</span>
+                          <a 
+                            href={`/address/${each_txn[0].tag_address || each_txn[0].signers[0]}`}
+                            className={styles.link_labels_2}
+                          >
+                            <div className={styles.avatar_area}>
+                              <img src={avatar2} alt="display pic" />
+                              <span className={styles.text}>{shortenAddress(each_txn[0].tag_address || each_txn[0].signers[0])}</span>
+                            </div>
+                          </a>
+                          <div className={styles.copy_btn_container}>
+                            <Tooltip
+                              content={copy}
+                              className="myMarginTarget"
+                              direction="up"
+                              // eventOn="onClick"
+                              // eventOff="onMouseLeave"
+                              useHover={true}
+                              background="#101010"
+                              color="#fefefe"
+                              arrowSize={0}
+                              styles={{ display: "inline" }}
+                            >
+                              <motion.button 
+                                onClick={() => copyValue(each_txn[0].tag_address || each_txn[0].signers[0])}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <img src={copyIcon} alt="copy value"/>
+                              </motion.button>
+                            </Tooltip>
                           </div>
                         </div>
                       </div>

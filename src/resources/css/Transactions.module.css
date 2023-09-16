@@ -843,6 +843,23 @@
 .feed_txn_outer .feed_txn_signer
 {
     padding: 0px 0px 14px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+.feed_txn_outer .feed_txn_signer .copy_btn_container
+{
+    margin-left: 2px;
+}
+.feed_txn_outer .feed_txn_signer .copy_btn_container button
+{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    margin-top: -5px;
+}
+.feed_txn_outer .feed_txn_signer .copy_btn_container button img {
+    width: 20px;
 }
 .feed_txn_signer .avatar_area img
 {
@@ -853,6 +870,21 @@
 {
     font: 500 16px/18px "Geologica",sans-serif;
     color: #FFF;
+    transition: color 0.1s ease;
+}
+.feed_txn_signer .avatar_area a.text
+{
+    font: 500 16px/18px "Geologica",sans-serif;
+    color: #FFF;
+}
+.feed_txn_signer .link_labels_2
+{
+    color: #FFF;
+    text-decoration: none;
+    /* cursor: pointer; */
+}
+.feed_txn_signer .link_labels_2:hover span {
+    color: #0AEEFF;
 }
 .feed_txn_outer .time_area
 {
@@ -895,4 +927,10 @@
         border-left: 2px dotted rgba(255, 255, 255, 0.333); 
         padding-left: 8px;
     } 
+    .feed_txn_outer .feed_txn_signer
+    {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
 }
