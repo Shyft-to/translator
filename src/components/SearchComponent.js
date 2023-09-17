@@ -261,6 +261,7 @@ const SearchComponent = ({ popup, setPopUp, reconnectTest, setReconnectTest,reve
                 paddingLeft: "18px",
                 paddingRight: "10px",
                 paddingTop: "10px",
+                paddingBottom: "10px",
                 zIndex: 10
               },
             })

@@ -667,18 +667,23 @@
 }
 
 .wallet_button_header {
-  color: black !important;
-  background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%);
+  /* color: black !important; */
+  /* background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%); */
+  background-color: #2a0855;
   /* width: 100% !important; */
   text-align: center;
-  border: none;
+  /* border: none; */
   /* padding: 0px !important; */
   padding: 10px 24px;
   height: auto !important;
   font: 500 0.8rem/0.8rem "Montserrat", sans-serif;
   color: #fff !important;
+  border: 2px solid #9650E5;
   border-radius: 2.5rem !important;
-  transition: all 0.5s ease-in;
+  transition: all 0.2s ease-in;
+}
+.wallet_button_header:hover {
+  background-color: #390c74;
 }
 @media screen and (max-width: 576px) {
   .wallet_button_header {
