@@ -234,6 +234,9 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                     <div className="col-12">
                         <div className={styles.fields_container}>
                             <div className={styles.txn_name_section}>
+                                <div className={styles.responsive_spacer}>
+
+                                </div>
                                 <div className="d-flex flex-wrap justify-content-start">
                                     <div className="">
                                         <div className={styles.txn_name}>
@@ -259,7 +262,7 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                     </div>
                                     
                                     <div className="">
-                                        <div className={styles.txn_subname} style={{ cursor: "pointer" }}>
+                                        <div className={`${styles.txn_subname} ${styles.push_to_next}`} style={{ cursor: "pointer" }}>
                                             <Tooltip
                                                 content={(data.timestamp != "") ? getFullTime(data.timestamp) : ""}
                                                 className="generic"
@@ -275,6 +278,9 @@ const TransactionStructureToken = ({ styles, id, data, address, cluster }) => {
                                             </Tooltip>
                                         </div>
                                     </div>
+                                </div>
+                                <div className={styles.responsive_spacer_bottom}>
+
                                 </div>
                             </div>
 

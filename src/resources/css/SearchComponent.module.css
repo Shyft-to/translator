@@ -143,7 +143,14 @@
   .form_field_outer .form_field_inner option {
     background-color: #2a0855;
   }
-  
+  @media screen and (max-width: 600px) {
+    .form_field_outer .form_field_inner input::placeholder {
+      font: 300 10px/16px "Geologica", sans-serif;
+    }
+    .form_field_outer .form_field_inner select {
+      font: 400 10px/8px "Geologica", sans-serif;
+    }
+  }
   .search_icon {
     /* text-decoration: none; */
     color: #555;
@@ -511,18 +518,17 @@
 }
 .dropdown_menu .menu_head
 {
-  padding: 4px 10px;
   border-radius: 25px;
   border: 2px solid #9650E5;
   background-color: #2a0855;
   color: #fffc;
-  padding: 8px 16px;
-  font: 400 13px/20px "Jost",sans-serif;
+  padding: 6px 17px 6px 6px;
+  font: 400 13px/26px "Jost",sans-serif;
 }
 .dropdown_menu .dropdown_image
 {
-  width: 24px;
-  margin-right: 8px;
+  width: 28px;
+  margin-right: 12px;
 }
 .dropdown_menu .dropdown_content {
   display: none;
@@ -567,17 +573,24 @@
   }
   .dropdown_menu .menu_head
   {
-    padding: 4px 5px;
+    padding: 2px 5px;
     border-radius: 12px;
-    border: 2px solid #9650E5;
+    border: 1px solid #9650E5;
     background-color: #2a0855;
     color: #fffc;
-    padding: 2px 8px;
-    font: 400 7px/12px "Jost",sans-serif;
+    padding: 6px 8px;
+    font: 400 9px/12px "Jost",sans-serif;
+    text-align: center;
   }
   .dropdown_menu .dropdown_image
   {
+    display: none;
     width: 16px;
+  }
+  .dropdown_menu a.link_type
+  {
+    padding: 2px 24px 2px;
+    text-decoration: none;
   }
 }
 @media screen and (max-width: 1580px) {
@@ -651,4 +664,31 @@
     max-width: 40%;
     margin-top: -4px;
   }
+}
+
+.wallet_button_header {
+  /* color: black !important; */
+  /* background: linear-gradient(90.22deg, #4E1C8D 1.13%, #280C4C 131.77%); */
+  background-color: #2a0855;
+  /* width: 100% !important; */
+  text-align: center;
+  /* border: none; */
+  /* padding: 0px !important; */
+  padding: 10px 24px;
+  height: auto !important;
+  font: 500 0.8rem/0.8rem "Montserrat", sans-serif;
+  color: #fff !important;
+  border: 2px solid #9650E5;
+  border-radius: 2.5rem !important;
+  transition: all 0.2s ease-in;
+}
+.wallet_button_header:hover {
+  background-color: #390c74;
+}
+@media screen and (max-width: 576px) {
+  .wallet_button_header {
+    font: 500 0.7rem/0.7rem "Montserrat", sans-serif;
+    padding: 8px 20px;
+  }
+  
 }

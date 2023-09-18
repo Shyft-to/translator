@@ -38,6 +38,9 @@ const Parent = () => {
     const [currentWallet, setConnectedWallet] = useState("");
     const pubKeyFromSession = localStorage.getItem("reac_wid");
 
+    const [reconnectTest,setReconnectTest] = useState(false);
+    const [reverseCheck,setReverseCheck] = useState(false);
+
     useEffect(() => {
         // console.log("pubkey:", pubKeyFromSession)
         console.log(currentWallet);
@@ -96,9 +99,9 @@ const Parent = () => {
                                 <Route exact path="/address/:addr" element={
                                     <>
                                                 <div className="container pt-2 pb-1">
-                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} reconnectTest={reconnectTest} setReconnectTest={setReconnectTest} reverseCheck={reverseCheck}/>
                                                 </div>
-                                        <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                        <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} reconnectTest={reconnectTest} reverseCheck={reverseCheck} setReverseCheck={setReverseCheck}/>
                                     </>
                                 } />
                                 <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp} />} />
