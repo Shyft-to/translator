@@ -390,7 +390,22 @@ const Home = ({popup, setPopUp}) => {
         </div>
        </div>
       </div>
-      <OpenPopup setPopUp={setPopUp} />
+      <div className="right_fixed_area">
+        {isWalletConnected === "NOT_CONN" && <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
+        {isWalletConnected === "CONN" && <>
+          <div className={styles.hover_button}>
+            <button className="wallet-button">{shortenAddress(connectedWalletAddress)}</button>
+            <div className={styles.visible_on_hover}>
+              <div className={styles.visible_section_link} onClick={() => navigate(`/feed?cluster=${network}`)}>
+                Your Feed
+              </div>
+              <button onClick={disconnectTheWallet}>Disconnect</button>
+            </div>
+          </div>
+        </>}
+        {isWalletConnected === "LOADING" && <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button>}
+      </div>
+      {/* <OpenPopup setPopUp={setPopUp} /> */}
       {openIdl && <UploadIdlWithProgramAddr setOpenIdl={setOpenIdl} />}
       {popup && <PopupView setPopUp={setPopUp} />}
       <div className={styles.background_2}>
@@ -473,7 +488,8 @@ const Home = ({popup, setPopUp}) => {
               </div>}
             </form>
             <motion.div className="row" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-                <div className="col-12 col-md-9 p-2 pt-4">
+                <div className="col-12 col-md-4"></div>
+                <div className="col-12 col-md-4 p-2 pt-3 pt-lg-5">
                   {(connectionProgress === "LOADING")?<button id="start_search" className={styles.btn_solid_grad} style={{opacity:"0.4"}}>
                     Translate
                   </button>:
@@ -483,26 +499,7 @@ const Home = ({popup, setPopUp}) => {
                     Translate
                   </button>}
                 </div>
-                <div className="col-12 col-md-3 p-2 pt-2 pt-md-4">
-                  {/* {(userWallet?.publicKey)?<WalletMultiButton className="wallet-button"/>:
-                  <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>} */}
-
-                  {/* <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button> */}
-                  
-                  {isWalletConnected === "NOT_CONN" && <button className="wallet-button" onClick={connectWalletOnClick}>Connect Wallet</button>}
-                  {isWalletConnected === "CONN" && <>
-                    <div className={styles.hover_button}>
-                      <button className="wallet-button">{shortenAddress(connectedWalletAddress)}</button>
-                      <div className={styles.visible_on_hover}>
-                        <div className={styles.visible_section_link} onClick={() => navigate(`/feed?cluster=${network}`)}>
-                          Your Feed
-                        </div>
-                        <button onClick={disconnectTheWallet}>Disconnect</button>
-                      </div>
-                    </div>
-                  </>}
-                  {isWalletConnected === "LOADING" && <button className="wallet-button"><PulseLoader color="#fff" size={8} /></button>}
-                </div>
+                <div className="col-12 col-md-4"></div>
             </motion.div>
             <div className="pt-5">
                   {(connectionProgress === "LOADING") && <TxnLoader />}

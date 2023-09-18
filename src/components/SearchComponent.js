@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
-import { BounceLoader } from "react-spinners";
+import { BounceLoader, PulseLoader } from "react-spinners";
 import { motion } from "framer-motion";
 import toast, { Toaster } from 'react-hot-toast';
 import * as bs58 from "bs58";
 import axios from "axios";
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 
 import styles from "../resources/css/SearchComponent.module.css";
 import { getAddressfromDomain } from "../utils/getAllData";
@@ -26,7 +27,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import DisconnectLoader from "./loaders/DisconnectedLoader";
 import wallet_Disconnected_loader from "../resources/images/loaders/disconnect_wallet.gif";
 
-const SearchComponent = ({ popup, setPopUp }) => {
+const SearchComponent = ({ popup, setPopUp, reconnectTest, setReconnectTest,reverseCheck }) => {
   let [searchParams, setSearchParams] = useSearchParams();
   const cluster = searchParams.get("cluster") ?? "mainnet-beta";
   const navigate = useNavigate();
@@ -44,7 +45,11 @@ const SearchComponent = ({ popup, setPopUp }) => {
   const [connectedWalletAddress, setConnWallAddr] = useState("");
   const [isSearching,setSearching] = useState(false);
 
+  const [clickedConnectWallet,setClickedConnectWallet] = useState(false);
+  const [connectionProgress,setConnectionProgress] = useState("UNLOADED");
+
   const userWallet = useWallet();
+  const { setVisible } = useWalletModal();
 
   useEffect(() => {
     try {
@@ -90,7 +95,7 @@ const SearchComponent = ({ popup, setPopUp }) => {
     else {
       setWalletConnected("NOT_CONN");
     }
-  }, [])
+  }, [reverseCheck])
 
   const BlurAfterTime = () => {
     setTimeout(() => {
@@ -177,18 +182,12 @@ const SearchComponent = ({ popup, setPopUp }) => {
     }
   }
 
-  const disconnectButtonPress = () => {
-    let content = document.getElementsByClassName("keys")[0];
-    let kbButtons = content.getElementsByTagName("button")[0];
-    // console.log(kbButtons[0])
-    kbButtons.click();
-  }
   const disconnectWallet = () => {
     localStorage.setItem("reac_wid", "");
     setConnWallAddr("");
     setWalletConnected("NO_CONN");
     toast((t) => (
-      <div className="foll_unfoll_notification">
+      <div className="foll_unfoll_notification" style={{paddingBottom: "10px"}}>
         <div className="d-flex">
           <div className="icon_foll">
             <img className="img-fluid" src={wallet_Disconnected_loader} alt="wallet_followed" />
@@ -203,6 +202,130 @@ const SearchComponent = ({ popup, setPopUp }) => {
       setDisconn(false);
       navigate('/');
     }, 1000);
+  }
+  const disconnectWallet2 = () => {
+    let content = document.getElementsByClassName("keys")[0];
+    let kbButtons = content.getElementsByTagName("button")[0];
+    kbButtons.click();
+  }
+
+  useEffect(() => {
+    if(userWallet.publicKey && clickedConnectWallet === true)
+    {
+      // console.log("here");
+      setClickedConnectWallet(false);
+      connectWallet(userWallet.publicKey?.toBase58())
+    }
+  }, [userWallet.publicKey])
+
+  const connectWalletOnClick = () => {
+    setClickedConnectWallet(true);
+    setVisible(true);
+  }
+
+  const connectWallet = async (wallet_address) => {
+    localStorage.setItem("reac_wid","");
+    const message = process.env.REACT_APP_SHARE_MSG ?? "Hi! My name is Translator. I translate Solana for humans.";
+    const encodedMessage = new TextEncoder().encode(message);
+    try {
+      const signedMessageFromWallet = await userWallet.signMessage(encodedMessage);
+      // console.log("Signed message from Wallet: ",signedMessageFromWallet);
+      if(signedMessageFromWallet)
+      {
+        setConnectionProgress("LOADING");
+        setWalletConnected("LOADING");
+        await axios.request(
+        {
+            url: `${process.env.REACT_APP_BACKEND_EP}/user-login`,
+            method: "POST",
+            data: {
+              encoded_message: message,
+              signed_message: bs58.encode(signedMessageFromWallet),
+              wallet_address: wallet_address
+            }
+        })
+        .then(res => {
+          // console.log("After Submission: ",res.data);
+          setConnectionProgress("LOADED");
+          if(res.data.success)
+          {
+            localStorage.setItem("reac_wid",res.data.accessToken);
+            setConnWallAddr(wallet_address);
+            toast.success('Wallet Authorized',{
+              style: {
+                borderRadius: '10px',
+                background: '#1E0C36',
+                color: '#fff',
+                border: "1px solid white",
+                font: "300 16px Geologica,sans-serif",
+                paddingLeft: "18px",
+                paddingRight: "10px",
+                paddingTop: "10px",
+                paddingBottom: "10px",
+                zIndex: 10
+              },
+            })
+            setWalletConnected("CONN");
+            setReconnectTest(!reconnectTest);
+            disconnectWallet2();
+            // setTimeout(() => {
+            //   navigate(`/feed?cluster=${network}`);
+            // }, 1000);
+          }
+          else
+          {
+            setWalletConnected("NOT_CONN");
+            setConnWallAddr("");
+          }
+        })
+        .catch(err => {
+          console.log(err.response.data);
+          disconnectWallet2();
+          toast.error('Connection Error',{
+            style: {
+              borderRadius: '10px',
+              background: '#1E0C36',
+              color: '#fff',
+              border: "1px solid white",
+              font: "300 16px Geologica,sans-serif",
+              paddingLeft: "18px",
+              paddingRight: "10px",
+              paddingTop: "10px",
+              zIndex: 10
+            },
+          });
+          setConnectionProgress("ERROR");
+          setWalletConnected("NOT_CONN");
+          localStorage.setItem("reac_wid","");
+          setTimeout(() => {
+            setConnectionProgress("UNLOADED");
+          }, 1000);
+        });
+      }
+    } catch (error) {
+      console.log("Error",error.message);
+      setWalletConnected("NOT_CONN");
+      setConnectionProgress("UNLOADED");
+      disconnectWallet2();
+      toast.error('Wallet Not Authorized',{
+        style: {
+          borderRadius: '10px',
+          background: '#1E0C36',
+          color: '#fff',
+          border: "1px solid white",
+          font: "300 16px Geologica,sans-serif",
+          paddingLeft: "18px",
+          paddingRight: "10px",
+          paddingTop: "10px",
+          zIndex: 10
+        },
+      });
+    }
+    
+    // console.log(signedMessageFromWallet);
+    // console.log(bs58.encode(signedMessageFromWallet));
+    // console.log("Submitting Signature");
+     
   }
   return (
     <motion.div className={styles.header_search_area} initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }}>
@@ -356,9 +479,9 @@ const SearchComponent = ({ popup, setPopUp }) => {
                             </div>
                           </div>
 
-                        </> : ""
-
+                        </> : (isWalletConnected === "LOADING")?<button className={styles.wallet_button_header}><PulseLoader color="#fff" size={8} /></button>:<button onClick={connectWalletOnClick} className={styles.wallet_button_header}>Connect Wallet</button>
                     }
+                    
 
                     {/* <button className={styles.link_info_button} onClick={() => setPopUp(true)}>
                       <img src={infoIcon} />
@@ -369,7 +492,9 @@ const SearchComponent = ({ popup, setPopUp }) => {
                 </div>
 
               </div>
-
+              <div className="keys" style={{display: "none"}}>
+                <WalletDisconnectButton />
+              </div>
               <Toaster
                 position="top-center"
                 reverseOrder={false}
