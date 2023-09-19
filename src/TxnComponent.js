@@ -20,6 +20,8 @@ import {
   shortenAddress,
   getRelativetime,
   getFullTime,
+  getFullTimeActual,
+  getFullTimeLocal,
   formatLamports,
   convertToDays,
   formatNumbers,
@@ -30,6 +32,7 @@ import { getNFTData } from "./utils/getAllData";
 
 import unknown from "./resources/images/ok_bear.png";
 import copyBtn from "./resources/images/txnImages/copy_icon.svg";
+import changeBtn from "./resources/images/txnImages/change_icon.svg";
 // import solscan from "./resources/images/txnImages/sol_scan_icon.svg";
 import solanaIcon from "./resources/images/txnImages/solanaIcon.svg";
 import memoplaceholders from "./resources/images/txnImages/memoPlaceholder.png";
@@ -95,6 +98,16 @@ const TxnComponent = ({ popup, setPopUp }) => {
 
   const [saleNftCreators, setNftCreators] = useState([]);
   const [royaltyFeeActions, setRoyaltyActions] = useState([]);
+
+  const [timeIn,setTimeIn] = useState("UTC");
+
+  const setTimeFormat = () => {
+    if(timeIn === "UTC"){
+      setTimeIn("LOCAL");
+    } else{
+      setTimeIn("UTC");
+    }
+  }
 
   const toggleTxnsSection = () => {
     const height = $(`#json_txns`).height();
@@ -863,7 +876,8 @@ const TxnComponent = ({ popup, setPopUp }) => {
                       className={`col-8 text-end text-md-start ${styles.row_value}`}
                     >
                       {getRelativetime(data.timestamp)} |{" "}
-                      {getFullTime(data.timestamp)}
+                      {(timeIn === "UTC")?getFullTimeActual(data.timestamp):getFullTimeLocal(data.timestamp)}
+                      <button onClick={setTimeFormat} className="change_btn"><img src={changeBtn} /></button>
                     </div>
                   </div>
                 </motion.div>
