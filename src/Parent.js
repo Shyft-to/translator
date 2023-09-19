@@ -36,6 +36,8 @@ const Parent = () => {
     const [popup, setPopUp] = useState(false);
     const network = WalletAdapterNetwork.Devnet;
     const [currentWallet, setConnectedWallet] = useState("");
+    const [activeWallet,setActiveWallet] = useState("");
+    
     const pubKeyFromSession = localStorage.getItem("reac_wid");
 
     const [reconnectTest,setReconnectTest] = useState(false);
@@ -99,12 +101,12 @@ const Parent = () => {
                                 <Route exact path="/address/:addr" element={
                                     <>
                                                 <div className="container pt-2 pb-1">
-                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} reconnectTest={reconnectTest} setReconnectTest={setReconnectTest} reverseCheck={reverseCheck}/>
+                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} setActiveWallet={setActiveWallet} reconnectTest={reconnectTest} setReconnectTest={setReconnectTest} reverseCheck={reverseCheck}/>
                                                 </div>
-                                        <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} reconnectTest={reconnectTest} reverseCheck={reverseCheck} setReverseCheck={setReverseCheck}/>
+                                        <AddressComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} activeWallet={activeWallet} reconnectTest={reconnectTest} reverseCheck={reverseCheck} setReverseCheck={setReverseCheck}/>
                                     </>
                                 } />
-                                <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp} />} />
+                                <Route exact path="/domain/:addressOrDomain" element={<DomainSearchComponent popup={popup} setPopUp={setPopUp}  />} />
                                 <Route exact path="/tx/:txn" element={
                                     <TxnComponent popup={popup} setPopUp={setPopUp} />
                                 } />
@@ -115,7 +117,7 @@ const Parent = () => {
                                         {/* <WalletProvider wallets={wallets} autoConnect>
                                             <WalletModalProvider> */}
                                                 <div className="container pt-2 pb-1">
-                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} />
+                                                    <SearchComponent popup={popup} setPopUp={setPopUp} currentWallet={currentWallet} setActiveWallet={setActiveWallet} />
                                                 </div>
                                             {/* </WalletModalProvider>
                                         </WalletProvider> */}

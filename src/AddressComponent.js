@@ -41,7 +41,7 @@ import UploadIdl from "./components/TransactionComponent/UploadIdl";
 // import OpenPopup from "./OpenPopup";
 // import TransactionsToken from "./components/TransactionComponent/TransactionsToken";
 
-const AddressComponent = ({popup,setPopUp,reconnectTest, reverseCheck, setReverseCheck}) => {
+const AddressComponent = ({popup,setPopUp, activeWallet, reconnectTest, reverseCheck, setReverseCheck}) => {
     let [searchParams, setSearchParams] = useSearchParams();
     const { addr } = useParams();
     const cluster = searchParams.get("cluster") ?? "mainnet-beta";
@@ -224,7 +224,6 @@ const AddressComponent = ({popup,setPopUp,reconnectTest, reverseCheck, setRevers
         const xToken = localStorage.getItem("reac_wid") ?? "";
         console.log("isWallet Conn: ",isWalletConnected);
         console.log("clicked follow");
-        
         if(xToken !== "")
         {
             setFollowLoading("LOADING");
@@ -250,6 +249,20 @@ const AddressComponent = ({popup,setPopUp,reconnectTest, reverseCheck, setRevers
             else if(resp.success === false && resp.message === "limit_reached")
             {
                 toast('Cannot follow more than 5 wallets',{
+                    icon: '👏',
+                    style: {
+                      borderRadius: '10px',
+                      background: '#1E0C36',
+                      color: '#fff',
+                      border: '1px solid white',
+                      fontFamily: "Jost",
+                      padding: "6px 12px 3px"
+                    },
+                  })
+            }
+            else if(resp.success === false && resp.message === "same_address")
+            {
+                toast('Cannot follow yourself',{
                     icon: '👏',
                     style: {
                       borderRadius: '10px',
@@ -503,7 +516,7 @@ const AddressComponent = ({popup,setPopUp,reconnectTest, reverseCheck, setRevers
                                     </div>
                                     <div className="col-6 col-lg-6 text-end">
                                     
-                                        {(isWalletConnected === "CONN" && cluster === "mainnet-beta")&& <>
+                                        {(isWalletConnected === "CONN" && cluster === "mainnet-beta" && activeWallet !== addr)&& <>
                                             {(followLoading === "NO_ACTION") && (!isFollowed ? <button className={styles.follow_button} onClick={followuser}>Follow</button> : <button className={styles.follow_button} onClick={unfollowuser}>Unfollow</button>)}
                                             {(followLoading === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}
                                             {/* {(followLoading === "FOLLOWED") && <FolUnfolLoader follow={true} />} */}
@@ -514,7 +527,7 @@ const AddressComponent = ({popup,setPopUp,reconnectTest, reverseCheck, setRevers
                                         }
                                         {(isWalletConnected === "NOT_CONN") && <button className={styles.follow_button} onClick={openFollowPopup}>Follow</button>}    
                                         {(isWalletConnected === "LOADING") && <button className={styles.follow_button}> <PulseLoader color="#fff" size={8} /> </button>}    
-                                        
+                                        {(activeWallet === addr) && <button className={styles.follow_button}>Your Profile</button>}  
                                         <div className="keys" style={{display:"none"}}>
                                             <WalletDisconnectButton />
                                         </div>
