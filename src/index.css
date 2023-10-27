@@ -336,9 +336,10 @@ body {
 }
 .attribute_tooltip .react-tooltip-lite {
   padding: 18px 4px;
-  font: 300 12px/0 "Poppins", sans-serif;
+  font: 300 12px/12px "Poppins", sans-serif;
   display: inline;
   text-align: center;
+  height: 30px;
 }
 
 .footer-white {
@@ -382,6 +383,19 @@ body {
 
 .copy_link:hover {
   color: #ffff;
+}
+.change_btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: #fffa;
+  font-size: 18px;
+  margin: 0px 4px;
+  transition: all 0.1s ease;
+}
+.change_btn img {
+  width: 15px;
 }
 
 .blinking {

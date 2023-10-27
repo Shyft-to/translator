@@ -52,6 +52,28 @@ export function getFullTime(ISOString) {
     }
     
 }
+export function getFullTimeActual(ISOString) {
+    try {
+        if(ISOString === "" || ISOString === "--")
+            return "--"
+        else
+            return (moment(ISOString).utc().format('lll') + " (UTC)"); 
+    } catch (error) {
+        return ISOString;
+    }
+    
+}
+export function getFullTimeLocal(ISOString) {
+    try {
+        if(ISOString === "" || ISOString === "--")
+            return "--"
+        else
+            return (moment(ISOString).format('MMM D YYYY, h:mm:ss a')); 
+    } catch (error) {
+        return ISOString;
+    }
+    
+}
 
 export function formatLamports(value) {
     try {

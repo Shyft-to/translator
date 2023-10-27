@@ -463,14 +463,14 @@ const NftExpanded = ({ nft, cluster }) => {
                                       <Tooltip
                                         content={each_attrib.value}
                                         className="attribute_tooltip"
-                                        direction="up-start"
+                                        direction="left"
                                         // eventOn="onClick"
                                         // eventOff="onMouseLeave"
                                         useHover={true}
                                         background="#101010"
                                         color="#fefefe"
                                         styles={{ display: "inline" }}
-                                        arrowSize={5}
+                                        arrowSize={10}
                                       >
                                         {each_attrib.value}
                                       </Tooltip>:
@@ -510,7 +510,22 @@ const NftExpanded = ({ nft, cluster }) => {
 
                 {nft.creators.map(creator => <div className={`row ${styles.each_row}`}>
                   <div className="col-10">
-                    <div className={styles.table_field_name}><a href={(cluster === "mainnet-beta")?`/address/${creator.address}`:`/address/${creator.address}?cluster=${cluster}`}>{creator.address ?? "--"} {(creator.verified) && <img src={verifiedIcon} style={{width: "24px", marginTop:"-4px"}}/>}</a></div>
+                    <div className={styles.table_field_name}><a href={(cluster === "mainnet-beta")?`/address/${creator.address}`:`/address/${creator.address}?cluster=${cluster}`}>{creator.address ?? "--"} {(creator.verified) && <img src={verifiedIcon} style={{width: "24px", marginTop:"-4px"}}/>}</a> 
+                      <Tooltip
+                        content={copied}
+                        className="myTarget"
+                        direction="up"
+                        // eventOn="onClick"
+                        // eventOff="onMouseLeave"
+                        useHover={true}
+                        background="#101010"
+                        color="#fefefe"
+                        styles={{ display: "inline" }}
+                        arrowSize={5}
+                      >
+                        <button onClick={() => copyValue(creator.address)} ><img src={copyBtn} alt="copy" style={{marginTop: "-4px"}} /></button>
+                      </Tooltip>
+                    </div>
                   </div>
                   <div className="col-2">
                     <div className={styles.table_field_value}>

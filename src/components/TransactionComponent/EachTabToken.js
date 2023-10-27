@@ -21,7 +21,7 @@ const EachTabToken = ({ styles, token, cluster }) => {
 
     return (
         <div className={styles.each_tab_token}>
-            <div className={styles.toggle_button}>
+            {/* <div className={styles.toggle_button}>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                     <motion.a href={(cluster === "mainnet-beta") ? `https://solscan.io/token/${token.address}` : `https://solscan.io/token/${token.address}?cluster=${cluster}`} target="_blank">
                         <div className={styles.sol_icon}>
@@ -29,15 +29,9 @@ const EachTabToken = ({ styles, token, cluster }) => {
                         </div>
                     </motion.a>
                 </motion.div>
-                {/* <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                    <a href={`https://explorer.solana.com/address/${token.address}?cluster=${cluster}`} target="_blank">
-                        <div className={styles.sol_icon_2}>
-                            <img src={solExplorer} alt="View on SolExplorer" />
-                        </div>
-                    </a>
-                </motion.div> */}
+                
 
-            </div>
+            </div> */}
             <div className={styles.name_section}>
                 <div className="d-flex flex-wrap">
                     <div className={styles.name}>{token.info.name || "Unknown"}</div>

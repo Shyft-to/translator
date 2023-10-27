@@ -27,7 +27,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import DisconnectLoader from "./loaders/DisconnectedLoader";
 import wallet_Disconnected_loader from "../resources/images/loaders/disconnect_wallet.gif";
 
-const SearchComponent = ({ popup, setPopUp, reconnectTest, setReconnectTest,reverseCheck }) => {
+const SearchComponent = ({ popup, setPopUp, setActiveWallet = () => {}, reconnectTest, setReconnectTest,reverseCheck }) => {
   let [searchParams, setSearchParams] = useSearchParams();
   const cluster = searchParams.get("cluster") ?? "mainnet-beta";
   const navigate = useNavigate();
@@ -78,17 +78,20 @@ const SearchComponent = ({ popup, setPopUp, reconnectTest, setReconnectTest,reve
           if (res.status === 200) {
             const pubKeyReceived = res.data.wallet_address;
             setConnWallAddr(pubKeyReceived);
+            setActiveWallet(pubKeyReceived);
             setWalletConnected("CONN");
           }
           else {
             localStorage.setItem("reac_wid", "");
             setWalletConnected("NOT_CONN");
+            setActiveWallet("");
           }
         })
         .catch(err => {
           console.log(err);
           setWalletConnected("NOT_CONN")
           localStorage.setItem("reac_wid", "");
+          setActiveWallet("");
         })
 
     }
@@ -185,6 +188,7 @@ const SearchComponent = ({ popup, setPopUp, reconnectTest, setReconnectTest,reve
   const disconnectWallet = () => {
     localStorage.setItem("reac_wid", "");
     setConnWallAddr("");
+    setActiveWallet("");
     setWalletConnected("NO_CONN");
     toast((t) => (
       <div className="foll_unfoll_notification" style={{paddingBottom: "10px"}}>
