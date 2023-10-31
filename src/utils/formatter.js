@@ -57,7 +57,7 @@ export function getFullTimeActual(ISOString) {
         if(ISOString === "" || ISOString === "--")
             return "--"
         else
-            return (moment(ISOString).utc().format('lll') + " (UTC)"); 
+            return (moment(ISOString).utc().format('MMM D YYYY, h:mm:ss a') + " (UTC)"); 
     } catch (error) {
         return ISOString;
     }
