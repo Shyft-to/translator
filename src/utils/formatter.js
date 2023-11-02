@@ -57,7 +57,7 @@ export function getFullTimeActual(ISOString) {
         if(ISOString === "" || ISOString === "--")
             return "--"
         else
-            return (moment(ISOString).utc().format('MMM D YYYY, h:mm:ss a') + " (UTC)"); 
+            return (moment(ISOString).utc().format('MMM\xa0 DD, YYYY - h:mm:ss a') + " (UTC)"); 
     } catch (error) {
         return ISOString;
     }
@@ -68,7 +68,7 @@ export function getFullTimeLocal(ISOString) {
         if(ISOString === "" || ISOString === "--")
             return "--"
         else
-            return (moment(ISOString).format('MMM D YYYY, h:mm:ss a')); 
+            return (moment(ISOString).format('MMM\xa0 DD, YYYY - h:mm:ss a')); 
     } catch (error) {
         return ISOString;
     }
