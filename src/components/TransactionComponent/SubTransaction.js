@@ -387,7 +387,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           to: data.info.buyer ?? "--",
           token: "--",
           action: "--",
-          value: data.info.price ?? "--",
+          value: formatLamports(data.info.price) ?? "--",
           symbol: "",
         };
         setRelField(data.info.nft_address ?? "");
@@ -1209,7 +1209,7 @@ const SubTransactions = ({ styles, data, wallet, cluster, showRoyalty, saleNftCr
           token: "NFT",
           action: "--",
           // value: data.info.amount ?? "--",
-          value: data.info.price ?? "--",
+          value: formatLamports(data.info.price) ?? "--",
           symbol: "",
           merkle_tree:  data.info.merkle_tree ?? "--",
           royalty_percentage: data.info.royalty_percentage ?? "--"
